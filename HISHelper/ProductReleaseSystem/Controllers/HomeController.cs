@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Hosting;
+using System.Collections;
+using System.IO;
 
 namespace ProductReleaseSystem.Controllers
 {
@@ -33,6 +36,7 @@ namespace ProductReleaseSystem.Controllers
         {
             return View();
         }
+
         /// <summary>
         /// 允许所有登录者
         /// </summary>
@@ -51,6 +55,7 @@ namespace ProductReleaseSystem.Controllers
             ViewBag.error = null;
             return View();
         }
+
         /// <summary>
         /// 允许所有登录者
         /// </summary>
@@ -85,6 +90,39 @@ namespace ProductReleaseSystem.Controllers
             {
                 ViewBag.error = "用户名或密码错误！";
                 return View();
+            }
+        }
+
+        [HttpGet("send")]
+        public IActionResult UpFile()
+        {
+            return View();
+        }
+
+        [HttpPost("sendfile")]
+        public async Task<IActionResult> UpFile([FromServices] IHostingEnvironment env)
+        {
+            try
+            {
+                var file = HttpContext.Request.Form.Files[0];
+                var filePath = env.WebRootPath;
+                var fileName = file.FileName;
+                var path = filePath + '\\' + fileName;
+                if (!Directory.Exists(path))
+                {
+                    using (var fStream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fStream);
+                    }
+                    return Ok(new { result = 1, message = "上传文件成功" });
+                }
+                else
+                {
+                    return new JsonResult(new { result=0,message="文件已存在"});
+                }
+            }catch(Exception exc)
+            {
+                return new JsonResult(new {result=0,message=exc.Message });
             }
         }
     }

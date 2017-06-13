@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using NLog.Web;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace ProductReleaseSystem
 {
@@ -31,6 +32,14 @@ namespace ProductReleaseSystem
         {
           
             services.AddMvc();
+            //设置body的长度
+            services.Configure<FormOptions>(x => {
+
+                x.ValueLengthLimit = int.MaxValue;
+
+                x.MultipartBodyLengthLimit = int.MaxValue;
+
+            });
         }
 
 

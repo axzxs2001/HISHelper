@@ -1,0 +1,36 @@
+﻿
+<body>
+    <form method="post" action="sendfile" enctype="multipart/form-data">
+        
+        <div class="form-group">
+            <label for="exampleInputFile">File input</label>
+            <input type="file" id="exampleInputFile" name="filetext">
+            <p class="help-block">Example block-level help text here.</p>
+        </div>
+
+        <button type="button" class="btn btn-default" onclick="UpFile();">提交</button>
+    </form>
+</body>
+<script>
+    function UpFile() {
+        var file = $('#exampleInputFile').get(0).files[0];
+        var data = new FormData();
+        data.append(file.name, file);
+        $.ajax({
+            type: 'POST',
+            url: '/sendfile',
+            contentType: false,
+            processData: false,
+            data: data,
+            success: function (dataBack) {
+                alert(dataBack.message);
+
+            },
+            error: function (error) {
+
+                alert(error.status + error.statusText)
+            }
+        });
+
+    }
+</script>
