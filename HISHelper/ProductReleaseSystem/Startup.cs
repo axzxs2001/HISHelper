@@ -41,6 +41,8 @@ namespace ProductReleaseSystem
             services.Configure<ConnectionSetting>(Configuration.GetSection("ConnectionStrings"));
             //下载文件
             services.AddTransient<IDownLoadFile, DownLoadFile>();
+            //上传文件
+            services.AddTransient<IUploadFile, UploadFile>();
 
             services.AddMvc();
             //设置body的长度
