@@ -13,6 +13,8 @@ using NLog.Extensions.Logging;
 using NLog.Web;
 using Microsoft.AspNetCore.Http.Features;
 using ProductReleaseSystem.Data;
+using ProductReleaseSystem.Models.IRepository;
+using ProductReleaseSystem.Models.Repository;
 
 namespace ProductReleaseSystem
 {
@@ -37,7 +39,8 @@ namespace ProductReleaseSystem
             var prconntion = Configuration.GetConnectionString("prConnectionStrings");
 
             services.Configure<ConnectionSetting>(Configuration.GetSection("ConnectionStrings"));
-
+            //下载文件
+            services.AddTransient<IDownLoadFile, DownLoadFile>();
 
             services.AddMvc();
             //设置body的长度
