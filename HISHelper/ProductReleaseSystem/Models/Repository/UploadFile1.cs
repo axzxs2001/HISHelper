@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProductReleaseSystem.Models.Repository
 {
-    public partial class UploadFile1:IUploadFile
+    public partial class UploadFile:IUploadFile
     {
 
 
