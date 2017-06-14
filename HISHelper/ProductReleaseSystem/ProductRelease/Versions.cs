@@ -17,6 +17,8 @@ namespace ProductReleaseSystem.ProductRelease
         public string Publisher { get; set; }
         public int ProductId { get; set; }
 
+        public string Description { get; set; }
+
         public virtual ICollection<Files> Files { get; set; }
         public virtual ICollection<RelatedPersonnels> RelatedPersonnels { get; set; }
         public virtual Products Product { get; set; }
