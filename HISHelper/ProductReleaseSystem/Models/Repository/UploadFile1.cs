@@ -78,7 +78,7 @@ WHERE   Versions.ID = @VersionsID";
         /// </summary>
         /// <param name="versionsID"></param>
         /// <returns></returns>
-        List<Dictionary<string, dynamic>> GetDevelopersByID(int versionsID)
+        public List<Dictionary<string, dynamic>> GetDevelopersByID(int versionsID)
         {
             var sql = @"SELECT  Departments.ID ,
                         Departments.DepartmentName ,
@@ -99,7 +99,7 @@ WHERE   Versions.ID = @VersionsID";
         /// </summary>
         /// <param name="versionsID"></param>
         /// <returns></returns>
-        List<Dictionary<string, dynamic>> GetFilesByID(int versionsID)
+        public List<Dictionary<string, dynamic>> GetFilesByID(int versionsID)
         {
             var sql = @" SELECT  Files.FileName ,
                         Files.UploadTime ,
