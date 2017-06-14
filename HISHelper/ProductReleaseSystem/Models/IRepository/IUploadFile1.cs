@@ -23,11 +23,24 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <returns></returns>
         List<Dictionary<string, dynamic>> GetVersionsByID(int productID);
         /// <summary>
-        /// 查询指定版本下的文件名
+        /// 查询指定版本下的信息
         /// </summary>
-        /// <param name="versionsID">版本号</param>
+        /// <param name="versionsID">版本id</param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> GetVersionInfo(int versionsID);
+        /// <summary>
+        /// 查询指定版本的相关人员信息
+        /// </summary>
+        /// <param name="versionsID">版本id</param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> GetDevelopersByID(int versionsID);
+        /// <summary>
+        /// 查询指定版本下的文件信息
+        /// </summary>
+        /// <param name="versionsID"></param>
         /// <returns></returns>
         List<Dictionary<string, dynamic>> GetFilesByID(int versionsID);
+
 
     }
 }

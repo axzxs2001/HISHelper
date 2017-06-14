@@ -57,10 +57,10 @@ WHERE   ProductID = @ProductID";
         }
 
         /// <summary>
-        /// 查询指定版本下的文件名
+        /// 查询指定版本下的版本信息
         /// </summary>
-        /// <param name="versionsID">版本号</param>
-        public List<Dictionary<string, dynamic>> GetFilesByID(int versionsID)
+        /// <param name="versionsID">版本id</param>
+        public List<Dictionary<string, dynamic>> GetVersionInfo(int versionsID)
         {
             var sql = @"SELECT  ProductName 产品名 ,
         VersionNumber 版本号 ,
@@ -70,6 +70,43 @@ WHERE   ProductID = @ProductID";
 FROM    dbo.Versions
         JOIN dbo.Products ON Products.ID = Versions.ProductID
 WHERE   Versions.ID = @VersionsID";
+            var par = new SqlParameter() { ParameterName = "@VersionsID", SqlDbType = System.Data.SqlDbType.Int, Value = versionsID };
+            return _dbHelper.GetList(sql, par);
+        }
+        /// <summary>
+        /// 查询此版本下的相关人员
+        /// </summary>
+        /// <param name="versionsID"></param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> GetDevelopersByID(int versionsID)
+        {
+            var sql = @"SELECT  Departments.ID ,
+                        Departments.DepartmentName ,
+                        Developers.Name ,
+                        Developers.QQ ,
+                        Developers.Sex ,
+                        Developers.Phone
+                FROM    dbo.Versions
+                        JOIN dbo.RelatedPersonnels ON Versions.id = RelatedPersonnels.VersionID
+                        JOIN dbo.Developers ON RelatedPersonnels.PersonID = Developers.ID
+                        JOIN Departments ON Departments.ID = Developers.DepartmentID
+                WHERE   dbo.Versions.ID = @VersionsID";
+            var par = new SqlParameter() { ParameterName = "@VersionsID", SqlDbType = System.Data.SqlDbType.Int, Value = versionsID };
+            return _dbHelper.GetList(sql, par);
+        }
+        /// <summary>
+        /// 查询指定版本下的文件信息
+        /// </summary>
+        /// <param name="versionsID"></param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> GetFilesByID(int versionsID)
+        {
+            var sql = @" SELECT  Files.FileName ,
+                        Files.UploadTime ,
+                        Files.UploadPeople
+                FROM    Versions
+                        JOIN dbo.Files ON Files.VersionsID = Versions.ID
+                WHERE   Versions.ID =@VersionsID";
             var par = new SqlParameter() { ParameterName = "@VersionsID", SqlDbType = System.Data.SqlDbType.Int, Value = versionsID };
             return _dbHelper.GetList(sql, par);
         }
