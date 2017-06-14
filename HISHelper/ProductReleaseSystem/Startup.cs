@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using ProductReleaseSystem;
 using NLog.Extensions.Logging;
 using NLog.Web;
 using Microsoft.AspNetCore.Http.Features;
+using ProductReleaseSystem.Data;
 
 namespace ProductReleaseSystem
 {
@@ -30,7 +33,12 @@ namespace ProductReleaseSystem
 
         public void ConfigureServices(IServiceCollection services)
         {
-          
+            //用于生成EF的ProductRelease数据库连接字符串
+            var prconntion = Configuration.GetConnectionString("prConnectionStrings");
+
+            services.Configure<ConnectionSetting>(Configuration.GetSection("ConnectionStrings"));
+
+
             services.AddMvc();
             //设置body的长度
             services.Configure<FormOptions>(x => {
