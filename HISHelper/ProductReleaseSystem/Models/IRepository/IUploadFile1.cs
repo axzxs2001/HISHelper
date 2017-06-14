@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ProductReleaseSystem.Models.IRepository
 {
-    partial interface IUploadFile
+    public partial interface IUploadFile
     {
     }
 }
