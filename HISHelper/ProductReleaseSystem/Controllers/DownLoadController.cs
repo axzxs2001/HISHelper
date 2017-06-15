@@ -37,12 +37,14 @@ namespace ProductReleaseSystem.Controllers
         [HttpPost("productsdownload")]
         public IActionResult ProductsDownload()
         {
+
             var info = _downLoadFile.GetProductsList();
             return new JsonResult(new { List = info }, new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
         }
         [HttpPost("clickproduct")]
         public IActionResult ClickProduct(int ID)
         {
+
             var info = _downLoadFile.GetVersionsByID(ID);
             return new JsonResult(new { List = info }, new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd"});
         }

@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     Layout = null;
 }
 <!doctype html>
@@ -12,17 +12,17 @@
     <script src="~/lib/vue/dist/vue.js"></script>
     <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     <link href="~/css/DeveloperDownload.css" rel="stylesheet" />
-<link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css">
 </head>
 <body>
     <div class="container-fuild">
         <div class="col-md-3">
-            <div class="row">
-
+            <div class="row" id="appproduct">
                 <!-- 产品信息 -->
                 <ul class="product">
-                    
-                    
+                    <!-- 现在我们为每个todo-item提供待办项对象    -->
+                    <!-- 待办项对象是变量，即其内容可以是动态的 -->
+                    //<todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
                 </ul>
             </div>
         </div>
@@ -31,7 +31,7 @@
 
                 <!-- 版本信息模块 -->
                 <ul class="version">
-                    
+                 
                 </ul>
             </div>
             <div class="row col-md-12">
@@ -95,20 +95,32 @@
     $(document).ready(function () {
         ProductsDownload();
     });
+    //Vue.component('todo-item', {
+    //    props: ['todo'],
+    //    template: '<li>22{{todo.ID }}22{{ todo.ProductName  }}<span class="glyphicon glyphicon-hand-right"></span></li>'
+    //})
     //动态添加产品信息
     function ProductsDownload() {
         $.ajax({
             type: 'POST',
             url: 'productsdownload',
             success: function (obj) {
+                //alert("obj" + JSON.stringify(obj))
+                //new Vue({
+                //    el: '#appproduct',
+                //    data: {
+                //        groceryList: JSON.stringify(obj.List)
+                //    }
+                //})
                 var trstring = '';
                 if (obj.List.length != 0) {
-                    trstring += '<h2 class="h2" >产品列表</h2 >';
+                    trstring += '<h2 class="h2">产品列表</h2>';
                     $(obj.List).each(function (index, item) {
-                        trstring += '<li v-on:click(ClickProduct()) >' + item.ProductName;
-                        trstring += '<span class="glyphicon glyphicon-hand-right" v-model="accountInfo.ID">' + item.ID + '</span>';
+                        trstring += '<li class="ID" value="'+item.ID +'" onclick="ClickProduct()">'+ item.ProductName;
+                        trstring += '<span class="glyphicon glyphicon-hand-right"></span>';
                         trstring += '</li>';
                     });
+                    alert(trstring);
                     $('.product').html(trstring);
                 } else {
                     $('.product').html("");
@@ -121,50 +133,85 @@
     }
 
 
-        var appform = new Vue({
-            el: '.version',
-            data:{
-                accountInfo: {
-                    ID:''
+    function ClickProduct() {
+        alert("aaa")
+        $.ajax({
+            type: 'POST',
+            url: 'clickproduct',
+            data: {
+                ID: $('.ID').val()
+
+            },
+            success: function (result) {
+                var trstring = '';
+                if (result.List.length != 0) {
+                    var strH2 = "";
+                    $(result.List).each(function (index, item) {
+                        trstring += '   <h2>产品名称:' + item["产品名"] + '</h2>';
+                        trstring += ' <li data-toggle="tooltip" data-placement="left" >';
+                        trstring += ' <span>版本号：' + item["版本号"] + '</span>';
+                        trstring += ' <span>发布人：' + item["发布人"] + '</span>';
+                        trstring += ' <span>发布时间：' + item["发布时间"] + '</span>';
+                        trstring += '<span class="glyphicon glyphicon-hand-down"></span>';
+                        trstring += '</li>';
+                    });
+                    $('.version').append(trstring);
+                } else {
+                    $('.version').append("");
                 }
             },
-            methods: {
-                ClickProduct: function () { 
-                    $.ajax({
-                        type: 'POST',
-                        url: 'clickproduct',
-                        data: {
-                            accountInfo: this.accountInfo
-
-                        },
-               success: function () {
-                            var trstring = '';
-                            if (obj.List.length != 0) {
-                                trstring += '<h2>产品名称:' + item.产品名 + '</h2 >';
-                                $(obj.List).each(function (index, item) {
-                                    trstring += ' <li data-toggle="tooltip" data-placement="left" title="版本描述：版本描述3">';
-                                    trstring += ' <span>版本号：' + item.版本号 + '</span>';
-                                    trstring += ' <span>发布人：' + item.发布人 + '</span>';
-                                    trstring += ' <span>发布时间：' + item.发布时间 + '</span>';
-                                    trstring += '<span class="glyphicon glyphicon-hand-down"></span>';
-                                    trstring += '</li>';
-                                });
-                                $('.product').html(trstring);
-                            } else {
-                                $('.product').html("");
-                            }
-                        },
-                        error: function (error) {
-                            alert(error.status + error.statusText);
-                        }
-                    });
-
-                }
+            error: function (error) {
+                alert(error.status + error.statusText);
             }
 
-        })
-      
+        });
+
+    }
+    //var appform = new Vue({
+    //    el: '#version',
+    //    data: {
+    //        accountInfo: {
+    //            ID:$
+    //        }
+    //    },
+    //    methods: {
+    //        clickproduct: function () {
+    //            alert("********");
+    //            $.ajax({
+    //                type: 'POST',
+    //                url: 'clickproduct',
+    //                data: {
+    //                    accountInfo: this.accountInfo
+
+    //                },
+    //                success: function () {
+    //                    var trstring = '';
+    //                    if (obj.List.length != 0) {
+    //                        trstring += '<h2>产品名称:' + item.产品名 + '</h2 >';
+    //                        $(obj.List).each(function (index, item) {
+    //                            trstring += ' <li data-toggle="tooltip" data-placement="left" >';
+    //                            trstring += ' <span>版本号：' + item.版本号 + '</span>';
+    //                            trstring += ' <span>发布人：' + item.发布人 + '</span>';
+    //                            trstring += ' <span>发布时间：' + item.发布时间 + '</span>';
+    //                            trstring += '<span class="glyphicon glyphicon-hand-down"></span>';
+    //                            trstring += '</li>';
+    //                        });
+    //                        $('#version').html(trstring);
+    //                    } else {
+    //                        $('#version').html("");
+    //                    }
+    //                },
+    //                error: function (error) {
+    //                    alert(error.status + error.statusText);
+    //                }
+    //            });
+
+    //        }
+    //    }
+
+    //})
 
 
-   
+
+
 </script>
