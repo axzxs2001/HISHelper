@@ -128,7 +128,6 @@
                             </table>
                         </div>
                     </div>
-                    <a href="C:\Users\刘行\Source\Repos\HISHelper\HISHelper\ProductReleaseSystem\wwwroot\ERTool.exe">下载</a>
                     <button class="submit-news row col-md-2 btn btn-success" onclick="UpFile();">提交</button>
                     
                 </div>
@@ -210,7 +209,6 @@
     <script>
         //添加产品
         function AddProdect() {
-            alert($('#product-name').val());
             $.ajax({
                 type: "Post",
                 url: "/addproduct",
@@ -250,7 +248,6 @@
                 url: '/queryproducts',
                 data: {},
                 success: function (dataBack) {
-                    alert(dataBack.data)
                     var str = '';
                     $(dataBack.data).each(function (index, item) {
                         str += '<li onclick=GetID('+item.ID+');>'
@@ -279,9 +276,6 @@
         }
         //按照产品ID获取版本
         function QueryVersions(id) {
-            
-            alert(id);
-            
             $.ajax({
                 type: "GET",
                 url: '/queryversions',
@@ -316,7 +310,6 @@
         }
 
         function UpFile() {
-            alert($('#versionID').val())
             var file = $('#upload-file').get(0).files[0];
             var data = new FormData();
             data.append(file.name, file);
@@ -350,7 +343,6 @@
 
         function GetVersionID(e) {
             $('#versionID').val(e);
-            alert(e);
 
         }
 
@@ -367,16 +359,16 @@
                 scrollInput: false
             });
             /*列表显示上传文件信息*/
-            //var test = document.getElementById('upload-file');
-            //test.addEventListener('change', function () {
-            //    var t_files = this.files;
-            //    var str = '';
-            //    var myDate = new Date();
-            //    for (var i = 0, len = t_files.length; i < len; i++) {
-            //        str += '<li>名称：' + t_files[i].name + '上传时间:' + myDate.toLocaleString() + '上传人：张三</li>';
-            //    };
-            //    document.getElementById('upload-file-news').innerHTML = str;
-            //}, false);
+            var test = document.getElementById('upload-file');
+            test.addEventListener('change', function () {
+                var t_files = this.files;
+                var str = '';
+                var myDate = new Date();
+                for (var i = 0, len = t_files.length; i < len; i++) {
+                    str += '<li>名称：' + t_files[i].name + '上传时间:' + myDate.toLocaleString() + '上传人：张三</li>';
+                };
+                document.getElementById('upload-file-news').innerHTML = str;
+            }, false);
 
 
             /*二级联动*/
@@ -447,11 +439,11 @@
             QueryProducts();
         });
 
-        $(".product li").on('click', 'li', function (event) {
-        });
-        $(".product li").click(function (event) {
-            $(".product li").css({ 'background': '#000', 'color': '#fff' });
-            $(this).css({ 'background': '#0cc', 'color': '#fff' });
-        });
+        //$(".product li").on('click', 'li', function (event) {
+        //});
+        //$(".product li").click(function (event) {
+        //    $(".product li").css({ 'background': '#000', 'color': '#fff' });
+        //    $(this).css({ 'background': '#0cc', 'color': '#fff' });
+        //});
 
     </script>
