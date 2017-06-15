@@ -1,5 +1,170 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{ 
+    Layout = null;
 }
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>开发人员上传</title>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <link href="~/css/jquery.datetimepicker.css" rel="stylesheet" />
+    <script src="~/lib/vue/dist/vue.js"></script>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/DeveloperDownload.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css">
+</head>
+<body>
+    <div class="container-fuild">
+        <div class="col-md-3">
+            <div class="row">
+
+                <!-- 产品信息 -->
+                <ul class="product">
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row col-md-12">
+
+                <!-- 版本信息模块 -->
+                <ul class="version">
+                    
+                </ul>
+            </div>
+            <div class="row col-md-12">
+                <div class="news">
+                    <div class="row col-md-12">
+                        <div class="form-group">
+                            <label for="product-describe">产品描述：</label>
+                            <textarea class="form-control" rows="3" id="version-describe" placeholder="此处输入产品描述" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="row col-md-12">
+                        <div class="form-group">
+                            <label for="version-describe">版本描述：</label>
+                            <textarea class="form-control" rows="3" id="version-describe" placeholder="此处输入版本描述" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <button class="btn btn-info col-md-2 col-md-offset-5">下载全部</button>
+                            <ul class="download-news col-md-12">
+                                <li><a href="#" download="news1">说明文档</a></li>
+                                <li><a href="#" download="news1">代码压缩</a></li>
+                                <li><a href="#" download="news1">Demo</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-7">
+                            <p class="person-instructions col-md-12">开发人员信息：</p>
+                            <div class="row col-md-12 table-fd">
+                                <table class="table table hover  person-news table-striped table-bordered table-condensed">
+                                    <thead>
+                                        <tr class="info">
+                                            <th>部门</th>
+                                            <th>姓名</th>
+                                            <th>性别</th>
+                                            <th>电话</th>
+                                            <th>QQ</th>
+                                            <th>备注</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>新技术研究中心</td>
+                                            <td>张三</td>
+                                            <td>男</td>
+                                            <td>13312345678</td>
+                                            <td>13548965</td>
+                                            <td>主管</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        ProductsDownload();
+    });
+    //动态添加产品信息
+    function ProductsDownload() {
+        $.ajax({
+            type: 'POST',
+            url: 'productsdownload',
+            success: function (obj) {
+                var trstring = '';
+                if (obj.List.length != 0) {
+                    trstring += '<h2 class="h2" >产品列表</h2 >';
+                    $(obj.List).each(function (index, item) {
+                        trstring += '<li v-on:click(ClickProduct()) >' + item.ProductName;
+                        trstring += '<span class="glyphicon glyphicon-hand-right" v-model="accountInfo.ID">' + item.ID + '</span>';
+                        trstring += '</li>';
+                    });
+                    $('.product').html(trstring);
+                } else {
+                    $('.product').html("");
+                }
+            },
+            error: function (error) {
+                alert(error.status + error.statusText);
+            }
+        })
+    }
+
+
+        var appform = new Vue({
+            el: '.version',
+            data:{
+                accountInfo: {
+                    ID:''
+                }
+            },
+            methods: {
+                ClickProduct: function () { 
+                    $.ajax({
+                        type: 'POST',
+                        url: 'clickproduct',
+                        data: {
+                            accountInfo: this.accountInfo
+
+                        },
+               success: function () {
+                            var trstring = '';
+                            if (obj.List.length != 0) {
+                                trstring += '<h2>产品名称:' + item.产品名 + '</h2 >';
+                                $(obj.List).each(function (index, item) {
+                                    trstring += ' <li data-toggle="tooltip" data-placement="left" title="版本描述：版本描述3">';
+                                    trstring += ' <span>版本号：' + item.版本号 + '</span>';
+                                    trstring += ' <span>发布人：' + item.发布人 + '</span>';
+                                    trstring += ' <span>发布时间：' + item.发布时间 + '</span>';
+                                    trstring += '<span class="glyphicon glyphicon-hand-down"></span>';
+                                    trstring += '</li>';
+                                });
+                                $('.product').html(trstring);
+                            } else {
+                                $('.product').html("");
+                            }
+                        },
+                        error: function (error) {
+                            alert(error.status + error.statusText);
+                        }
+                    });
+
+                }
+            }
+
+        })
+      
+
+
+   
+</script>
