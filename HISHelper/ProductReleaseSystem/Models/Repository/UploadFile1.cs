@@ -44,11 +44,12 @@ namespace ProductReleaseSystem.Models.Repository
         /// <returns></returns>
         public List<Dictionary<string, dynamic>> GetVersionsByID(int productID)
         {
-            var sql = @"SELECT  Versions.ID,
+            var sql = @"SELECT  Versions.ID ID,
         ProductName 产品名 ,
         VersionNumber 版本号 ,
         publisher 发布人,
         ReleaseTime 发布时间
+        
 FROM    dbo.Versions
         JOIN dbo.Products ON Products.ID = Versions.ProductID
 WHERE   ProductID = @ProductID";

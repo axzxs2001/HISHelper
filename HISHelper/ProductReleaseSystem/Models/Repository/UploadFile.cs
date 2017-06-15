@@ -18,11 +18,11 @@ namespace ProductReleaseSystem.Models.Repository
         /// <returns></returns>
         public bool addProduct(Products products)
         {
-            var sql = ("insert into Products(ProductName,Description) values(@products.ProductName,@products.Description)");
-            var pars = new List<SqlParameter>();
-            pars.Add(new SqlParameter() { ParameterName = "@products.ProductName", SqlDbType = System.Data.SqlDbType.Int, Value = products.ProductName });
-            pars.Add(new SqlParameter() { ParameterName = "@products.Description", SqlDbType = System.Data.SqlDbType.VarChar, Value = products.Description });
-            return _dbHelper.SavaData(sql, pars.ToArray()) > 0 ? true : false;
+            var sql = "insert into Products (ProductName,Description) values(@ProductName,@Description)";
+            //var pars = new List<SqlParameter>();
+            var  par=new SqlParameter() { ParameterName = "@ProductName", SqlDbType = System.Data.SqlDbType.VarChar, Value = products.ProductName };
+            var par2=new SqlParameter() { ParameterName = "@Description", SqlDbType = System.Data.SqlDbType.VarChar, Value = products.Description };
+            return _dbHelper.SavaData(sql, par,par2) > 0 ? true : false;
         }
 
         /// <summary>
@@ -32,20 +32,20 @@ namespace ProductReleaseSystem.Models.Repository
         /// <returns></returns>
         public bool addVersions(Versions versions)
         {
-            var sql = ("insert into Versions(VersionNumber,ReleaseTime,publisher，ProductID，Description) " +
+            var sql = ("insert into Versions(VersionNumber,ReleaseTime,publisher,ProductID,Description) " +
                 "values(" +
-                "@versions.VersionNumber," +
-                "@versions.ReleaseTime," +
-                "@versions.Publisher," +
-                "@versions.ProductId," +
-                "@versions.Description)");
-            var pars = new List<SqlParameter>();
-            pars.Add(new SqlParameter() { ParameterName = "@versions.VersionNumber", SqlDbType = System.Data.SqlDbType.Int, Value = versions.VersionNumber });
-            pars.Add(new SqlParameter() { ParameterName = "@versions.ReleaseTime", SqlDbType = System.Data.SqlDbType.VarChar, Value = versions.ReleaseTime });
-            pars.Add(new SqlParameter() { ParameterName = "@versions.Publisher", SqlDbType = System.Data.SqlDbType.VarChar, Value = versions.Publisher });
-            pars.Add(new SqlParameter() { ParameterName = "@versions.ProductId", SqlDbType = System.Data.SqlDbType.VarChar, Value = versions.ProductId });
-            pars.Add(new SqlParameter() { ParameterName = "@versions.Description", SqlDbType = System.Data.SqlDbType.VarChar, Value = versions.Description });
-            return _dbHelper.SavaData(sql, pars.ToArray()) > 0 ? true : false;
+                "@VersionNumber," +
+                "@ReleaseTime," +
+                "@Publisher," +
+                "@ProductId," +
+                "@Description)");
+           // var pars = new List<SqlParameter>();
+            var par1=new SqlParameter() { ParameterName = "@VersionNumber", SqlDbType = System.Data.SqlDbType.VarChar, Value = versions.VersionNumber };
+            var par2=new SqlParameter() { ParameterName = "@ReleaseTime", SqlDbType = System.Data.SqlDbType.DateTime, Value = versions.ReleaseTime };
+           var par3=new SqlParameter() { ParameterName = "@Publisher", SqlDbType = System.Data.SqlDbType.VarChar, Value = versions.Publisher };
+            var par4=new SqlParameter() { ParameterName = "@ProductId", SqlDbType = System.Data.SqlDbType.Int, Value = versions.ProductId };
+           var par5=new SqlParameter() { ParameterName = "@Description", SqlDbType = System.Data.SqlDbType.VarChar, Value = versions.Description };
+            return _dbHelper.SavaData(sql, par1,par2,par3,par4,par5) > 0 ? true : false;
         }
 
         /// <summary>
@@ -55,18 +55,14 @@ namespace ProductReleaseSystem.Models.Repository
         /// <returns></returns>
         public bool addFiles(Files files)
         {
-            var sql = ("insert into Files(FileName,UploadTime,UploadPeople,VersionsID) " +
-                "values(" +
-                "@files.FileName," +
-                "@files.UploadTime, " +
-                "@files.UploadPeople," +
-                "@files.VersionsId)");
+            var sql = @"insert into Files(FileName,UploadTime,UploadPeople,VersionsID)
+                values(@FileName,@UploadTime,@UploadPeople,@VersionsId)";
             var pars = new List<SqlParameter>();
-            pars.Add(new SqlParameter() { ParameterName = "@files.FileName", SqlDbType = System.Data.SqlDbType.Int, Value = files.FileName });
-            pars.Add(new SqlParameter() { ParameterName = "@files.UploadTime", SqlDbType = System.Data.SqlDbType.VarChar, Value = files.UploadTime });
-            pars.Add(new SqlParameter() { ParameterName = "@files.UploadPeople", SqlDbType = System.Data.SqlDbType.VarChar, Value = files.UploadPeople });
-            pars.Add(new SqlParameter() { ParameterName = "@files.VersionsId", SqlDbType = System.Data.SqlDbType.VarChar, Value = files.VersionsId });
-            return _dbHelper.SavaData(sql, pars.ToArray()) > 0 ? true : false;
+            var par1=new SqlParameter() { ParameterName = "@FileName", SqlDbType = System.Data.SqlDbType.VarChar, Value = files.FileName };
+            var par2=new SqlParameter() { ParameterName = "@UploadTime", SqlDbType = System.Data.SqlDbType.DateTime, Value = files.UploadTime };
+            var par3=new SqlParameter() { ParameterName = "@UploadPeople", SqlDbType = System.Data.SqlDbType.VarChar, Value = files.UploadPeople };
+           var par4=new SqlParameter() { ParameterName = "@VersionsId", SqlDbType = System.Data.SqlDbType.VarChar, Value = files.VersionsId };
+            return _dbHelper.SavaData(sql,par1,par2,par3,par4) > 0 ? true : false;
         }
 
     }

@@ -8,11 +8,19 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Hosting;
 using System.Collections;
 using System.IO;
+using ProductReleaseSystem.ProductRelease;
+using ProductReleaseSystem.Models.IRepository;
 
 namespace ProductReleaseSystem.Controllers
 {
     public class HomeController : Controller
     {
+        IUploadFile _IUploadFile;
+
+        public HomeController(IUploadFile iUploadFile)
+        {
+            _IUploadFile = iUploadFile;
+        }
         public IActionResult Index()
         {
             return View();
@@ -100,20 +108,25 @@ namespace ProductReleaseSystem.Controllers
         }
 
         [HttpPost("sendfile")]
-        public async Task<IActionResult> UpFile([FromServices] IHostingEnvironment env)
+        public async Task<IActionResult> UpFile([FromServices] IHostingEnvironment env,int UploadPeople,int VersionsID)
         {
+            
             try
             {
                 var file = HttpContext.Request.Form.Files[0];
                 var filePath = env.WebRootPath;
                 var fileName = file.FileName;
                 var path = filePath + '\\' + fileName;
+                var length = path.Length;
                 if (!Directory.Exists(path))
                 {
                     using (var fStream = new FileStream(path, FileMode.Create))
                     {
                         await file.CopyToAsync(fStream);
                     }
+                    var upFile = new Files {FileName=path,UploadTime=System.DateTime.Now,UploadPeople=UploadPeople,VersionsId=VersionsID };
+
+                    _IUploadFile.addFiles(upFile);
                     return Ok(new { result = 1, message = "上传文件成功" });
                 }
                 else
@@ -124,6 +137,57 @@ namespace ProductReleaseSystem.Controllers
             {
                 return new JsonResult(new {result=0,message=exc.Message });
             }
+        }
+        /// <summary>
+        /// 添加产品
+        /// </summary>
+        /// <param name="product">产品名</param>
+        /// <returns></returns>
+        [HttpPost("addproduct")]
+        public bool AddProduct(Products product)
+        {
+           return  _IUploadFile.addProduct(product);
+        }
+        /// <summary>
+        /// 添加版本
+        /// </summary>
+        /// <param name="product">版本</param>
+        /// <returns></returns>
+        [HttpPost("addversion")]
+        public bool AddVersion(Versions product)
+        {
+            return _IUploadFile.addVersions(product);
+        }
+        /// <summary>
+        ///查询所有产品信息 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("queryproducts")]
+        public IActionResult QueryProducts()
+        {
+            try
+            {
+                var data = _IUploadFile.GetProductsList();
+            return new JsonResult(new { result =1,message="查询产品成功",data=data });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result=0,message=exc.Message});
+            }
+        }
+        [HttpGet("queryversions")]
+        public IActionResult QueryVersionsByProductID(int ProductID)
+        {
+            try
+            {
+                var dataList = _IUploadFile.GetVersionsByID(ProductID);
+                return new JsonResult(new { result = 1, message = "查询成功", data = dataList },new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString="yyyy-MM-dd"});
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result=0,message=exc.Message});
+            }
+
         }
     }
 }
