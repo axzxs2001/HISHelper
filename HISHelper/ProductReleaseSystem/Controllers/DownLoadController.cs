@@ -38,15 +38,29 @@ namespace ProductReleaseSystem.Controllers
         public IActionResult ProductsDownload()
         {
 
-            var info = _downLoadFile.GetProductsList();
-            return new JsonResult(new { List = info }, new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            try
+            {
+                var data = _downLoadFile.GetProductsList();
+                return new JsonResult(new { result = 1, message = "查询产品成功", data = data });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = exc.Message });
+            }
         }
         [HttpPost("clickproduct")]
-        public IActionResult ClickProduct(int ID)
+        public IActionResult ClickProduct(int ProductID)
         {
 
-            var info = _downLoadFile.GetVersionsByID(ID);
-            return new JsonResult(new { List = info }, new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd"});
+            try
+            {
+                var dataList = _downLoadFile.GetVersionsByID(ProductID);
+                return new JsonResult(new { result = 1, message = "查询成功", data = dataList }, new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = exc.Message });
+            }
         }
     }
 }

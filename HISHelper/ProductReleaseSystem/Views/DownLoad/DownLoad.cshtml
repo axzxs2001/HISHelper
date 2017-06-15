@@ -13,6 +13,11 @@
     <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     <link href="~/css/DeveloperDownload.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css">
+    <style>
+        h2 {
+        color:white;
+        }
+    </style>
 </head>
 <body>
     <div class="container-fuild">
@@ -103,8 +108,10 @@
     function ProductsDownload() {
         $.ajax({
             type: 'POST',
-            url: 'productsdownload',
-            success: function (obj) {
+            url: '/productsdownload',
+            data: {},
+            success: function (dataBack) {
+                alert(dataBack.data)
                 //alert("obj" + JSON.stringify(obj))
                 //new Vue({
                 //    el: '#appproduct',
@@ -113,52 +120,57 @@
                 //    }
                 //})
                 var trstring = '';
-                if (obj.List.length != 0) {
-                    trstring += '<h2 class="h2">产品列表</h2>';
-                    $(obj.List).each(function (index, item) {
-                        trstring += '<li class="ID" value="'+item.ID +'" onclick="ClickProduct()">'+ item.ProductName;
-                        trstring += '<span class="glyphicon glyphicon-hand-right"></span>';
-                        trstring += '</li>';
-                    });
-                    alert(trstring);
-                    $('.product').html(trstring);
-                } else {
-                    $('.product').html("");
-                }
+                trstring += '<h2 style="color"#FFF">产品列表</h2>';
+                $(dataBack.data).each(function (index, item) {
+
+                    trstring += '<li onclick=GetID(' + item.ID + ');>'
+                    trstring += item.ProductName
+                    trstring += '<span class="hid" style="display"none">' + item.ID + '</span>';
+                    trstring += '<span class="glyphicon glyphicon-hand-right"></span>';
+                    trstring += '</li>'
+
+                });
+                $(".product").html(trstring);
+                $(".product li").on('click', 'li', function (event) {
+                });
+                $(".product li").click(function (event) {
+                    $(".product").css({ 'background': 'rgba(0,0,0,8)', 'color': '#fff' });
+                    $(".product li").css({ 'background': '', 'color': '' });
+                    $(this).css({ 'background': '#fff', 'color': '#000' });
+                });
             },
             error: function (error) {
                 alert(error.status + error.statusText);
             }
         })
-    }
-
-
-    function ClickProduct() {
-        alert("aaa")
+    } function ClickProduct(id) {
+        alert(id)
         $.ajax({
             type: 'POST',
             url: 'clickproduct',
             data: {
-                ID: $('.ID').val()
-
+                ProductID: id 
             },
-            success: function (result) {
+            success: function (dataBack) {
                 var trstring = '';
-                if (result.List.length != 0) {
-                    var strH2 = "";
-                    $(result.List).each(function (index, item) {
-                        trstring += '   <h2>产品名称:' + item["产品名"] + '</h2>';
-                        trstring += ' <li data-toggle="tooltip" data-placement="left" >';
-                        trstring += ' <span>版本号：' + item["版本号"] + '</span>';
-                        trstring += ' <span>发布人：' + item["发布人"] + '</span>';
-                        trstring += ' <span>发布时间：' + item["发布时间"] + '</span>';
+                $(dataBack.data).each(function (index, item) {
+                    trstring += '<li onclick="GetVersionID(' + item.ID + ');">';
+                        trstring += ' <span>'+"产品名称"+item.产品名+'</span>';
+                        trstring += '<span>' + "版本号：" + item.版本号 + '</span>';
+                        trstring += '<span>' + "发布人：" + item.发布人 + '</span>';
+                        trstring += '<span>' + "发布时间" + item.发布时间 + '</span>';
+                        trstring += '<span class="hid" style="display:none">' + item.ID + '</span>';
                         trstring += '<span class="glyphicon glyphicon-hand-down"></span>';
                         trstring += '</li>';
-                    });
-                    $('.version').append(trstring);
-                } else {
-                    $('.version').append("");
-                }
+                });
+                $('.version').html(trstring);
+                $(".version li").on('click', 'li', function (event) { 
+                });
+                $(".version li").click(function (event) {
+                    $(".version").css({ 'background': '#fff', 'color': '#000' });
+                    $(".product li").css({ 'background': '', 'color': '' });
+                    $(this).css({ 'background': '#000', 'color': '#fff' });
+                });
             },
             error: function (error) {
                 alert(error.status + error.statusText);
@@ -210,8 +222,20 @@
     //    }
 
     //})
+    function GetID(elem) {
+        $('#hid').val(elem);
+        ClickProduct(elem);
+    }
+        function GetVersionID(e) {
+            $('#versionID').val(e);
+            alert(e);
 
-
-
+        }
+        $(".product li").on('click', 'li', function (event) {
+        });
+        $(".product li").click(function (event) {
+            $(".product li").css({ 'background': '#000', 'color': '#fff' });
+            $(this).css({ 'background': '#0cc', 'color': '#fff' });
+        });
 
 </script>
