@@ -35,6 +35,13 @@ namespace ProductReleaseSystem
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<FormOptions>(x => {
+
+                x.ValueLengthLimit = int.MaxValue;
+
+                x.MultipartBodyLengthLimit = int.MaxValue;
+
+            });
             //用于生成EF的ProductRelease数据库连接字符串
             var prconntion = Configuration.GetConnectionString("prConnectionStrings");
 
@@ -46,13 +53,7 @@ namespace ProductReleaseSystem
 
             services.AddMvc();
             //设置body的长度
-            services.Configure<FormOptions>(x => {
-
-                x.ValueLengthLimit = int.MaxValue;
-
-                x.MultipartBodyLengthLimit = int.MaxValue;
-
-            });
+           
         }
 
 

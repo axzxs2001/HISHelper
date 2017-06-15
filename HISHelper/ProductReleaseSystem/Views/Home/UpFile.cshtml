@@ -18,14 +18,14 @@
     <div class="container-fuild">
         <div class="col-md-3">
             <div class="row">
+                <h2 class="add-product">
+                    点击此处添加产品
+                    <span class=" glyphicon glyphicon-plus"></span>
+                </h2>
                 <!-- 产品信息 -->
                 <ul class="product">
-                    <li class="add-product">
-                        点击此处添加产品
-                        <span class=" glyphicon glyphicon-plus"></span>
-                    </li>
-                    <hr>
-                    <li id="app-4">
+                    
+                    @*<li id="app-4">
                         医院感染管理系统
                         <span class="hid"></span>
                         <span class="glyphicon glyphicon-hand-right"></span>
@@ -39,20 +39,20 @@
                         微信公众号
                         <span class="hid"></span>
                         <span class="glyphicon glyphicon-hand-right"></span>
-                    </li>
+                    </li>*@
                 </ul>
             </div>
         </div>
         <div class="col-md-9">
             <div class="row col-md-12">
                 <!-- 版本信息模块 -->
+                <span id="hid" style="display:none"></span>
+                <h3 class="add-version">
+                    点击此处添加最新版本
+                    <span class=" glyphicon glyphicon-plus"></span>
+                </h3>
                 <ul class="version">
-                    <li class="add-version">
-                        点击此处添加最新版本
-                        <span class=" glyphicon glyphicon-plus"></span>
-                    </li>
-                    <hr>
-                    <li>
+                    @*<li>
                         <span>产品名称：医院感染管理系统</span>
                         <span>版本号：3.0</span>
                         <span>发布人：张三</span>
@@ -75,58 +75,64 @@
                         <span>发布时间：2017-05-01</span>
                         <span class="hid"></span>
                         <span class="glyphicon glyphicon-hand-down"></span>
-                    </li>
+                    </li>*@
                 </ul>
             </div>
             <div class="row col-md-12">
-                <form>
-                    <div class="news">
+                <div class="news">
+                    <form enctype="multipart/form-data">
+
                         <div class="row col-md-5 col-md-offset-1">
-                            <a class="upload-btn" href="javascript:void(0);">
-                                选择需要上传的文件
-                                <input type="file" multiple="multiple" id="upload-file">
-                            </a>
+                            @* <a class="upload-btn" href="javascript:void(0);">*@
+                            选择需要上传的文件
+                            <input type="file" @*multiple="multiple" *@ id="upload-file">
+                            @*</a>*@
                             <ul id='upload-file-news'></ul>
                         </div>
-                        <div class="row col-md-5 col-md-offset-1">
-                            <div class="row col-md-12">
-                                <select id="department">
-                                    <option value="0">--请选择部门--</option>
-                                    <option value="新技术研究中心">新技术研究中心</option>
-                                    <option value="接口">接口</option>
-                                </select>
-                                <select id="person" disabled="disabled">
-                                    <option value="0">--请选择开发人员--</option>
-                                </select>
-                            </div>
-                            <div class="row col-md-10 table-fd">
-                                <table class="table table hover  person-news table-striped table-bordered table-condensed">
-                                    <thead>
-                                        <tr class="info">
-                                            <th>部门</th>
-                                            <th>姓名</th>
-                                            <th>性别</th>
-                                            <th>电话</th>
-                                            <th>QQ</th>
-                                            <th>操作</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>新技术研究中心</td>
-                                            <td>张三</td>
-                                            <td>男</td>
-                                            <td>13312345678</td>
-                                            <td>13548965</td>
-                                            <td><button class="btn btn-sm btn-primary">移除</button></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+
+                    </form>
+                    <div class="row col-md-5 col-md-offset-1">
+                        <span id="versionID" style="display:none"></span>
+                        <div class="row col-md-12">
+                            <select id="department">
+                                <option value="0">--请选择部门--</option>
+                                <option value="新技术研究中心">新技术研究中心</option>
+                                <option value="接口">接口</option>
+                            </select>
+                            <select id="person" disabled="disabled">
+                                <option value="0">--请选择开发人员--</option>
+                            </select>
                         </div>
-                        <button class="submit-news row col-md-2 btn btn-success">提交</button>
+                        <div class="row col-md-10 table-fd">
+                            <table class="table table hover  person-news table-striped table-bordered table-condensed">
+                                <thead>
+                                    <tr class="info">
+                                        <th>部门</th>
+                                        <th>姓名</th>
+                                        <th>性别</th>
+                                        <th>电话</th>
+                                        <th>QQ</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>新技术研究中心</td>
+                                        <td>张三</td>
+                                        <td>男</td>
+                                        <td>13312345678</td>
+                                        <td>13548965</td>
+                                        <td><button class="btn btn-sm btn-primary">移除</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </form>
+                    <a href="C:\Users\刘行\Source\Repos\HISHelper\HISHelper\ProductReleaseSystem\wwwroot\ERTool.exe">下载</a>
+                    <button class="submit-news row col-md-2 btn btn-success" onclick="UpFile();">提交</button>
+                    
+                </div>
+
             </div>
         </div>
     </div>
@@ -202,10 +208,120 @@
 </html>
 
     <script>
+        //添加产品
+        function AddProdect() {
+            alert($('#product-name').val());
+            $.ajax({
+                type: "Post",
+                url: "/addproduct",
+                data: { ProductName: $("#product-name").val(), Description: $('#product-describe').val() },
+                success: function (dataBack) {
+                    alert(dataBack);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+
+                }
+            });
+
+        }
+        //添加版本
+        function AddVersion() {
+            $.ajax({
+                type: "post",
+                url: "/addversion",
+                data: { VersionNumber: $('#version-no').val(), ReleaseTime: $('#version-date').val(), Publisher: $('#upload-name').val(), ProductId:1 /*$('.hid').val()*/, Description: $('#version-describe').val() },
+                success: function (dataBack) {
+                    alert(dataBack)
+
+                },
+                error: function (error) {
+
+                    alert(error.status + error.statusText)
+                }
+            });
+
+        }
+        
+        //查询所有项目
+        function QueryProducts() {
+            $.ajax({
+                type: "GET",
+                url: '/queryproducts',
+                data: {},
+                success: function (dataBack) {
+                    alert(dataBack.data)
+                    var str = '';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<li onclick=GetID('+item.ID+');>'
+                        str += item.ProductName
+                        str += '<span class="hid" style="display:none">' + item.ID + '</span>';
+                        str += '<span class="glyphicon glyphicon-hand-right"></span>';
+                        str += '</li>'
+                    });
+                    $(".product").html(str);
+                    $(".product li").on('click', 'li', function (event) {
+                    });
+                    $(".product li").click(function (event) {
+                        $(".product").css({ 'background': 'rgba(0,0,0,0.8)', 'color': '#fff' });
+                        $(".product li").css({ 'background': '', 'color': '' });
+                        $(this).css({ 'background': '#fff', 'color': '#000' });
+                    });
+
+                   
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+
+                }
+            });
+
+        }
+        //按照产品ID获取版本
+        function QueryVersions(id) {
+            
+            alert(id);
+            
+            $.ajax({
+                type: "GET",
+                url: '/queryversions',
+                data: { ProductID: id },
+                success: function (dataBack) {
+                    var str = '';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<li onclick="GetVersionID(' + item.ID + ');">';
+                        str += '<span>'+"产品名：" + item.产品名 + '</span>';
+                        str += '<span>' + "版本号：" + item.版本号 + '</span>';
+                        str += '<span>' + "发布人：" + item.发布人 + '</span>';
+                        str += '<span>' + "发布时间" + item.发布时间 + '</span>';
+                        str += '<span class="hid" style="display:none">' + item.ID + '</span>';
+                        str += '<span class="glyphicon glyphicon-hand-down"></span>';
+                        str += '</li>';
+                    });
+                    $(".version").html(str);
+                    $(".version li").on('click', 'li', function (event) {
+                    });
+                    $(".version li").click(function (event) {
+                        $(".version").css({ 'background': '#fff', 'color': '#000' });
+                        $(".product li").css({ 'background': '', 'color': '' });
+                        $(this).css({ 'background': '#000', 'color': '#fff' });
+                    });
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+
+                }
+            });
+
+        }
+
         function UpFile() {
-            var file = $('#exampleInputFile').get(0).files[0];
+            alert($('#versionID').val())
+            var file = $('#upload-file').get(0).files[0];
             var data = new FormData();
             data.append(file.name, file);
+            data.append("UploadPeople", 1);
+            data.append("VersionsID", $('#versionID').val());
             $.ajax({
                 type: 'POST',
                 url: '/sendfile',
@@ -223,6 +339,21 @@
             });
 
         }
+
+
+        function GetID(elem) {
+            $('#hid').val(elem);
+            QueryVersions(elem);
+           
+
+        }
+
+        function GetVersionID(e) {
+            $('#versionID').val(e);
+            alert(e);
+
+        }
+
         $(document).ready(function () {
             $('#version-date').datetimepicker({
                 timepicker: false,
@@ -236,16 +367,16 @@
                 scrollInput: false
             });
             /*列表显示上传文件信息*/
-            var test = document.getElementById('upload-file');
-            test.addEventListener('change', function () {
-                var t_files = this.files;
-                var str = '';
-                var myDate = new Date();
-                for (var i = 0, len = t_files.length; i < len; i++) {
-                    str += '<li>名称：' + t_files[i].name + '上传时间:' + myDate.toLocaleString() + '上传人：张三</li>';
-                };
-                document.getElementById('upload-file-news').innerHTML = str;
-            }, false);
+            //var test = document.getElementById('upload-file');
+            //test.addEventListener('change', function () {
+            //    var t_files = this.files;
+            //    var str = '';
+            //    var myDate = new Date();
+            //    for (var i = 0, len = t_files.length; i < len; i++) {
+            //        str += '<li>名称：' + t_files[i].name + '上传时间:' + myDate.toLocaleString() + '上传人：张三</li>';
+            //    };
+            //    document.getElementById('upload-file-news').innerHTML = str;
+            //}, false);
 
 
             /*二级联动*/
@@ -300,6 +431,9 @@
             /*关闭产品模态层*/
             $("#close-product").click(function (event) {
                 $('#prductModal').modal('hide');
+              
+                AddProdect();
+                QueryProducts();
             });
             /*弹出产品模态层*/
             $(".add-version").click(function (event) {
@@ -308,17 +442,16 @@
             /*关闭产品模态层*/
             $("#close-version").click(function (event) {
                 $('#versionModal').modal('hide');
+                AddVersion();
             });
+            QueryProducts();
         });
-        //查询全部产品列表
-        var app4 = new Vue({
-            el: '#app-4',
-            data: {
-                todos: [
-                    { text: '学习 JavaScript' },
-                    { text: '学习 Vue' },
-                    { text: '整个牛项目' }
-                ]
-            }
-        })
+
+        $(".product li").on('click', 'li', function (event) {
+        });
+        $(".product li").click(function (event) {
+            $(".product li").css({ 'background': '#000', 'color': '#fff' });
+            $(this).css({ 'background': '#0cc', 'color': '#fff' });
+        });
+
     </script>
