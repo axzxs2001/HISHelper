@@ -73,6 +73,7 @@ namespace ProductReleaseSystem.Models.Repository
             pars.Add(new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = ID });
 
             return _dbhelper.SavaData(sql, pars.ToArray()) > 0 ? true : false;
+
         }
         #endregion
         #region 修改用户信息
