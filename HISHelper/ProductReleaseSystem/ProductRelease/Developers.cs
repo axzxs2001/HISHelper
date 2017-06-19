@@ -13,11 +13,12 @@ namespace ProductReleaseSystem.ProductRelease
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public bool Sex { get; set; }
+        public int Sex { get; set; }
         public string Qq { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
         public int DepartmentId { get; set; }
+        public string Remarks { get; set; }
 
         public virtual ICollection<Files> Files { get; set; }
         public virtual ICollection<RelatedPersonnels> RelatedPersonnels { get; set; }

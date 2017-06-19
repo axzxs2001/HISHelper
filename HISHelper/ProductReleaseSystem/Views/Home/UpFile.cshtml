@@ -25,21 +25,7 @@
                 <!-- 产品信息 -->
                 <ul class="product">
                     
-                    @*<li id="app-4">
-                        医院感染管理系统
-                        <span class="hid"></span>
-                        <span class="glyphicon glyphicon-hand-right"></span>
-                    </li>
-                    <li>
-                        排队叫号
-                        <span class="hid"></span>
-                        <span class="glyphicon glyphicon-hand-right"></span>
-                    </li>
-                    <li>
-                        微信公众号
-                        <span class="hid"></span>
-                        <span class="glyphicon glyphicon-hand-right"></span>
-                    </li>*@
+                 
                 </ul>
             </div>
         </div>
@@ -52,30 +38,7 @@
                     <span class=" glyphicon glyphicon-plus"></span>
                 </h3>
                 <ul class="version">
-                    @*<li>
-                        <span>产品名称：医院感染管理系统</span>
-                        <span>版本号：3.0</span>
-                        <span>发布人：张三</span>
-                        <span>发布时间：2017-05-01</span>
-                        <span class="hid"></span>
-                        <span class="glyphicon glyphicon-hand-down"></span>
-                    </li>
-                    <li>
-                        <span>产品名称：医院感染管理系统</span>
-                        <span>版本号：2.0</span>
-                        <span>发布人：张三</span>
-                        <span>发布时间：2017-05-01</span>
-                        <span class="hid"></span>
-                        <span class="glyphicon glyphicon-hand-down"></span>
-                    </li>
-                    <li>
-                        <span>产品名称：医院感染管理系统</span>
-                        <span>版本号：1.0</span>
-                        <span>发布人：张三</span>
-                        <span>发布时间：2017-05-01</span>
-                        <span class="hid"></span>
-                        <span class="glyphicon glyphicon-hand-down"></span>
-                    </li>*@
+                  
                 </ul>
             </div>
             <div class="row col-md-12">
@@ -83,10 +46,10 @@
                     <form enctype="multipart/form-data">
 
                         <div class="row col-md-5 col-md-offset-1">
-                            @* <a class="upload-btn" href="javascript:void(0);">*@
+                          
                             选择需要上传的文件
                             <input type="file" @*multiple="multiple" *@ id="upload-file">
-                            @*</a>*@
+                         
                             <ul id='upload-file-news'></ul>
                         </div>
 
@@ -221,14 +184,16 @@
 
                 }
             });
+           // QueryProducts()
 
         }
         //添加版本
         function AddVersion() {
+            alert($('#hid').text());
             $.ajax({
                 type: "post",
                 url: "/addversion",
-                data: { VersionNumber: $('#version-no').val(), ReleaseTime: $('#version-date').val(), Publisher: $('#upload-name').val(), ProductId:1 /*$('.hid').val()*/, Description: $('#version-describe').val() },
+                data: { VersionNumber: $('#version-no').val(), ReleaseTime: $('#version-date').val(), Publisher: $('#upload-name').val(), ProductId: $('#hid').text(), Description: $('#version-describe').val() },
                 success: function (dataBack) {
                     alert(dataBack)
 
@@ -238,7 +203,7 @@
                     alert(error.status + error.statusText)
                 }
             });
-
+            //QueryVersions($('#hid').text());
         }
         
         //查询所有项目
@@ -276,6 +241,7 @@
         }
         //按照产品ID获取版本
         function QueryVersions(id) {
+            console.log("ID:"+id)
             $.ajax({
                 type: "GET",
                 url: '/queryversions',
@@ -297,7 +263,7 @@
                     });
                     $(".version li").click(function (event) {
                         $(".version").css({ 'background': '#fff', 'color': '#000' });
-                        $(".product li").css({ 'background': '', 'color': '' });
+                        $(".version li").css({ 'background': '', 'color': '' });
                         $(this).css({ 'background': '#000', 'color': '#fff' });
                     });
                 },
@@ -310,11 +276,12 @@
         }
 
         function UpFile() {
+            alert($('#versionID').text());
             var file = $('#upload-file').get(0).files[0];
             var data = new FormData();
             data.append(file.name, file);
             data.append("UploadPeople", 1);
-            data.append("VersionsID", $('#versionID').val());
+            data.append("VersionsID", $('#versionID').text());
             $.ajax({
                 type: 'POST',
                 url: '/sendfile',
@@ -333,17 +300,15 @@
 
         }
 
-
+        //点击项目查询所有版本
         function GetID(elem) {
-            $('#hid').val(elem);
+            $('#hid').text(elem);
             QueryVersions(elem);
-           
-
         }
 
+        //点击版本给隐藏的span赋值
         function GetVersionID(e) {
-            $('#versionID').val(e);
-
+            $('#versionID').text(e);
         }
 
         $(document).ready(function () {
@@ -435,6 +400,8 @@
             $("#close-version").click(function (event) {
                 $('#versionModal').modal('hide');
                 AddVersion();
+                QueryVersions($("#hid").text());
+
             });
             QueryProducts();
         });

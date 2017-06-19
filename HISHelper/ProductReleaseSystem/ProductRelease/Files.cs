@@ -10,6 +10,8 @@ namespace ProductReleaseSystem.ProductRelease
         public DateTime UploadTime { get; set; }
         public int UploadPeople { get; set; }
         public int VersionsId { get; set; }
+        public string FilePath { get; set; }
+
 
         public virtual Developers UploadPeopleNavigation { get; set; }
         public virtual Versions Versions { get; set; }

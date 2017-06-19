@@ -100,13 +100,22 @@ namespace ProductReleaseSystem.Controllers
                 return View();
             }
         }
-
+        /// <summary>
+        /// 上传主页
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("send")]
         public IActionResult UpFile()
         {
             return View();
         }
-
+        /// <summary>
+        /// 上传文件
+        /// </summary>
+        /// <param name="env">环境</param>
+        /// <param name="UploadPeople">上传人ID</param>
+        /// <param name="VersionsID">版本ID</param>
+        /// <returns></returns>
         [HttpPost("sendfile")]
         public async Task<IActionResult> UpFile([FromServices] IHostingEnvironment env,int UploadPeople,int VersionsID)
         {
@@ -124,7 +133,7 @@ namespace ProductReleaseSystem.Controllers
                     {
                         await file.CopyToAsync(fStream);
                     }
-                    var upFile = new Files {FileName=path,UploadTime=System.DateTime.Now,UploadPeople=UploadPeople,VersionsId=VersionsID };
+                    var upFile = new Files {FileName= fileName, UploadTime=System.DateTime.Now,UploadPeople=UploadPeople,VersionsId=VersionsID,FilePath=path };
 
                     _IUploadFile.addFiles(upFile);
                     return Ok(new { result = 1, message = "上传文件成功" });
@@ -148,6 +157,7 @@ namespace ProductReleaseSystem.Controllers
         {
            return  _IUploadFile.addProduct(product);
         }
+
         /// <summary>
         /// 添加版本
         /// </summary>
@@ -158,6 +168,7 @@ namespace ProductReleaseSystem.Controllers
         {
             return _IUploadFile.addVersions(product);
         }
+
         /// <summary>
         ///查询所有产品信息 
         /// </summary>
@@ -175,6 +186,12 @@ namespace ProductReleaseSystem.Controllers
                 return new JsonResult(new { result=0,message=exc.Message});
             }
         }
+
+        /// <summary>
+        /// 通过产品ID查询所有版本
+        /// </summary>
+        /// <param name="ProductID">产品ID</param>
+        /// <returns></returns>
         [HttpGet("queryversions")]
         public IActionResult QueryVersionsByProductID(int ProductID)
         {
@@ -188,6 +205,87 @@ namespace ProductReleaseSystem.Controllers
                 return new JsonResult(new { result=0,message=exc.Message});
             }
 
+        }
+
+        /// <summary>
+        /// 人员维护
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("information")]
+        public IActionResult informationMaintenance()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 添加部门
+        /// </summary>
+        /// <param name="departmentName">部门名称</param>
+        /// <returns></returns>
+        [HttpPost("adddepartment")]
+        public IActionResult AddDepartment(string departmentName)
+        {
+            if (_IUploadFile.AddDepartment(departmentName))
+            {
+                return new JsonResult(new { result=1,message="添加部门成功"});
+            }
+            else
+            {
+                return new JsonResult(new { result=0,message="添加部门失败"});
+            }
+        }
+
+        /// <summary>
+        /// 添加开发人员
+        /// </summary>
+        /// <param name="developer">开发人员信息</param>
+        /// <returns></returns>
+        [HttpPost("adddevelopers")]
+        public IActionResult AddDeveloper(Developers developer)
+        {
+            if (_IUploadFile.AddPerson(developer))
+            {
+                return new JsonResult(new { result=1,message="添加开发人员成功"});
+            }
+            else
+            {
+                return new JsonResult(new { result = 0, message = "添加开发人员失败" });
+            }
+        }
+        /// <summary>
+        /// 添加用户
+        /// </summary>
+        /// <param name="user">用户信息</param>
+        /// <returns></returns>
+        [HttpPost("adduser")]
+        public IActionResult AddUser(Users user)
+        {
+            if (_IUploadFile.AddUser(user))
+            {
+                return new JsonResult(new { result=1,message="添加用户成功"});
+            }
+            else
+            {
+                return new JsonResult(new { result=0,message="添加用户失败"});
+            }
+        }
+
+        [HttpGet("getusers")]
+        public IActionResult GetUsers()
+        {
+            return new JsonResult(new { Result = 1, message = "查询成功",data = _IUploadFile.QueryUsers()});
+        }
+
+        [HttpGet("getdevelopers")]
+        public IActionResult GetDevelopers()
+        {
+            return new JsonResult(new { result=1,nessage="查询开发人员成功",data=_IUploadFile.QueryDevelopers()});
+        }
+
+        [HttpGet("getdepartments")]
+        public IActionResult GetDepartments()
+        {
+            return new JsonResult(new { result=1,message="",data=_IUploadFile.QueryDepartments()});
         }
     }
 }

@@ -1,0 +1,344 @@
+﻿@{
+    ViewData["Title"] = "人员管理";
+}
+
+@section css{
+<link href="~/css/informationMaintenance.css" rel="stylesheet" />
+}
+<body>
+	<div class="container">
+		<div>
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active">
+					<a href="#user" aria-controls="user" role="tab" data-toggle="tab">用户维护</a>
+				</li>
+				<li role="presentation">
+					<a href="#developer" aria-controls="developer" role="tab" data-toggle="tab">开发人员维护</a>
+				</li>
+				<li role="presentation">
+					<a href="#department" aria-controls="department" role="tab" data-toggle="tab">部门维护</a>
+				</li>
+			</ul>
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane active" id="user">
+					<h3>添加新用户：</h3>
+					<form class="form-inline">
+						<div class="form-group col-md-4">
+							<label for="user-name">用户名：</label>
+							<input type="text" class="form-control" id="user-name" placeholder="此处输入用户名"></div>
+						<div class="form-group col-md-3">
+							<label for="user-password">密&nbsp;&nbsp;&nbsp;码:</label>
+							<input type="password" class="form-control" id="user-password" placeholder="此处输入密码">
+                        </div>
+						<label class="radio-inline">
+							<input type="radio" name="eng" id="implementation-eng" value="1" checked>实施工程师</label>
+						<label class="radio-inline">
+							<input type="radio" name="eng" id="developer-eng" value="2">开发工程师</label>
+						<button type="button" onclick="AddUser()" class="btn btn-info col-md-offset-2">添&nbsp;&nbsp;&nbsp;加</button>
+					</form>
+					<h3>用户列表：</h3>
+					<div class="user-list">
+						<table class="table table-striped table-bordered table-hover table-condensed">
+							<thead>
+								<tr class= "info">
+									<th>用户名</th>
+									<th>密码</th>
+									<th>角色</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="usersinfo">
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td><div class="row">
+										<button class="col-md-4 col-md-offset-1 btn btn-sm btn-warning">修改</button>
+										<button class="col-md-4 col-md-offset-2 btn btn-sm btn-danger">删除</button>
+									</div></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="developer">
+					<h3>添加新开发人员：</h3>
+					<form class="form-inline">
+						<div class="form-group col-md-2">
+							<label for="department-person-name">部门：</label>
+							<select class="form-control" id="department-person-name">
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+								<option>5</option>
+							</select>
+						</div>
+						<div class="form-group col-md-3">
+							<label for="developer-name">姓名：</label>
+							<input type="text" class="form-control" id="developer-name" placeholder="此处输入开发人员姓名">
+						</div>
+						<div class="form-group col-md-3">
+							<label for="developer-QQ">QQ：</label>
+							<input type="text" class="form-control" id="developer-QQ" placeholder="此处输入开发人员QQ">
+						</div>
+						<div class="form-group col-md-3">
+							<label for="developer-phone">电话：</label>
+							<input type="text" class="form-control" id="developer-phone" placeholder="此处输入开发人员电话">
+						</div>
+						<div class="sex form-group col-md-2 developer-news" id="sex">
+							<label>性别：</label>
+							<label class="radio-inline">
+							<input type="radio" name="sex" id="man" value="0" checked>男</label>
+						<label class="radio-inline">
+							<input type="radio" name="sex" id="woman" value="1">女</label>
+						</div>
+						<div class="form-group col-md-3 developer-news">
+							<label for="developer-Email">邮箱：</label>
+							<input type="text" class="form-control" id="developer-Email" placeholder="此处输入开发人员邮箱">
+						</div>
+                        <div class="form-group col-md-3 developer-news">
+                            <label for="developer-note ">备注：</label>
+                            <input type="text" class="form-control" id="developer-note" placeholder="此处输入备注">
+                        </div>
+						<button type="button" onclick="AddDevelopers()" class="btn btn-info col-md-offset-2 developer-news">添&nbsp;&nbsp;&nbsp;加</button>
+					</form>
+					<h3>开发人员列表：</h3>
+					<div class="developer-list">
+						<table class="table table-striped table-bordered table-hover table-condensed">
+							<thead>
+								<tr class= "info">
+									<th>部门</th>
+									<th>姓名</th>
+									<th>性别</th>
+									<th>电话</th>
+									<th>QQ</th>
+									<th>邮箱</th>
+                                    <th>备注</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="developersinfo">
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+                                    <td></td>
+									<td>
+                                    <div class="row">
+										<button class="col-md-4 col-md-offset-1 btn btn-sm btn-warning">修改</button>
+										<button class="col-md-4 col-md-offset-2 btn btn-sm btn-danger">删除</button>
+									</div>
+                                    </td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="department">
+					<h3>添加新部门：</h3>
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label for="department-name" class="col-md-2 control-label">部门名称：</label>
+							<div class="col-md-7">
+								<input type="text" class="form-control" id="department-name" placeholder="此处输入部门名称">
+							</div>
+							<button type="button" onclick="AddDepartment();" class="btn btn-info col-md-offset-2">添&nbsp;&nbsp;&nbsp;加</button>
+						</div>
+					</form>
+					<h3>部门列表：</h3>
+					<div class="department-list">
+						<table class="table table-striped table-bordered table-hover table-condensed">
+							<thead>
+								<tr class= "info">
+									<th>部门名称</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="departmentinfo">
+								<tr>
+									<td></td>
+									<td><div class="row">
+										<button class="col-md-4 col-md-offset-1 btn btn-sm btn-warning">修改</button>
+										<button class="col-md-4 col-md-offset-2 btn btn-sm btn-danger">删除</button>
+									</div></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+@section Scripts{
+<script>
+    $(function () {
+        GetUsers();
+        GetDevelopers();
+        GetDapertments();
+    })
+    //添加部门
+    function AddDepartment() {
+        $.ajax({
+            type: "POST",
+            url: '/adddepartment',
+            data: { DepartmentName: $('#department-name').val() },
+            success: function (dataBack) {
+                alert(dataBack.message)
+            },
+            error: function (error) {
+                alert(error.status + error.statusText);
+            }
+        });
+    }
+    //添加开发人员
+    function AddDevelopers() {
+        alert($('#sex input[type="radio"]:checked').val())
+        $.ajax({
+            type: 'POST',
+            url: '/adddevelopers',
+
+            data: {
+                DepartmentId: $('#department-person-name').val(),
+                Name: $('#developer-name').val(),
+                Qq: $('#developer-QQ').val(),
+                Email: $('#developer-Email').val(),
+                Phone: $('#developer-phone').val(),
+                Remarks: $('#developer-note').val(),
+                Sex: $('#sex input[type="radio"]:checked').val()
+            },
+            success: function (dataBack) {
+                alert(dataBack.message);
+            },
+            error: function (error) {
+                alert(error.status + statusText);
+            }
+        });
+    }
+    //添加用户
+    function AddUser() {
+        $.ajax({
+            type: "POST",
+            url: "/adduser",
+            data: {
+                UserName: $('#user-name').val(),
+                PassWord: $("#user-password").val(),
+                Character: $('#user input[type="radio"]:checked').val()
+            },
+            success: function (dataBack) {
+                alert(dataBack.message);
+            },
+            error: function () {
+                alert(error.status + statusText);
+            }
+        })
+    }
+    //获取所有用户
+    function GetUsers() {
+        var str = '';
+        $.ajax({
+            type: 'GET',
+            url: '/getusers',
+            data: {},
+            success: function (dataBack) {
+               
+                $(dataBack.data).each(function (index, item) {
+                    str += '<tr>';
+                    str+='<td style="display:none">'+item.id+'</td>'
+                    str += '<td>' + item.UserName + '</td>';
+                    str += '<td>' + item.PassWord + '</td>';
+                    str += '<td>' + item.Character + '</td>';
+                    str += '<td>';
+                    str += '<div class="row">';
+                    str += '<button class="col-md-4 col-md-offset-1 btn btn-sm btn-warning"> 修改</button>';
+                    str += '<button class="col-md-4 col-md-offset-2 btn btn-sm btn-danger">删除</button>';
+                    str += '</div>';
+                    str += '</td>';
+                    str += '</tr>';
+                 });
+                $('#usersinfo').html(str);
+            }
+        });
+
+    }
+    //获取所有开发人员
+    function GetDevelopers() {
+        var str = '';
+        $.ajax({
+            type: "GET",
+            url: 'getdevelopers',
+            data: {},
+            success: function (dataBack) {
+                alert(dataBack.data)
+                $(dataBack.data).each(function (index, item) {
+                    alert(item.Remarks)
+                
+                    str += '<tr>';
+                    str += '<td style="display:none">' + item.ID + '</td>';
+                    str += '<td>' + item.DepartmentName + '</td>';
+                    str += '<td>' + item.Name + '</td>';
+                    str += '<td>' + item.Sex == 0 ? "男" : "女" + '</td>';
+                    str += '<td>' + item.Phone + '</td>';
+                    str += '<td>' + item.qq + '</td>';
+                    str += '<td>' + item.Email + '</td>';
+                    str += '<td>' + item.Remarks + '</td>';
+                    str += '<td><div class="row"><button class="col-md-4 col-md-offset-1 btn btn-sm btn-warning"> 修改</button ><button class="col-md-4 col-md-offset-2 btn btn-sm btn-danger">删除</button></div></td>';
+                    str += '</tr>';
+                 });
+                $('#developersinfo').html(str);
+            }
+        });
+
+    }
+    //获取所有部门
+    function GetDapertments() {
+        var str = "";
+        $.ajax({
+            type: "GET",
+            url: '/getdepartments',
+            data: {},
+            success: function (dataBack) {
+                $(dataBack.data).each(function (index, item) {
+                    str += '<tr>';
+                    str += '<td style="display:none">' + item.ID + '</td>'
+                    str += '<td>' + item.DepartmentName + '</td>';
+                    str += '<td>';
+                    str += '<div class="row">';
+                    str += '<button class="col-md-4 col-md-offset-1 btn btn-sm btn-warning"> 修改</button>';
+                    str += '<button class="col-md-4 col-md-offset-2 btn btn-sm btn-danger">删除</button>';
+                    str += '</div>';
+                    str += '</td>';
+                    str += '</tr>';
+                 });
+                $('#departmentinfo').html(str);
+            }
+        });
+
+    }
+    //删除开发人员
+    function DeleteDeveloper() {
+        $.ajax({
+            type: "DELETE",
+            url: 'deletedeveloper',
+            data: { id: id },
+            success: function () {
+
+
+            },
+            error: function () {
+
+
+            }
+        });
+
+    }
+    
+</script>
+}
