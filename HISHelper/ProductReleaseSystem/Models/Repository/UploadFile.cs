@@ -55,15 +55,14 @@ namespace ProductReleaseSystem.Models.Repository
         /// <returns></returns>
         public bool addFiles(Files files)
         {
-            var sql = @"insert into Files(FileName,UploadTime,UploadPeople,VersionsID,FilePath)
-                values(@FileName,@UploadTime,@UploadPeople,@VersionsId,@filePath)";
+            var sql = @"insert into Files(FileName,UploadTime,VersionsID,FilePath)
+                values(@FileName,@UploadTime,@VersionsId,@filePath)";
             var pars = new List<SqlParameter>();
             var par1 = new SqlParameter() { ParameterName = "@FileName", SqlDbType = System.Data.SqlDbType.VarChar, Value = files.FileName };
             var par2 = new SqlParameter() { ParameterName = "@UploadTime", SqlDbType = System.Data.SqlDbType.DateTime, Value = files.UploadTime };
-            var par3 = new SqlParameter() { ParameterName = "@UploadPeople", SqlDbType = System.Data.SqlDbType.VarChar, Value = files.UploadPeople };
             var par4 = new SqlParameter() { ParameterName = "@VersionsId", SqlDbType = System.Data.SqlDbType.VarChar, Value = files.VersionsId };
             var par5 = new SqlParameter() { ParameterName = "@filePath", SqlDbType = System.Data.SqlDbType.VarChar, Value = files.FilePath };
-            return _dbHelper.SavaData(sql, par1, par2, par3,par4, par5) > 0 ? true : false;
+            return _dbHelper.SavaData(sql, par1, par2,par4, par5) > 0 ? true : false;
         }
 
 
@@ -125,21 +124,22 @@ VALUES  ( @name,@sex,@qq,@email,@phone,@departmentID,@remarks
         /// </summary>
         /// <param name="departmentID">部门ID</param>
         /// <returns></returns>
-        public List<Dictionary<string,dynamic>> QueryDevelopers()
+        public List<Dictionary<string,dynamic>> QueryDevelopers(int departmentID)
         {
-            var sql = @"SELECT  a.ID ID ,
+            var sql = (@"SELECT ID ID ,
         Name ,
         Sex ,
         qq ,
         Email ,
         Phone ,
-        DepartmentName,
+     
         Remarks
-FROM    dbo.Developers a JOIN dbo.Departments b
-ON a.DepartmentID=b.ID 
-";
-           
-            return _dbHelper.GetList(sql);
+FROM    dbo.Developers
+where DepartmentID=@DepartmentID
+");
+            var par1 = new SqlParameter() { ParameterName = "@DepartmentID", SqlDbType = System.Data.SqlDbType.Int, Value = departmentID };
+
+            return _dbHelper.GetList(sql,par1);
         }
 
         /// <summary>
@@ -177,6 +177,18 @@ WHERE   DepartmentID = @departmentID";
             var sql = @"DELETE dbo.Developers WHERE DepartmentID=@departmentID";
             var par = new SqlParameter() { ParameterName= "@departmentID",SqlDbType=System.Data.SqlDbType.Int,Value=departmentID };
             return _dbHelper.SavaData(sql,par)>0?true:false;
+        }
+
+        /// <summary>
+        /// 通过版本ID删除相关人员
+        /// </summary>
+        /// <param name="id"></param>版本ID
+        /// <returns></returns>
+        public bool DeleteRelatedPersonnels(int id)
+        {
+            var sql = @"delete RelatedPersonnels where VersionID=@id";
+            var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.SavaData(sql, par) > 0 ? true : false;
         }
 
 
@@ -245,5 +257,117 @@ FROM    dbo.Users";
         #endregion
 
 
+        /// <summary>
+        /// 根据成员ID查询成员信息
+        /// </summary>
+        /// <returns></returns>
+        public List<Dictionary<string,dynamic>> QueryDeveloper(int id)
+        {
+            var sql = (@"SELECT a.ID ID ,
+                        Name ,
+                        Sex ,
+                        qq ,
+                        Email ,
+                        Phone ,
+                        Remarks,
+                        DepartmentName
+                        FROM  dbo.Developers a join
+                        dbo.Departments b on a.DepartmentID=b.ID 
+                        where a.id=@ID
+        ");
+            var par1 = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+
+            return _dbHelper.GetList(sql,par1);
+        }
+
+        /// <summary>
+        /// 查询所有开发人员
+        /// </summary>
+        /// <returns></returns>
+        public List<Dictionary<string,dynamic>> Querykf()
+        {
+            var sql = @"select ID,Name from Developers where DepartmentID=1";
+            return _dbHelper.GetList(sql);
+        }
+
+
+        /// <summary>
+        /// 添加相关人员
+        /// </summary>
+        /// <param name="relatedPersonnels"></param>
+        /// <returns></returns>
+        public bool addRelatedPersonnels(RelatedPersonnels relatedPersonnels)
+        {
+            var sql = @"insert into RelatedPersonnels(VersionID,PersonID,Personneltype) values(@VersionID,@PersonID,@Personneltype)";
+            var par1 = new SqlParameter() { ParameterName = "@VersionID", SqlDbType = System.Data.SqlDbType.Int, Value = relatedPersonnels.VersionId };
+            var par2 = new SqlParameter() { ParameterName = "@PersonID", SqlDbType = System.Data.SqlDbType.Int, Value = relatedPersonnels.PersonId };
+            var par3 = new SqlParameter() { ParameterName = "@Personneltype", SqlDbType = System.Data.SqlDbType.VarChar, Value = relatedPersonnels.Personneltype };
+            return _dbHelper.SavaData(sql, par1, par2, par3) > 0 ? true : false;
+        }
+
+        /// <summary>
+        /// 根据版本号查询所有文件
+        /// </summary>
+        /// <returns></returns>
+        public List<Dictionary<string,dynamic>> QueryAllFiles(int id)
+        {
+            var sql = @"select FileName,UploadTime from Files where VersionsID=@VersionsID";
+            var par1 = new SqlParameter() { ParameterName = "@VersionsID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.GetList(sql, par1);
+        }
+
+        /// <summary>
+        /// 查询所有相关人员信息
+        /// </summary>
+        /// <param name="id"></param>版本ID
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> QueryRelatedPersonnels(int id)
+        {
+            var sql = @"select
+a.id,
+b.DepartmentName,
+a.Name,
+a.Sex,
+a.Phone,
+a.QQ,
+a.Email,
+c.Personneltype
+from Developers a 
+join Departments b on
+a.DepartmentID=b.ID 
+join RelatedPersonnels c 
+on a.ID=c.PersonID 
+join Versions d 
+on c.VersionID=d.ID 
+where c.VersionID=@id";
+            var par1 = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.GetList(sql, par1);
+        }
+        /// <summary>
+        /// 修改人员为负责人
+        /// </summary>
+        /// <param name="id">人员ID</param>
+        /// <returns></returns>
+        public bool UpdatePersonType(int? id)
+        {
+            var sql = @"update RelatedPersonnels set Personneltype='管理员' where PersonID=@id";
+            var par = new SqlParameter() { ParameterName= "@id",SqlDbType=System.Data.SqlDbType.Int,Value=id} ;
+            return _dbHelper.SavaData(sql, par) > 0 ? true : false;
+
+
+        }
+
+        /// <summary>
+        /// 根据人员ID删除相关人员
+        /// </summary>
+        /// <param name="id">人员ID</param>
+        /// <returns></returns>
+        public bool deleteRp(int id)
+        {
+            var sql = @"delete RelatedPersonnels where PersonID=@id";
+            var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.SavaData(sql, par) > 0 ? true : false;
+        }
     }
+  
 }

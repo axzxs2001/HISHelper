@@ -39,6 +39,19 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <returns></returns>
         List<Dictionary<string, dynamic>> QueryDepartments();
 
+        /// <summary>
+        /// 根据人员ID查询所有相关人员
+        /// </summary>
+        /// <param name="id"></param>人员ID
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> QueryDeveloper(int id);
+
+        /// <summary>
+        /// 根据版本ID删除相关人员
+        /// </summary>
+        /// <param name="id"></param>版本ID
+        /// <returns></returns>
+        bool DeleteRelatedPersonnels(int id);
 
         #region  维护开发人员信息
         /// <summary>
@@ -52,7 +65,7 @@ namespace ProductReleaseSystem.Models.IRepository
         /// </summary>
         /// <param name="departmentID">部门ID</param>
         /// <returns></returns>
-        List<Dictionary<string,dynamic>> QueryDevelopers();
+        List<Dictionary<string,dynamic>> QueryDevelopers(int id);
 
         /// <summary>
         /// 修改开发人员信息
@@ -98,5 +111,45 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <returns></returns>
          List<Dictionary<string,dynamic>> QueryUsers();
         #endregion
+
+
+        /// <summary>
+        /// 查询所有开发人员
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> Querykf();
+
+        /// <summary>
+        /// 根据版本号查询所有文件
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> QueryAllFiles(int id);
+
+        /// <summary>
+        /// 添加相关人员
+        /// </summary>
+        /// <param name="relatedPersonnels"></param>
+        /// <returns></returns>
+        bool addRelatedPersonnels(RelatedPersonnels relatedPersonnels);
+
+        /// <summary>
+        /// 根据版本号查询所有相关人员
+        /// </summary>
+        /// <param name="id"></param>版本号
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> QueryRelatedPersonnels(int id);
+        /// <summary>
+        /// 修改病人为管理员
+        /// </summary>
+        /// <param name="id">病人ID</param>
+        /// <returns></returns>
+        bool UpdatePersonType(int? id);
+
+        /// <summary>
+        /// 根据人员ID删除相关人员
+        /// </summary>
+        /// <param name="id"></param>人员ID
+        /// <returns></returns>
+        bool deleteRp(int id);
     }
 }

@@ -117,9 +117,9 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="VersionsID">版本ID</param>
         /// <returns></returns>
         [HttpPost("sendfile")]
-        public async Task<IActionResult> UpFile([FromServices] IHostingEnvironment env,int UploadPeople,int VersionsID)
+        public async Task<IActionResult> UpFile([FromServices] IHostingEnvironment env, int VersionsID)
         {
-            
+
             try
             {
                 var file = HttpContext.Request.Form.Files[0];
@@ -133,18 +133,18 @@ namespace ProductReleaseSystem.Controllers
                     {
                         await file.CopyToAsync(fStream);
                     }
-                    var upFile = new Files {FileName= fileName, UploadTime=System.DateTime.Now,UploadPeople=UploadPeople,VersionsId=VersionsID,FilePath=path };
+                    var upFile = new Files { FileName = fileName, UploadTime = System.DateTime.Now, VersionsId = VersionsID, FilePath = path };
 
                     _IUploadFile.addFiles(upFile);
                     return Ok(new { result = 1, message = "上传文件成功" });
                 }
                 else
                 {
-                    return new JsonResult(new { result=0,message="文件已存在"});
+                    return new JsonResult(new { result = 0, message = "文件已存在" });
                 }
-            }catch(Exception exc)
+            } catch (Exception exc)
             {
-                return new JsonResult(new {result=0,message=exc.Message });
+                return new JsonResult(new { result = 0, message = exc.Message });
             }
         }
         /// <summary>
@@ -155,7 +155,7 @@ namespace ProductReleaseSystem.Controllers
         [HttpPost("addproduct")]
         public bool AddProduct(Products product)
         {
-           return  _IUploadFile.addProduct(product);
+            return _IUploadFile.addProduct(product);
         }
 
         /// <summary>
@@ -179,11 +179,11 @@ namespace ProductReleaseSystem.Controllers
             try
             {
                 var data = _IUploadFile.GetProductsList();
-            return new JsonResult(new { result =1,message="查询产品成功",data=data });
+                return new JsonResult(new { result = 1, message = "查询产品成功", data = data });
             }
             catch (Exception exc)
             {
-                return new JsonResult(new { result=0,message=exc.Message});
+                return new JsonResult(new { result = 0, message = exc.Message });
             }
         }
 
@@ -198,11 +198,11 @@ namespace ProductReleaseSystem.Controllers
             try
             {
                 var dataList = _IUploadFile.GetVersionsByID(ProductID);
-                return new JsonResult(new { result = 1, message = "查询成功", data = dataList },new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString="yyyy-MM-dd"});
+                return new JsonResult(new { result = 1, message = "查询成功", data = dataList }, new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
             }
             catch (Exception exc)
             {
-                return new JsonResult(new { result=0,message=exc.Message});
+                return new JsonResult(new { result = 0, message = exc.Message });
             }
 
         }
@@ -217,6 +217,24 @@ namespace ProductReleaseSystem.Controllers
             return View();
         }
 
+        [HttpPost("deleterelatedpersionnels")]
+        /// <summary>
+        /// 根据版本ID删除相关人员
+        /// </summary>
+        /// <param name="id"></param>版本ID
+        /// <returns></returns>
+        public IActionResult DeleteRelatedPersonnels(int id)
+        {
+            if (_IUploadFile.DeleteRelatedPersonnels(id))
+            {
+                return new JsonResult(new { result = 1, message = "" });
+            }
+            else
+            {
+                return new JsonResult(new { result = 0, message = "" });
+            }
+        }
+
         /// <summary>
         /// 添加部门
         /// </summary>
@@ -227,11 +245,11 @@ namespace ProductReleaseSystem.Controllers
         {
             if (_IUploadFile.AddDepartment(departmentName))
             {
-                return new JsonResult(new { result=1,message="添加部门成功"});
+                return new JsonResult(new { result = 1, message = "添加部门成功" });
             }
             else
             {
-                return new JsonResult(new { result=0,message="添加部门失败"});
+                return new JsonResult(new { result = 0, message = "添加部门失败" });
             }
         }
 
@@ -245,7 +263,7 @@ namespace ProductReleaseSystem.Controllers
         {
             if (_IUploadFile.AddPerson(developer))
             {
-                return new JsonResult(new { result=1,message="添加开发人员成功"});
+                return new JsonResult(new { result = 1, message = "添加开发人员成功" });
             }
             else
             {
@@ -262,30 +280,131 @@ namespace ProductReleaseSystem.Controllers
         {
             if (_IUploadFile.AddUser(user))
             {
-                return new JsonResult(new { result=1,message="添加用户成功"});
+                return new JsonResult(new { result = 1, message = "添加用户成功" });
             }
             else
             {
-                return new JsonResult(new { result=0,message="添加用户失败"});
+                return new JsonResult(new { result = 0, message = "添加用户失败" });
             }
         }
+
+
+        /// <summary>
+        /// 根据人员ID删除相关人员
+        /// </summary>
+        /// <param name="id">人员ID</param>
+        /// <returns></returns>
+        [HttpPost("deleterp")]
+        public IActionResult deleteRp(int id)
+        {
+            if (_IUploadFile.deleteRp(id))
+            {
+                return new JsonResult(new { result = 1, message = "移除成功" });
+            }
+            else
+            {
+                return new JsonResult(new { result = 0, message = "移除失败" });
+            }
+        }
+
+
 
         [HttpGet("getusers")]
         public IActionResult GetUsers()
         {
-            return new JsonResult(new { Result = 1, message = "查询成功",data = _IUploadFile.QueryUsers()});
+            return new JsonResult(new { Result = 1, message = "查询成功", data = _IUploadFile.QueryUsers() });
         }
 
+
+        //查询所有开发成员
         [HttpGet("getdevelopers")]
-        public IActionResult GetDevelopers()
+        public IActionResult GetDevelopers(int departmentID)
         {
-            return new JsonResult(new { result=1,nessage="查询开发人员成功",data=_IUploadFile.QueryDevelopers()});
+            return new JsonResult(new { result = 1, nessage = "查询开发人员成功", data = _IUploadFile.QueryDevelopers(departmentID) });
         }
-
+        /// <summary>
+        /// 查询所有部门
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("getdepartments")]
         public IActionResult GetDepartments()
         {
-            return new JsonResult(new { result=1,message="",data=_IUploadFile.QueryDepartments()});
+            return new JsonResult(new { result = 1, message = "", data = _IUploadFile.QueryDepartments() });
+        }
+
+        [HttpGet("getDeveloper")]
+        /// <summary>
+        /// 根据成员ID查询成员信息
+        /// </summary>
+        /// <param name="id"></param>成员ID
+        /// <returns></returns>
+        public IActionResult GetDeveloper(int id)
+        {
+            return new JsonResult(new { result = 1, message = "", data = _IUploadFile.QueryDeveloper(id) });
+        }
+
+        [HttpGet("getkf")]
+        /// <summary>
+        /// 查询所有开发人员
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult getkf()
+        {
+            return new JsonResult(new { result = 1, message = "", data = _IUploadFile.Querykf() });
+        }
+
+        /// <summary>
+        /// 添加相关人员表
+        /// </summary>
+        /// <param name="relatedPersonnels"></param>
+        /// <returns></returns>
+        [HttpPost("addrp")]
+        public IActionResult addRelatedPersonnels(int? id,int[] idArray,string productID,int versionID)
+        {
+            var relatedPersonnels = new RelatedPersonnels();
+            foreach (var i in idArray)
+            {
+                relatedPersonnels.PersonId = i;
+                relatedPersonnels.VersionId = versionID;
+                relatedPersonnels.Personneltype = "";
+                if (_IUploadFile.addRelatedPersonnels(relatedPersonnels))
+                {
+                    if (id!=null)
+                    {
+                        _IUploadFile.UpdatePersonType(id);
+                        
+                    }
+                }
+                else
+                {
+                    return new JsonResult(new { result = 0, message = "添加失败" });
+                }
+
+            }
+           
+            return new JsonResult(new { result = 1, message = "添加成功" });
+        }
+
+        /// <summary>
+        /// 根据版本ID查询所有文件
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("queryallfiles")]
+        public IActionResult QueryAllFiles(int id)
+        {
+            return new JsonResult(new { result = 1, message = "", data = _IUploadFile.QueryAllFiles(id) });
+        }
+
+        /// <summary>
+        /// 根据版本ID查询所有相关人员
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("queryrelatedpersonnel")]
+        public IActionResult QueryRelatedPersonnel(int id)
+        {
+            return new JsonResult(new { result = 1, message = "", data = _IUploadFile.QueryRelatedPersonnels(id) });
         }
     }
 }
