@@ -12,7 +12,7 @@ using ProductReleaseSystem.ProductRelease;
 using ProductReleaseSystem.Models.IRepository;
 
 namespace ProductReleaseSystem.Controllers
-{
+{    
     public class HomeController : Controller
     {
         IUploadFile _IUploadFile;
