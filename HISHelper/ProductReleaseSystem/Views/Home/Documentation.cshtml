@@ -1,0 +1,143 @@
+﻿@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>说明文档</title>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/documentation.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h1>
+                产品发布系统
+                <span>说明文档</span>
+            </h1>
+        </div>
+        <div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#development " aria-controls="development " role="tab" data-toggle="tab">开发使用说明</a>
+                </li>
+                <li role="presentation">
+                    <a href="#implementation" aria-controls="implementation" role="tab" data-toggle="tab">实施使用说明</a>
+                </li>
+                <li role="presentation">
+                    <a href="#note" aria-controls="note" role="tab" data-toggle="tab">备注</a>
+                </li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="development">
+                    <h3>新产品发布流程：</h3>
+                    <h4>产品信息（当你要发布新产品时）：</h4>
+                    <div class="col-md-4">
+                        <img src="~/images/add-pro.jpg"alt="添加新产品" title="添加新产品" />
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span>单击此处添加产品,如上图</span>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="~/images/write-pro.png" alt="编写产品信息" title="编写产品信息" />
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span>弹出模态层填写产品信息点保存,如上图</span>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="~/images/add-pro-done.jpg" alt="保存后页面效果" title="保存后页面效果" />
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span>保存后页面效果,产品信息维护完成,如上图</span>
+                    </div>
+                    <h4>版本信息（当你要维护完新产品,要添加版本或者在原有产品上添加新版本）：</h4>
+                    <div class="col-md-4">
+                        <img src="~/images/add-ver.jpg" alt="添加新版本" title="添加新版本"/>
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span>单击此处添加版本,如上图</span>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="~/images/write-ver.png"  alt="编写版本信息" title="编写版本信息"/>
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span>弹出模态层填写版本信息点保存,如上图</span>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="~/images/add-ver-done.jpg" alt="保存后页面效果" title="保存后页面效果" />
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span>保存后页面效果,版本信息维护完成,如上图</span>
+                    </div>
+                    <h4>文件上传：</h4>
+                    <div class="col-md-4">
+                        <img src="~/images/check-file.jpg" alt="点击文件上传" title="点击文件上传" />
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span>点击文件上传按钮,如上图</span>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="~/images/choose-file.jpg" alt="选择文件" title="选择文件" />
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span>选择需要上传的文件,如上图</span>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="~/images/upload-file.jpg" alt="点击提交按钮上传文件" title="点击提交按钮上传文件" />
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span>确认好上传的文件后点击提交按钮上传文件,如上图</span>
+                    </div>
+                    <h4>维护开发人员信息：</h4>
+                    <div class="col-md-4">
+                        <img src="~/images/choose-developer.png" alt="选择开发人员权限" title="选择开发人员权限" />
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span>选择部门，选择开发人员,如上图</span>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="~/images/permissions-developer.png" alt="选择文件" title="选择文件" />
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span>选择开发人员权限,单选按钮勾选为产品当前版本负责人,如上图</span>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="~/images/refer-developer.jpg"  alt="点击按钮保存开发人员信息" title="点击按钮保存开发人员信息"/>
+                        <span>确认好开发人员信息后点击按钮提交开发人员信息,如上图</span>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="implementation">
+                    <img src="~/images/implementation-engineer.jpg"  alt="实施工程师使用说明"/>
+                    <p>1.选择需要下载的产品。</p>
+                    <p>2.选择需要下载的产品的版本。</p>
+                    <p>3.查看产品描述和版本描述。</p>
+                    <p>4.下载当前版本相关文件。</p>
+                    <p>5.查看当前产品当前版本开发人员的信息。</p>
+                    <p>6.操作如上图。</p>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="note">
+                    <p>1.管理员对部门、开发人员有操作权限（增删改查）。</p>
+                    <p>2.此网站为公司内部产品管理平台，请不要上传私人文件</p>
+                    <p>3.此网站的登录权限为内部分配，请不要分享给他人，避免公司核心代码流出，造成不必要的损失。</p>
+                    <p>4.实施工程师在下载产品后的使用中发现问题，可以从产品下载页面获得产品维护人的联系方式进行咨询。</p>
+                    <p>5.请各位使用者仔细阅读本文档，可以减少系统使用时产生的问题。</p>
+                    <p>6.如果系统出现问题，请联系【新技术研究中心开发人员】反映问题。</p>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+	$("img").click(function(){
+			if($(this).height()=='204'){
+				$("img").height('');
+				$("img").width('');
+				$("img").parent().css('z-index',1);
+				$(this).height('600');
+				$(this).width('800');
+				$(this).parent().css('z-index',100);
+
+			}
+			else{
+				$(this).height('');
+				$(this).width('');
+			}
+		});
+</script>

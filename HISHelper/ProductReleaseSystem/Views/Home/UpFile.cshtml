@@ -23,10 +23,7 @@
                     <span class=" glyphicon glyphicon-plus"></span>
                 </h2>
                 <!-- 产品信息 -->
-                <ul class="product">
-                    
-                 
-                </ul>
+                <ul class="product"></ul>
             </div>
         </div>
         <div class="col-md-9">
@@ -37,19 +34,17 @@
                     点击此处添加最新版本
                     <span class=" glyphicon glyphicon-plus"></span>
                 </h3>
-                <ul class="version">
-                  
-                </ul>
+                <ul class="version"></ul>
             </div>
             <div class="row col-md-12">
                 <div class="news">
                     <form enctype="multipart/form-data">
 
                         <div class="row col-md-3 col-md-offset-1">
-                          
+
                             选择需要上传的文件
                             <input type="file" @*multiple="multiple" *@ id="upload-file">
-                         
+
                             <ul id='upload-file-news'></ul>
                         </div>
 
@@ -66,7 +61,7 @@
                                 <option value="0">--请选择开发人员--</option>
                             </select>
                             <button class="btn btn-info btn-sm col-md-offset-3" onclick="addRelatedPersonnels()">保存开发人员信息</button>
-                       
+
                         </div>
                         <div class="row col-md-10 table-fd">
                             <table class="table table hover  person-news table-striped table-bordered table-condensed">
@@ -85,7 +80,7 @@
                                 </thead>
                                 <tbody id="selectdeveloper">
                                     @*<tr>*@
-                                        @*<td>新技术研究中心</td>
+                                    @*<td>新技术研究中心</td>
                                         <td>张三</td>
                                         <td>男</td>
                                         <td>13312345678</td>
@@ -97,7 +92,7 @@
                         </div>
                     </div>
                     <button class="submit-news row col-md-2 btn btn-success" onclick="UpFile();">提交</button>
-                    
+
                 </div>
 
             </div>
@@ -151,8 +146,7 @@
                     </div>
                     <div class="form-group">
                         <label for="upload-name">上传人：</label>
-                        <select class="form-control" id="upload-name">
-                        </select>
+                        <select class="form-control" id="upload-name"></select>
                     </div>
                     <div class="form-group">
                         <label for="version-describe">版本描述：</label>
@@ -169,460 +163,468 @@
 </body>
 </html>
 
-    <script>
-        var array = new Array();
-        //查询所有人员信息
-        function Querykf() {
-            $.ajax({
-                type: "GET",
-                url: '/getkf',
-                data: {},
-                success: function (dataBack) {
-                    var str = '<option value="0">--请选择发布人-</option>';
-                    $(dataBack.data).each(function (index, item) {
-                        str += "<option value=" + item.Name + ">" + item.Name + "</option>";
-                    });
-                    $("#upload-name").html(str);
-                },
-                error: function (error) {
-                    alert(error.status + error.statusText)
-
-                }
-            });
-        }
-
-        //添加产品
-        function AddProdect() {
-            $.ajax({
-                type: "Post",
-                url: "/addproduct",
-                data: { ProductName: $("#product-name").val(), Description: $('#product-describe').val() },
-                success: function (dataBack) {
-                    alert(dataBack);
-                },
-                error: function (error) {
-                    alert(error.status + error.statusText)
-                }
-            });
-           // QueryProducts()
-
-        }
-
-        //查询所有文件
-        function QueryAllFiles(id) {
-            $.ajax({
-                type: "GET",
-                url: "/queryallfiles",
-                data: { id: id },
-                success: function (dataBack) {
-                    var str = '';
-                    $(dataBack.data).each(function (index, item) {
-                        str += '<li>名称：' + item.FileName + '上传时间:' + item.UploadTime + '</li>';
-                    });
-                    $("#upload-file-news").html(str);
-                },
-                error: function (error) {
-                    alert(error.status + error.statusText)
-                }
-            });
-        }
-
-        //添加相关人员表
-        function addRelatedPersonnels() {
-            deleteRelatedPersonnels();
-            var productID = $('#hid').text();
-            var versionID = $('#versionID').text();
-            var id = $('#selectdeveloper input[type="radio"]:checked').parent().siblings(":first").text()
-
-           
-            alert("负责人" + id);
-            alert("参与人员" + array)
-            $.ajax({
-                type: "POST",
-                url: '/addrp',
-                data: { id: id, idArray: array, productID: productID, versionID: versionID },
-                success: function (dataBack) {
-                   // alert(dataBack.message)
-
-                },
-                error: function (error) {
-                    alert(error.status + error.statusText)
-                }
-            });
-        }
-
-        //根据版本ID删除相关人员信息
-        function deleteRelatedPersonnels() {
-            var versionID = $('#versionID').text();
-            $.ajax({
-                type: "POST",
-                url: '/deleterelatedpersionnels',
-                data: { id: versionID },
-                success: function (dataBack) {
-
-                },
-                error: function (error) {
-                    alert(error.status + error.statusText)
-                }
-            });
-
-        }
-
-
-        //添加版本
-        function AddVersion() {
-            alert($('#hid').text());
-            $.ajax({
-                type: "post",
-                url: "/addversion",
-                data: { VersionNumber: $('#version-no').val(), ReleaseTime: $('#version-date').val(), Publisher: $('#upload-name').val(), ProductId: $('#hid').text(), Description: $('#version-describe').val() },
-                success: function (dataBack) {
-                    alert(dataBack)
-
-                },
-                error: function (error) {
-
-                    alert(error.status + error.statusText)
-                }
-            });
-            //QueryVersions($('#hid').text());
-        }
-        
-        //查询所有项目
-        function QueryProducts() {
-            $.ajax({
-                type: "GET",
-                url: '/queryproducts',
-                data: {},
-                success: function (dataBack) {
-                    var str = '';
-                    $(dataBack.data).each(function (index, item) {
-                        str += '<li onclick=GetID('+item.ID+');>'
-                        str += item.ProductName
-                        str += '<span class="hid" style="display:none">' + item.ID + '</span>';
-                        str += '<span class="glyphicon glyphicon-hand-right"></span>';
-                        str += '</li>'
-                    });
-                    $(".product").html(str);
-                    $(".product li").on('click', 'li', function (event) {
-                    });
-                    $(".product li").click(function (event) {
-                        $(".product").css({ 'background': 'rgba(0,0,0,0.8)', 'color': '#fff' });
-                        $(".product li").css({ 'background': '', 'color': '' });
-                        $(this).css({ 'background': '#fff', 'color': '#000' });
-                    });
-
-                   
-                },
-                error: function (error) {
-                    alert(error.status + error.statusText)
-
-                }
-            });
-
-        }
-        //按照产品ID获取版本
-        function QueryVersions(id) {
-            console.log("ID:"+id)
-            $.ajax({
-                type: "GET",
-                url: '/queryversions',
-                data: { ProductID: id },
-                success: function (dataBack) {
-                    var str = '';
-                    $(dataBack.data).each(function (index, item) {
-                        str += '<li onclick="GetVersionID(' + item.ID + ');">';
-                        str += '<span>'+"产品名：" + item.产品名 + '</span>';
-                        str += '<span>' + "版本号：" + item.版本号 + '</span>';
-                        str += '<span>' + "发布人：" + item.发布人 + '</span>';
-                        str += '<span>' + "发布时间" + item.发布时间 + '</span>';
-                        str += '<span class="hid" style="display:none">' + item.ID + '</span>';
-                        str += '<span class="glyphicon glyphicon-hand-down"></span>';
-                        str += '</li>';
-                    });
-                    $(".version").html(str);
-                    $(".version li").on('click', 'li', function (event) {
-                    });
-                    $(".version li").click(function (event) {
-                        $(".version").css({ 'background': '#fff', 'color': '#000' });
-                        $(".version li").css({ 'background': '', 'color': '' });
-                        $(this).css({ 'background': '#000', 'color': '#fff' });
-                    });
-                },
-                error: function (error) {
-                    alert(error.status + error.statusText)
-
-                }
-            });
-
-        }
-
-        //上传文件
-        function UpFile() {
-            alert($('#versionID').text());
-            var file = $('#upload-file').get(0).files[0];
-            var data = new FormData();
-            data.append(file.name, file);
-            data.append("VersionsID", $('#versionID').text());
-            $.ajax({
-                type: 'POST',
-                url: '/sendfile',
-                contentType: false,
-                processData: false,
-                data: data,
-                success: function (dataBack) {
-                    alert(dataBack.message);
-
-                },
-                error: function (error) {
-
-                    alert(error.status + error.statusText)
-                }
-            });
-
-        }
-
-        //点击项目查询所有版本
-        function GetID(elem) {
-            $('#hid').text(elem);
-            QueryVersions(elem);
-        }
-
-        //点击版本给隐藏的span赋值
-        function GetVersionID(e) {
-            $('#versionID').text(e);
-            QueryAllFiles(e);
-            QueryRelatedPersonnels();
-        }
-
-        $(document).ready(function () {
-            $('#version-date').datetimepicker({
-                timepicker: false,
-                format: 'Y-m-d',
-                lang: 'ch',
-                // 开始年份
-                yearStart: 1900,
-                // 不默认当前时间
-                validateOnBlur: false,
-                //阻止滚动鼠标滑轮滑动改变时间
-                scrollInput: false
-            });
-            QueryDepartments();
-            /*列表显示上传文件信息*/
-            var test = document.getElementById('upload-file');
-            test.addEventListener('change', function () {
-                var t_files = this.files;
-                var na=$("#td")
-                var str = '';
-                var myDate = new Date();
-                for (var i = 0, len = t_files.length; i < len; i++) {
-                    str += '<li>名称：' + t_files[i].name + '上传时间:' + myDate.toLocaleString() + '</li>';
-                };
-                document.getElementById('upload-file-news').innerHTML = str;
-            }, false);
-
-
-            //查询所有部门
-            function QueryDepartments() {
-                $.ajax({
-                    type: "GET",
-                    url: '/getdepartments',
-                    data: {},
-                    success: function (dataBack) {
-                        var str = '<option value="0">--请选择部门--</option>';
-                        $(dataBack.data).each(function (index, item) {
-                            str += "<option value=" + item.ID + ">" + item.DepartmentName + "</option>";
-                        });
-                        $("#department").html(str);
-                    },
-                    error: function (error) {
-                        alert(error.status + error.statusText)
-
-                    }
+<script>
+    var array = new Array();
+    
+    //查询所有人员信息
+    function Querykf() {
+        $.ajax({
+            type: "GET",
+            url: '/getkf',
+            data: {},
+            success: function (dataBack) {
+                var str = '<option value="0">--请选择发布人-</option>';
+                $(dataBack.data).each(function (index, item) {
+                    str += "<option value=" + item.UserName + ">" + item.UserName + "</option>";
                 });
+                $("#upload-name").html(str);
+            },
+            error: function (error) {
+                alert(error.status + error.statusText)
+
+            }
+        });
+    }
+
+    //添加产品
+    function AddProdect() {
+        $.ajax({
+            type: "Post",
+            url: "/addproduct",
+            data: { ProductName: $("#product-name").val(), Description: $('#product-describe').val() },
+            success: function (dataBack) {
+                QueryProducts();
+            },
+            error: function (error) {
+                alert(error.status + error.statusText)
             }
 
+        });
+        // QueryProducts()
 
-          
+    }
 
-            /*二级联动*/
-            // 创建一个二维数组
-            //var arr = new Array(2);
-            //arr[0] = ["新技术研究中心", "张三", "李四", "王五"];
-            //arr[1] = ["接口", "赵六", "钱七", "刘八"];
-            //$("#department").change(function (event) {
-            //    var val = $(this).val();
-            //    // 获取city的select
-            //    var person = document.getElementById("person");
-            //    // 获取option
-            //    var personOp = person.getElementsByTagName("option");
-            //    // 设置可操作
-            //    person.disabled = false;
-            //    // 先删除，后添加
-            //    for (var i = 0; i < personOp.length; i++) {
-            //        var op = personOp[i];
-            //        // 删除option
-            //        person.removeChild(op);
-            //        //数组长度发生变化，需处理
-            //        i--;
-            //    }
-            //    // 遍历
-            //    for (var i = 0; i < arr.length; i++) {
-            //        //取一维数组
-            //        var arr1 = arr[i];
-            //        //取一维数组的第一个值
-            //        var firstVal = arr1[0];
-            //        //判断
-            //        if (firstVal == val) {
-            //            //遍历
-            //            for (var j = 1; j < arr1.length; j++) {
-            //                // 获取城市名
-            //                var value = arr1[j];
-            //                // 创建option
-            //                var optionl = document.createElement("option");
-            //                // 创建文本
-            //                var textl = document.createTextNode(value);
-            //                // 把文本添加到标签
-            //                optionl.appendChild(textl);
-            //                //添加到city里面
-            //                person.appendChild(optionl);
-            //            }
-            //        }
-            //    }
-            //});
-            /*弹出产品模态层*/
-            $(".add-product").click(function (event) {
-                $('#prductModal').modal('show');
-            });
-            /*关闭产品模态层*/
-            $("#close-product").click(function (event) {
-                $('#prductModal').modal('hide');
-              
-                AddProdect();
-                QueryProducts();
-            });
-            /*弹出产品模态层*/
-            $(".add-version").click(function (event) {
-                $('#versionModal').modal('show');
-            });
-            /*关闭产品模态层*/
-            $("#close-version").click(function (event) {
-                $('#versionModal').modal('hide');
-                AddVersion();
-                QueryVersions($("#hid").text());
+    //查询所有文件
+    function QueryAllFiles(id) {
+        $.ajax({
+            type: "GET",
+            url: "/queryallfiles",
+            data: { id: id },
+            success: function (dataBack) {
+                var str = '';
+                $(dataBack.data).each(function (index, item) {
+                    str += '<li>名称：' + item.FileName + '上传时间:' + item.UploadTime + '</li>';
+                });
+                $("#upload-file-news").html(str);
+            },
+            error: function (error) {
+                alert(error.status + error.statusText)
+            }
+        });
+    }
 
-            });
-            QueryProducts();
-            Querykf();
+    //添加相关人员表
+    function addRelatedPersonnels() {
+        deleteRelatedPersonnels();
+        var productID = $('#hid').text();
+        var versionID = $('#versionID').text();
+        var id = $('#selectdeveloper input[type="radio"]:checked').parent().siblings(":first").text()
+
+
+        alert("负责人" + id);
+        alert("参与人员" + array)
+        $.ajax({
+            type: "POST",
+            url: '/addrp',
+            data: { id: id, idArray: array, productID: productID, versionID: versionID },
+            success: function (dataBack) {
+                // alert(dataBack.message)
+
+            },
+            error: function (error) {
+                alert(error.status + error.statusText)
+            }
+        });
+    }
+
+
+    //根据版本ID删除相关人员信息
+    function deleteRelatedPersonnels() {
+        var versionID = $('#versionID').text();
+        $.ajax({
+            type: "POST",
+            url: '/deleterelatedpersionnels',
+            data: { id: versionID },
+            success: function (dataBack) {
+
+            },
+            error: function (error) {
+                alert(error.status + error.statusText)
+            }
         });
 
-        //根据部门ID查询成员信息
-        function QueryDevelopers(id) {
-           
-            $.ajax({
-                type: "GET",
-                url: '/getdevelopers',
-                data: { departmentID: id },
-                success: function (dataBack) {
-                    var str = '<option value="0">--请选择开发人员--</option>';
-                    $(dataBack.data).each(function (index, item) {
-                        str += "<option value=" + item.ID + ">" + item.Name + "</option>";
-                    });
-                    $("#person").html(str);
-                },
-                error: function (error) {
-                    alert(error.status + error.statusText)
-                }
-            });
-        }
+    }
 
-        //根据人员ID删除相关人员
-        function deleteRp(id) {
+
+    //添加版本
+    function AddVersion() {
+        $("#upload-name").find("option:selected").val()
+        alert($("#upload-name").find("option:selected").val());
+        $.ajax({
+            type: "post",
+            url: "/addversion",
+            data: { VersionNumber: $('#version-no').val(), ReleaseTime: $('#version-date').val(), Publisher: $('#upload-name').val(), ProductId: $('#hid').text(), Description: $('#version-describe').val() },
+            success: function (dataBack) {
+                QueryVersions($('#hid').text());
+
+            },
+            error: function (error) {
+
+                alert(error.status + error.statusText)
+            }
+        });
+        
+    }
+
+    //查询所有项目
+    function QueryProducts() {
+        $.ajax({
+            type: "GET",
+            url: '/queryproducts',
+            data: {},
+            success: function (dataBack) {
+                var str = '';
+                $(dataBack.data).each(function (index, item) {
+                    str += '<li onclick=GetID(' + item.ID + ');>'
+                    str += item.ProductName
+                    str += '<span class="hid" style="display:none">' + item.ID + '</span>';
+                    str += '<span class="glyphicon glyphicon-hand-right"></span>';
+                    str += '</li>'
+                });
+                $(".product").html(str);
+                $(".product li").on('click', 'li', function (event) {
+                });
+                $(".product li").click(function (event) {
+                    $(".product").css({ 'background': 'rgba(0,0,0,0.8)', 'color': '#fff' });
+                    $(".product li").css({ 'background': '', 'color': '' });
+                    $(this).css({ 'background': '#fff', 'color': '#000' });
+                    
+                });
+
+
+            },
+            error: function (error) {
+                alert(error.status + error.statusText)
+
+            }
+        });
+
+    }
+    //按照产品ID获取版本
+    function QueryVersions(id) {
+        console.log("ID:" + id)
+        $.ajax({
+            type: "GET",
+            url: '/queryversions',
+            data: { ProductID: id },
+            success: function (dataBack) {
+                var str = '';
+                $(dataBack.data).each(function (index, item) {
+                    str += '<li onclick="GetVersionID(' + item.ID + ');">';
+                    str += '<span>' + "产品名：" + item.产品名 + '</span>';
+                    str += '<span>' + "版本号：" + item.版本号 + '</span>';
+                    str += '<span>' + "发布人：" + item.发布人 + '</span>';
+                    str += '<span>' + "发布时间" + item.发布时间 + '</span>';
+                    str += '<span class="hid" style="display:none">' + item.ID + '</span>';
+                    str += '<span class="glyphicon glyphicon-hand-down"></span>';
+                    str += '</li>';
+                });
+                $(".version").html(str);
+                $(".version li").on('click', 'li', function (event) {
+                });
+                $(".version li").click(function (event) {
+                    $(".version").css({ 'background': '#fff', 'color': '#000' });
+                    $(".version li").css({ 'background': '', 'color': '' });
+                    $(this).css({ 'background': '#000', 'color': '#fff' });
+                });
+            },
+            error: function (error) {
+                alert(error.status + error.statusText)
+
+            }
+        });
+
+    }
+
+    //上传文件
+    function UpFile() {
+        alert($('#versionID').text());
+        var file = $('#upload-file').get(0).files[0];
+        var data = new FormData();
+        data.append(file.name, file);
+        data.append("VersionsID", $('#versionID').text());
+        $.ajax({
+            type: 'POST',
+            url: '/sendfile',
+            contentType: false,
+            processData: false,
+            data: data,
+            success: function (dataBack) {
+                alert(dataBack.message);
+
+            },
+            error: function (error) {
+
+                alert(error.status + error.statusText)
+            }
+        });
+
+    }
+
+    //点击项目查询所有版本
+    function GetID(elem) {
+        $('#hid').text(elem);
+        QueryVersions(elem);
+        QueryAllFiles('');
+        $("#selectdeveloper").html('');
+    }
+
+    //点击版本给隐藏的span赋值
+    function GetVersionID(e) {
+        $('#versionID').text(e);
+        QueryAllFiles(e);
+        QueryRelatedPersonnels();
+    }
+
+    $(document).ready(function () {
+        $('#version-date').datetimepicker({
+            timepicker: false,
+            format: 'Y-m-d',
+            lang: 'ch',
+            // 开始年份
+            yearStart: 1900,
+            // 不默认当前时间
+            validateOnBlur: false,
+            //阻止滚动鼠标滑轮滑动改变时间
+            scrollInput: false
+        });
+        QueryDepartments();
+        /*列表显示上传文件信息*/
+        var test = document.getElementById('upload-file');
+        test.addEventListener('change', function () {
+            var t_files = this.files;
+            var na = $("#td")
+            var str = '';
+            var myDate = new Date();
+            for (var i = 0, len = t_files.length; i < len; i++) {
+                str += '<li>名称：' + t_files[i].name + '上传时间:' + myDate.toLocaleString() + '</li>';
+            };
+            document.getElementById('upload-file-news').innerHTML = str;
+        }, false);
+
+
+        //查询所有部门
+        function QueryDepartments() {
             $.ajax({
                 type: "POST",
-                url: "/deleterp",
-                data:{id: id },
+                url: '/selectdepartments',
+                data: {},
                 success: function (dataBack) {
-
+                    var str = '<option value="0">--请选择部门--</option>';
+                    $(dataBack.data).each(function (index, item) {
+                        str += "<option value=" + item.ID + ">" + item.DepartmentName + "</option>";
+                    });
+                    $("#department").html(str);
                 },
                 error: function (error) {
                     alert(error.status + error.statusText)
 
                 }
             });
-            QueryRelatedPersonnels();
         }
 
 
-        //根据版本ID查询所有相关人员
-        function QueryRelatedPersonnels() {
-            var versionID = $('#versionID').text();
-            $.ajax({
-                type: "GET",
-                url: "/queryrelatedpersonnel",
-                data: { id: versionID },
-                success: function (dataBack) {
-                    var str = '';
-                    $(dataBack.data).each(function (index, item) {
-                        str += '<tr>';
-                        str += '<td class="">' + item.id + '</td>';
-                        str += '<td>' + item.DepartmentName + '</td>';
-                        str += '<td>' + item.Name + '</td > ';
-                        str += '<td>' + (item.Sex == false ? "男" : "女") + '</td>';
-                        str += '<td>' + item.Phone + '</td>';
-                        str += '<td>' + item.QQ + '</td>';
-                        str += '<td>' + item.Email + '</td>';
-                        if (item.Personneltype == "管理员") {
-                            str += '<td><input type = "radio" checked  name="permission"></td>';
-                        } else {
-                            str += '<td><input type = "radio"  name="permission"></td>';
-                        }
-                        str += '<td><button class="btn btn-sm btn-warning" onclick=deleteRp(' + item.id + ')>移除</td>';
-                        str += '</tr>';
-                    });
-                    $("#selectdeveloper").html(str);
-                },
-                error: function (error) {
-                    alert(error.status + error.statusText);
-                }
-            })
 
-        }
+        //#region 注释
+        /*二级联动*/
+        // 创建一个二维数组
+        //var arr = new Array(2);
+        //arr[0] = ["新技术研究中心", "张三", "李四", "王五"];
+        //arr[1] = ["接口", "赵六", "钱七", "刘八"];
+        //$("#department").change(function (event) {
+        //    var val = $(this).val();
+        //    // 获取city的select
+        //    var person = document.getElementById("person");
+        //    // 获取option
+        //    var personOp = person.getElementsByTagName("option");
+        //    // 设置可操作
+        //    person.disabled = false;
+        //    // 先删除，后添加
+        //    for (var i = 0; i < personOp.length; i++) {
+        //        var op = personOp[i];
+        //        // 删除option
+        //        person.removeChild(op);
+        //        //数组长度发生变化，需处理
+        //        i--;
+        //    }
+        //    // 遍历
+        //    for (var i = 0; i < arr.length; i++) {
+        //        //取一维数组
+        //        var arr1 = arr[i];
+        //        //取一维数组的第一个值
+        //        var firstVal = arr1[0];
+        //        //判断
+        //        if (firstVal == val) {
+        //            //遍历
+        //            for (var j = 1; j < arr1.length; j++) {
+        //                // 获取城市名
+        //                var value = arr1[j];
+        //                // 创建option
+        //                var optionl = document.createElement("option");
+        //                // 创建文本
+        //                var textl = document.createTextNode(value);
+        //                // 把文本添加到标签
+        //                optionl.appendChild(textl);
+        //                //添加到city里面
+        //                person.appendChild(optionl);
+        //            }
+        //        }
+        //    }
+        //});
+        //#endregion
+        /*弹出产品模态层*/
+        $(".add-product").click(function (event) {
+            $('#prductModal').modal('show');
+        });
+        /*关闭产品模态层*/
+        $("#close-product").click(function (event) {
+            $('#prductModal').modal('hide');
 
-        var arrayUser = new Array();
-        //根据ID查询成员信息
-        function QueryDeveloper(id) {
+            AddProdect();
+            QueryProducts();
+        });
+        /*弹出产品模态层*/
+        $(".add-version").click(function (event) {
+            $('#versionModal').modal('show');
+        });
+        /*关闭产品模态层*/
+        $("#close-version").click(function (event) {
+            $('#versionModal').modal('hide');
+            AddVersion();
+            QueryVersions($("#hid").text());
 
-            array.push(id)
-            $.ajax({
-                type: "GET",
-                url: "/getDeveloper",
-                data: { Id: id },
-                success: function (dataBack) {
-                    var str = '';
-                    $(dataBack.data).each(function (index, item) {
-                        arrayUser.push(item.ID);
-                        str += '<tr>';
-                        str += '<td class="">' + item.ID + '</td>';
-                        str += '<td>' + item.DepartmentName + '</td>';
-                        str += '<td>' + item.Name + '</td > ';
-                        str += '<td>' + (item.Sex == false ? "男" : "女") + '</td>';
-                        str += '<td>' + item.Phone + '</td>';
-                        str += '<td>' + item.qq + '</td>';
-                        str += '<td>' + item.Email + '</td>';
-                        str += '<td><input type = "radio" name="permission"></td>';
-                        str += '<td><button class="btn btn-sm btn-warning" onclick="$(this).parent().parent().remove()">移除</td>';
-                        str += '</tr>';
-                    });
-                    $("#selectdeveloper").append(str);
-                },
-                error: function (error) {
-                    alert(error.status + error.statusText)
-                }
-            });
+        });
+        QueryProducts();
+        Querykf();
+    });
 
-        }
-        
+    //根据部门ID查询成员信息
+    function QueryDevelopers(id) {
+
+        $.ajax({
+            type: "GET",
+            url: '/getdevelopers',
+            data: { departmentID: id },
+            success: function (dataBack) {
+                var str = '<option value="0">--请选择开发人员--</option>';
+                $(dataBack.data).each(function (index, item) {
+                    str += "<option value=" + item.ID + ">" + item.Name + "</option>";
+                });
+                $("#person").html(str);
+            },
+            error: function (error) {
+                alert(error.status + error.statusText)
+            }
+        });
+    }
+
+    //根据人员ID删除相关人员
+    function deleteRp(id) {
+        $.ajax({
+            type: "POST",
+            url: "/deleterp",
+            data: { id: id },
+            success: function (dataBack) {
+                array.splice(id);
+            },
+            error: function (error) {
+                alert(error.status + error.statusText)
+
+            }
+        });
+        QueryRelatedPersonnels();
+    }
+
+
+    //根据版本ID查询所有相关人员
+    function QueryRelatedPersonnels() {
+        var versionID = $('#versionID').text();
+        $.ajax({
+            type: "GET",
+            url: "/queryrelatedpersonnel",
+            data: { id: versionID },
+            success: function (dataBack) {
+                var str = '';
+                $(dataBack.data).each(function (index, item) {
+                    str += '<tr>';
+                    str += '<td class="">' + item.id + '</td>';
+                    str += '<td>' + item.DepartmentName + '</td>';
+                    str += '<td>' + item.Name + '</td > ';
+                    str += '<td>' + (item.Sex == false ? "男" : "女") + '</td>';
+                    str += '<td>' + item.Phone + '</td>';
+                    str += '<td>' + item.QQ + '</td>';
+                    str += '<td>' + item.Email + '</td>';
+                    if (item.Personneltype == "管理员") {
+                        str += '<td><input type = "radio" checked  name="permission"></td>';
+                    } else {
+                        str += '<td><input type = "radio"  name="permission"></td>';
+                    }
+                    str += '<td><button class="btn btn-sm btn-warning" onclick=deleteRp(' + item.id + ')>移除</td>';
+                    str += '</tr>';
+                });
+                $("#selectdeveloper").html(str);
+            },
+            error: function (error) {
+                alert(error.status + error.statusText);
+            }
+        })
+
+    }
+
+    var arrayUser = new Array();
+    //根据ID查询成员信息
+    function QueryDeveloper(id) {
+
+        array.push(id)
+        $.ajax({
+            type: "GET",
+            url: "/getDeveloper",
+            data: { Id: id },
+            success: function (dataBack) {
+                var str = '';
+                $(dataBack.data).each(function (index, item) {
+                    arrayUser.push(item.ID);
+                    str += '<tr>';
+                    str += '<td class="">' + item.ID + '</td>';
+                    str += '<td>' + item.DepartmentName + '</td>';
+                    str += '<td>' + item.Name + '</td > ';
+                    str += '<td>' + (item.Sex == false ? "男" : "女") + '</td>';
+                    str += '<td>' + item.Phone + '</td>';
+                    str += '<td>' + item.qq + '</td>';
+                    str += '<td>' + item.Email + '</td>';
+                    str += '<td><input type = "radio" name="permission"></td>';
+                    str += '<td><button class="btn btn-sm btn-warning" onclick="$(this).parent().parent().remove()">移除</td>';
+                    str += '</tr>';
+                });
+                $("#selectdeveloper").append(str);
+            },
+            error: function (error) {
+                alert(error.status + error.statusText)
+            }
+        });
+
+    }
+
         //$(".product li").on('click', 'li', function (event) {
         //});
         //$(".product li").click(function (event) {
@@ -631,4 +633,4 @@
         //});
 
 
-    </script>
+</script>

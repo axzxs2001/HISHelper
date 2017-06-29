@@ -3,342 +3,987 @@
 }
 
 @section css{
-<link href="~/css/informationMaintenance.css" rel="stylesheet" />
+    <link href="~/css/informationMaintenance.css" rel="stylesheet" />
 }
 <body>
-	<div class="container">
-		<div>
-			<!-- Nav tabs -->
-			<ul class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="active">
-					<a href="#user" aria-controls="user" role="tab" data-toggle="tab">用户维护</a>
-				</li>
-				<li role="presentation">
-					<a href="#developer" aria-controls="developer" role="tab" data-toggle="tab">开发人员维护</a>
-				</li>
-				<li role="presentation">
-					<a href="#department" aria-controls="department" role="tab" data-toggle="tab">部门维护</a>
-				</li>
-			</ul>
+    <div class="container">
+        <div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" id="tabuser" class="active">
+                    <a href="#user" aria-controls="user" role="tab" data-toggle="tab">用户维护</a>
+                </li>
+                <li role="presentation" id="tabdeveloper">
+                    <a href="#developer" aria-controls="developer" role="tab" data-toggle="tab">开发人员维护</a>
+                </li>
+                <li role="presentation" id="tabdepartment" >
+                    <a href="#department" aria-controls="department" role="tab" data-toggle="tab">部门维护</a>
+                </li>
+            </ul>
 
-			<!-- Tab panes -->
-			<div class="tab-content">
-				<div role="tabpanel" class="tab-pane active" id="user">
-					<h3>添加新用户：</h3>
-					<form class="form-inline">
-						<div class="form-group col-md-4">
-							<label for="user-name">用户名：</label>
-							<input type="text" class="form-control" id="user-name" placeholder="此处输入用户名"></div>
-						<div class="form-group col-md-3">
-							<label for="user-password">密&nbsp;&nbsp;&nbsp;码:</label>
-							<input type="password" class="form-control" id="user-password" placeholder="此处输入密码">
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="user">
+                    <h3>添加新用户：</h3>
+                    <form class="form-inline" id="addusers">
+                        <div class="form-group col-md-4">
+                            <label for="user-name">用户名：</label>
+                            <input type="text" class="form-control" id="user-name" v-model="username" placeholder="此处输入用户名">
                         </div>
-						<label class="radio-inline">
-							<input type="radio" name="eng" id="implementation-eng" value="1" checked>实施工程师</label>
-						<label class="radio-inline">
-							<input type="radio" name="eng" id="developer-eng" value="2">开发工程师</label>
-						<button type="button" onclick="AddUser()" class="btn btn-info col-md-offset-2">添&nbsp;&nbsp;&nbsp;加</button>
-					</form>
-					<h3>用户列表：</h3>
-					<div class="user-list">
-						<table class="table table-striped table-bordered table-hover table-condensed">
-							<thead>
-								<tr class= "info">
-									<th>用户名</th>
-									<th>密码</th>
-									<th>角色</th>
-									<th>操作</th>
-								</tr>
-							</thead>
-							<tbody id="usersinfo">
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td><div class="row">
-										<button class="col-md-4 col-md-offset-1 btn btn-sm btn-warning">修改</button>
-										<button class="col-md-4 col-md-offset-2 btn btn-sm btn-danger">删除</button>
-									</div></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div role="tabpanel" class="tab-pane" id="developer">
-					<h3>添加新开发人员：</h3>
-					<form class="form-inline">
-						<div class="form-group col-md-2">
-							<label for="department-person-name">部门：</label>
-							<select class="form-control" id="department-person-name">
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
-							</select>
-						</div>
-						<div class="form-group col-md-3">
-							<label for="developer-name">姓名：</label>
-							<input type="text" class="form-control" id="developer-name" placeholder="此处输入开发人员姓名">
-						</div>
-						<div class="form-group col-md-3">
-							<label for="developer-QQ">QQ：</label>
-							<input type="text" class="form-control" id="developer-QQ" placeholder="此处输入开发人员QQ">
-						</div>
-						<div class="form-group col-md-3">
-							<label for="developer-phone">电话：</label>
-							<input type="text" class="form-control" id="developer-phone" placeholder="此处输入开发人员电话">
-						</div>
-						<div class="sex form-group col-md-2 developer-news" id="sex">
-							<label>性别：</label>
-							<label class="radio-inline">
-							<input type="radio" name="sex" id="man" value="0" checked>男</label>
-						<label class="radio-inline">
-							<input type="radio" name="sex" id="woman" value="1">女</label>
-						</div>
-						<div class="form-group col-md-3 developer-news">
-							<label for="developer-Email">邮箱：</label>
-							<input type="text" class="form-control" id="developer-Email" placeholder="此处输入开发人员邮箱">
-						</div>
+                        <div class="form-group col-md-3">
+                            <label for="user-password">密&nbsp;&nbsp;&nbsp;码:</label>
+                            <input type="password" class="form-control" id="user-password" v-model="userpassword" placeholder="此处输入密码">
+                        </div>
+                        <label class="radio-inline">
+                            <input type="radio" name="eng" id="implementation-eng" value="1" checked>实施工程师
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="eng" id="developer-eng" value="2">开发工程师
+                        </label>
+                        <button type="button" class="btn btn-info col-md-offset-2" v-on:click="savaUser">添&nbsp;&nbsp;&nbsp;加</button>
+                    </form>
+                    <h3>用户列表：</h3>
+                    <div class="user-list" id="user-div">
+                        <table class="table table-striped table-bordered table-hover table-condensed">
+                            <thead>
+                                <tr class="info">
+                                    <th>序号</th>
+                                    <th>用户名</th>
+                                    <th>密码</th>
+                                    <th>角色</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersinfo">
+                                <tr is="user-row" v-for="user in users" v-bind:user="user"></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--修改用户的模态层-->
+                <div class="modal fade" id="ModiyUsers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+                                <h4 class="modal-title" id="modeltitle">修改用户信息</h4>
+                            </div>
+                            <div class="modal-body" id="modeluserbody">
+                                <div class="row" style="margin-top:10px;">
+
+                                    <div class="col-md-3">
+                                        <label>用户名：</label>
+                                        <input type="text" class="form-control" id="username" name="username" v-model="userMenu.username" placeholder="用户名">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>密码：</label>
+                                        <input type="text" class="form-control" id="password" name="password" v-model="userMenu.password" placeholder="密码">
+                                    </div>
+                                    <div class="mtceng form-group col-md-6 developer-news" id="mtceng">
+                                        <label>权限选择：</label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="mtceng" id="implementation-mtceng" value="1" checked>实施工程师
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="mtceng" id="developer-mtceng" value="2">开发工程师
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-success" onclick="savaUserModify()">
+                                    保存
+                                </button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="developer">
+                    <h3>添加新开发人员：</h3>
+                    <form class="form-inline" id="adddevelopers">
+                        <div class="form-group col-md-3">
+                            <label for="department-developer-name">部门：</label>
+                            <select class="form-control" id="department-developer-name">
+                                <option value="0">--请选择部门--</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="developer-name">姓名：</label>
+                            <input type="text" class="form-control" id="developer-name" v-model="name" placeholder="此处输入开发人员姓名">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="developer-QQ">QQ：</label>
+                            <input type="text" class="form-control" id="developer-QQ" v-model="qq" placeholder="此处输入开发人员QQ">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="developer-phone">电话：</label>
+                            <input type="text" class="form-control" id="developer-phone" v-model="phone" placeholder="此处输入开发人员电话">
+                        </div>
+                        <div class="sex form-group col-md-3 developer-news" id="sex">
+                            <label>性别：</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="sex" id="nanman" value="0" checked>男
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="sex" id="nvwoman" value="1">女
+                            </label>
+                        </div>
+                        <div class="form-group col-md-3 developer-news">
+                            <label for="developer-Email">邮箱：</label>
+                            <input type="text" class="form-control" id="developer-Email" v-model="email" placeholder="此处输入开发人员邮箱">
+                        </div>
                         <div class="form-group col-md-3 developer-news">
                             <label for="developer-note ">备注：</label>
-                            <input type="text" class="form-control" id="developer-note" placeholder="此处输入备注">
+                            <input type="text" class="form-control" id="developer-note" v-model="remarks" placeholder="此处输入备注">
                         </div>
-						<button type="button" onclick="AddDevelopers()" class="btn btn-info col-md-offset-2 developer-news">添&nbsp;&nbsp;&nbsp;加</button>
-					</form>
-					<h3>开发人员列表：</h3>
-					<div class="developer-list">
-						<table class="table table-striped table-bordered table-hover table-condensed">
-							<thead>
-								<tr class= "info">
-									<th>部门</th>
-									<th>姓名</th>
-									<th>性别</th>
-									<th>电话</th>
-									<th>QQ</th>
-									<th>邮箱</th>
+                        <button type="button" class="btn btn-info col-md-offset-2 developer-news" v-on:click="savaDeveloper">添&nbsp;&nbsp;&nbsp;加</button>
+                    </form>
+                    <h3>开发人员列表：</h3>
+                    <div class="developer-list" id="developer-div">
+                        <table class="table table-striped table-bordered table-hover table-condensed">
+                            <thead>
+                                <tr class="info">
+                                    <th>序号</th>
+                                    <th>部门</th>
+                                    <th>姓名</th>
+                                    <th>性别</th>
+                                    <th>电话</th>
+                                    <th>QQ</th>
+                                    <th>邮箱</th>
                                     <th>备注</th>
-									<th>操作</th>
-								</tr>
-							</thead>
-							<tbody id="developersinfo">
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-                                    <td></td>
-									<td>
-                                    <div class="row">
-										<button class="col-md-4 col-md-offset-1 btn btn-sm btn-warning">修改</button>
-										<button class="col-md-4 col-md-offset-2 btn btn-sm btn-danger">删除</button>
-									</div>
-                                    </td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div role="tabpanel" class="tab-pane" id="department">
-					<h3>添加新部门：</h3>
-					<form class="form-horizontal">
-						<div class="form-group">
-							<label for="department-name" class="col-md-2 control-label">部门名称：</label>
-							<div class="col-md-7">
-								<input type="text" class="form-control" id="department-name" placeholder="此处输入部门名称">
-							</div>
-							<button type="button" onclick="AddDepartment();" class="btn btn-info col-md-offset-2">添&nbsp;&nbsp;&nbsp;加</button>
-						</div>
-					</form>
-					<h3>部门列表：</h3>
-					<div class="department-list">
-						<table class="table table-striped table-bordered table-hover table-condensed">
-							<thead>
-								<tr class= "info">
-									<th>部门名称</th>
-									<th>操作</th>
-								</tr>
-							</thead>
-							<tbody id="departmentinfo">
-								<tr>
-									<td></td>
-									<td><div class="row">
-										<button class="col-md-4 col-md-offset-1 btn btn-sm btn-warning">修改</button>
-										<button class="col-md-4 col-md-offset-2 btn btn-sm btn-danger">删除</button>
-									</div></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</body>
-@section Scripts{
-<script>
-    $(function () {
-        GetUsers();
-        GetDevelopers();
-        GetDapertments();
-    })
-    //添加部门
-    function AddDepartment() {
-        $.ajax({
-            type: "POST",
-            url: '/adddepartment',
-            data: { DepartmentName: $('#department-name').val() },
-            success: function (dataBack) {
-                alert(dataBack.message)
-            },
-            error: function (error) {
-                alert(error.status + error.statusText);
-            }
-        });
-    }
-    //添加开发人员
-    function AddDevelopers() {
-       // alert($('#sex input[type="radio"]:checked').val())
-        $.ajax({
-            type: 'POST',
-            url: '/adddevelopers',
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="developersinfo">
+                                <tr is="developer-row" v-for="developer in developers" v-bind:developer="developer"></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--开发人员模态层-->
+                <div class="modal fade" id="Modiydevelopers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
 
-            data: {
-                DepartmentId: $('#department-person-name').val(),
-                Name: $('#developer-name').val(),
-                Qq: $('#developer-QQ').val(),
-                Email: $('#developer-Email').val(),
-                Phone: $('#developer-phone').val(),
-                Remarks: $('#developer-note').val(),
-                Sex: $('#sex input[type="radio"]:checked').val()
-            },
-            success: function (dataBack) {
-                alert(dataBack.message);
-            },
-            error: function (error) {
-                alert(error.status + statusText);
-            }
-        });
-    }
-    //添加用户
-    function AddUser() {
-        $.ajax({
-            type: "POST",
-            url: "/adduser",
-            data: {
-                UserName: $('#user-name').val(),
-                PassWord: $("#user-password").val(),
-                Character: $('#user input[type="radio"]:checked').val()
-            },
-            success: function (dataBack) {
-                alert(dataBack.message);
-            },
-            error: function () {
-                alert(error.status + statusText);
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+                                <h4 class="modal-title" id="modeltitle">修改用户信息</h4>
+                            </div>
+                            <div class="modal-body" id="modelDeveloperbody">
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group col-md-4">
+                                        <label for="department-person-name">部门：</label>
+                                        <select class="form-control" id="department-person-name" v-model="developerMenu.departmentname">
+                                            <option v-model="developerMenu.departmentname">--请选择部门--</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>名称：</label>
+                                        <input type="text" class="form-control" id="name" name="name" v-model="developerMenu.name" placeholder="用户名">
+                                    </div>
+                                    <div class="sex2 form-group col-md-3 developer-news" id="sex2">
+                                        <label>性别：</label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="sex2" id="man" value="0" >男
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="sex2" id="woman" value="1">女
+                                        </label>
+                                        
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>QQ：</label>
+                                        <input type="text" class="form-control" id="qq" name="qq" v-model="developerMenu.qq" placeholder="QQ">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Email：</label>
+                                        <input type="text" class="form-control" id="email" name="email" v-model="developerMenu.email" placeholder="email">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>联系方式：</label>
+                                        <input type="text" class="form-control" id="phone" name="phone" v-model="developerMenu.phone" placeholder="phone">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>备注：</label>
+                                        <input type="text" class="form-control" id="remarks" name="remarks" v-model="developerMenu.remarks" placeholder="remarks">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-success" onclick="savaDeveloperModify()">
+                                    保存
+                                </button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 部门DIV -->
+                <div role="tabpanel" class="tab-pane" id="department">
+                    <h3>添加新部门：</h3>
+                    <form class="form-horizontal">
+                        <div class="form-group" id="addmenu">
+                            <label for="department-name" class="col-md-2 control-label">部门名称：</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" id="department-name" v-model="menuName" placeholder="此处输入部门名称">
+                            </div>
+                            <button type="button" class="btn btn-info col-md-offset-2" v-on:click="savaMenu">添&nbsp;&nbsp;&nbsp;加</button>
+                        </div>
+                    </form>
+                    <h3>部门列表：</h3>
+                    <div class="department-list" id="menu-div">
+                        <table class="table table-striped table-bordered table-hover table-condensed">
+                            <thead>
+                                <tr class="info">
+                                    <th>序号</th>
+                                    <th>部门名称</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="departmentinfo">
+                                <tr is="menu-row" v-for="menu in menus" v-bind:menu="menu"></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--修改部门的模态层-->
+    <div class="modal fade" id="ModiyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+                    <h4 class="modal-title" id="modeltitle">修改菜单</h4>
+                </div>
+                <div class="modal-body" id="modelbody">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-6">
+                            <label>序号：</label>
+                            <input type="text" readonly class="form-control" id="oldid" v-model="oldMenu.id" name="oldid" placeholder="编号">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>部门：</label>
+                            <input type="text" class="form-control" id="oldname" name="oldname" v-model="oldMenu.departmentname" placeholder="部门名称">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" onclick="savaModify()">
+                        保存
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+@section Scripts{
+
+    <script src="~/lib/vue/dist/vue.js"></script>
+    <script src="~/layer/layer.js"></script>
+    <script type="text/x-template" id="menu-row-template">
+        <tr v-bind:id="'tr_'+menu.id">
+            <td>{{menu.id}}</td>
+            <td>{{menu.departmentname}}</td>
+            <td>
+                <button class="btn btn-xs btn-primary" style="margin-bottom:-5px;margin-top:-5px;" data-toggle="modal" data-target="#ModiyModal" v-on:click="modifyMenu()">
+                    修改
+                </button>
+                <button class="btn btn-xs btn-danger" style="margin-bottom:-5px;margin-top:-5px;" v-on:click="deleteMenu()">
+                    删除
+                </button>
+            </td>
+        </tr>
+    </script>
+    <script type="text/x-template" id="user-row-template">
+        <tr v-bind:id="'tr_'+user.id">
+            <td>{{user.id}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.password}}</td>
+            <td>{{user.character}}</td>
+            <td>
+                <button class="btn btn-xs btn-primary" style="margin-bottom:-5px;margin-top:-5px;" data-toggle="modal" data-target="#ModiyUsers" v-on:click="modifyUser()">
+                    修改
+                </button>
+                <button class="btn btn-xs btn-danger" style="margin-bottom:-5px;margin-top:-5px;" v-on:click="deleteUser()">
+                    删除
+                </button>
+            </td>
+        </tr>
+    </script>
+    <script type="text/x-template" id="developer-row-template">
+        <tr v-bind:id="'tr_'+developer.id">
+            <td>{{developer.id}}</td>
+            <td>{{developer.departmentname}}</td>
+            <td>{{developer.name}}</td>
+            <td>{{developer.sex==false?"男":"女"}}</td>
+            <td>{{developer.phone}}</td>
+            <td>{{developer.qq}}</td>
+            <td>{{developer.email}}</td>
+            <td>{{developer.remarks}}</td>
+            <td>
+                <button class="btn btn-xs btn-primary" style="margin-bottom:-5px;margin-top:-5px;" data-toggle="modal" data-target="#Modiydevelopers" v-on:click="modifyDeveloper()">
+                    修改
+                </button>
+                <button class="btn btn-xs btn-danger" style="margin-bottom:-5px;margin-top:-5px;" v-on:click="deleteDeveloper()">
+                    删除
+                </button>
+            </td>
+        </tr>
+    </script>
+    <script>
+        //#region  部门增删改查
+        //部门表格行组件
+        Vue.component("menu-row", {
+            props: ["menu"],
+            template: '#menu-row-template',
+            methods: {
+                modifyMenu: function () {
+                    showModifyMenu(this.menu)
+                },
+                deleteMenu: function () {
+                    deleteMenu(this.menu.id);
+                }
             }
         })
-    }
-    //获取所有用户
-    function GetUsers() {
-        var str = '';
-        $.ajax({
-            type: 'GET',
-            url: '/getusers',
-            data: {},
-            success: function (dataBack) {
-               
-                $(dataBack.data).each(function (index, item) {
-                    str += '<tr>';
-                    str+='<td style="display:none">'+item.id+'</td>'
-                    str += '<td>' + item.UserName + '</td>';
-                    str += '<td>' + item.PassWord + '</td>';
-                    str += '<td>' + item.Character + '</td>';
-                    str += '<td>';
-                    str += '<div class="row">';
-                    str += '<button class="col-md-4 col-md-offset-1 btn btn-sm btn-warning"> 修改</button>';
-                    str += '<button class="col-md-4 col-md-offset-2 btn btn-sm btn-danger">删除</button>';
-                    str += '</div>';
-                    str += '</td>';
-                    str += '</tr>';
-                 });
-                $('#usersinfo').html(str);
-            }
-        });
+        //查询全部部门
 
-    }
-    //获取所有开发人员
-    function GetDevelopers() {
-        var str = '';
-        $.ajax({
-            type: "GET",
-            url: 'getdevelopers',
-            data: {},
-            success: function (dataBack) {
-                alert(dataBack.data)
-                $(dataBack.data).each(function (index, item) {
-                    alert(item.Remarks)
+            $.get('/getdepartments', {
+            }, function (dataBack) {
+                if (dataBack.result == 1) {
+                    // console.log(dataBack)
+                    new Vue({
+                        el: "#menu-div",
+                        data: { menus: dataBack.data }
+                    })
+                } else {
+                    layer.msg(dataBack.message, { icon: 2 })
+                }
+            })
+        
+        //添加部门
+        var addVue = new Vue({
+            el: "#addmenu",
+            data: {
+                menuName: ""
+            },
+            methods: {
+                savaMenu: function () {
+                    if (DepartmentsCheck()) {
+                        $.post("/adddepartment", {
+                            departmentName: this.menuName
+                        }, function (dataBack) {
+                            if (dataBack.result == 0) {
+                                layer.msg(dataBack.message, { icon: 2 })
+                                
+                            } else {
+                                layer.msg(dataBack.message, { icon: 1 })
+                                window.location.href = "/information";
+                            }
+                            $("#tabuser").removeClass("active");
+                            $("#tabdepartment").addClass("active");
+                           
+                            
+                        });
+                            window.location.href = "/information";
+                    }
+                }
+            }
+        })
+        //删除部门
+        function deleteMenu(id) {
+            if (confirm("你确定要删除ID为：" + id + "的记录吗？")) {
+                $.post("/deletedepartments", {
+                    id: id
+                }, function (dataBack) {
+                    if (dataBack.result == 1) {
+                        $("#tr_" + id).remove();
+                        layer.msg(dataBack.message, { icon: 1 })
+
+                    }
+                    else {
+                        layer.msg(dataBack.message, { icon: 2 })
+                    }
+                });
+            }
+        }
+        //部门赋值修改数据
+        var modiyMenuVue;
+        function showModifyMenu(menu) {
+            if (modiyMenuVue == null) {
+                modiyMenuVue = new Vue({
+                    el: "#modelbody",
+                    data: {
+                        oldMenu: menu
+                    }
+                })
+            }
+            else {
+                modiyMenuVue.oldMenu = menu;
+            }
+        }
+        //部门保存修改
+        function savaModify() {
+
+            $.post("/updatedepartments", {
+                id: modiyMenuVue.oldMenu.id,
+                departmentName: modiyMenuVue.oldMenu.departmentname
+            }, function (dataBack) {
+                if (dataBack.result == 0) {
+                    layer.msg(dataBack.message, { icon: 2 })
+                } else {
+                    layer.msg(dataBack.message, { icon: 1 })
+                    window.location.href = "/information";
+                }
+                $("#ModiyModal").modal('hide')
+            });
+
+        }
+        //判断部门名称是否为空
+        function DepartmentsCheck() {
+            var str = '';
+            if ($("#department-name").val() == '') {
+                str += "请输入部门名称";
+            }
+            if (str != '') {
+                layer.msg(str, { icon: 2 });
+                return false;
+            } else {
+                return true;
+            }
+
+        }
+
+
+        //#endregion
+
+        //#region 用户增删改查
+        //用户表格行组件  <tr is="user-row" v-for="user in users" v-bind:user="user"></tr>
+        Vue.component("user-row", {
+            props: ["user"],
+            template: '#user-row-template',            
+            methods: {
+                modifyUser: function () {
+                    showModifyUser(this.user)
+                },
+                deleteUser: function () {
+                    deleteUser(this.user.id);
+                }
+            }
+        })
+        //查询全部用户
+        $.get('/getusers', {
+        }, function (dataBack) {
+            if (dataBack.result == 1) {
+                //console.log(dataBack)
+                new Vue({
+                    el: "#user-div",
+                    data: { users: dataBack.data }
+                })
+            } else {
+                layer.msg(dataBack.message, { icon: 2 });
+            }
+        })
+        //添加用户
+        var addUser = new Vue({
+            el: "#addusers",
+            data: {
+                username: "",
+                userpassword: ""
+            },
+            methods: {
+                savaUser: function () {
+                    if (UserCleck()) {
+                        $.post("/adduser", {
+                            UserName: this.username,
+                            PassWord: this.userpassword,
+                            Character: $('#user input[type="radio"]:checked').val()
+                        }, function (dataBack) {
+                            if (dataBack.result == 0) {
+                                layer.msg(dataBack.message, { icon: 2 });
+                            } else {
+                                layer.msg(dataBack.message, { icon: 1 });
+                                window.location.href = "/information";
+                            }
+                            // window.location.href = "/menus";
+                        });
+                    }
+                }
+            }
+        })
+        //删除用户信息
+        function deleteUser(id) {
+            if (confirm("你确定要删除ID为：" + id + "的记录吗？")) {
+                $.post("/deleteuser", {
+                    id: id
+                }, function (dataBack) {
+                    if (dataBack.result == 1) {
+                        $("#tr_" + id).remove();
+                        layer.msg(dataBack.message, { icon: 1 });
+                    }
+                    else {
+                        layer.msg(dataBack.message, { icon: 2 });
+                    }
+                });
+            }
+        }
+        //用户赋值修改数据
+        var modiyUserVue;
+        function showModifyUser(user) {
+            if (user.character == 2) {
+                $("#developer-mtceng").attr("checked", true);
+                $("#developer-mtceng").prop("checked", true);
+            }
+            else {
+                $("#implementation-mtceng").attr("checked", true);
+                $("#implementation-mtceng").prop("checked", true);
+            }
+            if (modiyUserVue == null) {
+                modiyUserVue = new Vue({
+                    el: "#modeluserbody",
+                    data: {
+                        userMenu: user
+                    }
+                })
+            }
+            else {
+                modiyUserVue.userMenu = user;
+            }
+        }
+        //用户保存修改
+        function savaUserModify() {
+
+            $.post("/updateuser", {
+
+                id: modiyUserVue.userMenu.id,
+                UserName: modiyUserVue.userMenu.username,
+                PassWord: modiyUserVue.userMenu.password,
+                Character: $('#mtceng input[type="radio"]:checked').val()
+
+            }, function (dataBack) {
+                if (dataBack.result == 0) {
+                    layer.msg(dataBack.message, { icon: 2 });
+                } else {
+                    layer.msg(dataBack.message, { icon: 1 });
+                    window.location.href = "/information";
+                }
+                $("#ModiyUsers").modal('hide')
+            });
+        }
+        //判断输入框是否为空
+        function UserCleck() {
+            var str = '';
+            if ($("#user-name").val() == '') {
+                str += "请输入用户名称,";
+            }
+            if ($("#user-password").val() == '') {
+                str += "请输入用户密码";
+            }
+            if (str != '') {
+                layer.msg(str, { icon: 2 });
+                return false;
+            } else {
+                return true;
+            }
+        }
+        //#endregion
+
+        //#region 开发人员增删改查
+        //开发人员赋值修改数据
+        var modiyDeveloperVue;
+        function showModifyDeveloper(developer) {        
+            if (developer.sex == true) {
+                $("#woman").attr("checked", true);
+                $("#woman").prop("checked", true);
+            }
+            else {
+                $("#man").attr("checked", true);
+                $("#man").prop("checked", true);
+            }
+            if (modiyDeveloperVue == null) {
+                modiyDeveloperVue = new Vue({
+                    el: "#modelDeveloperbody",
+                    data: {
+                        developerMenu: developer
+                    }
+                })
+            }
+            else {
+                modiyDeveloperVue.developerMenu = developer;
+            }
+            
+        }
+        //开发人员保存修改
+        function savaDeveloperModify() {
+
+            $.post("/updatedeveloper", {
+                Id: modiyDeveloperVue.developerMenu.id,
+                DepartmentId: $("#department-person-name").find("option:selected").val(),
+                Name: modiyDeveloperVue.developerMenu.name,
+                QQ: modiyDeveloperVue.developerMenu.qq,
+                Email: modiyDeveloperVue.developerMenu.email,
+                Phone: modiyDeveloperVue.developerMenu.phone,
+                Remarks: modiyDeveloperVue.developerMenu.remarks,
+                Sex: $('#sex2 input[type="radio"]:checked').val(),
+                DepartmentName: modiyDeveloperVue.developerMenu.departmentname
+            }, function (dataBack) {
+                if (dataBack.result == 0) {
+                    layer.msg(dataBack.message, { icon: 2 });
+                } else {
+                    layer.msg(dataBack.message, { icon: 1 });
+                    window.location.href = "/information";
+                }
+                $("#Modiydevelopers").modal('hide')
+            });
                 
-                    str += '<tr>';
-                    str += '<td style="display:none">' + item.ID + '</td>';
-                    str += '<td>' + item.DepartmentName + '</td>';
-                    str += '<td>' + item.Name + '</td>';
-                    str += '<td>' + item.Sex == 0 ? "男" : "女" + '</td>';
-                    str += '<td>' + item.Phone + '</td>';
-                    str += '<td>' + item.qq + '</td>';
-                    str += '<td>' + item.Email + '</td>';
-                    str += '<td>' + item.Remarks + '</td>';
-                    str += '<td><div class="row"><button class="col-md-4 col-md-offset-1 btn btn-sm btn-warning"> 修改</button ><button class="col-md-4 col-md-offset-2 btn btn-sm btn-danger">删除</button></div></td>';
-                    str += '</tr>';
-                 });
-                $('#developersinfo').html(str);
+        }
+        //动态添加开发人员的部门
+            var str = '';
+            $.ajax({
+                type: 'GET',
+                url: '/getdepartments',
+                data: {},
+                success: function (dataBack) {
+                    
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<option value="' + item["id"] + '">' + item["departmentname"] + '</option>';
+                    });
+                    $('#department-person-name').append(str);
+                    $('#department-developer-name').append(str);
+                }
+            });
+        
+        //开发人员表格行组件
+        Vue.component("developer-row", {
+            props: ["developer"],
+            template: '#developer-row-template',
+            methods: {
+                modifyDeveloper: function () {
+                    showModifyDeveloper(this.developer)
+                },
+                deleteDeveloper: function () {
+                    deleteDeveloper(this.developer.id);
+                }
             }
-        });
+        })
+        //查询全部开发人员
 
-    }
-    //获取所有部门
-    function GetDapertments() {
-        var str = "";
-        $.ajax({
-            type: "GET",
-            url: '/getdepartments',
-            data: {},
-            success: function (dataBack) {
-                $(dataBack.data).each(function (index, item) {
-                    str += '<tr>';
-                    str += '<td style="display:none">' + item.ID + '</td>'
-                    str += '<td>' + item.DepartmentName + '</td>';
-                    str += '<td>';
-                    str += '<div class="row">';
-                    str += '<button class="col-md-4 col-md-offset-1 btn btn-sm btn-warning"> 修改</button>';
-                    str += '<button class="col-md-4 col-md-offset-2 btn btn-sm btn-danger">删除</button>';
-                    str += '</div>';
-                    str += '</td>';
-                    str += '</tr>';
-                 });
-                $('#departmentinfo').html(str);
-            }
-        });
-
-    }
-    //删除开发人员
-    function DeleteDeveloper() {
-        $.ajax({
-            type: "DELETE",
-            url: 'deletedeveloper',
-            data: { id: id },
-            success: function () {
-
+            $.post('/getdevelopers', {
+            }, function (dataBack) {
+                if (dataBack.result == 1) {
+                    // console.log(dataBack)
+                    new Vue({
+                        el: "#developer-div",
+                        data: { developers: dataBack.data }
+                    })
+                } else {
+                    alert(dataBack.message);
+                }
+            })
+        
+        //添加开发人员
+        var addDeveloper = new Vue({
+            el: "#adddevelopers",
+            data: {
+                name: "",
+                qq: "",
+                phone: "",
+                email: "",
+                remarks: "",
 
             },
-            error: function () {
+            methods: {
+                savaDeveloper: function () {
+                    $.post("/adddevelopers", {
+                        Name: this.name,
+                        Sex: $('#developer input[type="radio"]:checked').val(),
+                        QQ: this.qq,
+                        Email: this.email,
+                        Phone: this.phone,
+                        DepartmentId: $("#department-developer-name").find("option:selected").val(),
+                        remarks: this.remarks
+                    }, function (dataBack) {
+                        if (dataBack.result == 0) {
+                            layer.msg(dataBack.message, { icon: 2 })
+                        } else {
+                            layer.msg(dataBack.message, { icon: 1 })
+                            window.location.href = "/information";
+
+                        }
+                        // window.location.href = "/menus";
+                    });
+                }
+            }
+        })
+        //删除开发人员信息
+        function deleteDeveloper(id) {
+            if (confirm("你确定要删除ID为：" + id + "的记录吗？")) {
+                $.post("/deletedeveloper", {
+                    id: id
+                }, function (dataBack) {
+                    if (dataBack.result == 1) {
+                        $("#tr_" + id).remove();
+                        layer.msg(dataBack.message, { icon: 1 })
+                    }
+                    else {
+                        layer.msg(dataBack.message, { icon: 2 })
+                    }
+                });
+            }
+        }
+        //#endregion
+    </script>
+    @*<script>
+
+            $(function () {
+                GetUsers();
+                GetDevelopers();
+               //GetDapertments();
+            })
+            //添加部门
+            function AddDepartment() {
+                $.ajax({
+                    type: "POST",
+                    url: '/adddepartment',
+                    data: { DepartmentName: $('#department-name').val() },
+                    success: function (dataBack) {
+                        alert(dataBack.message)
+                        GetDapertments();
+                    },
+                    error: function (error) {
+                        alert(error.status + error.statusText);
+                    }
+                });
+            }
+            //添加开发人员
+            function AddDevelopers() {
+               // alert($('#sex input[type="radio"]:checked').val())
+                $.ajax({
+                    type: 'POST',
+                    url: '/adddevelopers',
+
+                    data: {
+                        DepartmentId: $('#department-person-name').val(),
+                        Name: $('#developer-name').val(),
+                        Qq: $('#developer-QQ').val(),
+                        Email: $('#developer-Email').val(),
+                        Phone: $('#developer-phone').val(),
+                        Remarks: $('#developer-note').val(),
+                        Sex: $('#sex input[type="radio"]:checked').val()
+                    },
+                    success: function (dataBack) {
+                        alert(dataBack.message);
+                        GetDevelopers();
+                    },
+                    error: function (error) {
+                        alert(error.status + statusText);
+                    }
+                });
+            }
+            //添加用户
+            function AddUser() {
+                $.ajax({
+                    type: "POST",
+                    url: "/adduser",
+                    data: {
+                        UserName: $('#user-name').val(),
+                        PassWord: $("#user-password").val(),
+                        Character: $('#user input[type="radio"]:checked').val()
+                    },
+                    success: function (dataBack) {
+                        alert(dataBack.message);
+                        GetUsers();
+                    },
+                    error: function () {
+                        alert(error.status + statusText);
+                    }
+                })
+            }
+            //获取所有用户
+            function GetUsers() {
+                var str = '';
+                $.ajax({
+                    type: 'GET',
+                    url: '/getusers',
+                    data: {},
+                    success: function (dataBack) {
+
+                        $(dataBack.data).each(function (index, item) {
+                            str += '<tr onclick="clackUser(' + item.ID + ')">';
+                            str += '<td>' + item.ID + '</td>'
+                            str += '<td>' + item.UserName + '</td>';
+                            str += '<td>' + item.PassWord + '</td>';
+                            str += '<td>' + item.Character + '</td>';
+                            str += '<td>';
+                            str += '<div class="row">';
+                            str += '<button class="col-md-4 col-md-offset-1 btn btn-sm btn-warning"  onclick="UpdateUser(' + item.ID+ ')"> 修改</button>';
+                            str += '<button class="col-md-4 col-md-offset-2 btn btn-sm btn-danger" onclick="DeleteUser(' + item.ID + ')">删除</button>';
+                            str += '</div>';
+                            str += '</td>';
+                            str += '</tr>';
+                         });
+                        $('#usersinfo').html(str);
+                    }
+                });
+            }
+            //获取所有开发人员
+            function GetDevelopers() {
+                var str = '';
+                $.ajax({
+                    type: "GET",
+                    url: 'getdevelopers',
+                    data: {},
+                    success: function (dataBack) {
+                        $(dataBack.data).each(function (index, item) {
+                            str += '<tr>';
+                            str += '<td>' + item.ID + '</td>';
+                            str += '<td>' + item.DepartmentName + '</td>';
+                            str += '<td>' + item.Name + '</td>';
+                            str += '<td>' + (item.Sex == 0 ? "男" : "女")+ '</td>';
+                            str += '<td>' + item.Phone + '</td>';
+                            str += '<td>' + item.qq + '</td>';
+                            str += '<td>' + item.Email + '</td>';
+                            str += '<td>' + item.Remarks + '</td>';
+                            str += '<td><div class="row"><button class="col-md-4 col-md-offset-1 btn btn-sm btn-warning"> 修改 </button > <button class="col-md-4 col-md-offset-2 btn btn-sm btn-danger" onclick="DeleteDeveloper(' + item.ID + ')">删除</button></div ></td> ';
+                            str += '</tr>';
+                         });
+                        $('#developersinfo').html(str);
+                    }
+                });
+
+            }
+            //获取所有部门
+            function GetDapertments() {
+                var str = "";
+                $.ajax({
+                    type: "GET",
+                    url: '/getdepartments',
+                    data: {},
+                    success: function (dataBack) {
+                        $(dataBack.data).each(function (index, item) {
+                            str += '<tr>';
+                            str += '<td>' + item.ID + '</td>'
+                            str += '<td>' + item.DepartmentName + '</td>';
+                            str += '<td>';
+                            str += '<div class="row">';
+                            str += '<button class="col-md-4 col-md-offset-1 btn btn-sm btn-warning"> 修改</button>';
+                            str += '<button class="col-md-4 col-md-offset-2 btn btn-sm btn-danger" onclick="DeletedePartments(' + item.ID +')">删除</button>';
+                            str += '</div>';
+                            str += '</td>';
+                            str += '</tr>';
+                         });
+                        $('#departmentinfo').html(str);
+                    }
+                });
+
+            }
+            //删除开发人员
+            function DeleteDeveloper(ID) {
+                $.ajax({
+                    type: "POST",
+                    url: '/deletedeveloper',
+                    data: { id: ID },
+                    success: function (dataBack) {
+                        alert(dataBack.message);
+                        GetDevelopers();
+                    },
+                    error: function () {
+                        alert(error.status + statusText);
+                    }
+                });
+
+            }
+            //删除用户
+            function DeleteUser(ID) {
+                if (confirm("确定要删除ID为" + ID + "的记录吗？")) {
+                    $.ajax({
+                        type: "POST",
+                        url: '/deleteuser',
+                        data: { id: ID },
+                        success: function (dataBack) {
+                            alert(dataBack.message);
+                            GetUsers();
+                        },
+                        error: function () {
+                            alert(error.status + statusText);
+                        }
+                    });
+
+                }
 
 
             }
-        });
+            //删除部门
+            function DeletedePartments(ID) {
+                $.ajax({
+                    type: "POST",
+                    url: '/deletedepartments',
+                    data: { id: ID },
+                    success: function (dataBack) {
+                        alert(dataBack.message);
+                        GetDapertments();
+                    },
+                    error: function () {
+                        alert(error.status + statusText);
+                    }
+                });
+            }
+            //测试
+            function clackUser(ID)
+            {
+                $.ajax({
+                    type: "POST",
+                    url: '/clackuser',
+                    data: {id:ID},
+                    success: function (dataBack) {
+                        $(dataBack.data).each(function (index, item) {
+                            $("#user-name").val(item["username"]);
+                            $("#user-password").val(item["PassWord"]);
+                            $('#user input[type="radio"]:checked').val(item["Character"])
+                        });
+                    }
+                })
+            }
+            //修改用户
+            function UpdateUser(ID)
+            {
 
-    }
-    
-</script>
+                $.ajax({
+                    type: "POST",
+                    url: '/updateuser',
+                    data: {
+
+                        UserName: $('#user-name').val(),
+                        PassWord: $("#user-password").val(),
+                        Character: $('#user input[type="radio"]:checked').val(),
+                        id: ID
+                    },
+                    success: function (dataBack) {
+                        alert(dataBack.message);
+                        GetUsers();
+                    },
+                    error: function () {
+                        alert(error.status + statusText);
+                    }
+
+                })
+
+            }
+
+
+
+
+
+
+
+
+
+
+        </script>*@
 }

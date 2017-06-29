@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css">
     <style>
         h2 {
-        color:white;
+            color: white;
         }
     </style>
 </head>
@@ -27,7 +27,8 @@
                 <ul class="product">
                     <!-- 现在我们为每个todo-item提供待办项对象    -->
                     <!-- 待办项对象是变量，即其内容可以是动态的 -->
-                    //<todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
+                    //
+                    <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
                 </ul>
             </div>
         </div>
@@ -35,16 +36,14 @@
             <div class="row col-md-12">
 
                 <!-- 版本信息模块 -->
-                <ul class="version">
-                 
-                </ul>
+                <ul class="version"></ul>
             </div>
             <div class="row col-md-12">
                 <div class="news">
                     <div class="row col-md-12">
                         <div class="form-group">
                             <label for="product-describe">产品描述：</label>
-                            <textarea class="form-control" rows="3" id="version-describe" placeholder="此处输入产品描述" readonly></textarea>
+                            <textarea class="form-control" rows="3" id="product-describe" placeholder="此处输入产品描述" readonly></textarea>
                         </div>
                     </div>
                     <div class="row col-md-12">
@@ -54,39 +53,16 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5">
-                            <button class="btn btn-info col-md-2 col-md-offset-5">下载全部</button>
-                            <ul class="download-news col-md-12">
-                                <li><a href="#" download="news1">说明文档</a></li>
-                                <li><a href="#" download="news1">代码压缩</a></li>
-                                <li><a href="#" download="news1">Demo</a></li>
-                            </ul>
-                        </div>
+                        <div class="col-md-5 ">
+                            <button class="btn btn-info col-md-2 col-md-offset-5" onclick="test()">下载全部</button>
+                            <ul class="download-news col-md-12 filedownload">
+
+                             </ul>
+</div>
                         <div class="col-md-7">
                             <p class="person-instructions col-md-12">开发人员信息：</p>
-                            <div class="row col-md-12 table-fd">
-                                <table class="table table hover  person-news table-striped table-bordered table-condensed">
-                                    <thead>
-                                        <tr class="info">
-                                            <th>部门</th>
-                                            <th>姓名</th>
-                                            <th>性别</th>
-                                            <th>电话</th>
-                                            <th>QQ</th>
-                                            <th>备注</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>新技术研究中心</td>
-                                            <td>张三</td>
-                                            <td>男</td>
-                                            <td>13312345678</td>
-                                            <td>13548965</td>
-                                            <td>主管</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <div class="row col-md-12 table-fd developers">
+
                             </div>
                         </div>
                     </div>
@@ -104,6 +80,7 @@
     //    props: ['todo'],
     //    template: '<li>22{{todo.ID }}22{{ todo.ProductName  }}<span class="glyphicon glyphicon-hand-right"></span></li>'
     //})
+
     //动态添加产品信息
     function ProductsDownload() {
         $.ajax({
@@ -111,7 +88,6 @@
             url: '/productsdownload',
             data: {},
             success: function (dataBack) {
-                alert(dataBack.data)
                 //alert("obj" + JSON.stringify(obj))
                 //new Vue({
                 //    el: '#appproduct',
@@ -120,15 +96,13 @@
                 //    }
                 //})
                 var trstring = '';
-                trstring += '<h2 style="color"#FFF">产品列表</h2>';
+                trstring += '<h2 style="color"#FFF">产品列表:</h2>';
                 $(dataBack.data).each(function (index, item) {
-
                     trstring += '<li onclick=GetID(' + item.ID + ');>'
                     trstring += item.ProductName
-                    trstring += '<span class="hid" style="display"none">' + item.ID + '</span>';
+                    trstring += '<span class="hid" style="display:none">' + item.ID + '</span>';
                     trstring += '<span class="glyphicon glyphicon-hand-right"></span>';
                     trstring += '</li>'
-
                 });
                 $(".product").html(trstring);
                 $(".product li").on('click', 'li', function (event) {
@@ -143,28 +117,30 @@
                 alert(error.status + error.statusText);
             }
         })
-    } function ClickProduct(id) {
-        alert(id)
+    }
+
+    //通过产品查询版本信息
+    function ClickProduct(id) {
         $.ajax({
             type: 'POST',
             url: 'clickproduct',
             data: {
-                ProductID: id 
+                ProductID: id
             },
             success: function (dataBack) {
                 var trstring = '';
                 $(dataBack.data).each(function (index, item) {
                     trstring += '<li onclick="GetVersionID(' + item.ID + ');">';
-                        trstring += ' <span>'+"产品名称"+item.产品名+'</span>';
-                        trstring += '<span>' + "版本号：" + item.版本号 + '</span>';
-                        trstring += '<span>' + "发布人：" + item.发布人 + '</span>';
-                        trstring += '<span>' + "发布时间" + item.发布时间 + '</span>';
-                        trstring += '<span class="hid" style="display:none">' + item.ID + '</span>';
-                        trstring += '<span class="glyphicon glyphicon-hand-down"></span>';
-                        trstring += '</li>';
+                    trstring += ' <span>' + "产品名称" + item["产品名"] + '</span>';
+                    trstring += '<span>' + "版本号：" + item["版本号"] + '</span>';
+                    trstring += '<span>' + "发布人：" + item["发布人"] + '</span>';
+                    trstring += '<span>' + "发布时间" + item["发布时间"] + '</span>';
+                    trstring += '<span class="hid" style="display:none">' + item.ID + '</span>';
+                    trstring += '<span class="glyphicon glyphicon-hand-down"></span>';
+                    trstring += '</li>';
                 });
                 $('.version').html(trstring);
-                $(".version li").on('click', 'li', function (event) { 
+                $(".version li").on('click', 'li', function (event) {
                 });
                 $(".version li").click(function (event) {
                     $(".version").css({ 'background': '#fff', 'color': '#000' });
@@ -175,67 +151,152 @@
             error: function (error) {
                 alert(error.status + error.statusText);
             }
-
         });
 
     }
-    //var appform = new Vue({
-    //    el: '#version',
-    //    data: {
-    //        accountInfo: {
-    //            ID:$
-    //        }
-    //    },
-    //    methods: {
-    //        clickproduct: function () {
-    //            alert("********");
-    //            $.ajax({
-    //                type: 'POST',
-    //                url: 'clickproduct',
-    //                data: {
-    //                    accountInfo: this.accountInfo
 
-    //                },
-    //                success: function () {
-    //                    var trstring = '';
-    //                    if (obj.List.length != 0) {
-    //                        trstring += '<h2>产品名称:' + item.产品名 + '</h2 >';
-    //                        $(obj.List).each(function (index, item) {
-    //                            trstring += ' <li data-toggle="tooltip" data-placement="left" >';
-    //                            trstring += ' <span>版本号：' + item.版本号 + '</span>';
-    //                            trstring += ' <span>发布人：' + item.发布人 + '</span>';
-    //                            trstring += ' <span>发布时间：' + item.发布时间 + '</span>';
-    //                            trstring += '<span class="glyphicon glyphicon-hand-down"></span>';
-    //                            trstring += '</li>';
-    //                        });
-    //                        $('#version').html(trstring);
-    //                    } else {
-    //                        $('#version').html("");
-    //                    }
-    //                },
-    //                error: function (error) {
-    //                    alert(error.status + error.statusText);
-    //                }
-    //            });
+    //查询产品描述
+    function ProductsDescription(id) {
+        $.ajax({
+            type: 'POST',
+            url: 'productsdescription',
+            data: {
+                ProductID: id
+            },
+            success: function (dataBack) {
+                var trstring = '';
+                $(dataBack.data).each(function (index, item) {
+                    trstring += '' + item["Description"] + '';
+                });
+                $(".product li").on('click', 'li', function (event) {
+                });
+                $('#product-describe').html(trstring);
+            },
+            error: function (error) {
+                alert(error.status + error.statusText);
+            }
+        });
+    }
 
-    //        }
-    //    }
+    //查询版本描述
+    function VersionDescription(id) {
+        $.ajax({
+            type: 'POST',
+            url: 'versiondescription',
+            data: {
+                VersionID: id
+            },
+            success: function (dataBack) {
+                var trstring = '';
+                $(dataBack.data).each(function (index, item) {
+                    trstring += '' + item.Description + '';
+                });
+                $(".version li").on('click', 'li', function (event) {
+                });
+                $('#version-describe').html(trstring);
+            },
+            error: function (error) {
+                alert(error.status + error.statusText);
+            }
+        });
+    }
 
-    //})
+    //查询显示开发人员信息
+    function Developers(id) {
+        $.ajax({
+            type: 'POST',
+            url: 'developers',
+            data: {
+                VersionID: id
+            },
+            success: function (dataBack) {
+                var trstring = '';
+                trstring = ' <table class="table table hover  person-news table-striped table-bordered table-condensed">';
+                trstring += "<thead><tr class='info'>";
+                trstring += "<th>部门</th>";
+                trstring += "<th>姓名</th>";
+                trstring += "<th>性别</th>";
+                trstring += "<th>电话</th>";
+                trstring += "<th>QQ</th>";
+                trstring += "<th>备注</th>";
+                trstring += "<th>类型</th>";
+                trstring += "</tr></thead><tbody>";
+                $(dataBack.data).each(function (index, item) {
+                    trstring += "<td>" + item["部门"] + "</td>";
+                    trstring += "<td>" + item["姓名"] + "</td>";
+                    trstring += "<td>" + (item["性别"] == 0 ? "男" : "女") + "</td>";
+                    trstring += "<td>" + item["电话"] + "</td>";
+                    trstring += "<td>" + item["QQ"] + "</td>";
+                    trstring += "<td>" + item["备注"] + "</td>";
+                    if (item["类型"] == "") {
+                        trstring += "<td>" + "开发人员" + "</td>";
+                    }
+                    else { 
+
+                    trstring += "<td>" + item["类型"] + "</td>";
+                    }
+                    trstring += '</tr>';
+                });
+                trstring += "</tbody></table>";
+                $('.developers').html(trstring);
+                $(".version li").on('click', 'li', function (event) {
+
+                });
+            },
+            error: function (error) {
+                alert(error.status + error.statusText);
+            }
+        });
+    }
+
+    //查询文件名称和文件路径
+    function FileDownLoad(id) {
+        $.ajax({
+            type: 'POST',
+            url: 'filedownload',
+            data: {
+                VersionID: id
+            },
+            success: function (dataBack) {
+                var trstring = '';
+                trstring += '';
+                $(dataBack.data).each(function (index, item) {
+                    
+                    trstring += '<li><a href=' + item["FilePath"] + "><span>" + item["FileName"] + '</span></a></li>';                   
+                });
+                $('.filedownload').html(trstring);
+                $(".version li").on('click', 'li', function (event) {
+                });
+               
+            },
+            error: function (error) {
+                alert(error.status + error.statusText);
+            }
+        });
+    }
+
+    //点击项目查询所有版本
     function GetID(elem) {
+       
         $('#hid').val(elem);
         ClickProduct(elem);
+        ProductsDescription(elem);
+        VersionDescription('');
+        FileDownLoad('');
+        Developers('');
     }
-        function GetVersionID(e) {
-            $('#versionID').val(e);
-            alert(e);
-
-        }
-        $(".product li").on('click', 'li', function (event) {
-        });
-        $(".product li").click(function (event) {
-            $(".product li").css({ 'background': '#000', 'color': '#fff' });
-            $(this).css({ 'background': '#0cc', 'color': '#fff' });
-        });
+    //点击版本给隐藏的span赋值
+    function GetVersionID(e) {
+        $('#versionID').val(e);
+        VersionDescription(e);
+        Developers(e);
+        FileDownLoad(e);
+    }
+    $(".product li").on('click', 'li', function (event) {
+    });
+    $(".product li").click(function (event) {
+        $(".product li").css({ 'background': '#000', 'color': '#fff' });
+        $(this).css({ 'background': '#0cc', 'color': '#fff' });
+    });
 
 </script>
