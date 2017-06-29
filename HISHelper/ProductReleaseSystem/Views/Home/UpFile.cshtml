@@ -225,20 +225,30 @@
 
     //添加相关人员表
     function addRelatedPersonnels() {
+        array.length = 0;
         deleteRelatedPersonnels();
         var productID = $('#hid').text();
         var versionID = $('#versionID').text();
         var id = $('#selectdeveloper input[type="radio"]:checked').parent().siblings(":first").text()
+        var tb = $("#selectdeveloper tr");
+        tb.each(function () {
+            var td = $(this).html();
+            var $td = $(td); //将dom对象转化为jquery对象。
+            // for (var i = 0; i < $td.length; i++) {
+            array.push($td.eq(0).text());
+           // }
+        })
 
-
-        alert("负责人" + id);
-        alert("参与人员" + array)
         $.ajax({
             type: "POST",
             url: '/addrp',
             data: { id: id, idArray: array, productID: productID, versionID: versionID },
             success: function (dataBack) {
-                // alert(dataBack.message)
+                if (dataBack.result == 1) {
+                    alert("保存成功")
+                    QueryRelatedPersonnels();
+
+                }
 
             },
             error: function (error) {
@@ -520,7 +530,7 @@
 
     //根据部门ID查询成员信息
     function QueryDevelopers(id) {
-
+       
         $.ajax({
             type: "GET",
             url: '/getdevelopers',
@@ -540,24 +550,28 @@
 
     //根据人员ID删除相关人员
     function deleteRp(id) {
+       
         $.ajax({
             type: "POST",
             url: "/deleterp",
             data: { id: id },
             success: function (dataBack) {
-                array.splice(id);
+                if (dataBack.result == 1) {
+                    QueryRelatedPersonnels();
+                 }
             },
             error: function (error) {
                 alert(error.status + error.statusText)
 
             }
         });
-        QueryRelatedPersonnels();
+       
     }
 
 
     //根据版本ID查询所有相关人员
     function QueryRelatedPersonnels() {
+       
         var versionID = $('#versionID').text();
         $.ajax({
             type: "GET",
@@ -592,36 +606,48 @@
     }
 
     var arrayUser = new Array();
-    //根据ID查询成员信息
+    //根据成员ID添加开发人员
     function QueryDeveloper(id) {
-
-        array.push(id)
-        $.ajax({
-            type: "GET",
-            url: "/getDeveloper",
-            data: { Id: id },
-            success: function (dataBack) {
-                var str = '';
-                $(dataBack.data).each(function (index, item) {
-                    arrayUser.push(item.ID);
-                    str += '<tr>';
-                    str += '<td class="">' + item.ID + '</td>';
-                    str += '<td>' + item.DepartmentName + '</td>';
-                    str += '<td>' + item.Name + '</td > ';
-                    str += '<td>' + (item.Sex == false ? "男" : "女") + '</td>';
-                    str += '<td>' + item.Phone + '</td>';
-                    str += '<td>' + item.qq + '</td>';
-                    str += '<td>' + item.Email + '</td>';
-                    str += '<td><input type = "radio" name="permission"></td>';
-                    str += '<td><button class="btn btn-sm btn-warning" onclick="$(this).parent().parent().remove()">移除</td>';
-                    str += '</tr>';
-                });
-                $("#selectdeveloper").append(str);
-            },
-            error: function (error) {
-                alert(error.status + error.statusText)
-            }
+        var array1 = new Array();
+        var tb = $("#selectdeveloper tr");
+        tb.each(function () {
+            var td = $(this).html();
+            var $td = $(td); //将dom对象转化为jquery对象。
+            // for (var i = 0; i < $td.length; i++) {
+            array1.push($td.eq(0).text());
+            // }
         });
+        if ($.inArray(id, array1) == -1) {
+            $.ajax({
+                type: "GET",
+                url: "/getDeveloper",
+                data: { Id: id },
+                success: function (dataBack) {
+                    var str = '';
+                    $(dataBack.data).each(function (index, item) {
+                        arrayUser.push(item.ID);
+                        str += '<tr>';
+                        str += '<td class="">' + item.ID + '</td>';
+                        str += '<td>' + item.DepartmentName + '</td>';
+                        str += '<td>' + item.Name + '</td > ';
+                        str += '<td>' + (item.Sex == false ? "男" : "女") + '</td>';
+                        str += '<td>' + item.Phone + '</td>';
+                        str += '<td>' + item.qq + '</td>';
+                        str += '<td>' + item.Email + '</td>';
+                        str += '<td><input type = "radio" name="permission"></td>';
+                        str += '<td><button class="btn btn-sm btn-warning" onclick="$(this).parent().parent().remove()">移除</td>';
+                        str += '</tr>';
+                    });
+                    $("#selectdeveloper").append(str);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        } else {
+            alert("不能添加相同人员")
+
+        }
 
     }
 
