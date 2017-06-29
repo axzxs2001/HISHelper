@@ -8,9 +8,9 @@
             color: #fff;
             float: left;
             list-style-type: none;
-            font-size: 16px;
+            font-size: 14px;
             margin-left: 400px;
-            margin-top: 14px;
+            margin-top: 16px;
         }
 
     </style>
@@ -49,7 +49,8 @@
                     <li role="presentation" class="dropdown"><a asp-area="" asp-controller="DownLoad" asp-action="DownLoad">下载文件</a></li>
                     <li role="presentation" class="dropdown"><a asp-area="" asp-controller="Home" asp-action="informationMaintenance">人员管理</a></li>
                     <li role="presentation" class="dropdown"><a asp-area="" asp-controller="Home" asp-action="Documentation">使用文档</a></li>
-                    <li id="useryonghu">当前用户：@User.Identity.Name</li>
+                    <li role="presentation" id="useryonghu">当前用户：@User.Identity.Name</li>
+                    <li role="presentation" class="dropdown"><a asp-area="" asp-controller="Home" asp-action="Login">注销</a></li>
                 </ul>
                 
             </div>

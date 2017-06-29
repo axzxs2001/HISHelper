@@ -17,7 +17,7 @@ namespace ProductReleaseSystem.Controllers
     /// <summary>
     /// 本Controller允许admin和user两种角色可以访问
     /// </summary>
-    [Authorize(Roles = "1,2")]    //	Authorize 授权，批准，委托    Roles 角色
+    [Authorize(Roles = "1,2,3")]    //	Authorize 授权，批准，委托    Roles 角色
     public class HomeController : Controller
     {
         IUploadFile _IUploadFile;  
@@ -65,6 +65,7 @@ namespace ProductReleaseSystem.Controllers
         /// 说明文档
         /// </summary>
         /// <returns></returns>
+        //[Authorize("1,2,3")]
         public IActionResult Documentation()
         {
             return View();
@@ -127,18 +128,8 @@ namespace ProductReleaseSystem.Controllers
             }
             catch (Exception exc)
             {
-                //_log.Log(NLog.LogLevel.Error, $"添加菜单：{exc.Message}");
                 return new JsonResult(new { result = 0, message = $"添加部门失败！：{exc.Message}" });
             }
-            //var character = list[0]["Character"].ToString();
-
-
-            //var users = new List<dynamic>() {
-            //    new { ID = 1, UserName = "zsf",Password="111", Name = "张三丰", RoleTypeID = 1, RoleType = "admin", RoleTypeName = "管理员" },
-            //    new { ID = 2, UserName = "zwj",Password="222", Name = "张无忌", RoleTypeID = 2, RoleType = "user", RoleTypeName = "普通用户" }
-            //};
-            //var user = users.SingleOrDefault(u => u.UserName == username && u.Password == password);
-           
         }
         #endregion
 
@@ -153,7 +144,7 @@ namespace ProductReleaseSystem.Controllers
         /// 人员维护
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles = "2")]
+        [Authorize(Roles = "3")]
         [HttpGet("information")]
         public IActionResult informationMaintenance()
         {
@@ -514,7 +505,7 @@ namespace ProductReleaseSystem.Controllers
         /// 上传主页
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles = "2")]
+        [Authorize(Roles = "2,3")]
         [HttpGet("send")]
         public IActionResult UpFile()
         {

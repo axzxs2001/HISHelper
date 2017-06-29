@@ -16,7 +16,7 @@
                 <li role="presentation" id="tabdeveloper">
                     <a href="#developer" aria-controls="developer" role="tab" data-toggle="tab">开发人员维护</a>
                 </li>
-                <li role="presentation" id="tabdepartment" >
+                <li role="presentation" id="tabdepartment">
                     <a href="#department" aria-controls="department" role="tab" data-toggle="tab">部门维护</a>
                 </li>
             </ul>
@@ -40,7 +40,7 @@
                         <label class="radio-inline">
                             <input type="radio" name="eng" id="developer-eng" value="2">开发工程师
                         </label>
-                        <button type="button" class="btn btn-info col-md-offset-2" v-on:click="savaUser">添&nbsp;&nbsp;&nbsp;加</button>
+                        <button type="button" class="btn btn-info col-md-offset-2" v-on:click="savaUser()">添&nbsp;&nbsp;&nbsp;加</button>
                     </form>
                     <h3>用户列表：</h3>
                     <div class="user-list" id="user-div">
@@ -174,8 +174,9 @@
                                 <div class="row" style="margin-top:10px;">
                                     <div class="form-group col-md-4">
                                         <label for="department-person-name">部门：</label>
-                                        <select class="form-control" id="department-person-name" v-model="developerMenu.departmentname">
-                                            <option v-model="developerMenu.departmentname">--请选择部门--</option>
+                                        <input style="display:none" v-model="developerMenu.departmentname" />
+                                        <select class="form-control" id="department-person-name">
+                                            <option id="selectdepartment" v-bind:value="developerMenu.departmentid">{{developerMenu.departmentname}}</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4">
@@ -185,12 +186,12 @@
                                     <div class="sex2 form-group col-md-3 developer-news" id="sex2">
                                         <label>性别：</label>
                                         <label class="radio-inline">
-                                            <input type="radio" name="sex2" id="man" value="0" >男
+                                            <input type="radio" name="sex2" id="man" value="0">男
                                         </label>
                                         <label class="radio-inline">
                                             <input type="radio" name="sex2" id="woman" value="1">女
                                         </label>
-                                        
+
                                     </div>
                                     <div class="col-md-4">
                                         <label>QQ：</label>
@@ -228,7 +229,7 @@
                             <div class="col-md-7">
                                 <input type="text" class="form-control" id="department-name" v-model="menuName" placeholder="此处输入部门名称">
                             </div>
-                            <button type="button" class="btn btn-info col-md-offset-2" v-on:click="savaMenu">添&nbsp;&nbsp;&nbsp;加</button>
+                            <button type="button" class="btn btn-info col-md-offset-2" v-on:click="savaMenu()">添&nbsp;&nbsp;&nbsp;加</button>
                         </div>
                     </form>
                     <h3>部门列表：</h3>
@@ -338,6 +339,14 @@
         </tr>
     </script>
     <script>
+        $(function () {
+            GetUser();
+            GetDevelopers();
+            GetSelect();
+            GetDepartments();
+        })
+
+
         //#region  部门增删改查
         //部门表格行组件
         Vue.component("menu-row", {
@@ -353,21 +362,30 @@
             }
         })
         //查询全部部门
-
+        var SelectDepartments;
+        function GetDepartments() {
             $.get('/getdepartments', {
             }, function (dataBack) {
                 if (dataBack.result == 1) {
-                    // console.log(dataBack)
-                    new Vue({
-                        el: "#menu-div",
-                        data: { menus: dataBack.data }
-                    })
+
+                    if (SelectDepartments == null) {
+                        //console.log(dataBack)
+                        SelectDepartments = new Vue({
+                            el: "#menu-div",
+                            data: { menus: dataBack.data }
+                        })
+                    } else {
+                        SelectDepartments.menus = dataBack.data;
+                    }
                 } else {
                     layer.msg(dataBack.message, { icon: 2 })
                 }
             })
-        
+        }
+
+
         //添加部门
+
         var addVue = new Vue({
             el: "#addmenu",
             data: {
@@ -381,21 +399,22 @@
                         }, function (dataBack) {
                             if (dataBack.result == 0) {
                                 layer.msg(dataBack.message, { icon: 2 })
-                                
+
                             } else {
                                 layer.msg(dataBack.message, { icon: 1 })
-                                window.location.href = "/information";
+                                GetDepartments();
                             }
                             $("#tabuser").removeClass("active");
                             $("#tabdepartment").addClass("active");
-                           
-                            
                         });
-                            window.location.href = "/information";
                     }
                 }
             }
         })
+
+
+
+
         //删除部门
         function deleteMenu(id) {
             if (confirm("你确定要删除ID为：" + id + "的记录吗？")) {
@@ -413,6 +432,7 @@
                 });
             }
         }
+        
         //部门赋值修改数据
         var modiyMenuVue;
         function showModifyMenu(menu) {
@@ -427,6 +447,7 @@
             else {
                 modiyMenuVue.oldMenu = menu;
             }
+            
         }
         //部门保存修改
         function savaModify() {
@@ -439,7 +460,7 @@
                     layer.msg(dataBack.message, { icon: 2 })
                 } else {
                     layer.msg(dataBack.message, { icon: 1 })
-                    window.location.href = "/information";
+                    GetDepartments();
                 }
                 $("#ModiyModal").modal('hide')
             });
@@ -467,7 +488,7 @@
         //用户表格行组件  <tr is="user-row" v-for="user in users" v-bind:user="user"></tr>
         Vue.component("user-row", {
             props: ["user"],
-            template: '#user-row-template',            
+            template: '#user-row-template',
             methods: {
                 modifyUser: function () {
                     showModifyUser(this.user)
@@ -478,19 +499,29 @@
             }
         })
         //查询全部用户
-        $.get('/getusers', {
-        }, function (dataBack) {
-            if (dataBack.result == 1) {
-                //console.log(dataBack)
-                new Vue({
-                    el: "#user-div",
-                    data: { users: dataBack.data }
-                })
-            } else {
-                layer.msg(dataBack.message, { icon: 2 });
-            }
-        })
+            var GetSelectUser;
+        function GetUser() {
+            $.get('/getusers', {
+            }, function (dataBack) {
+                if (dataBack.result == 1) {
+                    //console.log(dataBack)
+                    if (GetSelectUser == null) {
+                        GetSelectUser = new Vue({
+                            el: "#user-div",
+                            data: { users: dataBack.data }
+                        })
+
+                    } else {
+                        GetSelectUser.users = dataBack.data;
+                    }
+                } else {
+                    layer.msg(dataBack.message, { icon: 2 });
+                }
+            })
+        }
+
         //添加用户
+
         var addUser = new Vue({
             el: "#addusers",
             data: {
@@ -509,14 +540,15 @@
                                 layer.msg(dataBack.message, { icon: 2 });
                             } else {
                                 layer.msg(dataBack.message, { icon: 1 });
-                                window.location.href = "/information";
+                                GetUser();
                             }
-                            // window.location.href = "/menus";
+                            
                         });
                     }
                 }
             }
         })
+
         //删除用户信息
         function deleteUser(id) {
             if (confirm("你确定要删除ID为：" + id + "的记录吗？")) {
@@ -571,7 +603,7 @@
                     layer.msg(dataBack.message, { icon: 2 });
                 } else {
                     layer.msg(dataBack.message, { icon: 1 });
-                    window.location.href = "/information";
+                    GetUser();
                 }
                 $("#ModiyUsers").modal('hide')
             });
@@ -597,7 +629,7 @@
         //#region 开发人员增删改查
         //开发人员赋值修改数据
         var modiyDeveloperVue;
-        function showModifyDeveloper(developer) {        
+        function showModifyDeveloper(developer) {
             if (developer.sex == true) {
                 $("#woman").attr("checked", true);
                 $("#woman").prop("checked", true);
@@ -606,6 +638,7 @@
                 $("#man").attr("checked", true);
                 $("#man").prop("checked", true);
             }
+
             if (modiyDeveloperVue == null) {
                 modiyDeveloperVue = new Vue({
                     el: "#modelDeveloperbody",
@@ -617,7 +650,7 @@
             else {
                 modiyDeveloperVue.developerMenu = developer;
             }
-            
+
         }
         //开发人员保存修改
         function savaDeveloperModify() {
@@ -637,20 +670,21 @@
                     layer.msg(dataBack.message, { icon: 2 });
                 } else {
                     layer.msg(dataBack.message, { icon: 1 });
-                    window.location.href = "/information";
+                    GetDevelopers();
                 }
                 $("#Modiydevelopers").modal('hide')
             });
-                
+
         }
         //动态添加开发人员的部门
+        function GetSelect() {
             var str = '';
             $.ajax({
                 type: 'GET',
                 url: '/getdepartments',
                 data: {},
                 success: function (dataBack) {
-                    
+
                     $(dataBack.data).each(function (index, item) {
                         str += '<option value="' + item["id"] + '">' + item["departmentname"] + '</option>';
                     });
@@ -658,7 +692,9 @@
                     $('#department-developer-name').append(str);
                 }
             });
-        
+        }
+
+
         //开发人员表格行组件
         Vue.component("developer-row", {
             props: ["developer"],
@@ -673,20 +709,27 @@
             }
         })
         //查询全部开发人员
-
+            var GetAllDevelopers;
+        function GetDevelopers() {
             $.post('/getdevelopers', {
             }, function (dataBack) {
                 if (dataBack.result == 1) {
                     // console.log(dataBack)
-                    new Vue({
-                        el: "#developer-div",
-                        data: { developers: dataBack.data }
-                    })
+                    if (GetAllDevelopers == null) {
+                        GetAllDevelopers = new Vue({
+                            el: "#developer-div",
+                            data: { developers: dataBack.data }
+                        })
+                    } else {
+                        GetAllDevelopers.developers = dataBack.data;
+                    }
+                   
                 } else {
                     alert(dataBack.message);
                 }
             })
-        
+        }
+
         //添加开发人员
         var addDeveloper = new Vue({
             el: "#adddevelopers",
@@ -713,14 +756,14 @@
                             layer.msg(dataBack.message, { icon: 2 })
                         } else {
                             layer.msg(dataBack.message, { icon: 1 })
-                            window.location.href = "/information";
+                            GetDevelopers();
 
                         }
-                        // window.location.href = "/menus";
                     });
                 }
             }
         })
+
         //删除开发人员信息
         function deleteDeveloper(id) {
             if (confirm("你确定要删除ID为：" + id + "的记录吗？")) {
@@ -739,251 +782,4 @@
         }
         //#endregion
     </script>
-    @*<script>
-
-            $(function () {
-                GetUsers();
-                GetDevelopers();
-               //GetDapertments();
-            })
-            //添加部门
-            function AddDepartment() {
-                $.ajax({
-                    type: "POST",
-                    url: '/adddepartment',
-                    data: { DepartmentName: $('#department-name').val() },
-                    success: function (dataBack) {
-                        alert(dataBack.message)
-                        GetDapertments();
-                    },
-                    error: function (error) {
-                        alert(error.status + error.statusText);
-                    }
-                });
-            }
-            //添加开发人员
-            function AddDevelopers() {
-               // alert($('#sex input[type="radio"]:checked').val())
-                $.ajax({
-                    type: 'POST',
-                    url: '/adddevelopers',
-
-                    data: {
-                        DepartmentId: $('#department-person-name').val(),
-                        Name: $('#developer-name').val(),
-                        Qq: $('#developer-QQ').val(),
-                        Email: $('#developer-Email').val(),
-                        Phone: $('#developer-phone').val(),
-                        Remarks: $('#developer-note').val(),
-                        Sex: $('#sex input[type="radio"]:checked').val()
-                    },
-                    success: function (dataBack) {
-                        alert(dataBack.message);
-                        GetDevelopers();
-                    },
-                    error: function (error) {
-                        alert(error.status + statusText);
-                    }
-                });
-            }
-            //添加用户
-            function AddUser() {
-                $.ajax({
-                    type: "POST",
-                    url: "/adduser",
-                    data: {
-                        UserName: $('#user-name').val(),
-                        PassWord: $("#user-password").val(),
-                        Character: $('#user input[type="radio"]:checked').val()
-                    },
-                    success: function (dataBack) {
-                        alert(dataBack.message);
-                        GetUsers();
-                    },
-                    error: function () {
-                        alert(error.status + statusText);
-                    }
-                })
-            }
-            //获取所有用户
-            function GetUsers() {
-                var str = '';
-                $.ajax({
-                    type: 'GET',
-                    url: '/getusers',
-                    data: {},
-                    success: function (dataBack) {
-
-                        $(dataBack.data).each(function (index, item) {
-                            str += '<tr onclick="clackUser(' + item.ID + ')">';
-                            str += '<td>' + item.ID + '</td>'
-                            str += '<td>' + item.UserName + '</td>';
-                            str += '<td>' + item.PassWord + '</td>';
-                            str += '<td>' + item.Character + '</td>';
-                            str += '<td>';
-                            str += '<div class="row">';
-                            str += '<button class="col-md-4 col-md-offset-1 btn btn-sm btn-warning"  onclick="UpdateUser(' + item.ID+ ')"> 修改</button>';
-                            str += '<button class="col-md-4 col-md-offset-2 btn btn-sm btn-danger" onclick="DeleteUser(' + item.ID + ')">删除</button>';
-                            str += '</div>';
-                            str += '</td>';
-                            str += '</tr>';
-                         });
-                        $('#usersinfo').html(str);
-                    }
-                });
-            }
-            //获取所有开发人员
-            function GetDevelopers() {
-                var str = '';
-                $.ajax({
-                    type: "GET",
-                    url: 'getdevelopers',
-                    data: {},
-                    success: function (dataBack) {
-                        $(dataBack.data).each(function (index, item) {
-                            str += '<tr>';
-                            str += '<td>' + item.ID + '</td>';
-                            str += '<td>' + item.DepartmentName + '</td>';
-                            str += '<td>' + item.Name + '</td>';
-                            str += '<td>' + (item.Sex == 0 ? "男" : "女")+ '</td>';
-                            str += '<td>' + item.Phone + '</td>';
-                            str += '<td>' + item.qq + '</td>';
-                            str += '<td>' + item.Email + '</td>';
-                            str += '<td>' + item.Remarks + '</td>';
-                            str += '<td><div class="row"><button class="col-md-4 col-md-offset-1 btn btn-sm btn-warning"> 修改 </button > <button class="col-md-4 col-md-offset-2 btn btn-sm btn-danger" onclick="DeleteDeveloper(' + item.ID + ')">删除</button></div ></td> ';
-                            str += '</tr>';
-                         });
-                        $('#developersinfo').html(str);
-                    }
-                });
-
-            }
-            //获取所有部门
-            function GetDapertments() {
-                var str = "";
-                $.ajax({
-                    type: "GET",
-                    url: '/getdepartments',
-                    data: {},
-                    success: function (dataBack) {
-                        $(dataBack.data).each(function (index, item) {
-                            str += '<tr>';
-                            str += '<td>' + item.ID + '</td>'
-                            str += '<td>' + item.DepartmentName + '</td>';
-                            str += '<td>';
-                            str += '<div class="row">';
-                            str += '<button class="col-md-4 col-md-offset-1 btn btn-sm btn-warning"> 修改</button>';
-                            str += '<button class="col-md-4 col-md-offset-2 btn btn-sm btn-danger" onclick="DeletedePartments(' + item.ID +')">删除</button>';
-                            str += '</div>';
-                            str += '</td>';
-                            str += '</tr>';
-                         });
-                        $('#departmentinfo').html(str);
-                    }
-                });
-
-            }
-            //删除开发人员
-            function DeleteDeveloper(ID) {
-                $.ajax({
-                    type: "POST",
-                    url: '/deletedeveloper',
-                    data: { id: ID },
-                    success: function (dataBack) {
-                        alert(dataBack.message);
-                        GetDevelopers();
-                    },
-                    error: function () {
-                        alert(error.status + statusText);
-                    }
-                });
-
-            }
-            //删除用户
-            function DeleteUser(ID) {
-                if (confirm("确定要删除ID为" + ID + "的记录吗？")) {
-                    $.ajax({
-                        type: "POST",
-                        url: '/deleteuser',
-                        data: { id: ID },
-                        success: function (dataBack) {
-                            alert(dataBack.message);
-                            GetUsers();
-                        },
-                        error: function () {
-                            alert(error.status + statusText);
-                        }
-                    });
-
-                }
-
-
-            }
-            //删除部门
-            function DeletedePartments(ID) {
-                $.ajax({
-                    type: "POST",
-                    url: '/deletedepartments',
-                    data: { id: ID },
-                    success: function (dataBack) {
-                        alert(dataBack.message);
-                        GetDapertments();
-                    },
-                    error: function () {
-                        alert(error.status + statusText);
-                    }
-                });
-            }
-            //测试
-            function clackUser(ID)
-            {
-                $.ajax({
-                    type: "POST",
-                    url: '/clackuser',
-                    data: {id:ID},
-                    success: function (dataBack) {
-                        $(dataBack.data).each(function (index, item) {
-                            $("#user-name").val(item["username"]);
-                            $("#user-password").val(item["PassWord"]);
-                            $('#user input[type="radio"]:checked').val(item["Character"])
-                        });
-                    }
-                })
-            }
-            //修改用户
-            function UpdateUser(ID)
-            {
-
-                $.ajax({
-                    type: "POST",
-                    url: '/updateuser',
-                    data: {
-
-                        UserName: $('#user-name').val(),
-                        PassWord: $("#user-password").val(),
-                        Character: $('#user input[type="radio"]:checked').val(),
-                        id: ID
-                    },
-                    success: function (dataBack) {
-                        alert(dataBack.message);
-                        GetUsers();
-                    },
-                    error: function () {
-                        alert(error.status + statusText);
-                    }
-
-                })
-
-            }
-
-
-
-
-
-
-
-
-
-
-        </script>*@
 }
