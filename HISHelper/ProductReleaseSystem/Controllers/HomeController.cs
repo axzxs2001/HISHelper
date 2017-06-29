@@ -43,7 +43,7 @@ namespace ProductReleaseSystem.Controllers
         public IActionResult Error()
         {
             return View();
-        }
+        } 
 
         /// <summary>
         /// 允许所有登录者
