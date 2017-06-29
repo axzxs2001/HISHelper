@@ -40,6 +40,25 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="versionsID"></param>
         /// <returns></returns>
         List<Dictionary<string, dynamic>> GetFilesByID(int versionsID);
+        /// <summary>
+        /// 查询产品对应描述
+        /// </summary>
+        /// <param name="productID">产品ID</param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> ProductsDescription(int productID);
+        /// <summary>
+        /// 查询版本对应描述
+        /// </summary>
+        /// <param name="productID">产品ID</param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> VersionDescription(int productID);
+
+        /// <summary>
+        /// 文件查询
+        /// </summary>
+        /// <param name="productID">产品ID</param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> FileDownLoad(int VersionID); 
 
 
     }

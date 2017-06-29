@@ -14,19 +14,28 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <returns></returns>
         bool addProduct(Products products);
 
+
+        /// <summary>
+        /// 根据人员ID查询所有相关人员
+        /// </summary>
+        /// <param name="id"></param>人员ID
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> QueryDeveloper(int id);
+
         /// <summary>
         /// 添加版本
         /// </summary>
         /// <param name="versions"></param>
         /// <returns></returns>
         bool addVersions(Versions versions);
-        
+
         /// <summary>
         /// 添加文件
         /// </summary>
         /// <param name="files"></param>
         /// <returns></returns>
         bool addFiles(Files files);
+        #region 部门信息
         /// <summary>
         /// 添加部门
         /// </summary>
@@ -38,13 +47,19 @@ namespace ProductReleaseSystem.Models.IRepository
         /// </summary>
         /// <returns></returns>
         List<Dictionary<string, dynamic>> QueryDepartments();
-
         /// <summary>
-        /// 根据人员ID查询所有相关人员
+        /// 删除部门
         /// </summary>
-        /// <param name="id"></param>人员ID
+        /// <param name="id">部门</param>
         /// <returns></returns>
-        List<Dictionary<string, dynamic>> QueryDeveloper(int id);
+        bool DeleteDepartments(int id);
+        /// <summary>
+        /// 修改部门
+        /// </summary>
+        /// <param name="departmentName">部门名称</param>
+        /// <returns></returns>
+        bool UpdateDepartment(int id,string departmentName);
+        #endregion
 
         /// <summary>
         /// 根据版本ID删除相关人员
@@ -63,9 +78,14 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <summary>
         /// 获取开发人员信息
         /// </summary>
-        /// <param name="departmentID">部门ID</param>
         /// <returns></returns>
-        List<Dictionary<string,dynamic>> QueryDevelopers(int id);
+        List<Dictionary<string, dynamic>> QueryDevelopers();
+        /// <summary>
+        /// 通过部门查询人员
+        /// </summary>
+        /// <param name="departmentID"></param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> SelectDevelopers(int departmentID);
 
         /// <summary>
         /// 修改开发人员信息
@@ -76,9 +96,9 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <summary>
         /// 删除开发人员信息
         /// </summary>
-        /// <param name="departmentID">部门ID</param>
+        /// <param name="id">部门ID</param>
         /// <returns></returns>
-        bool DeleteDeveloper(int departmentID);
+        bool DeleteDeveloper(int id);
 
 
         #endregion
@@ -110,8 +130,15 @@ namespace ProductReleaseSystem.Models.IRepository
         /// </summary>
         /// <returns></returns>
          List<Dictionary<string,dynamic>> QueryUsers();
+
+
         #endregion
 
+        /// <summary>
+        /// 查询用户
+        /// </summary>
+        /// <returns></returns>
+        List <Dictionary<string,dynamic>> SelectUsers(string username,string password);
 
         /// <summary>
         /// 查询所有开发人员
@@ -131,6 +158,7 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="relatedPersonnels"></param>
         /// <returns></returns>
         bool addRelatedPersonnels(RelatedPersonnels relatedPersonnels);
+
 
         /// <summary>
         /// 根据版本号查询所有相关人员

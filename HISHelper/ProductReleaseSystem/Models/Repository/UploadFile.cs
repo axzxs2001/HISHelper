@@ -62,10 +62,10 @@ namespace ProductReleaseSystem.Models.Repository
             var par2 = new SqlParameter() { ParameterName = "@UploadTime", SqlDbType = System.Data.SqlDbType.DateTime, Value = files.UploadTime };
             var par4 = new SqlParameter() { ParameterName = "@VersionsId", SqlDbType = System.Data.SqlDbType.VarChar, Value = files.VersionsId };
             var par5 = new SqlParameter() { ParameterName = "@filePath", SqlDbType = System.Data.SqlDbType.VarChar, Value = files.FilePath };
-            return _dbHelper.SavaData(sql, par1, par2,par4, par5) > 0 ? true : false;
+            return _dbHelper.SavaData(sql, par1, par2, par4, par5) > 0 ? true : false;
         }
 
-
+        #region 部门信息
         /// <summary>
         /// 添加部门
         /// </summary>
@@ -76,7 +76,7 @@ namespace ProductReleaseSystem.Models.Repository
             var sql = @"INSERT INTO dbo.Departments
         (DepartmentName)
 VALUES(@DepartmentName)";
-            var par = new SqlParameter() { ParameterName = "@DepartmentName",SqlDbType=System.Data.SqlDbType.VarChar,Value=departmentName };
+            var par = new SqlParameter() { ParameterName = "@DepartmentName", SqlDbType = System.Data.SqlDbType.VarChar, Value = departmentName };
             return _dbHelper.SavaData(sql, par) > 0 ? true : false;
         }
 
@@ -84,11 +84,38 @@ VALUES(@DepartmentName)";
         /// 查询所有部门ID和名称
         /// </summary>
         /// <returns></returns>
-        public List<Dictionary<string, dynamic>>QueryDepartments()
+        public List<Dictionary<string, dynamic>> QueryDepartments()
         {
             var sql = "SELECT ID,DepartmentName FROM dbo.Departments";
             return _dbHelper.GetList(sql);
         }
+        /// <summary>
+        /// 删除部门
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool DeleteDepartments(int id)
+        {
+            var sql = @"DELETE dbo.Departments WHERE ID=@id
+";
+            var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.SavaData(sql, par) > 0 ? true : false;
+        }
+
+        /// <summary>
+        /// 修改部门
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool UpdateDepartment(int id, string departmentName)
+        {
+            var sql = @"UPDATE dbo.Departments SET DepartmentName=@departmentName WHERE ID=@id";
+            var par1 = new SqlParameter() { ParameterName = "@departmentName", SqlDbType = System.Data.SqlDbType.VarChar, Value = departmentName };
+            var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+
+            return _dbHelper.SavaData(sql, par1, par) > 0 ? true : false;
+        }
+        #endregion
 
         #region 维护开发人员信息
         /// <summary>
@@ -109,37 +136,37 @@ VALUES(@DepartmentName)";
         )
 VALUES  ( @name,@sex,@qq,@email,@phone,@departmentID,@remarks
         )";
-            var par1 = new SqlParameter() { ParameterName= "@name",SqlDbType=System.Data.SqlDbType.VarChar,Value=developer.Name };
+            var par1 = new SqlParameter() { ParameterName = "@name", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Name };
             var par2 = new SqlParameter() { ParameterName = "@sex", SqlDbType = System.Data.SqlDbType.Bit, Value = developer.Sex };
-            var par3 = new SqlParameter() { ParameterName= "@qq",SqlDbType=System.Data.SqlDbType.VarChar,Value=developer.Qq };
-            var par4 = new SqlParameter() { ParameterName= "@email",SqlDbType=System.Data.SqlDbType.VarChar,Value=developer.Email };
-            var par5 = new SqlParameter() { ParameterName= "@phone",SqlDbType=System.Data.SqlDbType.VarChar,Value=developer.Phone };
-            var par6 = new SqlParameter() { ParameterName= "@departmentID",SqlDbType=System.Data.SqlDbType.Int,Value=developer.DepartmentId };
+            var par3 = new SqlParameter() { ParameterName = "@qq", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Qq };
+            var par4 = new SqlParameter() { ParameterName = "@email", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Email };
+            var par5 = new SqlParameter() { ParameterName = "@phone", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Phone };
+            var par6 = new SqlParameter() { ParameterName = "@departmentID", SqlDbType = System.Data.SqlDbType.Int, Value = developer.DepartmentId };
             var par7 = new SqlParameter() { ParameterName = "@remarks", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Remarks };
-            return _dbHelper.SavaData(sql,par1,par2,par3,par4,par5,par6,par7)>0?true:false;
+            return _dbHelper.SavaData(sql, par1, par2, par3, par4, par5, par6, par7) > 0 ? true : false;
         }
 
         /// <summary>
-        /// 通过部门ID获取该部门下的所有开发人员信息
+        /// 查询开发人员信息
         /// </summary>
         /// <param name="departmentID">部门ID</param>
         /// <returns></returns>
-        public List<Dictionary<string,dynamic>> QueryDevelopers(int departmentID)
+        public List<Dictionary<string, dynamic>> QueryDevelopers()
         {
-            var sql = (@"SELECT ID ID ,
-        Name ,
-        Sex ,
-        qq ,
-        Email ,
-        Phone ,
-     
+            var sql = @"SELECT  a.ID,
+b.DepartmentName,
+b.ID as departmentid,
+        Name,
+        Sex,
+        qq,
+        Email,
+        Phone,
         Remarks
-FROM    dbo.Developers
-where DepartmentID=@DepartmentID
-");
-            var par1 = new SqlParameter() { ParameterName = "@DepartmentID", SqlDbType = System.Data.SqlDbType.Int, Value = departmentID };
+FROM    dbo.Developers a JOIN dbo.Departments b
+ON a.DepartmentID=b.ID 
+";
 
-            return _dbHelper.GetList(sql,par1);
+            return _dbHelper.GetList(sql);
         }
 
         /// <summary>
@@ -155,51 +182,44 @@ SET     Name = @name ,
         QQ = @qq ,
         Email = @email ,
         Phone = @phone,
-        Remarks=@remarks
-WHERE   DepartmentID = @departmentID";
-            var par1 = new SqlParameter() { ParameterName= " @name",SqlDbType=System.Data.SqlDbType.VarChar,Value=developer.Name };
+        Remarks=@remarks,
+        DepartmentID = @departmentID
+WHERE   ID=@Id";
+            var par1 = new SqlParameter() { ParameterName = "@name", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Name };
             var par2 = new SqlParameter() { ParameterName = "@sex", SqlDbType = System.Data.SqlDbType.Int, Value = developer.Sex };
             var par3 = new SqlParameter() { ParameterName = "@qq", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Qq };
-            var par4= new SqlParameter() { ParameterName = "@email", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Email };
-            var par5= new SqlParameter() { ParameterName = "@phone", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Phone };
-            var par6 = new SqlParameter() { ParameterName = "@@remarks", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Remarks };
+            var par4 = new SqlParameter() { ParameterName = "@email", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Email };
+            var par5 = new SqlParameter() { ParameterName = "@phone", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Phone };
+            var par6 = new SqlParameter() { ParameterName = "@remarks", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Remarks };
             var par7 = new SqlParameter() { ParameterName = "@departmentID", SqlDbType = System.Data.SqlDbType.Int, Value = developer.DepartmentId };
-          
-            return _dbHelper.SavaData(sql,par1,par2,par3,par4,par5,par6,par7)>0?true:false;
+            var par8 = new SqlParameter() { ParameterName = "@Id", SqlDbType = System.Data.SqlDbType.Int, Value = developer.Id };
+
+            return _dbHelper.SavaData(sql, par1, par2, par3, par4, par5, par6, par7, par8) > 0 ? true : false;
         }
 
         /// <summary>
         /// 通过部门ID删除开发人员信息
         /// </summary>
-        /// <param name="departmentID">部门ID</param>
+        /// <param name="id">部门ID</param>
         /// <returns></returns>
-        public bool DeleteDeveloper(int departmentID) {
-            var sql = @"DELETE dbo.Developers WHERE DepartmentID=@departmentID";
-            var par = new SqlParameter() { ParameterName= "@departmentID",SqlDbType=System.Data.SqlDbType.Int,Value=departmentID };
-            return _dbHelper.SavaData(sql,par)>0?true:false;
-        }
-
-        /// <summary>
-        /// 通过版本ID删除相关人员
-        /// </summary>
-        /// <param name="id"></param>版本ID
-        /// <returns></returns>
-        public bool DeleteRelatedPersonnels(int id)
+        public bool DeleteDeveloper(int id)
         {
-            var sql = @"delete RelatedPersonnels where VersionID=@id";
+            var sql = @"DELETE dbo.Developers WHERE ID=@id";
             var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.SavaData(sql, par) > 0 ? true : false;
         }
+
+        
 
 
         #endregion
 
         #region 维护用户表
-       /// <summary>
-       /// 新建用户
-       /// </summary>
-       /// <param name="user">用户信息</param>
-       /// <returns></returns>
+        /// <summary>
+        /// 新建用户
+        /// </summary>
+        /// <param name="user">用户信息</param>
+        /// <returns></returns>
         public bool AddUser(ProductRelease.Users user)
         {
             var sql = @"INSERT INTO dbo.Users
@@ -220,14 +240,14 @@ VALUES  ( @username,@password,@character
         {
             var sql = @"UPDATE  dbo.Users
 SET     UserName = @username ,
-        PassWord = @password ,
+        PassWord = @password,
         Character = @character
 WHERE   ID = @id";
-            var par1 = new SqlParameter() { ParameterName= "@username",SqlDbType=System.Data.SqlDbType.VarChar,Value=user.UserName };
-            var par2 = new SqlParameter() { ParameterName= "@password",SqlDbType=System.Data.SqlDbType.VarChar,Value=user.PassWord };
-            var par3 = new SqlParameter() { ParameterName= "@character",SqlDbType=System.Data.SqlDbType.VarChar,Value=user.Character };
-            var par4 = new SqlParameter() { ParameterName="@id",SqlDbType=System.Data.SqlDbType.Int,Value=user.Id};
-            return _dbHelper.SavaData(sql, par1, par2, par3) > 0 ? true : false;
+            var par1 = new SqlParameter() { ParameterName = "@username", SqlDbType = System.Data.SqlDbType.VarChar, Value = user.UserName };
+            var par2 = new SqlParameter() { ParameterName = "@password", SqlDbType = System.Data.SqlDbType.VarChar, Value = user.PassWord };
+            var par3 = new SqlParameter() { ParameterName = "@character", SqlDbType = System.Data.SqlDbType.VarChar, Value = user.Character };
+            var par4 = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = user.Id };
+            return _dbHelper.SavaData(sql, par1, par2,par3,par4) > 0 ? true : false;
         }
         /// <summary>
         /// 删除用户
@@ -238,8 +258,8 @@ WHERE   ID = @id";
         {
             var sql = @"DELETE dbo.Users WHERE ID=@id
 ";
-            var par = new SqlParameter() { ParameterName= "@id",SqlDbType=System.Data.SqlDbType.Int,Value=id };
-            return _dbHelper.SavaData(sql,par)>0?true:false;
+            var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.SavaData(sql, par) > 0 ? true : false;
         }
         /// <summary>
         /// 查询用户
@@ -256,7 +276,34 @@ FROM    dbo.Users";
         }
         #endregion
 
+        /// <summary>
+        /// 查询用户
+        /// </summary>
+        /// <returns></returns>
+        public List< Dictionary<string,dynamic>> SelectUsers(string username,string password)
+        {
+            var sql = @"SELECT  ID ,
+        UserName ,
+        PassWord ,
+        Character
+FROM    dbo.Users
+where UserName=@username and PassWord=@password";
+            var par1 = new SqlParameter() {ParameterName= "@username",SqlDbType=System.Data.SqlDbType.VarChar,Value=username };
+            var par2 = new SqlParameter() { ParameterName= "@password",SqlDbType=System.Data.SqlDbType.VarChar,Value=password };
+            return _dbHelper.GetList(sql,par1,par2);
+        }
 
+        /// <summary>
+        /// 通过版本ID删除相关人员
+        /// </summary>
+        /// <param name="id"></param>版本ID
+        /// <returns></returns>
+        public bool DeleteRelatedPersonnels(int id)
+        {
+            var sql = @"delete RelatedPersonnels where VersionID=@id";
+            var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.SavaData(sql, par) > 0 ? true : false;
+        }
         /// <summary>
         /// 根据成员ID查询成员信息
         /// </summary>
@@ -286,7 +333,7 @@ FROM    dbo.Users";
         /// <returns></returns>
         public List<Dictionary<string,dynamic>> Querykf()
         {
-            var sql = @"select ID,Name from Developers where DepartmentID=1";
+            var sql = @"select ID,UserName from Users where Character=2";
             return _dbHelper.GetList(sql);
         }
 
@@ -299,8 +346,22 @@ FROM    dbo.Users";
         public bool addRelatedPersonnels(RelatedPersonnels relatedPersonnels)
         {
             var sql = @"insert into RelatedPersonnels(VersionID,PersonID,Personneltype) values(@VersionID,@PersonID,@Personneltype)";
-            var par1 = new SqlParameter() { ParameterName = "@VersionID", SqlDbType = System.Data.SqlDbType.Int, Value = relatedPersonnels.VersionId };
-            var par2 = new SqlParameter() { ParameterName = "@PersonID", SqlDbType = System.Data.SqlDbType.Int, Value = relatedPersonnels.PersonId };
+            var par1 = new SqlParameter()
+            {
+                ParameterName = "@VersionID",
+                SqlDbType = System.Data.SqlDbType.Int
+
+,
+                Value = relatedPersonnels.VersionId
+            };
+            var par2 = new SqlParameter()
+            {
+                ParameterName = "@PersonID",
+                SqlDbType = System.Data.SqlDbType.Int
+
+,
+                Value = relatedPersonnels.PersonId
+            };
             var par3 = new SqlParameter() { ParameterName = "@Personneltype", SqlDbType = System.Data.SqlDbType.VarChar, Value = relatedPersonnels.Personneltype };
             return _dbHelper.SavaData(sql, par1, par2, par3) > 0 ? true : false;
         }
@@ -367,6 +428,35 @@ where c.VersionID=@id";
             var sql = @"delete RelatedPersonnels where PersonID=@id";
             var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.SavaData(sql, par) > 0 ? true : false;
+        }
+        /// <summary>
+        /// 通过部门查询开发人员
+        /// </summary>
+        /// <param name="departmentID"></param>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> SelectDevelopers(int departmentID)
+        {
+            var sql = (@"SELECT ID ID ,
+        Name ,
+        Sex ,
+        qq ,
+        Email ,
+        Phone ,
+     
+        Remarks
+FROM    dbo.Developers
+where DepartmentID=@DepartmentID
+");
+            var par1 = new SqlParameter()
+            {
+                ParameterName = "@DepartmentID",
+                SqlDbType = System.Data.SqlDbType.Int
+
+,
+                Value = departmentID
+            };
+
+            return _dbHelper.GetList(sql, par1);
         }
     }
   

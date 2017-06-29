@@ -10,6 +10,6 @@ namespace ProductReleaseSystem
     /// </summary>
     public  interface IDownLoadFile
     {
-
+        
     }
 }

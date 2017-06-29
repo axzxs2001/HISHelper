@@ -55,7 +55,36 @@ namespace ProductReleaseSystem
             }
         }
 
-
+        /// <summary>
+        /// 查询数据，返回List
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="pars">参数</param>
+        /// <returns></returns>
+        public List<dynamic> SelectList(string sql, params SqlParameter[] pars)
+        {
+            using (var con = new SqlConnection(ConnectionString))
+            {
+                var cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = sql;
+                cmd.Parameters.AddRange(pars);
+                con.Open();
+                var dr = cmd.ExecuteReader();
+                var list = new List<dynamic>();
+                //读取list数据
+                while (dr.Read())
+                {
+                    var newdic = new List<dynamic>();
+                    foreach (var dicitem in Enumerable.Range(0, dr.FieldCount).ToDictionary(dr.GetName, dr.GetValue))
+                    {
+                        newdic.Add(dicitem.Value == DBNull.Value ? "" : dicitem.Value);
+                    }
+                    list.Add(newdic);
+                }
+                return list;
+            }
+        }
         /// <summary>
         /// 查询数据，返回单个值
         /// </summary>

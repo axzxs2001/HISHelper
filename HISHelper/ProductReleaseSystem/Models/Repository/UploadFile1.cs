@@ -12,7 +12,7 @@ namespace ProductReleaseSystem.Models.Repository
     /// <summary>
     /// 上传查询实体
     /// </summary>
-    public partial class UploadFile:IUploadFile
+    public partial class UploadFile : IUploadFile
     {
         /// <summary>
         /// 数据库操作对象
@@ -26,7 +26,7 @@ namespace ProductReleaseSystem.Models.Repository
         {
             _dbHelper = new DBHelper(connections.Value.prConnectionStrings);
         }
-        
+
         /// <summary>
         /// 查询所有产品列表
         /// </summary>
@@ -82,11 +82,13 @@ WHERE   Versions.ID = @VersionsID";
         public List<Dictionary<string, dynamic>> GetDevelopersByID(int versionsID)
         {
             var sql = @"SELECT  Departments.ID ,
-                        Departments.DepartmentName ,
-                        Developers.Name ,
-                        Developers.QQ ,
-                        Developers.Sex ,
-                        Developers.Phone
+                        Departments.DepartmentName as 部门,
+                        Developers.Name as 姓名,
+                        Developers.QQ as QQ ,
+                        Developers.Sex as 性别,
+                        Developers.Phone as 电话,
+						Developers.Remarks as 备注,
+                        RelatedPersonnels.Personneltype as 类型
                 FROM    dbo.Versions
                         JOIN dbo.RelatedPersonnels ON Versions.id = RelatedPersonnels.VersionID
                         JOIN dbo.Developers ON RelatedPersonnels.PersonID = Developers.ID
@@ -110,6 +112,37 @@ WHERE   Versions.ID = @VersionsID";
                 WHERE   Versions.ID =@VersionsID";
             var par = new SqlParameter() { ParameterName = "@VersionsID", SqlDbType = System.Data.SqlDbType.Int, Value = versionsID };
             return _dbHelper.GetList(sql, par);
+        }
+        /// <summary>
+        /// 查询产品对应描述
+        /// </summary>
+        /// <param name="productID">产品ID</param>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> ProductsDescription(int productID)
+        {
+            var sql = @"SELECT Description FROM dbo.Products where ID=@productID";
+            var par = new SqlParameter() { ParameterName = "@ProductID", SqlDbType = System.Data.SqlDbType.Int, Value = productID };
+            return _dbHelper.GetList(sql, par);
+        }
+        public List<Dictionary<string, dynamic>> VersionDescription(int VersionID)
+        {
+            var sql = @"SELECT Description FROM dbo.Versions where ID=@VersionID";
+            var par = new SqlParameter() { ParameterName = "@VersionID", SqlDbType = System.Data.SqlDbType.Int, Value = VersionID };
+            return _dbHelper.GetList(sql, par);
+        }
+        /// <summary>
+        /// 文件查询
+        /// </summary>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> FileDownLoad(int VersionID)
+        {
+            var sql = @" SELECT  FileName ,
+                        FilePath
+                FROM    dbo.Files
+                WHERE   VersionsID = @VersionID ";
+            var par = new SqlParameter() { ParameterName = "@VersionID", SqlDbType = System.Data.SqlDbType.Int, Value = VersionID };
+            return _dbHelper.GetList(sql, par);
+
         }
     }
 }
