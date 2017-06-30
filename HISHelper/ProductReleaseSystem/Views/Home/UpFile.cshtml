@@ -165,6 +165,39 @@
 </html>
 
 <script>
+
+    function checkproductNull() {
+        var name = document.getElementById("product-name").value.replace(/[]/g, "");
+        var describe = document.getElementById("product-describe").value.replace(/[]/g, "");
+        if (name.length == 0 || name == "此处输入产品名称") {
+            alert("请输入产品名称！");
+            return false;
+        }
+        if (describe.length == 0 || describe == "此处输入产品描述") {
+            alert("请输入产品描述");
+            return false;
+        }
+    }
+
+    function checkVersionNull() {
+        var name = document.getElementById("version-no").value.replace(/[]/g, "");
+        var describe = document.getElementById("version-describe").value.replace(/[]/g, "");
+        var uploadName = document.getElementById("upload-name").value;
+        if (name.length == 0 || name == "此处输入版本号") {
+            alert("请输入版本号");
+            return false;
+        }
+        if (uploadName == 0 ) {
+            alert("请选择发布人");
+            return false;
+        }
+        if (describe.length == 0 || describe == "此处输入版本描述") {
+            alert("请输入版本描述");
+            return false;
+        }
+
+    }
+
     var array = new Array();
     
     //查询所有人员信息
@@ -189,18 +222,20 @@
 
     //添加产品
     function AddProdect() {
-        $.ajax({
-            type: "Post",
-            url: "/addproduct",
-            data: { ProductName: $("#product-name").val(), Description: $('#product-describe').val() },
-            success: function (dataBack) {
-                QueryProducts();
-            },
-            error: function (error) {
-                alert(error.status + error.statusText)
-            }
+        if (checkproductNull()) {
+            $.ajax({
+                type: "Post",
+                url: "/addproduct",
+                data: { ProductName: $("#product-name").val(), Description: $('#product-describe').val() },
+                success: function (dataBack) {
+                    QueryProducts();
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
 
-        });
+            });
+        }
         // QueryProducts()
 
     }
@@ -226,36 +261,44 @@
 
     //添加相关人员表
     function addRelatedPersonnels() {
-        array.length = 0;
-        deleteRelatedPersonnels();
-        var productID = $('#hid').text();
-        var versionID = $('#versionID').text();
-        var id = $('#selectdeveloper input[type="radio"]:checked').parent().siblings(":first").text()
-        var tb = $("#selectdeveloper tr");
-        tb.each(function () {
-            var td = $(this).html();
-            var $td = $(td); //将dom对象转化为jquery对象。
-            // for (var i = 0; i < $td.length; i++) {
-            array.push($td.eq(0).text());
-           // }
-        })
+        if ($('#versionID').text() != 0) {
+            if (array.length=0) {
+                array.length = 0;
+                deleteRelatedPersonnels();
+                var productID = $('#hid').text();
+                var versionID = $('#versionID').text();
+                var id = $('#selectdeveloper input[type="radio"]:checked').parent().siblings(":first").text();
+                var tb = $("#selectdeveloper tr");
+                tb.each(function () {
+                    var td = $(this).html();
+                    var $td = $(td); //将dom对象转化为jquery对象。
+                    // for (var i = 0; i < $td.length; i++) {
+                    array.push($td.eq(0).text());
+                    // }
+                })
 
-        $.ajax({
-            type: "POST",
-            url: '/addrp',
-            data: { id: id, idArray: array, productID: productID, versionID: versionID },
-            success: function (dataBack) {
-                if (dataBack.result == 1) {
-                    alert("保存成功")
-                    QueryRelatedPersonnels();
+                $.ajax({
+                    type: "POST",
+                    url: '/addrp',
+                    data: { id: id, idArray: array, productID: productID, versionID: versionID },
+                    success: function (dataBack) {
+                        if (dataBack.result == 1) {
+                            alert("保存成功")
+                            QueryRelatedPersonnels();
 
-                }
+                        }
 
-            },
-            error: function (error) {
-                alert(error.status + error.statusText)
+                    },
+                    error: function (error) {
+                        alert(error.status + error.statusText)
+                    }
+                });
+            } else {
+                alert("请选择开发人员")
             }
-        });
+        } else {
+            alert("请选择版本进行相关人员添加")
+        }
     }
 
 
@@ -279,22 +322,28 @@
 
     //添加版本
     function AddVersion() {
-        $("#upload-name").find("option:selected").val()
-        alert($("#upload-name").find("option:selected").val());
-        $.ajax({
-            type: "post",
-            url: "/addversion",
-            data: { VersionNumber: $('#version-no').val(), ReleaseTime: $('#version-date').val(), Publisher: $('#upload-name').val(), ProductId: $('#hid').text(), Description: $('#version-describe').val() },
-            success: function (dataBack) {
-                QueryVersions($('#hid').text());
+        if ($('#hid').text() != 0) {
+            if (checkVersionNull()) {
+                $("#upload-name").find("option:selected").val()
+                alert($("#upload-name").find("option:selected").val());
+                $.ajax({
+                    type: "post",
+                    url: "/addversion",
+                    data: { VersionNumber: $('#version-no').val(), ReleaseTime: $('#version-date').val(), Publisher: $('#upload-name').val(), ProductId: $('#hid').text(), Description: $('#version-describe').val() },
+                    success: function (dataBack) {
+                        QueryVersions($('#hid').text());
 
-            },
-            error: function (error) {
+                    },
+                    error: function (error) {
 
-                alert(error.status + error.statusText)
+                        alert(error.status + error.statusText)
+                    }
+                });
             }
-        });
-        
+        } else {
+            alert("请选择产品");
+
+        }
     }
 
     //查询所有项目
@@ -369,27 +418,32 @@
 
     //上传文件
     function UpFile() {
-        alert($('#versionID').text());
-        var file = $('#upload-file').get(0).files[0];
-        var data = new FormData();
-        data.append(file.name, file);
-        data.append("VersionsID", $('#versionID').text());
-        data.append("ProjectName", $('#hidprojectname').text());
-        $.ajax({
-            type: 'POST',
-            url: '/sendfile',
-            contentType: false,
-            processData: false,
-            data: data,
-            success: function (dataBack) {
-                alert(dataBack.message);
+        if ($('#versionID').text()!=0) {
+            alert($('#versionID').text());
+            var file = $('#upload-file').get(0).files[0];
+            var data = new FormData();
+            data.append(file.name, file);
+            data.append("VersionsID", $('#versionID').text());
+            data.append("ProjectName", $('#hidprojectname').text());
+            $.ajax({
+                type: 'POST',
+                url: '/sendfile',
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (dataBack) {
+                    alert(dataBack.message);
 
-            },
-            error: function (error) {
+                },
+                error: function (error) {
 
-                alert(error.status + error.statusText)
-            }
-        });
+                    alert(error.status + error.statusText)
+                }
+            });
+        } else {
+            alert("请选择版本进行上传")
+
+        }
 
     }
 
@@ -412,6 +466,7 @@
     }
 
     $(document).ready(function () {
+        document.getElementById("version-date").readOnly = true;
         $('#version-date').datetimepicker({
             timepicker: false,
             format: 'Y-m-d',

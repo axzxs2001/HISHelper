@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot/devlist.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\css\DeveloperUpload.css" />
     <Content Include="wwwroot\css\informationMaintenance.css" />
     <Content Include="wwwroot\css\jquery.datetimepicker.css" />
