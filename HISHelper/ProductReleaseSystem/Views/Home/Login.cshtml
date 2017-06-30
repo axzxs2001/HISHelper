@@ -6,12 +6,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>登录页面</title>
     <link href="~/css/bootstrap.css" rel="stylesheet" />
     <link href="~/css/login.css" rel="stylesheet" />
     <script src="~/lib/jquery/dist/jquery.js"></script>
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
 </head>
+
+ 
 <body>
     <form method="post" action="/login">
         <div class="container-fuild">
@@ -30,18 +35,17 @@
                     </div>
                     <div id="user-error">
                         <p id="usererror">
-                        @if (ViewBag.error != null)
-                        {
-                            <font color="red">@ViewBag.error</font>
-                        }
+                            @if (ViewBag.error != null)
+                            {
+                                <font color="red">@ViewBag.error</font>
+                            }
                         </p>
                     </div>
+                    <input type="hidden" value="@ViewBag.returnUrl" name="returnUrl" />
                     <div class="sure-btn">
                         <button>重置</button>
-                        <input type="hidden" value="@ViewBag.returnUrl" name="returnUrl" />
-                        <button type="submit" onclick="SubmitLogin()">登录</button>
+                        <button id="login_submit" type="submit" onclick="ValueCheck()">登录</button>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -55,17 +59,16 @@
         $(".sure-btn button:first").click(function (event) {
             $("input").val('');
         });
-        
+
         $("#username").focus(function () {
             $("#usererror").hide();
         });
         $("#userpassword").focus(function () {
             $("#usererror").hide();
         });
-        
+
     });
-    function SubmitLogin() {
-        if (LoginCleck()) {
+    function ValueCheck() {
         $.ajax({
             type: 'POST',
             url: '/login',
@@ -80,24 +83,29 @@
                 alert(error.status + error.statusText);
             }
         });
-        }
-
     }
-    //判断输入框是否为空
-    function LoginCleck() {
-        var str = '';
-        if ($("#username").val() == '') {
-            str += "用户名不能为空！";
-        }
-        if ($("#userpassword").val() == '') {
-            str += "密码不能为空！"
-        }
-        if (str != '') {
-            layer.msg(str, { icon: 2 });
-            return false;
-        } else {
-            return true;
-        }
+
+    $('#login_submit').click(function () { 
+        $.ajax({
+            type: 'POST',
+            url: '/login',
+            data: {
+                username: $('#username').val(),
+                password: $('#userpassword').val()
+            },
+            success: function (result) {
+
+            },
+            error: function (error) {
+                alert(error.status + error.statusText);
+            }
+        });
+        $("body").keydown(function () {
+            if (event.keyCode == "13") {
+                $('#login_submit').click();
+            }
+                
+        })
     }
 </script>
 

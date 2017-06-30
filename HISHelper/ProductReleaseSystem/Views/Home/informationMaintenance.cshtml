@@ -198,13 +198,14 @@
                                         <input type="text" class="form-control" id="qq" name="qq" v-model="developerMenu.qq" placeholder="QQ">
                                     </div>
                                     <div class="col-md-4">
+                                        <label>电话：</label>
+                                        <input type="text" class="form-control" id="phone" name="phone" v-model="developerMenu.phone" placeholder="phone">
+                                    </div>
+                                    <div class="col-md-4">
                                         <label>Email：</label>
                                         <input type="text" class="form-control" id="email" name="email" v-model="developerMenu.email" placeholder="email">
                                     </div>
-                                    <div class="col-md-4">
-                                        <label>联系方式：</label>
-                                        <input type="text" class="form-control" id="phone" name="phone" v-model="developerMenu.phone" placeholder="phone">
-                                    </div>
+
                                     <div class="col-md-6">
                                         <label>备注：</label>
                                         <input type="text" class="form-control" id="remarks" name="remarks" v-model="developerMenu.remarks" placeholder="remarks">
@@ -404,8 +405,6 @@
                                 layer.msg(dataBack.message, { icon: 1 })
                                 GetDepartments();
                             }
-                            $("#tabuser").removeClass("active");
-                            $("#tabdepartment").addClass("active");
                         });
                     }
                 }
@@ -432,7 +431,7 @@
                 });
             }
         }
-        
+
         //部门赋值修改数据
         var modiyMenuVue;
         function showModifyMenu(menu) {
@@ -447,11 +446,11 @@
             else {
                 modiyMenuVue.oldMenu = menu;
             }
-            
+
         }
         //部门保存修改
         function savaModify() {
-
+            if (DepartmentsUpdate()) { 
             $.post("/updatedepartments", {
                 id: modiyMenuVue.oldMenu.id,
                 departmentName: modiyMenuVue.oldMenu.departmentname
@@ -464,9 +463,10 @@
                 }
                 $("#ModiyModal").modal('hide')
             });
+            }
 
         }
-        //判断部门名称是否为空
+        //判断添加部门名称是否为空
         function DepartmentsCheck() {
             var str = '';
             if ($("#department-name").val() == '') {
@@ -480,8 +480,21 @@
             }
 
         }
+        
+        //判断修改部门名称是否为空
+        function DepartmentsUpdate() {
+            var str = '';
+            if ($("#oldname").val() == '') {
+                str += "部门名称不能为空！";
+            }
+            if (str != '') {
+                layer.msg(str, { icon: 2 });
+                return false;
+            } else {
+                return true;
+            }
 
-
+        }
         //#endregion
 
         //#region 用户增删改查
@@ -499,7 +512,7 @@
             }
         })
         //查询全部用户
-            var GetSelectUser;
+        var GetSelectUser;
         function GetUser() {
             $.get('/getusers', {
             }, function (dataBack) {
@@ -542,7 +555,7 @@
                                 layer.msg(dataBack.message, { icon: 1 });
                                 GetUser();
                             }
-                            
+
                         });
                     }
                 }
@@ -590,25 +603,25 @@
         }
         //用户保存修改
         function savaUserModify() {
+            if (UserUpdate()) { 
+                $.post("/updateuser", {
+                    id: modiyUserVue.userMenu.id,
+                    UserName: modiyUserVue.userMenu.username,
+                    PassWord: modiyUserVue.userMenu.password,
+                    Character: $('#mtceng input[type="radio"]:checked').val()
 
-            $.post("/updateuser", {
-
-                id: modiyUserVue.userMenu.id,
-                UserName: modiyUserVue.userMenu.username,
-                PassWord: modiyUserVue.userMenu.password,
-                Character: $('#mtceng input[type="radio"]:checked').val()
-
-            }, function (dataBack) {
-                if (dataBack.result == 0) {
-                    layer.msg(dataBack.message, { icon: 2 });
-                } else {
-                    layer.msg(dataBack.message, { icon: 1 });
-                    GetUser();
-                }
-                $("#ModiyUsers").modal('hide')
-            });
+                }, function (dataBack) {
+                    if (dataBack.result == 0) {
+                        layer.msg(dataBack.message, { icon: 2 });
+                    } else {
+                        layer.msg(dataBack.message, { icon: 1 });
+                        GetUser();
+                    }
+                    $("#ModiyUsers").modal('hide')
+                });
+            }
         }
-        //判断输入框是否为空
+        //判断添加用户是否为空
         function UserCleck() {
             var str = '';
             if ($("#user-name").val() == '') {
@@ -616,6 +629,22 @@
             }
             if ($("#user-password").val() == '') {
                 str += "请输入用户密码";
+            }
+            if (str != '') {
+                layer.msg(str, { icon: 2 });
+                return false;
+            } else {
+                return true;
+            }
+        }
+        //判断修改用户是否为空
+        function UserUpdate() {
+            var str = '';
+            if ($("#username").val() == '') {
+                str += "用户名称不能为空！,";
+            }
+            if ($("#password").val() == '') {
+                str += "密码不能为空！";
             }
             if (str != '') {
                 layer.msg(str, { icon: 2 });
@@ -654,27 +683,27 @@
         }
         //开发人员保存修改
         function savaDeveloperModify() {
-
-            $.post("/updatedeveloper", {
-                Id: modiyDeveloperVue.developerMenu.id,
-                DepartmentId: $("#department-person-name").find("option:selected").val(),
-                Name: modiyDeveloperVue.developerMenu.name,
-                QQ: modiyDeveloperVue.developerMenu.qq,
-                Email: modiyDeveloperVue.developerMenu.email,
-                Phone: modiyDeveloperVue.developerMenu.phone,
-                Remarks: modiyDeveloperVue.developerMenu.remarks,
-                Sex: $('#sex2 input[type="radio"]:checked').val(),
-                DepartmentName: modiyDeveloperVue.developerMenu.departmentname
-            }, function (dataBack) {
-                if (dataBack.result == 0) {
-                    layer.msg(dataBack.message, { icon: 2 });
-                } else {
-                    layer.msg(dataBack.message, { icon: 1 });
-                    GetDevelopers();
-                }
-                $("#Modiydevelopers").modal('hide')
-            });
-
+            if (DeveloperUpdate()){ 
+                $.post("/updatedeveloper", {
+                    Id: modiyDeveloperVue.developerMenu.id,
+                    DepartmentId: $("#department-person-name").find("option:selected").val(),
+                    Name: modiyDeveloperVue.developerMenu.name,
+                    QQ: modiyDeveloperVue.developerMenu.qq,
+                    Email: modiyDeveloperVue.developerMenu.email,
+                    Phone: modiyDeveloperVue.developerMenu.phone,
+                    Remarks: modiyDeveloperVue.developerMenu.remarks,
+                    Sex: $('#sex2 input[type="radio"]:checked').val(),
+                    DepartmentName: modiyDeveloperVue.developerMenu.departmentname
+                }, function (dataBack) {
+                    if (dataBack.result == 0) {
+                        layer.msg(dataBack.message, { icon: 2 });
+                    } else {
+                        layer.msg(dataBack.message, { icon: 1 });
+                        GetDevelopers();
+                    }
+                    $("#Modiydevelopers").modal('hide')
+                });
+            }
         }
         //动态添加开发人员的部门
         function GetSelect() {
@@ -709,7 +738,7 @@
             }
         })
         //查询全部开发人员
-            var GetAllDevelopers;
+        var GetAllDevelopers;
         function GetDevelopers() {
             $.post('/getdevelopers', {
             }, function (dataBack) {
@@ -723,7 +752,7 @@
                     } else {
                         GetAllDevelopers.developers = dataBack.data;
                     }
-                   
+
                 } else {
                     alert(dataBack.message);
                 }
@@ -743,6 +772,7 @@
             },
             methods: {
                 savaDeveloper: function () {
+                    if (DeveloperCleck()) { 
                     $.post("/adddevelopers", {
                         Name: this.name,
                         Sex: $('#developer input[type="radio"]:checked').val(),
@@ -760,6 +790,7 @@
 
                         }
                     });
+                    }
                 }
             }
         })
@@ -778,6 +809,61 @@
                         layer.msg(dataBack.message, { icon: 2 })
                     }
                 });
+            }
+        }
+        //判断添加输入框是否为空
+        function DeveloperCleck() {
+            var str = '';
+            if ($("#department-developer-name").val() == '' || $("#department-developer-name").val() == 0) {
+                str += "部门不能为空！";
+            }
+            if ($("#developer-name").val() == '') {
+                str += "请输入姓名!";
+            }
+            if ($("#developer-QQ").val() == '') {
+                str += "请输入QQ号！";
+            }
+            if ($("#developer-phone").val() == '') {
+                str += "请输入电话号码！";
+            }
+            if ($("#developer-Email").val() == '') {
+                str += "请输入邮箱！";
+            }
+            if ($("#developer-note").val() == '') {
+                str += "请输入备注！";
+            }
+           
+            if (str != '') {
+                layer.msg(str, { icon: 2 });
+                return false;
+            } else {
+                return true;
+            }
+        }
+        //判断修改输入框是否为空
+        function DeveloperUpdate() {
+            var str = '';
+            if ($("#name").val() == '') {
+                str += "请输入姓名!";
+            }
+            if ($("#qq").val() == '') {
+                str += "请输入QQ号！";
+            }
+            if ($("#phone").val() == '') {
+                str += "请输入电话号码！";
+            }
+            if ($("#email").val() == '') {
+                str += "请输入邮箱！";
+            }
+            if ($("#remarks").val() == '') {
+                str += "请输入备注！";
+            }
+
+            if (str != '') {
+                layer.msg(str, { icon: 2 });
+                return false;
+            } else {
+                return true;
             }
         }
         //#endregion

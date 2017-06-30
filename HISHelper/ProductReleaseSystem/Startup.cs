@@ -94,7 +94,6 @@ namespace ProductReleaseSystem
             }
 
             app.UseStaticFiles();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

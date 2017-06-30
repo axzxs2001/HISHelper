@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.Collections;
 using System.IO;
 using ProductReleaseSystem.ProductRelease;
-using ProductReleaseSystem.Models.IRepository; 
+using ProductReleaseSystem.Models.IRepository;
 using Newtonsoft.Json;
 
 namespace ProductReleaseSystem.Controllers
@@ -20,7 +20,7 @@ namespace ProductReleaseSystem.Controllers
     [Authorize(Roles = "1,2,3")]    //	Authorize 授权，批准，委托    Roles 角色
     public class HomeController : Controller
     {
-        IUploadFile _IUploadFile;  
+        IUploadFile _IUploadFile;
 
         public HomeController(IUploadFile iUploadFile)
         {
@@ -78,8 +78,8 @@ namespace ProductReleaseSystem.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("login")]
-        public IActionResult Login(string returnUrl) 
-         {
+        public IActionResult Login(string returnUrl)
+        {
             //判断是否验证
             if (!HttpContext.User.Identity.IsAuthenticated)
             {
@@ -103,40 +103,50 @@ namespace ProductReleaseSystem.Controllers
         public IActionResult Login(string username, string password, string returnUrl)
         {
             //从数据库验证用户，关取出用户所需要信息
-           
+
             try
             {
-                var list = _IUploadFile.SelectUsers(username, password);
-                if (list.Count != 0)
-                {
-                    //登录成功后，设置声明
-                    var claims = new Claim[] {
-                      new Claim(ClaimTypes.UserData,username),
-                      new Claim(ClaimTypes.Role,list[0]["Character"].ToString()),
-                      new Claim(ClaimTypes.Name,list[0]["UserName"].ToString()),
-                      new Claim(ClaimTypes.Sid,list[0]["ID"].ToString())
-                };
-                    HttpContext.Authentication.SignInAsync("loginvalidate", new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookie")));
-                    HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
-                    return new RedirectResult(returnUrl == null ? "/" : returnUrl);
-                }
-                else
+                if (username == null || password == null)
                 {
                     ViewBag.error = "用户名或密码错误！";
                     return View();
                 }
+                else
+                {
+                    var list = _IUploadFile.SelectUsers(username, password);
+                    if (list.Count != 0)
+                    {
+                        //登录成功后，设置声明
+                        var claims = new Claim[] {
+                      new Claim(ClaimTypes.UserData,username),
+                      new Claim(ClaimTypes.Role,list[0]["Character"].ToString()),
+                      new Claim(ClaimTypes.Name,list[0]["UserName"].ToString()),
+                      new Claim(ClaimTypes.Sid,list[0]["ID"].ToString())
+                        };
+                        HttpContext.Authentication.SignInAsync("loginvalidate", new ClaimsPrincipal(new ClaimsIdentity(claims, "")));
+                        HttpContext.Authentication.SignInAsync("loginvalidate", new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookie")));
+                        HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
+                        return new RedirectResult(returnUrl == null ? "/" : returnUrl);
+                       
+                    }
+                    else
+                    {
+                        ViewBag.error = "用户名或密码错误！";
+                        return View();
+                    }
+                }
             }
             catch (Exception exc)
             {
-                return new JsonResult(new { result = 0, message = $"添加部门失败！：{exc.Message}" });
+                return new JsonResult(new { result = 0, message = $"登录失败！：{exc.Message}" });
             }
         }
         #endregion
 
 
-        
 
-       
+
+
 
 
         #region 人员维护
@@ -156,7 +166,7 @@ namespace ProductReleaseSystem.Controllers
         #region 部门增删改查
         #region  添加部门
 
-       
+
 
         /// <summary>
         /// 添加部门
@@ -230,7 +240,7 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="id">部门ID</param>
         /// <returns></returns>
         [HttpPost("updatedepartments")]
-        public IActionResult UpdateDepartments(int id,string departmentName)
+        public IActionResult UpdateDepartments(int id, string departmentName)
         {
             try
             {
@@ -277,7 +287,7 @@ namespace ProductReleaseSystem.Controllers
         [HttpPost("getdevelopers")]
         public IActionResult GetDevelopers()
         {
-            try 
+            try
             {
                 var list = _IUploadFile.QueryDevelopers();
                 return new JsonResult(new { result = 1, message = $"查询开发人员成功！", data = list }, new JsonSerializerSettings()
@@ -339,7 +349,7 @@ namespace ProductReleaseSystem.Controllers
         }
         #endregion
         #endregion
-        
+
         #region 用户增删改查
         #region 添加用户
         /// <summary>
@@ -606,7 +616,7 @@ namespace ProductReleaseSystem.Controllers
         /// </summary>
         /// <param name="relatedPersonnels"></param>
         /// <returns></returns>
-        
+
         [HttpPost("addrp")]
         public IActionResult addRelatedPersonnels(int? id, int[] idArray, string productID, int versionID)
         {

@@ -108,9 +108,10 @@
                 $(".product li").on('click', 'li', function (event) {
                 });
                 $(".product li").click(function (event) {
-                    $(".product").css({ 'background': 'rgba(0,0,0,8)', 'color': '#fff' });
+                    $(".product").css({ 'background': 'rgba(0,0,0,0.8)', 'color': '#fff' });
                     $(".product li").css({ 'background': '', 'color': '' });
                     $(this).css({ 'background': '#fff', 'color': '#000' });
+
                 });
             },
             error: function (error) {
@@ -139,12 +140,12 @@
                     trstring += '<span class="glyphicon glyphicon-hand-down"></span>';
                     trstring += '</li>';
                 });
-                $('.version').html(trstring);
+                $(".version").html(trstring);
                 $(".version li").on('click', 'li', function (event) {
                 });
                 $(".version li").click(function (event) {
                     $(".version").css({ 'background': '#fff', 'color': '#000' });
-                    $(".product li").css({ 'background': '', 'color': '' });
+                    $(".version li").css({ 'background': '', 'color': '' });
                     $(this).css({ 'background': '#000', 'color': '#fff' });
                 });
             },
