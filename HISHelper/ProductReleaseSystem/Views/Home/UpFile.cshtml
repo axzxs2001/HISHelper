@@ -30,6 +30,7 @@
             <div class="row col-md-12">
                 <!-- 版本信息模块 -->
                 <span id="hid" style="display:none"></span>
+                <span id="hidprojectname" style="display:none"></span>
                 <h3 class="add-version">
                     点击此处添加最新版本
                     <span class=" glyphicon glyphicon-plus"></span>
@@ -305,7 +306,7 @@
             success: function (dataBack) {
                 var str = '';
                 $(dataBack.data).each(function (index, item) {
-                    str += '<li onclick=GetID(' + item.ID + ');>'
+                    str += '<li onclick=GetID(\'' + item.ID +'\',\''+ item.ProductName +'\');>'
                     str += item.ProductName
                     str += '<span class="hid" style="display:none">' + item.ID + '</span>';
                     str += '<span class="glyphicon glyphicon-hand-right"></span>';
@@ -373,6 +374,7 @@
         var data = new FormData();
         data.append(file.name, file);
         data.append("VersionsID", $('#versionID').text());
+        data.append("ProjectName", $('#hidprojectname').text());
         $.ajax({
             type: 'POST',
             url: '/sendfile',
@@ -392,8 +394,11 @@
     }
 
     //点击项目查询所有版本
-    function GetID(elem) {
+    function GetID(elem,text) {
         $('#hid').text(elem);
+        $('#hidprojectname').text(text);
+        alert(text);
+        alert($('#hidprojectname').text())
         QueryVersions(elem);
         QueryAllFiles('');
         $("#selectdeveloper").html('');
@@ -454,54 +459,7 @@
         }
 
 
-
-        //#region 注释
-        /*二级联动*/
-        // 创建一个二维数组
-        //var arr = new Array(2);
-        //arr[0] = ["新技术研究中心", "张三", "李四", "王五"];
-        //arr[1] = ["接口", "赵六", "钱七", "刘八"];
-        //$("#department").change(function (event) {
-        //    var val = $(this).val();
-        //    // 获取city的select
-        //    var person = document.getElementById("person");
-        //    // 获取option
-        //    var personOp = person.getElementsByTagName("option");
-        //    // 设置可操作
-        //    person.disabled = false;
-        //    // 先删除，后添加
-        //    for (var i = 0; i < personOp.length; i++) {
-        //        var op = personOp[i];
-        //        // 删除option
-        //        person.removeChild(op);
-        //        //数组长度发生变化，需处理
-        //        i--;
-        //    }
-        //    // 遍历
-        //    for (var i = 0; i < arr.length; i++) {
-        //        //取一维数组
-        //        var arr1 = arr[i];
-        //        //取一维数组的第一个值
-        //        var firstVal = arr1[0];
-        //        //判断
-        //        if (firstVal == val) {
-        //            //遍历
-        //            for (var j = 1; j < arr1.length; j++) {
-        //                // 获取城市名
-        //                var value = arr1[j];
-        //                // 创建option
-        //                var optionl = document.createElement("option");
-        //                // 创建文本
-        //                var textl = document.createTextNode(value);
-        //                // 把文本添加到标签
-        //                optionl.appendChild(textl);
-        //                //添加到city里面
-        //                person.appendChild(optionl);
-        //            }
-        //        }
-        //    }
-        //});
-        //#endregion
+    
         /*弹出产品模态层*/
         $(".add-product").click(function (event) {
             $('#prductModal').modal('show');
@@ -651,12 +609,6 @@
 
     }
 
-        //$(".product li").on('click', 'li', function (event) {
-        //});
-        //$(".product li").click(function (event) {
-        //    $(".product li").css({ 'background': '#000', 'color': '#fff' });
-        //    $(this).css({ 'background': '#0cc', 'color': '#fff' });
-        //});
-
+      
 
 </script>
