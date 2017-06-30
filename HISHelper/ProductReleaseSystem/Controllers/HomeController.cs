@@ -531,7 +531,7 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="VersionsID">版本ID</param>
         /// <returns></returns>
         [HttpPost("sendfile")]
-        public async Task<IActionResult> UpFile([FromServices] IHostingEnvironment env, int UploadPeople, int VersionsID)
+        public async Task<IActionResult> UpFile([FromServices] IHostingEnvironment env, int UploadPeople, int VersionsID,string ProjectName)
         {
 
             try
@@ -539,8 +539,12 @@ namespace ProductReleaseSystem.Controllers
                 var file = HttpContext.Request.Form.Files[0];
                 var filePath = env.WebRootPath;
                 var fileName = file.FileName;
-                var path = filePath + '\\' + fileName;
-                var length = path.Length;
+                var url = filePath + '\\' + ProjectName;
+                if (!Directory.Exists(url))
+                {
+                    System.IO.Directory.CreateDirectory(filePath + '\\' + ProjectName);
+                }
+                var path = filePath + '\\' + ProjectName+'\\'+ fileName;
                 if (!Directory.Exists(path))
                 {
                     using (var fStream = new FileStream(path, FileMode.Create))
