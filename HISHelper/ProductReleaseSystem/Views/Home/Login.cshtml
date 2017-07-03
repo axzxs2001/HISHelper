@@ -13,12 +13,12 @@
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
     <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
-    <META HTTP-EQUIV="Expires" CONTENT="0">
+    <META http-equiv="Expires" content="0">
 </head>
 
- 
+
 <body>
-    <form method="post" action="/login">
+    <form method="post" action="/login" name="form1">
         <div class="container-fuild">
             <div class="login">
                 <div class="logo">
@@ -27,11 +27,11 @@
                 <div class="main">
                     <div id="user-name">
                         <span>用户名：</span>
-                        <input type="text" name="username" id="username">
+                        <input type="text" name="username" id="username" onkeydown="KeyDown()">
                     </div>
                     <div id="user-password">
                         <span>密&nbsp;&nbsp;&nbsp;码：</span>
-                        <input type="password" name="password" id="userpassword">
+                        <input type="password" name="password" id="userpassword" onkeydown="KeyDown()">
                     </div>
                     <div id="user-error">
                         <p id="usererror">
@@ -44,7 +44,7 @@
                     <input type="hidden" value="@ViewBag.returnUrl" name="returnUrl" />
                     <div class="sure-btn">
                         <button>重置</button>
-                        <button id="login_submit" type="submit" onclick="ValueCheck()">登录</button>
+                        <button id="btnsubmit" type="submit" name="btnsubmit" onclick="ValueCheck()">登录</button>
                     </div>
                 </div>
             </div>
@@ -55,19 +55,23 @@
 
 <script src="~/layer/layer.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
+    //防止页面后退
+    history.pushState(null, null, document.URL);
+    window.addEventListener('popstate', function () {
+        history.pushState(null, null, document.URL);
+    });
+
+    $(function () {
         $(".sure-btn button:first").click(function (event) {
             $("input").val('');
         });
-
         $("#username").focus(function () {
             $("#usererror").hide();
         });
         $("#userpassword").focus(function () {
             $("#usererror").hide();
         });
-
-    });
+    })
     function ValueCheck() {
         $.ajax({
             type: 'POST',
@@ -85,7 +89,7 @@
         });
     }
 
-    $('#login_submit').click(function () { 
+    $("#btnsubmit").click(function () {
         $.ajax({
             type: 'POST',
             url: '/login',
@@ -100,12 +104,15 @@
                 alert(error.status + error.statusText);
             }
         });
-        $("body").keydown(function () {
-            if (event.keyCode == "13") {
-                $('#login_submit').click();
-            }
-                
-        })
+    })
+
+    function KeyDown() {
+        if (event.keyCode == 13) {
+            event.returnValue = false;
+            event.cancel = true;
+            form1.btnsubmit.click();
+        }
     }
+
 </script>
 

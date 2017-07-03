@@ -50,9 +50,8 @@
                     <li role="presentation" class="dropdown"><a asp-area="" asp-controller="Home" asp-action="informationMaintenance">人员管理</a></li>
                     <li role="presentation" class="dropdown"><a asp-area="" asp-controller="Home" asp-action="Documentation">使用文档</a></li>
                     <li role="presentation" id="useryonghu">当前用户：@User.Identity.Name</li>
-                    <li role="presentation" class="dropdown"><a asp-area="" asp-controller="Home" asp-action="Login">注销</a></li>
+                    <li role="presentation" class="dropdown"><a href="/logout">注销</a></li>
                 </ul>
-                
             </div>
         </div>
     </nav>
@@ -63,7 +62,6 @@
             <p>&copy; 2017 - ProductReleaseSystem</p>
         </footer>
     </div>
-
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>

@@ -11,6 +11,7 @@ using System.IO;
 using ProductReleaseSystem.ProductRelease;
 using ProductReleaseSystem.Models.IRepository;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
 
 namespace ProductReleaseSystem.Controllers
 {
@@ -90,6 +91,7 @@ namespace ProductReleaseSystem.Controllers
             return View();
         }
         #endregion
+
         #region 允许所有登录者
         /// <summary>
         ///允许所有登录者
@@ -123,9 +125,9 @@ namespace ProductReleaseSystem.Controllers
                       new Claim(ClaimTypes.Name,list[0]["UserName"].ToString()),
                       new Claim(ClaimTypes.Sid,list[0]["ID"].ToString())
                         };
-                        HttpContext.Authentication.SignInAsync("loginvalidate", new ClaimsPrincipal(new ClaimsIdentity(claims, "")));
                         HttpContext.Authentication.SignInAsync("loginvalidate", new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookie")));
                         HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
+
                         return new RedirectResult(returnUrl == null ? "/" : returnUrl);
                        
                     }
@@ -141,12 +143,15 @@ namespace ProductReleaseSystem.Controllers
                 return new JsonResult(new { result = 0, message = $"登录失败！：{exc.Message}" });
             }
         }
+
+        [HttpGet("logout")]
+        public IActionResult LgoOut()
+        {
+            HttpContext.Authentication.SignOutAsync("loginvalidate");
+            return Redirect("/login");
+        }
+
         #endregion
-
-
-
-
-
 
 
         #region 人员维护
@@ -156,7 +161,7 @@ namespace ProductReleaseSystem.Controllers
         /// <returns></returns>
         [Authorize(Roles = "3")]
         [HttpGet("information")]
-        public IActionResult informationMaintenance()
+        public IActionResult InformationMaintenance()
         {
             return View();
         }
@@ -539,19 +544,21 @@ namespace ProductReleaseSystem.Controllers
                 var file = HttpContext.Request.Form.Files[0];
                 var filePath = env.WebRootPath;
                 var fileName = file.FileName;
-                var url = filePath + '\\' + ProjectName;
+                var url = filePath + '\\' +
+                        "产品项目" + '\\' + ProjectName;
                 if (!Directory.Exists(url))
                 {
-                    System.IO.Directory.CreateDirectory(filePath + '\\' + ProjectName);
+                    System.IO.Directory.CreateDirectory(filePath + '\\'+
+                        "产品项目"+'\\' + ProjectName);
                 }
-                var path = filePath + '\\' + ProjectName+'\\'+ fileName;
+                var path = filePath + '\\' + "产品项目" + '\\' + ProjectName+'\\'+ fileName;
                 if (!Directory.Exists(path))
                 {
                     using (var fStream = new FileStream(path, FileMode.Create))
                     {
                         await file.CopyToAsync(fStream);
                     }
-                    var upFile = new Files { FileName = fileName, UploadTime = System.DateTime.Now, UploadPeople = UploadPeople, VersionsId = VersionsID, FilePath = path };
+                    var upFile = new Files { FileName = fileName, UploadTime = System.DateTime.Now, UploadPeople = UploadPeople, VersionsId = VersionsID, FilePath = $"/产品项目/{ProjectName}/{fileName}" };
 
                     _IUploadFile.addFiles(upFile);
                     return Ok(new { result = 1, message = "上传文件成功" });
@@ -574,7 +581,7 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="id">人员ID</param>
         /// <returns></returns>
         [HttpPost("deleterp")]
-        public IActionResult deleteRp(int id)
+        public IActionResult DeleteRp(int id)
         {
             if (_IUploadFile.deleteRp(id))
             {
@@ -604,7 +611,7 @@ namespace ProductReleaseSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("getkf")]
-        public IActionResult getkf()
+        public IActionResult Getkf()
         {
             return new JsonResult(new { result = 1, message = "", data = _IUploadFile.Querykf() });
         }
@@ -618,7 +625,7 @@ namespace ProductReleaseSystem.Controllers
         /// <returns></returns>
 
         [HttpPost("addrp")]
-        public IActionResult addRelatedPersonnels(int? id, int[] idArray, string productID, int versionID)
+        public IActionResult AddRelatedPersonnels(int? id, int[] idArray, string productID, int versionID)
         {
             var relatedPersonnels = new RelatedPersonnels();
             foreach (var i in idArray)

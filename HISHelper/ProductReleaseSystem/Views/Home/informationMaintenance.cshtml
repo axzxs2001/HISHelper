@@ -399,11 +399,12 @@
                             departmentName: this.menuName
                         }, function (dataBack) {
                             if (dataBack.result == 0) {
-                                layer.msg(dataBack.message, { icon: 2 })
+                                layer.msg(dataBack.message, { icon: 2 });
 
                             } else {
-                                layer.msg(dataBack.message, { icon: 1 })
+                                layer.msg(dataBack.message, { icon: 1 });
                                 GetDepartments();
+                                $("#department-name").val("");
                             }
                         });
                     }
@@ -554,6 +555,8 @@
                             } else {
                                 layer.msg(dataBack.message, { icon: 1 });
                                 GetUser();
+                                $("#user-name").val("");
+                                $("#user-password").val("");
                             }
 
                         });
@@ -758,7 +761,6 @@
                 }
             })
         }
-
         //添加开发人员
         var addDeveloper = new Vue({
             el: "#adddevelopers",
@@ -787,6 +789,12 @@
                         } else {
                             layer.msg(dataBack.message, { icon: 1 })
                             GetDevelopers();
+                            $("#department-developer-name").val("0");
+                            $("#developer-name").val("");
+                            $("#developer-QQ").val("");
+                            $("#developer-phone").val("");
+                            $("#developer-Email").val("");
+                            $("#developer-note").val("");
 
                         }
                     });

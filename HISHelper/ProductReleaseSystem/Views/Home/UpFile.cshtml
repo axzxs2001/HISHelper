@@ -173,9 +173,12 @@
             alert("请输入产品名称！");
             return false;
         }
-        if (describe.length == 0 || describe == "此处输入产品描述") {
+        else if (describe.length == 0 || describe == "此处输入产品描述") {
             alert("请输入产品描述");
             return false;
+        } else {
+            return true;
+
         }
     }
 
@@ -187,19 +190,21 @@
             alert("请输入版本号");
             return false;
         }
-        if (uploadName == 0 ) {
+        else if (uploadName == 0) {
             alert("请选择发布人");
             return false;
         }
-        if (describe.length == 0 || describe == "此处输入版本描述") {
+        else if (describe.length == 0 || describe == "此处输入版本描述") {
             alert("请输入版本描述");
             return false;
+        } else {
+            return true;
         }
 
     }
 
     var array = new Array();
-    
+
     //查询所有人员信息
     function Querykf() {
         $.ajax({
@@ -262,8 +267,8 @@
     //添加相关人员表
     function addRelatedPersonnels() {
         if ($('#versionID').text() != 0) {
-            if (array.length=0) {
                 array.length = 0;
+            
                 deleteRelatedPersonnels();
                 var productID = $('#hid').text();
                 var versionID = $('#versionID').text();
@@ -276,14 +281,14 @@
                     array.push($td.eq(0).text());
                     // }
                 })
-
+                if (array.length != 0) {
                 $.ajax({
                     type: "POST",
                     url: '/addrp',
                     data: { id: id, idArray: array, productID: productID, versionID: versionID },
                     success: function (dataBack) {
                         if (dataBack.result == 1) {
-                            alert("保存成功")
+                            alert("保存成功");
                             QueryRelatedPersonnels();
 
                         }
@@ -325,7 +330,6 @@
         if ($('#hid').text() != 0) {
             if (checkVersionNull()) {
                 $("#upload-name").find("option:selected").val()
-                alert($("#upload-name").find("option:selected").val());
                 $.ajax({
                     type: "post",
                     url: "/addversion",
@@ -355,7 +359,7 @@
             success: function (dataBack) {
                 var str = '';
                 $(dataBack.data).each(function (index, item) {
-                    str += '<li onclick=GetID(\'' + item.ID +'\',\''+ item.ProductName +'\');>'
+                    str += '<li onclick=GetID(\'' + item.ID + '\',\'' + item.ProductName + '\');>'
                     str += item.ProductName
                     str += '<span class="hid" style="display:none">' + item.ID + '</span>';
                     str += '<span class="glyphicon glyphicon-hand-right"></span>';
@@ -368,7 +372,7 @@
                     $(".product").css({ 'background': 'rgba(0,0,0,0.8)', 'color': '#fff' });
                     $(".product li").css({ 'background': '', 'color': '' });
                     $(this).css({ 'background': '#fff', 'color': '#000' });
-                    
+
                 });
 
 
@@ -418,8 +422,7 @@
 
     //上传文件
     function UpFile() {
-        if ($('#versionID').text()!=0) {
-            alert($('#versionID').text());
+        if ($('#versionID').text() != 0) {
             var file = $('#upload-file').get(0).files[0];
             var data = new FormData();
             data.append(file.name, file);
@@ -433,7 +436,7 @@
                 data: data,
                 success: function (dataBack) {
                     alert(dataBack.message);
-
+                    QueryAllFiles($('#versionID').text());
                 },
                 error: function (error) {
 
@@ -448,11 +451,9 @@
     }
 
     //点击项目查询所有版本
-    function GetID(elem,text) {
+    function GetID(elem, text) {
         $('#hid').text(elem);
         $('#hidprojectname').text(text);
-        alert(text);
-        alert($('#hidprojectname').text())
         QueryVersions(elem);
         QueryAllFiles('');
         $("#selectdeveloper").html('');
@@ -514,7 +515,7 @@
         }
 
 
-    
+
         /*弹出产品模态层*/
         $(".add-product").click(function (event) {
             $('#prductModal').modal('show');
@@ -543,7 +544,7 @@
 
     //根据部门ID查询成员信息
     function QueryDevelopers(id) {
-       
+
         $.ajax({
             type: "GET",
             url: '/getdevelopers',
@@ -563,7 +564,7 @@
 
     //根据人员ID删除相关人员
     function deleteRp(id) {
-       
+
         $.ajax({
             type: "POST",
             url: "/deleterp",
@@ -571,20 +572,20 @@
             success: function (dataBack) {
                 if (dataBack.result == 1) {
                     QueryRelatedPersonnels();
-                 }
+                }
             },
             error: function (error) {
                 alert(error.status + error.statusText)
 
             }
         });
-       
+
     }
 
 
     //根据版本ID查询所有相关人员
     function QueryRelatedPersonnels() {
-       
+
         var versionID = $('#versionID').text();
         $.ajax({
             type: "GET",
@@ -664,6 +665,6 @@
 
     }
 
-      
+
 
 </script>

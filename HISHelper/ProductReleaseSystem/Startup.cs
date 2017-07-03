@@ -54,7 +54,6 @@ namespace ProductReleaseSystem
             services.AddMvc();
             //设置body的长度
            
-           
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -68,7 +67,7 @@ namespace ProductReleaseSystem
                 //没有权限时导航的登录action
                 LoginPath = new Microsoft.AspNetCore.Http.PathString("/login"),
                 //访问被拒绝后的acion
-                AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/您没有权限访问该页面！！！"),
+                AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/您没有权限进入！！！"),
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
                 SlidingExpiration = true
