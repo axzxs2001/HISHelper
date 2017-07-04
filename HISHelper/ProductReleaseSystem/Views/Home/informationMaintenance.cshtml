@@ -451,7 +451,7 @@
         }
         //部门保存修改
         function savaModify() {
-            if (DepartmentsUpdate()) { 
+            if (DepartmentsUpdate()) {
             $.post("/updatedepartments", {
                 id: modiyMenuVue.oldMenu.id,
                 departmentName: modiyMenuVue.oldMenu.departmentname
@@ -481,7 +481,7 @@
             }
 
         }
-        
+
         //判断修改部门名称是否为空
         function DepartmentsUpdate() {
             var str = '';
@@ -606,7 +606,7 @@
         }
         //用户保存修改
         function savaUserModify() {
-            if (UserUpdate()) { 
+            if (UserUpdate()) {
                 $.post("/updateuser", {
                     id: modiyUserVue.userMenu.id,
                     UserName: modiyUserVue.userMenu.username,
@@ -686,7 +686,7 @@
         }
         //开发人员保存修改
         function savaDeveloperModify() {
-            if (DeveloperUpdate()){ 
+            if (DeveloperUpdate()){
                 $.post("/updatedeveloper", {
                     Id: modiyDeveloperVue.developerMenu.id,
                     DepartmentId: $("#department-person-name").find("option:selected").val(),
@@ -774,7 +774,7 @@
             },
             methods: {
                 savaDeveloper: function () {
-                    if (DeveloperCleck()) { 
+                    if (DeveloperCleck()) {
                     $.post("/adddevelopers", {
                         Name: this.name,
                         Sex: $('#developer input[type="radio"]:checked').val(),
@@ -831,16 +831,28 @@
             if ($("#developer-QQ").val() == '') {
                 str += "请输入QQ号！";
             }
+            else if (!$("#developer-QQ").val().match(/^\d{5,10}$/))
+            { 
+                str += "QQ号格式不正确！";
+            }
             if ($("#developer-phone").val() == '') {
-                str += "请输入电话号码！";
+                str += "联系方式不能为空！";
+            }
+            else if (!$("#developer-phone").val().match(/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/))
+            {
+                str += "联系方式格式不正确！";
             }
             if ($("#developer-Email").val() == '') {
                 str += "请输入邮箱！";
             }
+            else if (!$("#developer-Email").val().match( /^([a-zA-Z0-9_-])+@@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/))
+            {
+                str += "邮箱格式不正确！";
+            }
             if ($("#developer-note").val() == '') {
                 str += "请输入备注！";
             }
-           
+
             if (str != '') {
                 layer.msg(str, { icon: 2 });
                 return false;
