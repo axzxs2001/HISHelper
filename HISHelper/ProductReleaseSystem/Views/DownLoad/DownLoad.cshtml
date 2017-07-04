@@ -263,7 +263,7 @@
                 trstring += '';
                 $(dataBack.data).each(function (index, item) {
                     
-                    trstring += '<li><a href=' + item["FilePath"] + "><span>" + item["FileName"] + '</span></a></li>';                   
+                    trstring += '<li><a href=' + item["FilePath"] + "><span>" + item["FileName"] + '</span></a></li>';                    
                 });
                 $('.filedownload').html(trstring);
                 $(".version li").on('click', 'li', function (event) {

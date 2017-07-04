@@ -174,7 +174,7 @@
                                 <div class="row" style="margin-top:10px;">
                                     <div class="form-group col-md-4">
                                         <label for="department-person-name">部门：</label>
-                                        <input style="display:none" v-model="developerMenu.departmentname" />
+                                        <input style="display:none" v-model="developerMenu.departmentname" />i
                                         <select class="form-control" id="department-person-name">
                                             <option id="selectdepartment" v-bind:value="developerMenu.departmentid">{{developerMenu.departmentname}}</option>
                                         </select>
@@ -557,6 +557,7 @@
                                 GetUser();
                                 $("#user-name").val("");
                                 $("#user-password").val("");
+                                $('input[type="radio"][name="eng"][value="1"]').attr("checked", 'checked');
                             }
 
                         });

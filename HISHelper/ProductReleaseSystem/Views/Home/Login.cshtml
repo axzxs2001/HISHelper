@@ -47,7 +47,7 @@
                         <button id="btnsubmit" type="submit" name="btnsubmit" onclick="ValueCheck()">登录</button>
                     </div>
                 </div>
-            </div>  
+            </div> 
         </div>
     </form>
 </body>
@@ -84,7 +84,7 @@
 
             },
             error: function (error) {
-                alert(error.status + error.statusText);
+                console.log(error.status + error.statusText);
             }
         });
     }
@@ -101,7 +101,7 @@
 
             },
             error: function (error) {
-                alert(error.status + error.statusText);
+                console.log(error.status + error.statusText);
             }
         });
     })
