@@ -153,6 +153,12 @@ namespace ProductReleaseSystem.Controllers
 
         #endregion
 
+        [HttpGet("authority")]
+        public IActionResult Authority()
+        {
+            return View();
+        }
+
 
         #region 人员维护
         /// <summary>

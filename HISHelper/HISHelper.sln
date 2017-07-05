@@ -10,7 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProductReleaseSystemDoc", "ProductReleaseSystemDoc", "{D4DE7327-064D-494B-AE3A-564C2DD4372A}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\..\..\Desktop\产品发布系统开发文档.docx = ..\..\..\..\Desktop\产品发布系统开发文档.docx
-		..\..\..\..\Desktop\公司内容\数据库脚本.sql = ..\..\..\..\Desktop\公司内容\数据库脚本.sql
+		..\..\..\..\Desktop\产品发布系统脚本.sql = ..\..\..\..\Desktop\产品发布系统脚本.sql
 	EndProjectSection
 EndProject
 Global

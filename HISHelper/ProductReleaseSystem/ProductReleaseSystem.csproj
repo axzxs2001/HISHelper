@@ -43,6 +43,7 @@
     <Content Include="wwwroot\images\Images4.jpg" />
     <Content Include="wwwroot\images\main-logo.png" />
     <Content Include="wwwroot\images\product.png" />
+    <Content Include="wwwroot\images\shishitupian.jpg" />
     <Content Include="wwwroot\js\bootstrap.js" />
     <Content Include="wwwroot\js\jquery.datetimepicker.js" />
   </ItemGroup>
