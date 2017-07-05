@@ -254,7 +254,8 @@
             success: function (dataBack) {
                 var str = '';
                 $(dataBack.data).each(function (index, item) {
-                    str += '<li>名称：' + item.FileName + '上传时间:' + item.UploadTime + '</li>';
+                    str += '<li>名称：' + item.FileName + '&nbsp;&nbsp;&nbsp;&nbsp;  上传时间:' + item.UploadTime + '</li>';
+
                 });
                 $("#upload-file-news").html(str);
             },
