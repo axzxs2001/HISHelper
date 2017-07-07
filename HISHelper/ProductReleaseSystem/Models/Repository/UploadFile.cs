@@ -466,7 +466,7 @@ where DepartmentID=@DepartmentID
         /// <returns></returns>
         public List<Dictionary<string, dynamic>> selectSmallVersions(int id)
         {
-            var sql = @"select ID,SmallVersionNumber,ReleaseTime,publisher,Description where VersionID=@VersionID";
+            var sql = @"select ID,SmallVersionNumber,ReleaseTime,publisher,Description from SmallVersions where VersionID=@VersionID";
             var par = new SqlParameter() { ParameterName = "@VersionID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.GetList(sql, par);
         }

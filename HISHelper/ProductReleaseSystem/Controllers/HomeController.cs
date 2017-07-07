@@ -757,6 +757,7 @@ namespace ProductReleaseSystem.Controllers
         /// </summary>
         /// <param name="smallVersions">小版本实体类</param>
         /// <returns></returns>
+        [HttpPost("addsmallversion")]
         public bool addSmallVersion(SmallVersions smallVersions)
         {
             return _IUploadFile.addSmallVersion(smallVersions);
@@ -768,6 +769,7 @@ namespace ProductReleaseSystem.Controllers
         /// </summary>
         /// <param name="id">小版本ID</param>
         /// <returns></returns>
+        [HttpPost("selectsamllfiles")]
         public IActionResult selectSamllFiles(int id)
         {
             return new JsonResult(new { result = 1, message = "", data = _IUploadFile.selectSamllFiles(id) }, new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd HH:mm" });
@@ -782,6 +784,7 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="smallVersionID">小版本ID</param>
         /// <param name="SmallFile">小文件</param>
         /// <returns></returns>
+        [HttpPost("addsmallfile")]
         public async Task<IActionResult> addSmallFile([FromServices] IHostingEnvironment env,int smallVersionID,string SmallFile)
         {
             try
@@ -803,7 +806,7 @@ namespace ProductReleaseSystem.Controllers
                     {
                         await file.CopyToAsync(fStream);
                     }
-                    var upFile = new Files { FileName = fileName, UploadTime = System.DateTime.Now,, VersionsId = smallVersionID, FilePath = $"/产品项目/{SmallFile}/{fileName}" };
+                    var upFile = new Files { FileName = fileName, UploadTime = System.DateTime.Now, VersionsId = smallVersionID, FilePath = $"/产品项目/{SmallFile}/{fileName}" };
 
                     _IUploadFile.addFiles(upFile);
                     return Ok(new { result = 1, message = "上传文件成功" });

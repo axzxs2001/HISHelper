@@ -183,11 +183,6 @@
                     <div class="form-group">
                         <label for="upload-name">上传人：</label>
                         <select class="form-control" id="SmallUpload-name">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -258,6 +253,26 @@
                     str += "<option value=" + item.UserName + ">" + item.UserName + "</option>";
                 });
                 $("#upload-name").html(str);
+            },
+            error: function (error) {
+                alert(error.status + error.statusText)
+
+            }
+        });
+    }
+
+    //小版本查所有成员信息
+    function Querykkf() {
+        $.ajax({
+            type: "GET",
+            url: '/getkf',
+            data: {},
+            success: function (dataBack) {
+                var str = '<option value="0">--请选择发布人-</option>';
+                $(dataBack.data).each(function (index, item) {
+                    str += "<option value=" + item.UserName + ">" + item.UserName + "</option>";
+                });
+                $("#SmallUpload-name").html(str);
             },
             error: function (error) {
                 alert(error.status + error.statusText)
@@ -392,6 +407,21 @@
         }
     }
 
+    //添加小版本
+    function addSmallVersion() {
+        $.ajax({
+            type: "post",
+            url: "/addsmallversion",
+            data: { SmallVersionNumber: $("#SmallVersion-no").val(), ReleaseTime: $("#SmallVersion-date").val(), publisher: $("#SmallUpload-name").val(), VersionID: $('#versionID').text(), Description: $("#SmallVersion-describe").val() },
+            success: function (dataBack) {
+
+            },
+            error: function (error) {
+                alert(error.status + error.statusText)
+            }
+        })
+    }
+
     //查询所有项目
     function QueryProducts() {
         $.ajax({
@@ -444,18 +474,11 @@
                     str += '<span class="hid" style="display:none">' + item.ID + '</span>';
                     str += '<span class="glyphicon glyphicon-hand-down"></span>';
                     str += ' <span class="add-smallversion glyphicon glyphicon-plus" style="float:right"></span>';
-                    str += '<ul>';
-                    str += '<li>';
-                    str += '<span>产品名称：医院感染管理系统</span>';
-                    str += '<span>版本号：3.0.1</span>';
-                    str += '<span>发布人：张三</span>';
-                    str += '<span>发布时间：2017-05-01</span>';
-                    str += '<span class="hid"></span>';
-                    str += ' <span class=" glyphicon glyphicon-hand-down" style="padding-left:50px;"></span>';
-                    str += '</li > ';
-                    str += '</ul > ';
+                    str += '<ul id=' + item.ID + '>';
+                    str += '</ul>';
                     str += '</li>';
                 });
+                
                 $(".version").html(str);
                 $(".version li").click(function (event) {
                     $(".version").children('li').css({ 'background': '', 'color': '' });
@@ -466,20 +489,45 @@
                 });
                 $(".version li ul li").click(function (event) {
                     $(".version li ul li").css({ 'background': '', 'color': '' });
-                    $(this).css({ 'background': '#000', 'color': '#fff' });
+                    $(this).css({ 'background': '#888', 'color': '#fff' });
                 });
                 /*弹出小版本模态层*/
                 $(".add-smallversion").click(function (event) {
                     $('#SmallVersionModal').modal('show');
                 });
                 /*关闭小版本模态层*/
-                $("#close-smallversion").click(function (event) {
-                    $('#SmallVversionModal').modal('hide');
+                $("#SmallClose-version").click(function (event) {
+                    $('#SmallVersionModal').modal('hide');
+                    addSmallVersion();
                 });
             },
             error: function (error) {
                 alert(error.status + error.statusText)
 
+            }
+        });
+
+    }
+
+    //查询小版本根据大版本id
+    function GetSmallVersion(id) {
+        $.ajax({
+            type: "POST",
+            url: "selectsvs",
+            data: { id: id },
+            success: function (dataBack) {
+                console.log(dataBack.data);
+                var str = "";
+                $(dataBack.data).each(function (index, item) {
+                    str += '<li>';
+                    str += '<span id="smallVersionID" style="display:none">' + item.ID + '</span>'
+                    str += '<span>版本号：' + item.SmallVersionNumber + '</span>';
+                    str += '<span>发布人：' + item.publisher + '</span>';
+                    str += '<span>发布时间：' + item.ReleaseTime + '</span>';
+                    str += ' <span class=" glyphicon glyphicon-hand-down" style="padding-left:50px;"></span>';
+                    str += '</li > ';
+                });
+                $('#' + id).html(str);
             }
         });
 
@@ -544,6 +592,23 @@
             //阻止滚动鼠标滑轮滑动改变时间
             scrollInput: false
         });
+
+        document.getElementById("SmallVersion-date").readOnly = true;
+        $('#SmallVersion-date').datetimepicker({
+            timepicker: false,
+            format: 'Y-m-d',
+            lang: 'ch',
+             //开始年份
+            yearStart: 1900,
+             //不默认当前时间
+            validateOnBlur: false,
+            //阻止滚动鼠标滑轮滑动改变时间
+            scrollInput: false
+        });
+
+
+
+
         QueryDepartments();
         /*列表显示上传文件信息*/
         var test = document.getElementById('upload-file');
@@ -608,7 +673,7 @@
 
         QueryProducts();
         Querykf();
-
+        Querykkf();
 
     });
 
