@@ -458,6 +458,70 @@ where DepartmentID=@DepartmentID
 
             return _dbHelper.GetList(sql, par1);
         }
+
+        /// <summary>
+        /// 根据版本号查询所有小版本
+        /// </summary>
+        /// <param name="id">版本号</param>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> selectSmallVersions(int id)
+        {
+            var sql = @"select ID,SmallVersionNumber,ReleaseTime,publisher,Description where VersionID=@VersionID";
+            var par = new SqlParameter() { ParameterName = "@VersionID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.GetList(sql, par);
+        }
+
+        /// <summary>
+        /// 添加小版本
+        /// </summary>
+        /// <param name="smallVersions">小版本实体类</param>
+        /// <returns></returns>
+        public bool addSmallVersion(SmallVersions smallVersions)
+        {
+            var sql = @"insert into SmallVersions(SmallVersionNumber,ReleaseTime,publisher,VersionID,Description) values
+(@SmallVersionNumber,
+@ReleaseTime,
+@publisher,
+@VersionID,
+@Description)";
+            var par1 = new SqlParameter() { ParameterName = "@SmallVersionNumber", SqlDbType = System.Data.SqlDbType.VarChar, Value = smallVersions.SmallVersionNumber };
+            var par2 = new SqlParameter() { ParameterName = "@ReleaseTime", SqlDbType = System.Data.SqlDbType.DateTime, Value =smallVersions.ReleaseTime };
+            var par3 = new SqlParameter() { ParameterName = "@publisher", SqlDbType = System.Data.SqlDbType.VarChar, Value = smallVersions.Publisher};
+            var par4 = new SqlParameter() { ParameterName = "@VersionID", SqlDbType = System.Data.SqlDbType.Int, Value =smallVersions.VersionID };
+            var par5 = new SqlParameter() { ParameterName = "@Description", SqlDbType = System.Data.SqlDbType.VarChar, Value =smallVersions.Description };
+            return _dbHelper.SavaData(sql, par1, par2, par3, par4, par5) > 0 ? true : false;
+        }
+
+        /// <summary>
+        /// 根据小版本号查询所有小文件
+        /// </summary>
+        /// <param name="id">小版本号</param>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> selectSamllFiles(int id)
+        {
+            var sql = @"select SmallFileName,UploadTime from SmallFiles where SmallVersionsID=@SmallVersionsID";
+            var par = new SqlParameter() { ParameterName = "@SmallVersionsID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.GetList(sql, par);
+        }
+
+        /// <summary>
+        /// 添加小版本文件
+        /// </summary>
+        /// <param name="smallFiles">小版本实体类</param>
+        /// <returns></returns>
+        public bool addSmallFile(SmallFiles smallFiles)
+        {
+            var sql = @"insert into SmallFiles(SmallFileName,UploadTime,SmallFilePath,SmallVersionsID) values
+(@SmallFileName,
+@UploadTime,
+@SmallFilePath,
+@SmallVersionsID)";
+            var par1 = new SqlParameter() { ParameterName = "@SmallFileName", SqlDbType = System.Data.SqlDbType.VarChar, Value = smallFiles.SmallFileName};
+            var par2 = new SqlParameter() { ParameterName = "@UploadTime", SqlDbType = System.Data.SqlDbType.DateTime, Value =smallFiles.UploadTime };
+            var par3 = new SqlParameter() { ParameterName = "@SmallFilePath", SqlDbType = System.Data.SqlDbType.VarChar, Value =smallFiles.SmallFilePath };
+            var par4 = new SqlParameter() { ParameterName = "@SmallVersionsID", SqlDbType = System.Data.SqlDbType.Int, Value =smallFiles.SmallVersionsID };
+            return _dbHelper.SavaData(sql, par1, par2, par3, par4) > 0 ? true : false;
+        }
     }
   
 }

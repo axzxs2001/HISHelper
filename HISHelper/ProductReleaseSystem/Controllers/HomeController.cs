@@ -134,7 +134,7 @@ namespace ProductReleaseSystem.Controllers
                         HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
 
                         return new RedirectResult(returnUrl == null ? "/" : returnUrl);
-                       
+
                     }
                     else
                     {
@@ -547,7 +547,7 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="VersionsID">版本ID</param>
         /// <returns></returns>
         [HttpPost("sendfile")]
-        public async Task<IActionResult> UpFile([FromServices] IHostingEnvironment env, int UploadPeople, int VersionsID,string ProjectName)
+        public async Task<IActionResult> UpFile([FromServices] IHostingEnvironment env, int VersionsID,int UploadPeople, string ProjectName)
         {
 
             try
@@ -559,10 +559,10 @@ namespace ProductReleaseSystem.Controllers
                         "产品项目" + '\\' + ProjectName;
                 if (!Directory.Exists(url))
                 {
-                    System.IO.Directory.CreateDirectory(filePath + '\\'+
-                        "产品项目"+'\\' + ProjectName);
+                    System.IO.Directory.CreateDirectory(filePath + '\\' +
+                        "产品项目" + '\\' + ProjectName);
                 }
-                var path = filePath + '\\' + "产品项目" + '\\' + ProjectName+'\\'+ fileName;
+                var path = filePath + '\\' + "产品项目" + '\\' + ProjectName + '\\' + fileName;
                 if (!Directory.Exists(path))
                 {
                     using (var fStream = new FileStream(path, FileMode.Create))
@@ -685,7 +685,7 @@ namespace ProductReleaseSystem.Controllers
         [HttpGet("queryallfiles")]
         public IActionResult QueryAllFiles(int id)
         {
-            return new JsonResult(new { result = 1, message = "", data = _IUploadFile.QueryAllFiles(id)},new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd HH:mm" });
+            return new JsonResult(new { result = 1, message = "", data = _IUploadFile.QueryAllFiles(id) }, new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd HH:mm" });
         }
         #endregion
         #region 根据版本ID查询所有相关人员
@@ -727,6 +727,95 @@ namespace ProductReleaseSystem.Controllers
             else
             {
                 return new JsonResult(new { result = 0, message = "" });
+            }
+        }
+        #endregion
+
+        #region 根据版本ID查询所有小版本
+        /// <summary>
+        /// 根据版本ID查询所有小版本
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost("selectsvs")]
+        public IActionResult selectSmallVersions(int id)
+        {
+            try
+            {
+                var dataList = _IUploadFile.selectSmallVersions(id);
+                return new JsonResult(new { result = 1, message = "查询成功", data = dataList }, new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = exc.Message });
+            }
+        }
+        #endregion
+        #region 添加小版本
+        /// <summary>
+        /// 添加小版本
+        /// </summary>
+        /// <param name="smallVersions">小版本实体类</param>
+        /// <returns></returns>
+        public bool addSmallVersion(SmallVersions smallVersions)
+        {
+            return _IUploadFile.addSmallVersion(smallVersions);
+        }
+        #endregion
+        #region 根据小版本ID查询所有小文件
+        /// <summary>
+        /// 根据小版本ID查询所有小文件
+        /// </summary>
+        /// <param name="id">小版本ID</param>
+        /// <returns></returns>
+        public IActionResult selectSamllFiles(int id)
+        {
+            return new JsonResult(new { result = 1, message = "", data = _IUploadFile.selectSamllFiles(id) }, new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd HH:mm" });
+        }
+
+        #endregion
+        #region 添加小版本文件
+        /// <summary>
+        /// 添加小版本文件
+        /// </summary>
+        /// <param name="env">环境</param>
+        /// <param name="smallVersionID">小版本ID</param>
+        /// <param name="SmallFile">小文件</param>
+        /// <returns></returns>
+        public async Task<IActionResult> addSmallFile([FromServices] IHostingEnvironment env,int smallVersionID,string SmallFile)
+        {
+            try
+            {
+                var file = HttpContext.Request.Form.Files[0];
+                var filePath = env.WebRootPath;
+                var fileName = file.FileName;
+                var url = filePath + '\\' +
+                        "产品项目" + '\\' + SmallFile;
+                if (!Directory.Exists(url))
+                {
+                    System.IO.Directory.CreateDirectory(filePath + '\\' +
+                        "产品项目" + '\\' + SmallFile);
+                }
+                var path = filePath + '\\' + "产品项目" + '\\' + SmallFile + '\\' + fileName;
+                if (!Directory.Exists(path))
+                {
+                    using (var fStream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fStream);
+                    }
+                    var upFile = new Files { FileName = fileName, UploadTime = System.DateTime.Now,, VersionsId = smallVersionID, FilePath = $"/产品项目/{SmallFile}/{fileName}" };
+
+                    _IUploadFile.addFiles(upFile);
+                    return Ok(new { result = 1, message = "上传文件成功" });
+                }
+                else
+                {
+                    return new JsonResult(new { result = 0, message = "文件已存在" });
+                }
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = exc.Message });
             }
         }
         #endregion
