@@ -321,6 +321,26 @@
         });
     }
 
+    //根据小版本号查询所有小文件
+    function selectSamllFiles(id) {
+        $.ajax({
+            type: "POST",
+            url: "/selectsamllfiles",
+            data: { id: id },
+            success: function (dataBack) {
+                var str = '';
+                $(dataBack.data).each(function (index, item) {
+                    str += '<li>名称：' + item.SmallFileName + '&nbsp;&nbsp;&nbsp;&nbsp;  上传时间:' + item.UploadTime + '</li>';
+
+                });
+                $("#upload-file-news").html(str);
+            },
+            error: function (error) {
+                alert(error.status + error.statusText)
+            }
+        });
+    }
+
     //添加相关人员表
     function addRelatedPersonnels() {
         if ($('#versionID').text() != 0) {
@@ -487,10 +507,6 @@
                     $(".version li ul").removeClass('newClass');
                     $(this).children('ul').toggleClass('newClass');
                 });
-                $(".version li ul li").click(function (event) {
-                    $(".version li ul li").css({ 'background': '', 'color': '' });
-                    $(this).css({ 'background': '#888', 'color': '#fff' });
-                });
                 /*弹出小版本模态层*/
                 $(".add-smallversion").click(function (event) {
                     $('#SmallVersionModal').modal('show');
@@ -513,7 +529,7 @@
     function GetSmallVersion(id) {
         $.ajax({
             type: "POST",
-            url: "selectsvs",
+            url: "/selectsvs",
             data: { id: id },
             success: function (dataBack) {
                 console.log(dataBack.data);
@@ -528,6 +544,11 @@
                     str += '</li > ';
                 });
                 $('#' + id).html(str);
+                $(".version li ul li").click(function (event) {
+                    event.stopPropagation();
+                    $(".version li ul li").css({ 'background': '', 'color': '' });
+                    $(this).css({ 'background': '#888', 'color': '#fff' });
+                });
             }
         });
 
@@ -563,6 +584,30 @@
 
     }
 
+    //上传小文件
+    function UpFile() {
+            var file = $('#upload-file').get(0).files[0];
+            var data = new FormData();
+            data.append(file.name, file);
+            data.append("SmallFileName", $('#smallVersionID').text());
+            data.append("ProjectName", $('#hidprojectname').text());
+            $.ajax({
+                type: 'POST',
+                url: '/addsmallfile',
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (dataBack) {
+                    alert(dataBack.message);
+                    selectSamllFiles($('#smallVersionID').text());
+                },
+                error: function (error) {
+
+                    alert(error.status + error.statusText)
+                }
+            });
+    }
+
     //点击项目查询所有版本
     function GetID(elem, text) {
         $('#hid').text(elem);
@@ -577,6 +622,7 @@
         $('#versionID').text(e);
         QueryAllFiles(e);
         QueryRelatedPersonnels();
+        GetSmallVersion(e);
     }
 
     $(document).ready(function () {
