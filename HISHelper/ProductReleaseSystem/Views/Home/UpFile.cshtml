@@ -161,6 +161,47 @@
             </div>
         </div>
     </div>
+    <!-- 小版本模态层 -->
+    <div class="modal fade" id="SmallVersionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="SmallMyModalLabel">版本信息</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="version-no">版本号：</label>
+                        <input type="text" class="form-control" id="SmallVersion-no" placeholder="此处输入版本号">
+                    </div>
+                    <div class="form-group">
+                        <label for="version-date">上传时间：</label>
+                        <input type="text" class="form-control" id="SmallVersion-date" placeholder="此处选择上传时间">
+                    </div>
+                    <div class="form-group">
+                        <label for="upload-name">上传人：</label>
+                        <select class="form-control" id="SmallUpload-name">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="version-describe">版本描述：</label>
+                        <textarea class="form-control" rows="3" id="SmallVersion-describe" placeholder="此处输入版本描述"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="SmallClose-version">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
 
@@ -268,21 +309,21 @@
     //添加相关人员表
     function addRelatedPersonnels() {
         if ($('#versionID').text() != 0) {
-                array.length = 0;
-            
-                deleteRelatedPersonnels();
-                var productID = $('#hid').text();
-                var versionID = $('#versionID').text();
-                var id = $('#selectdeveloper input[type="radio"]:checked').parent().siblings(":first").text();
-                var tb = $("#selectdeveloper tr");
-                tb.each(function () {
-                    var td = $(this).html();
-                    var $td = $(td); //将dom对象转化为jquery对象。
-                    // for (var i = 0; i < $td.length; i++) {
-                    array.push($td.eq(0).text());
-                    // }
-                })
-                if (array.length != 0) {
+            array.length = 0;
+
+            deleteRelatedPersonnels();
+            var productID = $('#hid').text();
+            var versionID = $('#versionID').text();
+            var id = $('#selectdeveloper input[type="radio"]:checked').parent().siblings(":first").text();
+            var tb = $("#selectdeveloper tr");
+            tb.each(function () {
+                var td = $(this).html();
+                var $td = $(td); //将dom对象转化为jquery对象。
+                // for (var i = 0; i < $td.length; i++) {
+                array.push($td.eq(0).text());
+                // }
+            })
+            if (array.length != 0) {
                 $.ajax({
                     type: "POST",
                     url: '/addrp',
@@ -402,15 +443,38 @@
                     str += '<span>' + "发布时间" + item.发布时间 + '</span>';
                     str += '<span class="hid" style="display:none">' + item.ID + '</span>';
                     str += '<span class="glyphicon glyphicon-hand-down"></span>';
+                    str += ' <span class="add-smallversion glyphicon glyphicon-plus" style="float:right"></span>';
+                    str += '<ul>';
+                    str += '<li>';
+                    str += '<span>产品名称：医院感染管理系统</span>';
+                    str += '<span>版本号：3.0.1</span>';
+                    str += '<span>发布人：张三</span>';
+                    str += '<span>发布时间：2017-05-01</span>';
+                    str += '<span class="hid"></span>';
+                    str += ' <span class=" glyphicon glyphicon-hand-down" style="padding-left:50px;"></span>';
+                    str += '</li > ';
+                    str += '</ul > ';
                     str += '</li>';
                 });
                 $(".version").html(str);
-                $(".version li").on('click', 'li', function (event) { 
-                }); 
                 $(".version li").click(function (event) {
-                    $(".version").css({ 'background': '#fff', 'color': '#000' });
-                    $(".version li").css({ 'background': '', 'color': '' });
+                    $(".version").children('li').css({ 'background': '', 'color': '' });
+                    $(".version li ul").css({ 'background': '', 'color': '' });
                     $(this).css({ 'background': '#000', 'color': '#fff' });
+                    $(".version li ul").removeClass('newClass');
+                    $(this).children('ul').toggleClass('newClass');
+                });
+                $(".version li ul li").click(function (event) {
+                    $(".version li ul li").css({ 'background': '', 'color': '' });
+                    $(this).css({ 'background': '#000', 'color': '#fff' });
+                });
+                /*弹出小版本模态层*/
+                $(".add-smallversion").click(function (event) {
+                    $('#SmallVersionModal').modal('show');
+                });
+                /*关闭小版本模态层*/
+                $("#close-smallversion").click(function (event) {
+                    $('#SmallVversionModal').modal('hide');
                 });
             },
             error: function (error) {
@@ -528,19 +592,24 @@
             AddProdect();
             QueryProducts();
         });
-        /*弹出产品模态层*/
+        /*弹出版本模态层*/
         $(".add-version").click(function (event) {
             $('#versionModal').modal('show');
         });
-        /*关闭产品模态层*/
+        /*关闭版本模态层*/
         $("#close-version").click(function (event) {
             $('#versionModal').modal('hide');
+
+
             AddVersion();
             QueryVersions($("#hid").text());
 
         });
+
         QueryProducts();
         Querykf();
+
+
     });
 
     //根据部门ID查询成员信息
