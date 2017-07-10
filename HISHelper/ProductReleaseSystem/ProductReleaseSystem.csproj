@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="wwwroot\产品项目\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="NLog.config">
