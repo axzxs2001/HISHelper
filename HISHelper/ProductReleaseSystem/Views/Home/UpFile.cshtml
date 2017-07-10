@@ -541,7 +541,7 @@
                     str += '<span>发布人：' + item.publisher + '</span>';
                     str += '<span>发布时间：' + item.ReleaseTime + '</span>';
                     str += ' <span class=" glyphicon glyphicon-hand-down" style="padding-left:50px;"></span>';
-                    str += '</li > ';
+                    str += '</li> ';
                 });
                 $('#' + id).html(str);
                 $(".version li ul li").click(function (event) {
@@ -710,11 +710,8 @@
         /*关闭版本模态层*/
         $("#close-version").click(function (event) {
             $('#versionModal').modal('hide');
-
-
             AddVersion();
             QueryVersions($("#hid").text());
-
         });
 
         QueryProducts();

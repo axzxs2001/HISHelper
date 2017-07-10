@@ -10,7 +10,7 @@ namespace ProductReleaseSystem.ProductRelease
         public int ID { get; set; }
         public string SmallFileName { get; set; }
         public DateTime UploadTime { get; set; }
-        public int SmallFilePath { get; set; }
+        public string SmallFilePath { get; set; }
         public int SmallVersionsID { get; set; }
 
 
