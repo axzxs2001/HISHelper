@@ -429,12 +429,13 @@
 
     //添加小版本
     function addSmallVersion() {
+        alert(11);
         $.ajax({
             type: "post",
             url: "/addsmallversion",
             data: { SmallVersionNumber: $("#SmallVersion-no").val(), ReleaseTime: $("#SmallVersion-date").val(), publisher: $("#SmallUpload-name").val(), VersionID: $('#versionID').text(), Description: $("#SmallVersion-describe").val() },
             success: function (dataBack) {
-
+                GetSmallVersion($('#versionID').text());
             },
             error: function (error) {
                 alert(error.status + error.statusText)
@@ -535,8 +536,8 @@
                 console.log(dataBack.data);
                 var str = "";
                 $(dataBack.data).each(function (index, item) {
-                    str += '<li>';
-                    str += '<span id="smallVersionID" style="display:none">' + item.ID + '</span>'
+                    str += '<li onclick="GetSmallVersionID(' + item.ID + ');">';
+                    str += '<span id="smallVersionID" style="display:none"></span>'
                     str += '<span>版本号：' + item.SmallVersionNumber + '</span>';
                     str += '<span>发布人：' + item.publisher + '</span>';
                     str += '<span>发布时间：' + item.ReleaseTime + '</span>';
@@ -561,6 +562,7 @@
             var data = new FormData();
             data.append(file.name, file);
             data.append("VersionsID", $('#versionID').text());
+            data.append("SmallVersionsID", $('#smallVersionID').text());
             data.append("ProjectName", $('#hidprojectname').text());
             $.ajax({
                 type: 'POST',
@@ -570,7 +572,11 @@
                 data: data,
                 success: function (dataBack) {
                     alert(dataBack.message);
-                    QueryAllFiles($('#versionID').text());
+                    if ($('#smallVersionID').text() == "") {
+                        QueryAllFiles($('#versionID').text());
+                    } else {
+                        selectSamllFiles($('#smallVersionID').text());
+                    }
                 },
                 error: function (error) {
 
@@ -584,30 +590,6 @@
 
     }
 
-    //上传小文件
-    function UpFile() {
-            var file = $('#upload-file').get(0).files[0];
-            var data = new FormData();
-            data.append(file.name, file);
-            data.append("SmallFileName", $('#smallVersionID').text());
-            data.append("ProjectName", $('#hidprojectname').text());
-            $.ajax({
-                type: 'POST',
-                url: '/addsmallfile',
-                contentType: false,
-                processData: false,
-                data: data,
-                success: function (dataBack) {
-                    alert(dataBack.message);
-                    selectSamllFiles($('#smallVersionID').text());
-                },
-                error: function (error) {
-
-                    alert(error.status + error.statusText)
-                }
-            });
-    }
-
     //点击项目查询所有版本
     function GetID(elem, text) {
         $('#hid').text(elem);
@@ -617,6 +599,10 @@
         $("#selectdeveloper").html('');
     }
 
+    function GetSmallVersionID(s) {
+        $('#smallVersionID').text(s);
+        selectSamllFiles(s);
+    }
     //点击版本给隐藏的span赋值
     function GetVersionID(e) {
         $('#versionID').text(e);
