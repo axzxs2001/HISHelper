@@ -547,7 +547,7 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="VersionsID">版本ID</param>
         /// <returns></returns>
         [HttpPost("sendfile")]
-        public async Task<IActionResult> UpFile([FromServices] IHostingEnvironment env, int VersionsID,int UploadPeople, string ProjectName)
+        public async Task<IActionResult> UpFile([FromServices] IHostingEnvironment env, int VersionsID, string ProjectName,int SmallVersionsID)
         {
 
             try
@@ -569,10 +569,19 @@ namespace ProductReleaseSystem.Controllers
                     {
                         await file.CopyToAsync(fStream);
                     }
-                    var upFile = new Files { FileName = fileName, UploadTime = System.DateTime.Now, UploadPeople = UploadPeople, VersionsId = VersionsID, FilePath = $"/产品项目/{ProjectName}/{fileName}" };
+                    if (SmallVersionsID == 0)
+                    {
+                        var upFile = new Files { FileName = fileName, UploadTime = System.DateTime.Now, VersionsId = VersionsID, FilePath = $"/产品项目/{ProjectName}/{fileName}" };
 
-                    _IUploadFile.addFiles(upFile);
-                    return Ok(new { result = 1, message = "上传文件成功" });
+                        _IUploadFile.addFiles(upFile);
+                        return Ok(new { result = 1, message = "上传文件成功" });
+                    }
+                    else
+                    {
+                        var upFile1 = new SmallFiles { SmallFileName = fileName, UploadTime = System.DateTime.Now, SmallVersionsID = SmallVersionsID, SmallFilePath = $"/产品项目/{ProjectName}/{fileName}" };
+                        _IUploadFile.addSmallFile(upFile1);
+                        return Ok(new { result = 1, message = "上传小文件成功" });
+                    }
                 }
                 else
                 {
@@ -775,52 +784,6 @@ namespace ProductReleaseSystem.Controllers
             return new JsonResult(new { result = 1, message = "", data = _IUploadFile.selectSamllFiles(id) }, new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd HH:mm" });
         }
 
-        #endregion
-        #region 添加小版本文件
-        /// <summary>
-        /// 添加小版本文件
-        /// </summary>
-        /// <param name="env">环境</param>
-        /// <param name="smallVersionID">小版本ID</param>
-        /// <param name="SmallFile">小文件</param>
-        /// <returns></returns>
-        [HttpPost("addsmallfile")]
-        public async Task<IActionResult> addSmallFile([FromServices] IHostingEnvironment env,int smallVersionID,string SmallFile)
-        {
-            try
-            {
-                var file = HttpContext.Request.Form.Files[0];
-                var filePath = env.WebRootPath;
-                var fileName = file.FileName;
-                var url = filePath + '\\' +
-                        "产品项目" + '\\' + SmallFile;
-                if (!Directory.Exists(url))
-                {
-                    System.IO.Directory.CreateDirectory(filePath + '\\' +
-                        "产品项目" + '\\' + SmallFile);
-                }
-                var path = filePath + '\\' + "产品项目" + '\\' + SmallFile + '\\' + fileName;
-                if (!Directory.Exists(path))
-                {
-                    using (var fStream = new FileStream(path, FileMode.Create))
-                    {
-                        await file.CopyToAsync(fStream);
-                    }
-                    var upFile = new Files { FileName = fileName, UploadTime = System.DateTime.Now, VersionsId = smallVersionID, FilePath = $"/产品项目/{SmallFile}/{fileName}" };
-
-                    _IUploadFile.addFiles(upFile);
-                    return Ok(new { result = 1, message = "上传文件成功" });
-                }
-                else
-                {
-                    return new JsonResult(new { result = 0, message = "文件已存在" });
-                }
-            }
-            catch (Exception exc)
-            {
-                return new JsonResult(new { result = 0, message = exc.Message });
-            }
-        }
         #endregion
         #endregion
 
