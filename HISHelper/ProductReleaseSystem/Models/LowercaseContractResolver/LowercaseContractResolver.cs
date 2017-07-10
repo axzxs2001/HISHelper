@@ -4,7 +4,6 @@ using System.Text;
 
 namespace ProductReleaseSystem
 {
-
     /// <summary>
     /// 全部小写ContractResolver
     /// </summary>

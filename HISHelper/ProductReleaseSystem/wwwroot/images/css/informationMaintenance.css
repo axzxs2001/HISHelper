@@ -1,0 +1,40 @@
+*{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-decoration: none;
+}
+.tab-content{
+	margin-top:30px;
+}
+#user form,#department form,#developer form{
+	padding-bottom: 20px;
+	border-bottom: 2px solid #000;
+}
+.user-list,.department-list,.developer-list{
+	height: 650px;
+	overflow-y: scroll;
+	border: 1px solid #ccc;
+}
+.user-list table,.department-list table,.developer-list table{
+	width: 99%;
+	table-layout: fixed;
+}
+.user-list th,td,.department-list th,td,.developer-list th,td{
+	text-align: center;
+	vertical-align: middle;
+}
+.user-list th:last-child,.department-list th:last-child,.developer-list th:last-child{
+	width: 190px;
+}
+.sex{
+	height: 34px;
+	line-height: 34px;
+}
+.sex input[type="radio"]{
+	position: relative;
+	top:3px;
+}
+.developer-news{
+	margin-top: 20px;
+}

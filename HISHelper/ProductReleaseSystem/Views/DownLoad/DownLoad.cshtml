@@ -9,9 +9,10 @@
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <link href="~/css/jquery.datetimepicker.css" rel="stylesheet" />
+    <script src="~/lib/vue/dist/vue.js"></script>
     <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     <link href="~/css/DeveloperDownload.css" rel="stylesheet" />
-    
+    <link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css">
     <style>
         h2 {
             color: white;
@@ -87,6 +88,13 @@
             url: '/productsdownload',
             data: {},
             success: function (dataBack) {
+                //alert("obj" + JSON.stringify(obj))
+                //new Vue({
+                //    el: '#appproduct',
+                //    data: {
+                //        groceryList: JSON.stringify(obj.List)
+                //    }
+                //})
                 var trstring = '';
                 trstring += '<h2 style="color"#FFF">产品列表:</h2>';
                 $(dataBack.data).each(function (index, item) {
@@ -121,58 +129,23 @@
                 ProductID: id
             },
             success: function (dataBack) {
-                var str = '';
+                var trstring = '';
                 $(dataBack.data).each(function (index, item) {
-                    str += '<li onclick="GetVersionID(' + item.ID + ');">';
-                    str += '<span>' + "产品名：" + item.产品名 + '</span>';
-                    str += '<span>' + "版本号：" + item.版本号 + '</span>';
-                    str += '<span>' + "发布人：" + item.发布人 + '</span>';
-                    str += '<span>' + "发布时间" + item.发布时间 + '</span>';
-                    str += '<span class="hid" style="display:none">' + item.ID + '</span>';
-                    str += '<span class="glyphicon glyphicon-hand-down"></span>';
-                    str += ' <span class="add-smallversion glyphicon glyphicon-plus" style="float:right"></span>';
-                    str += '<ul id=' + item.ID + '>';
-                    str += '</ul>';
-                    str += '</li>';
+                    trstring += '<li onclick="GetVersionID(' + item.ID + ');">';
+                    trstring += ' <span>' + "产品名称" + item["产品名"] + '</span>';
+                    trstring += '<span>' + "版本号：" + item["版本号"] + '</span>';
+                    trstring += '<span>' + "发布人：" + item["发布人"] + '</span>';
+                    trstring += '<span>' + "发布时间" + item["发布时间"] + '</span>';
+                    trstring += '<span class="hid" style="display:none">' + item.ID + '</span>';
+                    trstring += '<span class="glyphicon glyphicon-hand-down"></span>';
+                    trstring += '</li>';
                 });
-
-                $(".version").html(str);
+                $(".version").html(trstring);
+                $(".version li").on('click', 'li', function (event) {
+                });
                 $(".version li").click(function (event) {
-                    $(".version").children('li').css({ 'background': '', 'color': '' });
-                    $(".version li ul").css({ 'background': '', 'color': '' });
-                    $(this).css({ 'background': '#000', 'color': '#fff' });
-                    $(".version li ul").removeClass('newClass');
-                    $(this).children('ul').toggleClass('newClass');
-                });
-                alert(222)
-            },
-            error: function (error) {
-                alert(error.status + error.statusText);
-            }
-        });
-
-    }
-    //查询小版本根据大版本id
-    function GetSmallVersion(id) {
-        $.ajax({
-            type: "POST",
-            url: "/postsomallversions",
-            data: { id: id },
-            success: function (dataBack) {
-                console.log(dataBack.data);
-                var str = "";
-                $(dataBack.data).each(function (index, item) {
-                    str += '<li>';
-                    str += '<span id="smallVersionID" style="display:none">' + item.ID + '</span>'
-                    str += '<span>版本号：' + item.SmallVersionNumber + '</span>';
-                    str += '<span>发布人：' + item.publisher + '</span>';
-                    str += '<span>发布时间：' + item.ReleaseTime + '</span>';
-                    str += ' <span class=" glyphicon glyphicon-hand-down" style="padding-left:50px;"></span>';
-                    str += '</li> ';
-                });
-                $('#' + id).html(str);
-                $(".version li ul li").click(function (event) {
-                    $(".version li ul li").css({ 'background': '', 'color': '' });
+                    $(".version").css({ 'background': '#fff', 'color': '#000' });
+                    $(".version li").css({ 'background': '', 'color': '' });
                     $(this).css({ 'background': '#000', 'color': '#fff' });
                 });
             },
@@ -306,7 +279,7 @@
     //点击项目查询所有版本
     function GetID(elem) {
        
-        $('#hid').text(elem);
+        $('#hid').val(elem);
         ClickProduct(elem);
         ProductsDescription(elem);
         VersionDescription('');
@@ -315,12 +288,16 @@
     }
     //点击版本给隐藏的span赋值
     function GetVersionID(e) {
-        $('#versionID').text(e);
+        $('#versionID').val(e);
         VersionDescription(e);
         Developers(e);
         FileDownLoad(e);
-        GetSmallVersion(e);
     }
-    
+    $(".product li").on('click', 'li', function (event) {
+    });
+    $(".product li").click(function (event) {
+        $(".product li").css({ 'background': '#000', 'color': '#fff' });
+        $(this).css({ 'background': '#0cc', 'color': '#fff' });
+    });
 
 </script>

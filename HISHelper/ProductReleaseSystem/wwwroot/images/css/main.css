@@ -1,0 +1,41 @@
+*{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+body{
+	background:#d9d9d9;
+	font-family: "Microsoft YaHei";
+}
+.main{
+	height: 700px;
+	margin: 75px auto;
+	border-radius: 5px;
+	box-shadow:  0px 0px 5px 5px #666;
+	overflow: hidden;
+	background: linear-gradient(to right, #fff 10%,#464646 120%);
+}
+.main .ch{
+	width: 60%;
+	height: 150px;
+	margin-top: 50px;
+	margin-left: 5%;
+	background: url(../images/main-logo.png) left top no-repeat;
+	background-size: 100% 100%;
+}
+.main .en{
+	width: 60%;
+	height: 50px;
+	line-height: 50px;
+	margin-left: 26.5%;
+	font-size: 36px;
+	font-weight: 900;
+}
+.main .img{
+	width: 200px;
+	height: 200px;
+	margin-left: 75%;
+	margin-top: 200px;
+	background: url(../images/product.png) center no-repeat;
+	background-size: 100%;
+}

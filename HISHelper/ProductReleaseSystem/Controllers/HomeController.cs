@@ -547,7 +547,7 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="VersionsID">版本ID</param>
         /// <returns></returns>
         [HttpPost("sendfile")]
-        public async Task<IActionResult> UpFile([FromServices] IHostingEnvironment env, int VersionsID, string ProjectName,int SmallVersionsID)
+        public async Task<IActionResult> UpFile([FromServices] IHostingEnvironment env, int UploadPeople, int VersionsID, string ProjectName)
         {
 
             try
@@ -569,19 +569,10 @@ namespace ProductReleaseSystem.Controllers
                     {
                         await file.CopyToAsync(fStream);
                     }
-                    if (SmallVersionsID == 0)
-                    {
-                        var upFile = new Files { FileName = fileName, UploadTime = System.DateTime.Now, VersionsId = VersionsID, FilePath = $"/产品项目/{ProjectName}/{fileName}" };
+                    var upFile = new Files { FileName = fileName, UploadTime = System.DateTime.Now, UploadPeople = UploadPeople, VersionsId = VersionsID, FilePath = $"/产品项目/{ProjectName}/{fileName}" };
 
-                        _IUploadFile.addFiles(upFile);
-                        return Ok(new { result = 1, message = "上传文件成功" });
-                    }
-                    else
-                    {
-                        var upFile1 = new SmallFiles { SmallFileName = fileName, UploadTime = System.DateTime.Now, SmallVersionsID = SmallVersionsID, SmallFilePath = $"/产品项目/{ProjectName}/{fileName}" };
-                        _IUploadFile.addSmallFile(upFile1);
-                        return Ok(new { result = 1, message = "上传小文件成功" });
-                    }
+                    _IUploadFile.addFiles(upFile);
+                    return Ok(new { result = 1, message = "上传文件成功" });
                 }
                 else
                 {
@@ -738,52 +729,6 @@ namespace ProductReleaseSystem.Controllers
                 return new JsonResult(new { result = 0, message = "" });
             }
         }
-        #endregion
-
-        #region 根据版本ID查询所有小版本
-        /// <summary>
-        /// 根据版本ID查询所有小版本
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpPost("selectsvs")]
-        public IActionResult selectSmallVersions(int id)
-        {
-            try
-            {
-                var dataList = _IUploadFile.selectSmallVersions(id);
-                return new JsonResult(new { result = 1, message = "查询成功", data = dataList }, new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
-            }
-            catch (Exception exc)
-            {
-                return new JsonResult(new { result = 0, message = exc.Message });
-            }
-        }
-        #endregion
-        #region 添加小版本
-        /// <summary>
-        /// 添加小版本
-        /// </summary>
-        /// <param name="smallVersions">小版本实体类</param>
-        /// <returns></returns>
-        [HttpPost("addsmallversion")]
-        public bool addSmallVersion(SmallVersions smallVersions)
-        {
-            return _IUploadFile.addSmallVersion(smallVersions);
-        }
-        #endregion
-        #region 根据小版本ID查询所有小文件
-        /// <summary>
-        /// 根据小版本ID查询所有小文件
-        /// </summary>
-        /// <param name="id">小版本ID</param>
-        /// <returns></returns>
-        [HttpPost("selectsamllfiles")]
-        public IActionResult selectSamllFiles(int id)
-        {
-            return new JsonResult(new { result = 1, message = "", data = _IUploadFile.selectSamllFiles(id) }, new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd HH:mm" });
-        }
-
         #endregion
         #endregion
 

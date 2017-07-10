@@ -179,33 +179,5 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="id"></param>人员ID
         /// <returns></returns>
         bool deleteRp(int id);
-
-        /// <summary>
-        /// 根据版本号查询所有小版本
-        /// </summary>
-        /// <param name="id">版本ID</param>
-        /// <returns></returns>
-        List<Dictionary<string, dynamic>> selectSmallVersions(int id);
-
-        /// <summary>
-        /// 添加小版本
-        /// </summary>
-        /// <param name="smallVersions">小版本实体类</param>
-        /// <returns></returns>
-        bool addSmallVersion(SmallVersions smallVersions);
-
-        /// <summary>
-        /// 根据小版本号查询所有小文件
-        /// </summary>
-        /// <param name="id">小版本号</param>
-        /// <returns></returns>
-        List<Dictionary<string, dynamic>> selectSamllFiles(int id);
-
-        /// <summary>
-        /// 添加小版本文件
-        /// </summary>
-        /// <param name="smallFiles">小版本实体类</param>
-        /// <returns></returns>
-        bool addSmallFile(SmallFiles smallFiles);
     }
 }

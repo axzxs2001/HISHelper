@@ -158,25 +158,5 @@ namespace ProductReleaseSystem.Controllers
         }
         #endregion
 
-        #region 根据版本ID查询所有小版本
-        /// <summary>
-        /// 根据版本ID查询所有小版本
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpPost("postsomallversions")]
-        public IActionResult selectSmallVersions(int id)
-        {
-            try
-            {
-                var dataList = _downLoadFile.selectSmallVersions(id);
-                return new JsonResult(new { result = 1, message = "查询成功", data = dataList }, new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
-            }
-            catch (Exception exc)
-            {
-                return new JsonResult(new { result = 0, message = exc.Message });
-            }
-        }
-        #endregion
     }
 }
