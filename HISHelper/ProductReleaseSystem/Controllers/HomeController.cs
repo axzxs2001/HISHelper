@@ -12,6 +12,7 @@ using ProductReleaseSystem.ProductRelease;
 using ProductReleaseSystem.Models.IRepository;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using NLog;
 
 namespace ProductReleaseSystem.Controllers
 {
@@ -21,10 +22,12 @@ namespace ProductReleaseSystem.Controllers
     [Authorize(Roles = "1,2,3")]    //	Authorize 授权，批准，委托    Roles 角色
     public class HomeController : Controller
     {
+        Logger _log;
         IUploadFile _IUploadFile;
 
         public HomeController(IUploadFile iUploadFile)
         {
+            _log = LogManager.GetCurrentClassLogger();
             _IUploadFile = iUploadFile;
         }
         #region 原始页面
@@ -62,6 +65,7 @@ namespace ProductReleaseSystem.Controllers
             return View();
         }
         #endregion
+        #region 说明文档
         /// <summary>
         /// 说明文档
         /// </summary>
@@ -71,6 +75,7 @@ namespace ProductReleaseSystem.Controllers
         {
             return View();
         }
+        #endregion
         #region 允许所有登录者
         /// <summary>
         /// 允许所有登录者
