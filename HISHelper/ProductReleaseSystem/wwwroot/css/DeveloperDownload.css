@@ -66,17 +66,6 @@ body{
                 float: right;
             }
 
-        .version > li > ul {
-            text-align: center;
-            font-size: 20px;
-            color: #000;
-            background: #fff;
-            display: none;
-        }
-
-.newClass {
-    display: block !important;
-}
 /*产品信息*/
 .news{
 	height: 550px;

@@ -16,7 +16,7 @@
 </head>
 <body>
     <div class="container-fuild">
-        <div class="col-md-3">
+        <div class="col-md-3 add-border">
             <div class="row">
                 <h2 class="add-product">
                     点击此处添加产品
@@ -26,22 +26,22 @@
                 <ul class="product"></ul>
             </div>
         </div>
-        <div class="col-md-9">
-            <div class="row col-md-12">
+        <div class="col-md-9 remove-padding">
+            <div class="col-md-12 remove-padding">
                 <!-- 版本信息模块 -->
                 <span id="hid" style="display:none"></span>
                 <span id="hidprojectname" style="display:none"></span>
                 <h3 class="add-version">
                     点击此处添加最新版本
-                    <span class=" glyphicon glyphicon-plus"></span>
+                    <span class=" glyphicon glyphicon-plus"style="padding-right:50px;"></span>
                 </h3>
                 <ul class="version"></ul>
             </div>
-            <div class="row col-md-12">
-                <div class="news">
+            <div class="col-md-12 remove-padding">
+                <div class="news row">
                     <form enctype="multipart/form-data">
 
-                        <div class="row col-md-3 col-md-offset-1">
+                        <div class="row col-md-4 upload-div">
 
                             选择需要上传的文件
                             <input type="file" @*multiple="multiple" *@ id="upload-file">
@@ -61,11 +61,11 @@
                             <select id="person" onchange="QueryDeveloper(this.options[this.options.selectedIndex].value);">
                                 <option value="0">--请选择开发人员--</option>
                             </select>
-                            <button class="btn btn-info btn-sm col-md-offset-3" onclick="addRelatedPersonnels()">保存开发人员信息</button>
+                            <button class="btn btn-info btn-sm col-md-offset-5" onclick="addRelatedPersonnels()">保存开发人员信息</button>
 
                         </div>
-                        <div class="row col-md-10 table-fd">
-                            <table class="table table hover  person-news table-striped table-bordered table-condensed">
+                        <div class="col-md-12 table-fd remove-padding">
+                            <table class="table table-hover  person-news table-striped table-bordered table-condensed">
                                 <thead>
                                     <tr class="info">
                                         <th style="display:none">编号</th>
@@ -92,7 +92,7 @@
                             </table>
                         </div>
                     </div>
-                    <button class="submit-news row col-md-2 btn btn-success" onclick="UpFile();">提交</button>
+                    <button class="submit-news row col-md-2 btn btn-info" onclick="UpFile();">提交</button>
 
                 </div>
 
@@ -254,7 +254,7 @@
             success: function (dataBack) {
                 var str = '';
                 $(dataBack.data).each(function (index, item) {
-                    str += '<li>名称：' + item.FileName + '上传时间:' + item.UploadTime + '</li>';
+                    str += '<li>名称：' + item.FileName + '&nbsp;&nbsp;&nbsp;&nbsp;上传时间:' + item.UploadTime + '</li>';
                 });
                 $("#upload-file-news").html(str);
             },
@@ -400,7 +400,7 @@
                     str += '<span>' + "发布人：" + item.发布人 + '</span>';
                     str += '<span>' + "发布时间" + item.发布时间 + '</span>';
                     str += '<span class="hid" style="display:none">' + item.ID + '</span>';
-                    str += '<span class="glyphicon glyphicon-hand-down"></span>';
+                    str += '<span class="glyphicon glyphicon-hand-down" style="padding-right:35px"></span>';
                     str += '</li>';
                 });
                 $(".version").html(str);
@@ -466,7 +466,33 @@
         QueryRelatedPersonnels();
     }
 
+            //查询所有部门
+     function QueryDepartments() {
+            $.ajax({
+                type: "POST",
+                url: '/selectdepartments',
+                data: {},
+                success: function (dataBack) {
+                    var str = '<option value="0">--请选择部门--</option>';
+                    $(dataBack.data).each(function (index, item) {
+                        str += "<option value=" + item.ID + ">" + item.DepartmentName + "</option>";
+                    });
+                    $("#department").html(str);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+
+                }
+            });
+        }
+
     $(document).ready(function () {
+        var bodyHight = window.screen.height-200;
+        $('.product').height(bodyHight);
+        var mainHight = bodyHight - 10;
+        $('.version').height(mainHight * 0.45);
+        $('.news').css('margin-top', mainHight * 0.05);
+        $('.news').height(mainHight * 0.5);
         document.getElementById("version-date").readOnly = true;
         $('#version-date').datetimepicker({
             timepicker: false,
@@ -488,31 +514,12 @@
             var str = '';
             var myDate = new Date();
             for (var i = 0, len = t_files.length; i < len; i++) {
-                str += '<li>名称：' + t_files[i].name + '上传时间:' + myDate.toLocaleString() + '</li>';
+                str += '<li>名称：' + t_files[i].name + '&nbsp;&nbsp;&nbsp;&nbsp;上传时间:' + myDate.toLocaleString() + '</li>';
             };
             document.getElementById('upload-file-news').innerHTML = str;
         }, false);
 
 
-        //查询所有部门
-        function QueryDepartments() {
-            $.ajax({
-                type: "POST",
-                url: '/selectdepartments',
-                data: {},
-                success: function (dataBack) {
-                    var str = '<option value="0">--请选择部门--</option>';
-                    $(dataBack.data).each(function (index, item) {
-                        str += "<option value=" + item.ID + ">" + item.DepartmentName + "</option>";
-                    });
-                    $("#department").html(str);
-                },
-                error: function (error) {
-                    alert(error.status + error.statusText)
-
-                }
-            });
-        }
 
 
 
@@ -607,7 +614,7 @@
                     } else {
                         str += '<td><input type = "radio"  name="permission"></td>';
                     }
-                    str += '<td><button class="btn btn-sm btn-warning" onclick=deleteRp(' + item.id + ')>移除</td>';
+                    str += '<td><button class="btn btn-sm btn-info" onclick=deleteRp(' + item.id + ')>移除</td>';
                     str += '</tr>';
                 });
                 $("#selectdeveloper").html(str);
