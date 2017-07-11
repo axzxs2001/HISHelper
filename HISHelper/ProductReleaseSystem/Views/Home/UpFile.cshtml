@@ -320,26 +320,6 @@
         });
     }
 
-    //根据小版本号查询所有小文件
-    function selectSamllFiles(id) {
-        $.ajax({
-            type: "POST",
-            url: "/selectsamllfiles",
-            data: { id: id },
-            success: function (dataBack) {
-                var str = '';
-                $(dataBack.data).each(function (index, item) {
-                    str += '<li>名称：' + item.SmallFileName + '&nbsp;&nbsp;&nbsp;&nbsp;  上传时间:' + item.UploadTime + '</li>';
-
-                });
-                $("#upload-file-news").html(str);
-            },
-            error: function (error) {
-                alert(error.status + error.statusText)
-            }
-        });
-    }
-
     //添加相关人员表
     function addRelatedPersonnels() {
         if ($('#versionID').text() != 0) {
