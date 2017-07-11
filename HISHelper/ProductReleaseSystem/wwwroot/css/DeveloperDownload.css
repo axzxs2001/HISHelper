@@ -29,7 +29,7 @@ body{
 	color: #000;
 }
 .product>li>span{
-	display: block;
+	display: block; 
 	float: right;
 }
 .product .add-product>span{
