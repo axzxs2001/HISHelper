@@ -15,6 +15,7 @@ namespace ProductReleaseSystem.ProductRelease
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<Versions> Versions { get; set; }
         public virtual DbSet<ResearchProjects> ResearchProjects { get; set; }
+        public virtual DbSet<Researchers> Researchers { get; set; } 
 
         public ProductReleaseContext(DbContextOptions<ProductReleaseContext> options) : base(options)
         {

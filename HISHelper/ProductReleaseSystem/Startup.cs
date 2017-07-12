@@ -46,10 +46,10 @@ namespace ProductReleaseSystem
             var prconntion = Configuration.GetConnectionString("prConnectionStrings");
 
             services.Configure<ConnectionSetting>(Configuration.GetSection("ConnectionStrings"));
-            //下载文件
-            services.AddTransient<IDownLoadFile, DownLoadFile>();
             //上传文件
             services.AddTransient<IUploadFile, UploadFile>();
+            //在研项目
+            services.AddTransient<IResearch,Research>();
 
             services.AddMvc();
             //设置body的长度

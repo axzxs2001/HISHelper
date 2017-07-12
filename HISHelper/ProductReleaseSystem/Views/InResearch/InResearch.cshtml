@@ -1,0 +1,43 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <style>
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-2 title-css">详细内容：</div>
+        <div class="col-md-10">
+            <script id="editor" type="text/plain" style="height:500px;">
+            </script>
+        </div>
+    </div>
+</body>
+</html>
+
+@section scripts{
+<script src="~/lib/ueditor/ueditor.config.js"></script>
+<script src="~/lib/ueditor/ueditor.all.js"></script>
+<script src="~/lib/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script>
+    $(function () {
+        createEditor();
+    });
+    //创建编辑器
+    function createEditor() {
+        UE.getEditor('editor');
+        UE.getEditor('editor').addListener('ready', function (editor) {
+        });
+
+    }
+    
+</script>
+
+}

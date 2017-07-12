@@ -38,7 +38,7 @@
                     <h3>新产品发布流程：</h3>
                     <h4>产品信息（当你要发布新产品时）：&prop; 单击图片放大，再次单击还原</h4>
                     <div class="col-md-4">
-                        <img src="~/images/Images1.jpg"  alt="添加新产品" title="添加新产品" />
+                        <img src="~/images/Images1.jpg" alt="添加新产品" title="添加新产品" />
                         <span class="glyphicon glyphicon-arrow-right"></span>
                         <span>单击此处添加产品,如上图</span>
                     </div>
@@ -48,23 +48,23 @@
                         <span>弹出模态层填写产品信息点保存,如上图</span>
                     </div>
                     <div class="col-md-4">
-                        <img src="~/images/Images2.jpg" alt="保存后页面效果" title="保存后页面效果"  />
+                        <img src="~/images/Images2.jpg" alt="保存后页面效果" title="保存后页面效果" />
                         <span class="glyphicon glyphicon-arrow-right"></span>
                         <span>保存后页面效果,产品信息维护完成,如上图</span>
                     </div>
                     <h4>版本信息（当你要维护完新产品,要添加版本或者在原有产品上添加新版本）：</h4>
                     <div class="col-md-4">
-                        <img src="~/images/Images3.jpg"  alt="添加新版本" title="添加新版本" />
+                        <img src="~/images/Images3.jpg" alt="添加新版本" title="添加新版本" />
                         <span class="glyphicon glyphicon-arrow-right"></span>
                         <span>单击此处添加版本,如上图</span>
                     </div>
                     <div class="col-md-4">
-                        <img src="~/images/write-ver.png"  alt="编写版本信息" title="编写版本信息"/>
+                        <img src="~/images/write-ver.png" alt="编写版本信息" title="编写版本信息" />
                         <span class="glyphicon glyphicon-arrow-right"></span>
                         <span>弹出模态层填写版本信息点保存,如上图</span>
                     </div>
                     <div class="col-md-4">
-                        <img src="~/images/Images4.jpg"  alt="保存后页面效果" title="保存后页面效果"/>
+                        <img src="~/images/Images4.jpg" alt="保存后页面效果" title="保存后页面效果" />
                         <span class="glyphicon glyphicon-arrow-right"></span>
                         <span>保存后页面效果,版本信息维护完成,如上图</span>
                     </div>
@@ -96,12 +96,12 @@
                         <span>选择开发人员权限,单选按钮勾选为产品当前版本负责人,如上图</span>
                     </div>
                     <div class="col-md-4">
-                        <img src="~/images/refer-developer.jpg"  alt="点击按钮保存开发人员信息" title="点击按钮保存开发人员信息"/>
+                        <img src="~/images/refer-developer.jpg" alt="点击按钮保存开发人员信息" title="点击按钮保存开发人员信息" />
                         <span>确认好开发人员信息后点击按钮提交开发人员信息,如上图</span>
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="implementation">
-                    <img src="~/images/shishitupian.jpg"   alt="实施工程师使用说明"/>
+                    <img src="~/images/shishitupian.jpg" alt="实施工程师使用说明" />
                     <p>1.选择需要下载的产品。</p>
                     <p>2.选择需要下载的产品的版本。</p>
                     <p>3.查看产品描述和版本描述。</p>
@@ -122,22 +122,26 @@
 
         </div>
     </div>
+
+
 </body>
 </html>
-<script type="text/javascript">
-	$("img").click(function(){
-			if($(this).height()=='204'){
-				$("img").height('');
-				$("img").width('');
-				$("img").parent().css('z-index',1);
-				$(this).height('600');
-				$(this).width('800');
-				$(this).parent().css('z-index',100);
+@section scripts{
+    <script type="text/javascript">
+        $("img").click(function () {
+            if ($(this).height() == '204') {
+                $("img").height('');
+                $("img").width('');
+                $("img").parent().css('z-index', 1);
+                $(this).height('600');
+                $(this).width('800');
+                $(this).parent().css('z-index', 100);
 
-			}
-			else{
-				$(this).height('');
-				$(this).width('');
-			}
-		});
-</script>
+            }
+            else {
+                $(this).height('');
+                $(this).width('');
+            }
+        });
+    </script>
+}
