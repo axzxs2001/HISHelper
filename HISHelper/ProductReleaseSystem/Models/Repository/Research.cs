@@ -14,7 +14,7 @@ namespace ProductReleaseSystem.Models.Repository
     {
         /// <summary>
         /// 数据库操作对象
-        /// </summary>
+        /// </summary> 
         DBHelper _dbHelper;
         /// <summary>
         /// 构造方法
