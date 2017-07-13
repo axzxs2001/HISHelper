@@ -220,7 +220,7 @@ WHERE   ID=@Id";
         /// </summary>
         /// <param name="user">用户信息</param>
         /// <returns></returns>
-        public bool AddUser(ProductRelease.Users user)
+        public bool AddUser(Users user)
         {
             var sql = @"INSERT INTO dbo.Users
         ( UserName, PassWord, Character )
@@ -236,7 +236,7 @@ VALUES  ( @username,@password,@character
         /// </summary>
         /// <param name="user">用户信息</param>
         /// <returns></returns>
-        public bool UpdataUser(ProductRelease.Users user)
+        public bool UpdataUser(Users user)
         {
             var sql = @"UPDATE  dbo.Users
 SET     UserName = @username ,

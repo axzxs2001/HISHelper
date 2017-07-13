@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using ProductReleaseSystem.Models.ProductRelease;
 
 namespace ProductReleaseSystem.ProductRelease
 {
@@ -13,6 +14,7 @@ namespace ProductReleaseSystem.ProductRelease
         public virtual DbSet<RelatedPersonnels> RelatedPersonnels { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<Versions> Versions { get; set; }
+        public virtual DbSet<ResearchProjects> ResearchProjects { get; set; }
 
         public ProductReleaseContext(DbContextOptions<ProductReleaseContext> options) : base(options)
         {
