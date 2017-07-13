@@ -18,9 +18,12 @@
     <div class="container-fuild">
         <div class="col-md-3 add-border">
             <div class="row">
-                <h2 class="add-product">
+                <h2 class="add-product" style="cursor: pointer;">
                     点击此处添加产品
                     <span class=" glyphicon glyphicon-plus"></span>
+                    <span id="hid_upde" style="display:none;"></span>
+                    <span id="hid_updev" style="display:none"></span>
+                    <span id="hid_file_id" style="display:none"></span>
                 </h2>
                 <!-- 产品信息 -->
                 <ul class="product"></ul>
@@ -31,7 +34,7 @@
                 <!-- 版本信息模块 -->
                 <span id="hid" style="display:none"></span>
                 <span id="hidprojectname" style="display:none"></span>
-                <h3 class="add-version">
+                <h3 class="add-version" style="cursor: pointer;">
                     点击此处添加最新版本
                     <span class=" glyphicon glyphicon-plus"style="padding-right:50px;"></span>
                 </h3>
@@ -112,7 +115,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="product-name">产品名：</label>
-                        <input type="text" class="form-control" id="product-name" placeholder="此处输入产品名称">
+                        <input type="text" class="form-control" id="product-name" placeholder="此处输入产品名称"/>
                     </div>
                     <div class="form-group">
                         <label for="product-describe">产品描述：</label>
@@ -126,6 +129,55 @@
             </div>
         </div>
     </div>
+    <!-- 删除产品或版本 -->
+    <div class="modal fade container" id="ModalInfectiondelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="margin-top:200px">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="text-align:center">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">操&nbsp;&nbsp;&nbsp;&nbsp;作</h4>
+                </div>
+                <div class="modal-body" style="text-align:center;color:red;font-weight:900">
+                    请选择修改或删除！
+                </div>
+                <div class="modal-footer" style="text-align:center">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-info col-md-6 col-md-offset-3" id="sure-btn" onclick="selectceng()">修改</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-danger col-md-6 col-md-offset-3" onclick="deletepv()" >删除</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 删除文件 -->
+    <div class="modal fade container" id="ModalInfectiondeletes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="margin-top:200px">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="text-align:center">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabels">确定删除文件？</h4>
+                </div>
+                <div class="modal-body" style="text-align:center;color:red;font-weight:900">
+                    友情提示：删除以后需要重新上传！
+                </div>
+                <div class="modal-footer" style="text-align:center">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-danger col-md-6 col-md-offset-3" id="sure-btn" onclick="deletefile()">确定</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-default col-md-6 col-md-offset-3" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 版本模态层 -->
     <div class="modal fade" id="versionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -245,6 +297,15 @@
 
     }
 
+    //判断版本ID是否存在，不存在则删除产品，存在则删除版本
+    function deletepv() {
+        if ($("#hid_updev").text() == 0 && $("#hid_updev").text() == ""){
+            deleteProduct();
+        } else {
+            deleteVersion();
+        }
+    }
+
     //查询所有文件
     function QueryAllFiles(id) {
         $.ajax({
@@ -254,7 +315,7 @@
             success: function (dataBack) {
                 var str = '';
                 $(dataBack.data).each(function (index, item) {
-                    str += '<li>名称：' + item.FileName + '&nbsp;&nbsp;&nbsp;&nbsp;上传时间:' + item.UploadTime + '</li>';
+                    str += '<li style="cursor: pointer;" onclick="biubiubiuceng(' + item.ID + ')">名称：' + item.FileName + '&nbsp;&nbsp;&nbsp;&nbsp;上传时间:' + item.UploadTime + '</li>';
                 });
                 $("#upload-file-news").html(str);
             },
@@ -350,6 +411,40 @@
         }
     }
 
+    //修改版本
+    function updateversion() {
+        $.ajax({
+            type: "POST",
+            url: 'updateversion',
+            data: { id: $("#hid_updev").text(), versionNumber: $('#version-no').val(), releaseTime: $('#version-date').val(), publisher: $('#upload-name').val(), description: $('#version-describe').val() },
+            success: function (dataBack) {
+                alert(dataBack.message);
+                QueryVersions($('#hid').text());
+            },
+            error: function (error) {
+                alert(error.status + error.statusText)
+            }
+        });
+    }
+
+    //删除版本
+    function deleteVersion() {
+        $.ajax({
+            type: "POST",
+            url: '/deleteversion',
+            data: { id: $("#hid_updev").text(), },
+            success: function (dataBack) {
+                alert(dataBack.message);
+                $('#ModalInfectiondelete').modal('hide');
+                QueryVersions($('#hid').text());
+
+            },
+            error: function (error) {
+                alert(error.status + error.statusText);
+            }
+        });
+    }
+
     //查询所有项目
     function QueryProducts() {
         $.ajax({
@@ -359,10 +454,10 @@
             success: function (dataBack) {
                 var str = '';
                 $(dataBack.data).each(function (index, item) {
-                    str += '<li onclick=GetID(\'' + item.ID + '\',\'' + item.ProductName + '\');>'
+                    str += '<li style="cursor: pointer;" onclick=GetID(\'' + item.ID + '\',\'' + item.ProductName + '\');>'
                     str += item.ProductName
                     str += '<span class="hid" style="display:none">' + item.ID + '</span>';
-                    str += '<span class="glyphicon glyphicon-hand-right"></span>';
+                    str += '<span class="glyphicon glyphicon-hand-right" onclick="biuceng(' + item.ID + ')"></span>';
                     str += '</li>'
                 });
                 $(".product").html(str);
@@ -372,18 +467,111 @@
                     $(".product").css({ 'background': 'rgba(0,0,0,0.8)', 'color': '#fff' });
                     $(".product li").css({ 'background': '', 'color': '' });
                     $(this).css({ 'background': '#fff', 'color': '#000' });
-
                 });
-
-
+                //$("#ssssssssss" + $(".hid").text()).click(function (event) {
+                //    $('#ModalInfectiondelete').modal('show');
+                //});
             },
             error: function (error) {
                 alert(error.status + error.statusText)
 
             }
         });
-
     }
+
+    //弹出删除文件模态层
+    function biubiubiuceng(id) {
+        $('#ModalInfectiondeletes').modal('show');
+        $("#hid_file_id").text(id);
+    }
+
+    //弹出修改删除产品的模态层为隐藏的hid赋值
+    function biuceng(id) {
+        $('#ModalInfectiondelete').modal('show');
+        $('#hid_upde').text(id);
+        $("#hid_updev").text("")
+    }
+
+    //弹出修改删除版本的模态层为隐藏的hid赋值
+    function biubiuceng(id) {
+        $('#ModalInfectiondelete').modal('show');
+        $("#hid_updev").text(id);
+    }
+
+    //根据产品ID查询产品信息
+    function selectceng() {
+        $('#ModalInfectiondelete').modal('hide');
+        if ($("#hid_updev").text() == 0 && $("#hid_updev").text() == "") {
+            $.ajax({
+                type: "POST",
+                url: '/selectproductbyid',
+                data: { id: $('#hid_upde').text() },
+                success: function (dataBack) {
+                    $(dataBack.data).each(function (index, item) {
+                        $('#prductModal').modal('show');
+                        $("#product-name").val(item.ProductName);
+                        $("#product-describe").text(item.Description);
+                    });
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText);
+                }
+            });
+        } else {
+            $.ajax({
+                type: "POST",
+                url: '/selectversionbyid',
+                data: { id: $("#hid_updev").text() },
+                success: function (dataBack) {
+                    $(dataBack.data).each(function (index, item) {
+                        $('#versionModal').modal('show');
+                        $('#version-no').val(item.VersionNumber);
+                        $("#version-date").val(item.ReleaseTime);
+                        $("#upload-name option:eq(0)").text(item.publisher);
+                        $("#version-describe").text(item.Description);
+                    });
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText);
+                }
+            });
+        }
+    }
+
+    //修改产品
+    function update() {
+        $.ajax({
+            type: "POST",
+            url: '/updateproduct',
+            data: { id: $('#hid_upde').text(), productName: $("#product-name").val(), description: $("#product-describe").text() },
+            success: function (dataBack) {
+                alert(dataBack.message);
+                QueryProducts();
+            },
+            error: function (error) {
+                alert(error.status + error.statusText);
+            }
+        });
+    }
+
+    //删除产品
+    function deleteProduct() {
+        $.ajax({
+            type: "POST",
+            url: '/deleteproduct',
+            data: { id: $('#hid_upde').text() },
+            success: function (dataBack) {
+                alert(dataBack.message);
+                $('#ModalInfectiondelete').modal('hide');
+                QueryProducts();
+
+            },
+            error: function (error) {
+                alert(error.status + error.statusText);
+            }
+        });
+    }
+
     //按照产品ID获取版本
     function QueryVersions(id) {
         console.log("ID:" + id)
@@ -394,13 +582,13 @@
             success: function (dataBack) {
                 var str = '';
                 $(dataBack.data).each(function (index, item) {
-                    str += '<li onclick="GetVersionID(' + item.ID + ');">';
+                    str += '<li style="cursor: pointer;" onclick="GetVersionID(' + item.ID + ');">';
                     str += '<span>' + "产品名：" + item.产品名 + '</span>';
                     str += '<span>' + "版本号：" + item.版本号 + '</span>';
                     str += '<span>' + "发布人：" + item.发布人 + '</span>';
                     str += '<span>' + "发布时间" + item.发布时间 + '</span>';
                     str += '<span class="hid" style="display:none">' + item.ID + '</span>';
-                    str += '<span class="glyphicon glyphicon-hand-down" style="padding-right:35px"></span>';
+                    str += '<span class="glyphicon glyphicon-hand-down" style="padding-right:35px" onclick="biubiuceng(' + item.ID + ')"></span>';
                     str += '</li>';
                 });
                 $(".version").html(str);
@@ -450,6 +638,24 @@
 
     }
 
+    //删除文件
+    function deletefile() {
+        $('#ModalInfectiondeletes').modal('hide');
+        $.ajax({
+            type: "POST",
+            url: '/deletefile',
+            data: { id: $("#hid_file_id").text()},
+            success: function (dataBack) {
+                
+                alert(dataBack.message);
+                QueryAllFiles($('#versionID').text());
+            },
+            error: function (error) {
+                alert(error.status + error.statusText)
+            }
+        });
+    }
+
     //点击项目查询所有版本
     function GetID(elem, text) {
         $('#hid').text(elem);
@@ -466,7 +672,7 @@
         QueryRelatedPersonnels();
     }
 
-            //查询所有部门
+     //查询所有部门
      function QueryDepartments() {
             $.ajax({
                 type: "POST",
@@ -486,7 +692,7 @@
             });
         }
 
-    $(document).ready(function () {
+     $(document).ready(function () {
         var bodyHight = window.screen.height-200;
         $('.product').height(bodyHight);
         var mainHight = bodyHight - 10;
@@ -514,10 +720,11 @@
             var str = '';
             var myDate = new Date();
             for (var i = 0, len = t_files.length; i < len; i++) {
-                str += '<li>名称：' + t_files[i].name + '&nbsp;&nbsp;&nbsp;&nbsp;上传时间:' + myDate.toLocaleString() + '</li>';
+                str += '<li style="cursor: pointer;">名称：' + t_files[i].name + '&nbsp;&nbsp;&nbsp;&nbsp;上传时间:' + myDate.toLocaleString() + '</li>';
             };
             document.getElementById('upload-file-news').innerHTML = str;
         }, false);
+
         /*弹出产品模态层*/
         $(".add-product").click(function (event) {
             $('#prductModal').modal('show');
@@ -525,18 +732,25 @@
         /*关闭产品模态层*/
         $("#close-product").click(function (event) {
             $('#prductModal').modal('hide');
-
-            AddProdect();
+            if ($('#hid_upde').text() == "" && $('#hid_upde').text()==0){
+                AddProdect();
+             }else{
+                update();
+             }
             QueryProducts();
         });
-        /*弹出产品模态层*/
+        /*弹出版本模态层*/
         $(".add-version").click(function (event) {
             $('#versionModal').modal('show');
         });
-        /*关闭产品模态层*/
+        /*关闭版本模态层*/
         $("#close-version").click(function (event) {
             $('#versionModal').modal('hide');
-            AddVersion();
+            if ($("#hid_updev").text() == "" && $("#hid_updev").text()==0){
+                AddVersion();
+            } else {
+                updateversion()
+            }
             QueryVersions($("#hid").text());
 
         });

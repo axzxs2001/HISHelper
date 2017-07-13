@@ -372,7 +372,7 @@ where UserName=@username and PassWord=@password";
         /// <returns></returns>
         public List<Dictionary<string,dynamic>> QueryAllFiles(int id)
         {
-            var sql = @"select FileName,UploadTime from Files where VersionsID=@VersionsID";
+            var sql = @"select ID,FileName,UploadTime from Files where VersionsID=@VersionsID";
             var par1 = new SqlParameter() { ParameterName = "@VersionsID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.GetList(sql, par1);
         }
@@ -429,6 +429,7 @@ where c.VersionID=@id";
             var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.SavaData(sql, par) > 0 ? true : false;
         }
+
         /// <summary>
         /// 通过部门查询开发人员
         /// </summary>
@@ -457,6 +458,109 @@ where DepartmentID=@DepartmentID
             };
 
             return _dbHelper.GetList(sql, par1);
+        }
+
+        /// <summary>
+        /// 修改版本信息
+        /// </summary>
+        /// <param name="version">版本实体类</param>
+        /// <returns></returns>
+        public bool updateVersion(Versions version)
+        {
+            var sql = @"update Versions set VersionNumber=@VersionNumber,ReleaseTime=@ReleaseTime,publisher=@publisher,Description=@Description where ID=@ID";
+            var par1 = new SqlParameter() { ParameterName = "@VersionNumber", SqlDbType = System.Data.SqlDbType.VarChar, Value = version.VersionNumber };
+            var par2 = new SqlParameter() { ParameterName = "@ReleaseTime", SqlDbType = System.Data.SqlDbType.DateTime, Value = version.ReleaseTime };
+            var par3 = new SqlParameter() { ParameterName = "@publisher", SqlDbType = System.Data.SqlDbType.VarChar, Value = version.Publisher };
+            var par4 = new SqlParameter() { ParameterName = "@Description", SqlDbType = System.Data.SqlDbType.VarChar, Value = version.Description };
+            var par5 = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = version.Id };
+            return _dbHelper.SavaData(sql, par1, par2, par3, par4, par5) > 0 ? true : false;
+        }
+
+
+        /// <summary>
+        /// 根据版本ID查询版本信息
+        /// </summary>
+        /// <param name="id">版本ID</param>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> selectVersionById(int id)
+        {
+            var sql = @"select VersionNumber,ReleaseTime,publisher,Description from Versions where ID=@ID";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.GetList(sql, par);
+        }
+
+        /// <summary>
+        /// 根据版本ID删除版本
+        /// </summary>
+        /// <param name="id">版本ID</param>
+        /// <returns></returns>
+        public bool deleteVersion(int id)
+        {
+            var sql = @"delete from Versions where ID=@ID";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.SavaData(sql, par) > 0 ? true : false;
+        }
+
+        /// <summary>
+        /// 根据产品ID删除产品
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        public bool deleteProduct(int id)
+        {
+            var sql = @"delete from Products where ID=@ID";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.SavaData(sql, par) > 0 ? true : false;
+        }
+
+        /// <summary>
+        /// 修改产品信息
+        /// </summary>
+        /// <param name="products"></param>
+        /// <returns></returns>
+        public bool updateProduct(Products products)
+        {
+            var sql = @"update Products set ProductName=@ProductName,Description=@Description where ID=@ID";
+            var par1 = new SqlParameter() { ParameterName = "@ProductName", SqlDbType = System.Data.SqlDbType.VarChar, Value = products.ProductName };
+            var par2 = new SqlParameter() { ParameterName = "@Description", SqlDbType = System.Data.SqlDbType.VarChar, Value = products.Description };
+            var par3 = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = products.Id };
+            return _dbHelper.SavaData(sql, par1, par2, par3) > 0 ? true : false;
+        }
+
+        /// <summary>
+        /// 根据产品ID查询产品信息
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> selectProductsById(int id)
+        {
+            var sql = @"select ProductName,Description from Products where ID=@ID";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.GetList(sql, par);
+        }
+
+        /// <summary>
+        /// 根据文件ID删除文件
+        /// </summary>
+        /// <param name="id">文件ID</param>
+        /// <returns></returns>
+        public bool deleteFile(int id)
+        {
+            var sql = @"delete from Files where ID=@ID";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.SavaData(sql, par) > 0 ? true : false;
+        }
+
+        /// <summary>
+        /// 获取文件路径
+        /// </summary>
+        /// <param name="id">文件ID</param>
+        /// <returns></returns>
+        public object getFilePath(int id)
+        {
+            var sql = @"select FilePath from Files where ID=@ID";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.GetValue(sql, par);
         }
     }
   
