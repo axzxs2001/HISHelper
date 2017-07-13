@@ -11,14 +11,19 @@ namespace ProductReleaseSystem.Controllers
 {
     public class InResearchController : Controller
     {
-    IResearch _IResearch;
-        // GET: /<controller>/
+        //定义接口变量
+        IResearch _IResearch;
+        /// <summary>
+        /// 构造
+        /// </summary>
+        /// <param name="_inResearch"></param>
         public InResearchController(IResearch _inResearch)
         {
             _IResearch = _inResearch;
 
 
         }
+        #region 在研项目主页
         /// <summary>
         /// 在研项目主页
         /// </summary>
@@ -28,5 +33,8 @@ namespace ProductReleaseSystem.Controllers
         {
             return View();
         }
+        #endregion
+
+
     }
 }

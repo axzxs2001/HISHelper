@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ProductReleaseSystem.Models.ProductRelease;
+using ProductReleaseSystem.ProductRelease;
 
 namespace ProductReleaseSystem.Models.IRepository
 {
@@ -49,6 +49,18 @@ namespace ProductReleaseSystem.Models.IRepository
         /// </summary>
         /// <returns></returns>
         List<Dictionary<string, dynamic>> SelectDepartments();
+        /// <summary>
+        /// 删除在研项目
+        /// </summary>
+        /// <param name="id">在研项目ID</param>
+        /// <returns></returns>
+        bool DeleteResearch(int id);
 
+        /// <summary>
+        /// 修改在研项目信息
+        /// </summary>
+        /// <param name="upresearch"></param>
+        /// <returns></returns>
+        bool UpdateResearch(ResearchProjects upresearch);
     }
 }
