@@ -580,6 +580,36 @@ namespace ProductReleaseSystem.Controllers
             }
         }
         #endregion
+        # region 删除文件
+        /// <summary>
+        /// 根据文件ID删除文件
+        /// </summary>
+        /// <param name="id">文件ID</param>
+        /// <returns></returns>
+        [HttpPost("deletefile")]
+        public IActionResult deleteFile(int id)
+        {
+            var a = _IUploadFile.getFilePath(id);
+            var path = "wwwroot" + a;
+            if (_IUploadFile.deleteFile(id))
+            {
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                    return new JsonResult(new { result = 1, message = "删除成功" });
+                }
+                else
+                {
+                    return new JsonResult(new { result = 0, message = "删除失败" });
+                }
+                
+            }
+            else
+            {
+                return new JsonResult(new { result = 0, message = "删除失败" });
+            }
+        }
+        #endregion
         #region  根据人员ID删除相关人员 
         /// <summary>
         /// 根据人员ID删除相关人员
@@ -722,6 +752,135 @@ namespace ProductReleaseSystem.Controllers
             else
             {
                 return new JsonResult(new { result = 0, message = "" });
+            }
+        }
+        #endregion
+        #region 根据版本ID删除版本
+        /// <summary>
+        /// 根据版本ID删除版本
+        /// </summary>
+        /// <param name="id">版本ID</param>
+        /// <returns></returns>
+        [HttpPost("deleteversion")]
+        public IActionResult deleteVersion(int id)
+        {
+            try
+            {
+                if (_IUploadFile.deleteVersion(id))
+                {
+                    return new JsonResult(new { result = 1, message = "移除成功" });
+                }
+                else
+                {
+                    return new JsonResult(new { result = 0, message = "移除失败" });
+                }
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 3, message = "请先删除版本内内容" });
+            }
+        }
+        #endregion
+        #region 根据版本ID查询版本信息
+        /// <summary>
+        /// 根据版本ID查询版本信息
+        /// </summary>
+        /// <param name="id">版本ID</param>
+        /// <returns></returns>
+        [HttpPost("selectversionbyid")]
+        public IActionResult SelectVersionById(int id)
+        {
+            return new JsonResult(new { result = 1, message = "", data = _IUploadFile.selectVersionById(id) }, new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+        }
+        #endregion
+        #region 修改版本
+        /// <summary>
+        /// 修改版本
+        /// </summary>
+        /// <param name="id">版本id</param>
+        /// <param name="versionNumber">版本号</param>
+        /// <param name="releaseTime">修改时间</param>
+        /// <param name="publisher">发布人</param>
+        /// <param name="description">版本描述</param>
+        /// <returns></returns>
+        [HttpPost("updateversion")]
+        public IActionResult updateVersion(int id,string versionNumber,DateTime releaseTime,string publisher,string description)
+        {
+            var version = new Versions();
+            version.Id = id;
+            version.VersionNumber = versionNumber;
+            version.ReleaseTime = releaseTime;
+            version.Publisher = publisher;
+            version.Description = description;
+            if (_IUploadFile.updateVersion(version))
+            {
+                return new JsonResult(new { result = 1, message = "修改成功" });
+            }
+            else
+            {
+                return new JsonResult(new { result = 0, message = "修改失败" });
+            }
+        }
+        #endregion
+        #region 根据产品ID删除产品
+        /// <summary>
+        /// 根据产品ID删除产品
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        [HttpPost("deleteproduct")]
+        public IActionResult DeleteProduct(int id,int versionId)
+        {
+            try{
+                if (_IUploadFile.deleteProduct(id))
+                {
+                    return new JsonResult(new { result = 1, message = "移除成功" });
+                }
+                else
+                {
+                    return new JsonResult(new { result = 0, message = "移除失败" });
+                }
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 2, message = "请先删除小版本" });
+            }
+        }
+        #endregion
+        #region 根据产品ID查询产品信息
+        /// <summary>
+        /// 根据产品ID查询产品信息
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        [HttpPost("selectproductbyid")]
+        public IActionResult SelectProductById(int id)
+        {
+            return new JsonResult(new { result = 1, message = "", data = _IUploadFile.selectProductsById(id) });
+        }
+        #endregion
+        #region 修改产品
+        /// <summary>
+        /// 修改产品
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <param name="productName">产品名称</param>
+        /// <param name="description">产品描述</param>
+        /// <returns></returns>
+        [HttpPost("updateproduct")]
+        public IActionResult updateProduct(int id,string productName,string description)
+        {
+            var product = new Products();
+            product.Id = id;
+            product.ProductName = productName;
+            product.Description = description;
+            if (_IUploadFile.updateProduct(product))
+            {
+                return new JsonResult(new { result = 1, message = "修改成功" });
+            }
+            else
+            {
+                return new JsonResult(new { result = 0, message = "修改失败" });
             }
         }
         #endregion

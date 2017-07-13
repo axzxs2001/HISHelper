@@ -179,5 +179,61 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="id"></param>人员ID
         /// <returns></returns>
         bool deleteRp(int id);
+
+        /// <summary>
+        /// 根据版本ID删除版本
+        /// </summary>
+        /// <param name="id">版本ID</param>
+        /// <returns></returns>
+        bool deleteVersion(int id);
+
+        /// <summary>
+        /// 修改版本信息
+        /// </summary>
+        /// <param name="version">版本实体类</param>
+        /// <returns></returns>
+        bool updateVersion(Versions version);
+
+        /// <summary>
+        /// 根据版本号查询版本
+        /// </summary>
+        /// <param name="id">版本ID</param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> selectVersionById(int id);
+
+        /// <summary>
+        /// 根据产品ID删除产品
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        bool deleteProduct(int id);
+
+        /// <summary>
+        /// 根据文件ID删除文件
+        /// </summary>
+        /// <param name="id">文件ID</param>
+        /// <returns></returns>
+        bool deleteFile(int id);
+
+        /// <summary>
+        /// 获取文件路径
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        object getFilePath(int id);
+
+        /// <summary>
+        /// 修改产品信息
+        /// </summary>
+        /// <param name="Products">产品实体类</param>
+        /// <returns></returns>
+        bool updateProduct(Products products);
+
+        /// <summary>
+        /// 根据产品ID查询产品信息
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> selectProductsById(int id);
     }
 }
