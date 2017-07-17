@@ -12,7 +12,6 @@
             margin-left: 400px;
             margin-top: 16px;
         }
-
     </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,6 +20,7 @@
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link href="~/css/informationMaintenance.css" rel="stylesheet" />
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -41,7 +41,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">产品发布系统</a>
-               
+
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -49,12 +49,42 @@
                     <li role="presentation" class="dropdown"><a asp-area="" asp-controller="DownLoad" asp-action="DownLoad">下载文件</a></li>
                     <li role="presentation" class="dropdown"><a asp-area="" asp-controller="Home" asp-action="informationMaintenance">人员管理</a></li>
                     <li role="presentation" class="dropdown"><a asp-area="" asp-controller="Home" asp-action="Documentation">使用文档</a></li>
-                    <li role="presentation" id="useryonghu">当前用户：@User.Identity.Name</li>
+                    <li role="presentation" id="useryonghu">当前用户：<span id="usermz" onclick="UserInsert()">@User.Identity.Name</span></li>
                     <li role="presentation" class="dropdown"><a href="/logout">注销</a></li>
                 </ul>
             </div>
         </div>
     </nav>
+    <!--修改用户信息的模态层-->
+    <div class="modal fade" id="InsertUsers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+                    <h4 class="modal-title" id="modeltitle">修改用户信息</h4>
+                </div>
+                <div class="modal-body" id="modeluser">
+                    <div class="row" style="margin-top:10px;">
+
+                        <div class="col-md-6">
+                            用户名：
+                            <input type="text" class="form-control" id="insertname" name="insertname"  placeholder="用户名">
+                        </div>
+                        <div class="col-md-6">
+                            密码：
+                            <input type="text" class="form-control" id="insertpassword" name="insertpassword"  placeholder="密码">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" onclick="savaUserinsert()">
+                        保存
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -65,6 +95,71 @@
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/layer/layer.js"></script>
+        <script>
+            var ID;
+            var Character;
+            function UserInsert() {
+               $.ajax({
+            type: "POST",
+            url: "/insertiser",
+            data: { name: @User.Identity.Name },
+            success: function (dataBack) {
+
+                $(dataBack.data).each(function (index, item) {
+                    $("#InsertUsers").modal('show');
+                    ID = item.id;
+                    alert(ID);
+                    $("#insertname").val(item.username);
+                    $("#insertpassword").val(item.password);
+                    Character= item.character;
+                });
+                
+                
+            },
+            error: function (error) {
+                alert(error.status + error.statusText)
+            }
+                });
+            }
+            //用户保存修改
+            function savaUserinsert() {
+
+                if (UserUpdate()) {
+                    $.post("/updateuser", {
+                        Id: ID,
+                        UserName: $("#insertname").val(),
+                        PassWord: $("#insertpassword").val(),
+                        Character: Character
+
+                    }, function (dataBack) {
+                        if (dataBack.result == 0) {
+                            layer.msg(dataBack.message, { icon: 2 });
+                        } else {
+                            layer.msg(dataBack.message, { icon: 1 });
+                           // GetUser();
+                        }
+                        $("#ModiyUsers").modal('hide')
+                    });
+                }
+            }
+            //判断修改用户是否为空
+            function UserUpdate() {
+                var str = '';
+                if ($("#username").val() == '') {
+                    str += "用户名称不能为空！,";
+                }
+                if ($("#password").val() == '') {
+                    str += "密码不能为空！";
+                }
+                if (str != '') {
+                    layer.msg(str, { icon: 2 });
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        </script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
@@ -73,6 +168,7 @@
                 asp-fallback-test="window.jQuery"
                 crossorigin="anonymous"
                 integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+            
         </script>
         <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
@@ -81,6 +177,7 @@
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
+       
     </environment>
 
     @RenderSection("Scripts", required: false)

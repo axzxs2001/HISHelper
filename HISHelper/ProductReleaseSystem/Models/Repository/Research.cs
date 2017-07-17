@@ -159,7 +159,7 @@ WHERE ID=@id";
         /// <returns></returns>
         public List<Dictionary<string, dynamic>> SelectDevelopers(int departmentID)
         {
-            var sql = (@"SELECT ID ID ,
+            var sql = (@"SELECT ID ,
         Name ,
         Sex ,
         qq ,

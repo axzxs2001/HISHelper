@@ -405,7 +405,6 @@ namespace ProductReleaseSystem.Controllers
         }
         #endregion
         #region 查询用户信息
-
         /// <summary>
         /// 查询用户信息
         /// </summary>
@@ -448,6 +447,32 @@ namespace ProductReleaseSystem.Controllers
                 //_log.Log(NLog.LogLevel.Error, $"删除菜单：{exc.Message}");
                 return new JsonResult(new { result = 0, message = $"删除用户失败：{exc.Message}" });
             }
+        }
+        #endregion
+
+        #region 通过姓名用户查询ID
+        /// <summary>
+        /// 通过姓名用户查询ID
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [HttpPost("insertiser")]
+        public IActionResult InsertUser(string name)
+        {
+            try
+
+            {
+                var list = _IUploadFile.InsertUsers(name);
+                return new JsonResult(new { result = 1, message = $"查询用户成功！", data = list }, new JsonSerializerSettings()
+                {
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
+                return new JsonResult(new { result = 0, message = $"查询用户失败！：{exc.Message}" });
+            };
         }
         #endregion
         #endregion

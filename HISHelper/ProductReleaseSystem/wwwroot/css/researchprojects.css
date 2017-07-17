@@ -1,0 +1,29 @@
+﻿* {
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+}
+body > div {
+    overflow: hidden;
+}
+.research {
+border:1px solid #000;
+height:1020px;
+}
+.remove-padding {
+    padding: 0 !important;
+    height: 200px;
+    border: 1px solid #000;
+}
+/*人员信息*/
+#department, #person {
+   
+    height: 28px;
+    line-height: 28px;
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+}
+
+#person {
+    margin-left: 50px;
+}

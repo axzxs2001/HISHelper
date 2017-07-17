@@ -413,6 +413,7 @@
 
     //修改版本
     function updateversion() {
+        alert($('#upload-name').val());
         $.ajax({
             type: "POST",
             url: 'updateversion',
@@ -510,7 +511,7 @@
                     $(dataBack.data).each(function (index, item) {
                         $('#prductModal').modal('show');
                         $("#product-name").val(item.ProductName);
-                        $("#product-describe").text(item.Description);
+                        $("#product-describe").val(item.Description);
                     });
                 },
                 error: function (error) {
@@ -527,8 +528,9 @@
                         $('#versionModal').modal('show');
                         $('#version-no').val(item.VersionNumber);
                         $("#version-date").val(item.ReleaseTime);
+                        $("#upload-name option:eq(0)").val(item.publisher);
                         $("#upload-name option:eq(0)").text(item.publisher);
-                        $("#version-describe").text(item.Description);
+                        $("#version-describe").val(item.Description);
                     });
                 },
                 error: function (error) {
@@ -543,7 +545,7 @@
         $.ajax({
             type: "POST",
             url: '/updateproduct',
-            data: { id: $('#hid_upde').text(), productName: $("#product-name").val(), description: $("#product-describe").text() },
+            data: { id: $('#hid_upde').text(), productName: $("#product-name").val(), description: $("#product-describe").val() },
             success: function (dataBack) {
                 alert(dataBack.message);
                 QueryProducts();
@@ -728,28 +730,51 @@
         /*弹出产品模态层*/
         $(".add-product").click(function (event) {
             $('#prductModal').modal('show');
+            $('#product-describe').val('');
+            $('#product-name').val('');
         });
         /*关闭产品模态层*/
         $("#close-product").click(function (event) {
             $('#prductModal').modal('hide');
             if ($('#hid_upde').text() == "" && $('#hid_upde').text()==0){
                 AddProdect();
+                $('#product-describe').val('');
+                $('#product-name').val('');
              }else{
                 update();
+                $('#product-describe').val('');
+                $('#product-name').val('');
+                $('#hid_upde').text('');
              }
             QueryProducts();
         });
         /*弹出版本模态层*/
         $(".add-version").click(function (event) {
             $('#versionModal').modal('show');
+            $('#version-no').val('');
+            $("#version-date").val('');
+            $("#upload-name option:eq(0)").html('<option value="0">--请选择开发人员--</option>');
+            $("#upload-name option[value=0]").prop('selected', 'selected');
+            $("#version-describe").val('');
         });
         /*关闭版本模态层*/
         $("#close-version").click(function (event) {
             $('#versionModal').modal('hide');
             if ($("#hid_updev").text() == "" && $("#hid_updev").text()==0){
                 AddVersion();
+                $('#version-no').val('');
+                $("#version-date").val('');
+                $("#upload-name option[value=0]").val('selected', 'selected');
+                $("#upload-name option:eq(0)").html('<option value="0">--请选择开发人员--</option>');
+                $("#version-describe").val('');
             } else {
-                updateversion()
+                updateversion();
+                $('#version-no').val('');
+                $("#version-date").val('');
+                $("#upload-name option[value=0]").val('selected', 'selected');
+                $("#upload-name option:eq(0)").html('<option value="0">--请选择开发人员--</option>');
+                $("#version-describe").val('');
+                $("#hid_updev").text('');
             }
             QueryVersions($("#hid").text());
 

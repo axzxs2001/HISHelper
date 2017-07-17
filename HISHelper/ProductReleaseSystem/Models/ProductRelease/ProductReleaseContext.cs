@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using ProductReleaseSystem.Models.ProductRelease;
+using ProductReleaseSystem.ProductRelease;
 
 namespace ProductReleaseSystem.ProductRelease
 {

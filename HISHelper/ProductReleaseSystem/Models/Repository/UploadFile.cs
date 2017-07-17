@@ -274,7 +274,21 @@ WHERE   ID = @id";
 FROM    dbo.Users";
             return _dbHelper.GetList(sql);
         }
-        #endregion
+
+        /// <summary>
+        /// 通过姓名查询用户ID
+        /// </summary>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> InsertUsers(string name)
+        {
+            var sql = @"SELECT  ID ,
+        UserName ,
+        PassWord ,
+        Character
+FROM    dbo.Users where UserName=@username";
+            var par1 = new SqlParameter() { ParameterName = "@username", SqlDbType = System.Data.SqlDbType.VarChar, Value = name };
+            return _dbHelper.GetList(sql,par1);
+        }
 
         /// <summary>
         /// 查询用户
@@ -292,6 +306,7 @@ where UserName=@username and PassWord=@password";
             var par2 = new SqlParameter() { ParameterName= "@password",SqlDbType=System.Data.SqlDbType.VarChar,Value=password };
             return _dbHelper.GetList(sql,par1,par2);
         }
+        #endregion
 
         /// <summary>
         /// 通过版本ID删除相关人员

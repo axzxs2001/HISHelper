@@ -174,7 +174,7 @@
                                 <div class="row" style="margin-top:10px;">
                                     <div class="form-group col-md-4">
                                         <label for="department-person-name">部门：</label>
-                                        <input style="display:none" v-model="developerMenu.departmentname" />i
+                                        <input style="display:none" v-model="developerMenu.departmentname" />
                                         <select class="form-control" id="department-person-name">
                                             <option id="selectdepartment" v-bind:value="developerMenu.departmentid">{{developerMenu.departmentname}}</option>
                                         </select>
@@ -404,6 +404,7 @@
                             } else {
                                 layer.msg(dataBack.message, { icon: 1 });
                                 GetDepartments();
+                                GetSelect();
                                 $("#department-name").val("");
                             }
                         });
@@ -833,7 +834,7 @@
                 str += "请输入QQ号！";
             }
             else if (!$("#developer-QQ").val().match(/^\d{5,10}$/))
-            { 
+            {
                 str += "QQ号格式不正确！";
             }
             if ($("#developer-phone").val() == '') {
@@ -846,7 +847,7 @@
             if ($("#developer-Email").val() == '') {
                 str += "请输入邮箱！";
             }
-            else if (!$("#developer-Email").val().match( /^([a-zA-Z0-9_-])+@@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/))
+            else if (!$("#developer-Email").val().match( /^[\w\-\.]+@@[\w\-\.]+(\.\w+)+$/))
             {
                 str += "邮箱格式不正确！";
             }

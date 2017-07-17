@@ -8,11 +8,12 @@ body{
 	background: #aaa;
 }
 /*产品列表*/
-.product{
-	padding: 20px;
-	background: rgba(0,0,0,0.8);
-	height: 980px;
-	overflow-y: scroll;
+.product {
+    padding: 20px;
+    background: rgba(0,0,0,0.8);
+    height: 980px;
+    overflow-y: scroll;
+    cursor: pointer;
 }
 .product>li{
 	color:#fff;
@@ -42,6 +43,7 @@ body{
     background: rgba(255,255,255,0.8);
     height: 390px;
     overflow-y: scroll;
+    cursor: pointer;
 }
 
     .version > li {

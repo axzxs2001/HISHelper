@@ -4,40 +4,216 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
-
-    <style>
-        .row {
-            margin-top: 10px;
-        }
-    </style>
+    <link href="~/css/researchprojects.css" rel="stylesheet" />
+    <link href="~/css/jquery.datetimepicker.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="row">
-        <div class="col-md-2 title-css">详细内容：</div>
-        <div class="col-md-10">
-            <script id="editor" type="text/plain" style="height:500px;">
-            </script>
+    <div class="container-fuild">
+        <div class="col-md-3">
+            <div class="row" id="addresearch">
+                <!-- 在研项目信息 -->
+                <h2 class="add-research" style="cursor: pointer;">
+                    在研项目查看
+                    <span class=" glyphicon glyphicon-plus"></span>
+                </h2>
+                <ul class="research">
+                    <!-- 现在我们为每个todo-item提供待办项对象    -->
+                    <!-- 待办项对象是变量，即其内容可以是动态的 -->
+                    <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
+                </ul>
+            </div>
         </div>
+        <div class="col-md-9" style="padding-right:0px">
+            <h3 class="add-research" style="cursor: pointer;">
+                项目信息填写
+                <span class=" glyphicon glyphicon-plus"></span>
+            </h3>
+            <!-- 版本信息模块 -->
+            <div class="col-md-12">
+                <label>项目名称：</label>
+                <input type="text" class="form-control" id="projectname" name="projectname" v-model="userMenu.projectname" placeholder="项目名称">
+            </div>
+            <div class="col-md-12">
+                <label>项目介绍：</label>
+                <input type="text" class="form-control" id="projectintroduction" name="projectintroduction" v-model="userMenu.projectintroduction" placeholder="项目介绍">
+            </div>
+            <div class="row col-md-12 ">
+                <span id="versionID" style="display:none"></span>
+                <div class="row col-md-12">
+                    <select id="department" onchange="SelectDevelopers(this.options[this.options.selectedIndex].value);">
+                    </select>
+                    <select id="person" onchange="SelectDeveloper(this.options[this.options.selectedIndex].value);">
+                        <option value="0">--请选择开发人员--</option>
+                    </select>
+                    <button class="btn btn-info btn-sm col-md-offset-5" onclick="addRelatedPersonnels()">保存开发人员信息</button>
+
+                </div>
+                <div class="col-md-12 table-fd remove-padding">
+                    <table class="table table-hover  person-news table-striped table-bordered table-condensed">
+                        <thead>
+                            <tr class="info">
+                                <th style="display:none">编号</th>
+                                <th>部门</th>
+                                <th>姓名</th>
+                                <th>性别</th>
+                                <th>电话</th>
+                                <th>QQ</th>
+                                <th>邮箱</th>
+                                <th>类型</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="selectdeveloper">
+                            @*<tr>*@
+                            @*<td>新技术研究中心</td>
+                                <td>张三</td>
+                                <td>男</td>
+                                <td>13312345678</td>
+                                <td>13548965</td>
+                                <td><button class="btn btn-sm btn-primary">移除</button></td>*@
+                            @*</tr>*@
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <label>开始时间：</label>
+                    <input type="text" class="form-control" id="startingtime" name="startingtime" v-model="userMenu.startingtime" placeholder="开始时间">
+                </div>
+                <div class="col-md-6">
+                    <label>开始时间：</label>
+                    <input type="text" class="form-control" id="endtime" name="endtime" v-model="userMenu.endtime" placeholder="结束时间">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label>详细内容：</label>
+                <script id="editor" type="text/plain" style="height:500px;">
+                </script>
+            </div>
+            <div class="col-md-12">
+                <button type="button" class="btn btn-default">添加</button>
+                <button type="button" class="btn btn-default">修改</button>
+                <button type="button" class="btn btn-default">删除</button>
+
+            </div>
+        </div>
+
     </div>
 </body>
 </html>
 
 @section scripts{
-<script src="~/lib/ueditor/ueditor.config.js"></script>
-<script src="~/lib/ueditor/ueditor.all.js"></script>
-<script src="~/lib/ueditor/lang/zh-cn/zh-cn.js"></script>
-<script>
-    $(function () {
-        createEditor();
-    });
-    //创建编辑器
-    function createEditor() {
-        UE.getEditor('editor');
-        UE.getEditor('editor').addListener('ready', function (editor) {
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/vue/dist/vue.js"></script>
+    <script src="~/js/jquery.datetimepicker.js"></script>
+    <script src="~/lib/ueditor/ueditor.config.js"></script>
+    <script src="~/lib/ueditor/ueditor.all.js"></script>
+    <script src="~/lib/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script>
+        $(function () {
+            GetSelect();
+            //createEditor();
         });
+        //#region 动态添加部门
+        function GetSelect() {
+            var str = '';
+            $.ajax({
+                type: 'GET',
+                url: '/selectdepartments',
+                data: {},
+                success: function (dataBack) {
+                    var str = '<option value="0">--请选择部门--</option>';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<option value="' + item["id"] + '">' + item["departmentname"] + '</option>';
+                    });
+                    $('#department').html(str);
+                    $("#person").html('<option value="0">--请选择开发人员--</option>');
+                }
+            });
+        }
+        //#endregion
 
-    }
-    
-</script>
+
+        //#region 根据部门ID查询开发人员
+        function SelectDevelopers(id) {
+            $.ajax({
+                type: "POST",
+                url: '/selectdevelopers',
+                data: { departmentID: id },
+                success: function (dataBack) {
+                    var str = '<option value="0">--请选择开发人员--</option>';
+                    $(dataBack.data).each(function (index, item) {
+                        str += "<option value=" + item["id"] + ">" + item["name"] + "</option>";
+                    });
+                    $("#person").html(str);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+        //#endregion
+
+        //#region  根据人员ID查询人员信息
+        var arrayUser = new Array();
+        //根据成员ID添加开发人员
+        function SelectDeveloper(id) {
+            alert(id)
+            var array1 = new Array();
+            var tb = $("#selectdeveloper tr");
+            tb.each(function () {
+                var td = $(this).html();
+                var $td = $(td); //将dom对象转化为jquery对象。
+                // for (var i = 0; i < $td.length; i++) {
+                array1.push($td.eq(0).text());
+                // }
+            });
+            if ($.inArray(id, array1) == -1) {
+                $.ajax({
+                    type: "POST",
+                    url: "/developersid",
+                    data: { Id: id },
+                    success: function (dataBack) {
+                        var str = '';
+                        $(dataBack.data).each(function (index, item) {
+                            arrayUser.push(item.id);
+                            str += '<tr>';
+                            str += '<td style="display:none">' + item.id + '</td>';
+                            str += '<td>' + item.departmentname + '</td>';
+                            str += '<td>' + item.name + '</td > ';
+                            str += '<td>' + (item.sex == false ? "男" : "女") + '</td>';
+                            str += '<td>' + item.phone + '</td>';
+                            str += '<td>' + item.qq + '</td>';
+                            str += '<td>' + item.email + '</td>';
+                            str += '<td><input type = "radio" name="permission"></td>';
+                            str += '<td><button class="btn btn-sm btn-warning" onclick="$(this).parent().parent().remove()">移除</td>';
+                            str += '</tr>';
+                        });
+                        $("#selectdeveloper").append(str);
+                    },
+                    error: function (error) {
+                        alert(error.status + error.statusText)
+                    }
+                });
+            } else {
+                alert("不能添加相同人员")
+
+            }
+
+        }
+        //#endregion
+
+        //#region  百度编辑器
+        //创建编辑器
+        //function createEditor() {
+        //    UE.getEditor('editor');
+        //    UE.getEditor('editor').addListener('ready', function (editor) {
+        //    });
+
+        //}
+        //#endregion
+    </script>
 
 }

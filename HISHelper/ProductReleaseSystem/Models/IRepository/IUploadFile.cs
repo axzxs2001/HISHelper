@@ -131,6 +131,12 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <returns></returns>
          List<Dictionary<string,dynamic>> QueryUsers();
 
+        /// <summary>
+        /// 通过姓名查询用户ID
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> InsertUsers(string name);
+
 
         #endregion
 
