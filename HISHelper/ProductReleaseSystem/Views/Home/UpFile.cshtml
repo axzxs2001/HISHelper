@@ -628,15 +628,16 @@
                 success: function (dataBack) {
                     alert(dataBack.message);
                     QueryAllFiles($('#versionID').text());
+                    $("#upload-file").val('');
                 },
                 error: function (error) {
 
                     alert(error.status + error.statusText)
                 }
             });
+
         } else {
             alert("请选择版本进行上传")
-
         }
 
     }
@@ -733,6 +734,7 @@
             $('#prductModal').modal('show');
             $('#product-describe').val('');
             $('#product-name').val('');
+            $('#hid_upde').text('');
         });
         /*关闭产品模态层*/
         $("#close-product").click(function (event) {
@@ -741,6 +743,7 @@
                 AddProdect();
                 $('#product-describe').val('');
                 $('#product-name').val('');
+                $('#hid_upde').text('');
              }else{
                 update();
                 $('#product-describe').val('');
@@ -757,6 +760,7 @@
             $("#upload-name option:eq(0)").html('<option value="0">--请选择开发人员--</option>');
             $("#upload-name option[value=0]").prop('selected', 'selected');
             $("#version-describe").val('');
+            $("#hid_updev").text('');
         });
         /*关闭版本模态层*/
         $("#close-version").click(function (event) {
@@ -768,6 +772,7 @@
                 $("#upload-name option[value=0]").val('selected', 'selected');
                 $("#upload-name option:eq(0)").html('<option value="0">--请选择开发人员--</option>');
                 $("#version-describe").val('');
+                $("#hid_updev").text('');
             } else {
                 updateversion();
                 $('#version-no').val('');

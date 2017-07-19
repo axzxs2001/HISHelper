@@ -10,12 +10,16 @@
 
   <ItemGroup>
     <Compile Remove="Models\DataModel\**" />
+    <Compile Remove="wwwroot\产品项目\**" />
     <Compile Remove="wwwroot\测试一下\**" />
     <Content Remove="Models\DataModel\**" />
+    <Content Remove="wwwroot\产品项目\**" />
     <Content Remove="wwwroot\测试一下\**" />
     <EmbeddedResource Remove="Models\DataModel\**" />
+    <EmbeddedResource Remove="wwwroot\产品项目\**" />
     <EmbeddedResource Remove="wwwroot\测试一下\**" />
     <None Remove="Models\DataModel\**" />
+    <None Remove="wwwroot\产品项目\**" />
     <None Remove="wwwroot\测试一下\**" />
   </ItemGroup>
 
