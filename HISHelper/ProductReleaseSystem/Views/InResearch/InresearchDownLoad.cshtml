@@ -1,0 +1,139 @@
+﻿@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>在研项目查看</title>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/jquery.datetimepicker.js"></script>
+    <script src="~/lib/vue/dist/vue.js"></script>
+
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/InResearchDownload.css" rel="stylesheet" />
+    <link href="~/css/jquery.datetimepicker.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container-fuild">
+        <div class="col-md-3">
+            <div class="row">
+
+                <!-- 产品信息 -->
+                <ul class="product">
+                    <h2 class="h2">再研项目列表</h2>
+                    <li>
+                        微信公众号
+                        <span class="glyphicon glyphicon-hand-right"></span>
+                    </li>
+                    <li>
+                        院感
+                        <span class="glyphicon glyphicon-hand-right"></span>
+                    </li>
+                    <li>
+                        排队叫号
+                        <span class="glyphicon glyphicon-hand-right"></span>
+                    </li>
+                    <li>
+                        自助服务系统
+                        <span class="glyphicon glyphicon-hand-right"></span>
+                    </li>
+                    <li>
+                        产品发布系统
+                        <span class="glyphicon glyphicon-hand-right"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-9 top">
+            <div class="row col-md-12"  id="inesearch">
+                <!--right-->
+                <table border="1" align="center" class="inesearchtable">
+                    <tbody>
+                       
+                        <tr>
+                            <th>项目名称</th>
+                            <td colspan="4"><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>项目介绍</th>
+                            <td colspan="4"><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>开始时间</th>
+                            <td colspan="2"><input type="datetime-local"></td>
+                            <th>结束时间</th>
+                            <td colspan="2"><input type="datetime-local"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!--人员信息-->
+                <div class="row col-md-10 ff">
+                    <table class="table table hover  person-news table-striped table-bordered table-condensed">
+                        <thead>
+                            <tr class="info">
+                                <th>部门</th>
+                                <th>姓名</th>
+                                <th>性别</th>
+                                <th>电话</th>
+                                <th>QQ</th>
+                                <th>类型</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="cp">
+                                <td>新技术研究中心</td>
+                                <td>张三</td>
+                                <td>男</td>
+                                <td>13312345678</td>
+                                <td>13548965</td>
+                                <td>管理员</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">移除</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <!--百度编辑器-->
+            <div class="row col-md-12 ">
+                <br />
+                <label>详细内容：</label>
+                <div class="bianjiqi">
+
+                </div>
+            </div>
+            <!--按钮-->
+            <!--<div class="col-md-5 cc">-->
+            <!--<button class="btn btn-info col-md-2 col-md-offset-5">保存</button>-->
+            <!--<button class="btn btn-info col-md-2 col-md-offset-5">修改</button>-->
+            <!--<button class="btn btn-info col-md-2 col-md-offset-5">删除</button>-->
+            <!--</div>-->
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+	$(document).ready(function(){
+    });
+    function ProductsDownload(obj) {
+        var trstring = '';
+        if (obj.List.length != 0)
+        {
+            $(obj.List).each(function (index.item) {
+                trstring += '<li>' + item.ProductName;
+                trstring += '<span class="glyphicon glyphicon-hand-right">' + item.ID + '</span>';
+                trstring += '</li>';
+            });
+            $('.h2').html(trstring);
+        } else {
+            $('.h2').html("");
+        }
+        }
+    }
+</script>

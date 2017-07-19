@@ -68,7 +68,7 @@
 
                         <div class="col-md-6">
                             用户名：
-                            <input type="text" class="form-control" id="insertname" name="insertname"  placeholder="用户名">
+                            <input type="text" class="form-control" id="insertname" name="insertname" disabled="disabled"  placeholder="用户名">
                         </div>
                         <div class="col-md-6">
                             密码：
@@ -97,25 +97,24 @@
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/layer/layer.js"></script>
         <script>
+            var name = @User.Identity.Name;
             var ID;
             var Character;
             function UserInsert() {
                $.ajax({
             type: "POST",
             url: "/insertiser",
-            data: { name: @User.Identity.Name },
+            data: { name:name},
             success: function (dataBack) {
-
                 $(dataBack.data).each(function (index, item) {
                     $("#InsertUsers").modal('show');
                     ID = item.id;
-                    alert(ID);
                     $("#insertname").val(item.username);
                     $("#insertpassword").val(item.password);
                     Character= item.character;
                 });
-                
-                
+
+
             },
             error: function (error) {
                 alert(error.status + error.statusText)
@@ -137,9 +136,10 @@
                             layer.msg(dataBack.message, { icon: 2 });
                         } else {
                             layer.msg(dataBack.message, { icon: 1 });
+                            $("#InsertUsers").modal('hide');
                            // GetUser();
                         }
-                        $("#ModiyUsers").modal('hide')
+                       
                     });
                 }
             }

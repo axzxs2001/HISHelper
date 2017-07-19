@@ -24,6 +24,31 @@ namespace ProductReleaseSystem.Controllers
 
 
         }
+
+        #region 在研项目主页
+        /// <summary>
+        /// 在研项目主页
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("inresearch")]
+        public IActionResult InResearch()
+        {
+            return View();
+        }
+        #endregion
+
+        #region 在研项目查看主页
+        /// <summary>
+        /// 在研项目查看主页
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("inresearchdown")]
+        public IActionResult InResearchDownLoad()
+        {
+            return View();
+        }
+        #endregion
+
         #region 查询部门信息
         /// <summary>
         /// 查询部门信息
@@ -88,17 +113,7 @@ namespace ProductReleaseSystem.Controllers
         }
         #endregion
 
-        #region 在研项目主页
-        /// <summary>
-        /// 在研项目主页
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("inresearch")]
-        public IActionResult InResearch()
-        {
-            return View();
-        }
-        #endregion
+        
 
 
     }

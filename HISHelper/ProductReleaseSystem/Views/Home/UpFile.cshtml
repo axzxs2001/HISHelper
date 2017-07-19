@@ -233,7 +233,6 @@
 
         }
     }
-
     function checkVersionNull() {
         var name = document.getElementById("version-no").value.replace(/[]/g, "");
         var describe = document.getElementById("version-describe").value.replace(/[]/g, "");
@@ -241,6 +240,9 @@
         if (name.length == 0 || name == "此处输入版本号") {
             alert("请输入版本号");
             return false;
+        }
+        else if (!name.match(/^\d+(\.\d)+(\.\d)+(\.\d)$/)) {
+            alert("版本号格式不正确，正确格式为 1.0.0.0");
         }
         else if (uploadName == 0) {
             alert("请选择发布人");
@@ -413,7 +415,6 @@
 
     //修改版本
     function updateversion() {
-        alert($('#upload-name').val());
         $.ajax({
             type: "POST",
             url: 'updateversion',

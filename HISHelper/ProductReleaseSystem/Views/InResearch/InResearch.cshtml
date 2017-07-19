@@ -1,111 +1,195 @@
-﻿
-<!DOCTYPE html>
-<html>
+﻿@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title></title>
-    <link href="~/css/researchprojects.css" rel="stylesheet" />
-    <link href="~/css/jquery.datetimepicker.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <title>开发人员上传</title>
     <link href="~/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/InResearchDownload.css" rel="stylesheet" />
+    <link href="~/css/jquery.datetimepicker.css" rel="stylesheet" />
 </head>
 <body>
     <div class="container-fuild">
         <div class="col-md-3">
-            <div class="row" id="addresearch">
-                <!-- 在研项目信息 -->
-                <h2 class="add-research" style="cursor: pointer;">
-                    在研项目查看
-                    <span class=" glyphicon glyphicon-plus"></span>
-                </h2>
-                <ul class="research">
-                    <!-- 现在我们为每个todo-item提供待办项对象    -->
-                    <!-- 待办项对象是变量，即其内容可以是动态的 -->
-                    <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
+            <div class="row">
+
+                <!-- 产品信息 -->
+                <ul class="product">
+                    <h2 class="h2">在研产品</h2>
+                    <li>
+                        微信公众号
+                        <span class="glyphicon glyphicon-hand-right"></span>
+                    </li>
+                    <li>
+                        院感
+                        <span class="glyphicon glyphicon-hand-right"></span>
+                    </li>
+                    <li>
+                        排队叫号
+                        <span class="glyphicon glyphicon-hand-right"></span>
+                    </li>
+                    <li>
+                        自助服务系统
+                        <span class="glyphicon glyphicon-hand-right"></span>
+                    </li>
+                    <li>
+                        产品发布系统
+                        <span class="glyphicon glyphicon-hand-right"></span>
+                    </li>
                 </ul>
             </div>
         </div>
-        <div class="col-md-9" style="padding-right:0px">
-            <h3 class="add-research" style="cursor: pointer;">
-                项目信息填写
-                <span class=" glyphicon glyphicon-plus"></span>
-            </h3>
-            <!-- 版本信息模块 -->
-            <div class="col-md-12">
-                <label>项目名称：</label>
-                <input type="text" class="form-control" id="projectname" name="projectname" v-model="userMenu.projectname" placeholder="项目名称">
-            </div>
-            <div class="col-md-12">
-                <label>项目介绍：</label>
-                <input type="text" class="form-control" id="projectintroduction" name="projectintroduction" v-model="userMenu.projectintroduction" placeholder="项目介绍">
-            </div>
-            <div class="row col-md-12 ">
-                <span id="versionID" style="display:none"></span>
-                <div class="row col-md-12">
-                    <select id="department" onchange="SelectDevelopers(this.options[this.options.selectedIndex].value);">
-                    </select>
-                    <select id="person" onchange="SelectDeveloper(this.options[this.options.selectedIndex].value);">
-                        <option value="0">--请选择开发人员--</option>
-                    </select>
-                    <button class="btn btn-info btn-sm col-md-offset-5" onclick="addRelatedPersonnels()">保存开发人员信息</button>
-
-                </div>
-                <div class="col-md-12 table-fd remove-padding">
-                    <table class="table table-hover  person-news table-striped table-bordered table-condensed">
+        <div class="col-md-9 top">
+            <div class="row col-md-12" id="inesearch">
+                <!--right-->
+                <table border="1" align="center" class="inesearchtable">
+                    <tbody>
+                        <tr>
+                            <th>添加项目</th>
+                            <td colspan="4"><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>项目名称</th>
+                            <td colspan="4"><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>项目介绍</th>
+                            <td colspan="4"><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>开始时间</th>
+                            <td colspan="2"><input type="datetime-local"></td>
+                            <th>结束时间</th>
+                            <td colspan="2"><input type="datetime-local"></td>
+                        </tr>
+                        <tr>
+                            <th>开发部门</th>
+                            <td colspan="2">
+                                <select name="" id="department">
+                                    <option value="">研发组</option>
+                                    <option value="">研发组</option>
+                                </select>
+                            </td>
+                            <th>开发人员</th>
+                            <td colspan="2">
+                                <select name="" id="person">
+                                    <option value="">就看见</option>
+                                    <option value="">蝶恋蜂狂</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <!--人员信息-->
+                <div class="row col-md-10 ff">
+                    <table class="table table hover  person-news table-striped table-bordered table-condensed">
                         <thead>
                             <tr class="info">
-                                <th style="display:none">编号</th>
-                                <th>部门</th>
-                                <th>姓名</th>
-                                <th>性别</th>
-                                <th>电话</th>
-                                <th>QQ</th>
-                                <th>邮箱</th>
-                                <th>类型</th>
-                                <th>操作</th>
+                                <th style="line-height:40px;">部门</th>
+                                <th style="line-height:40px;">姓名</th>
+                                <th style="line-height:40px;">性别</th>
+                                <th style="line-height:40px;">电话</th>
+                                <th style="line-height:40px;">QQ</th>
+                                <th style="line-height:40px;">类型</th>
+                                <th style="line-height:40px;">操作</th>
                             </tr>
                         </thead>
-                        <tbody id="selectdeveloper">
-                            @*<tr>*@
-                            @*<td>新技术研究中心</td>
+                        <tbody class="infoto">
+                            <tr class="cp">
+                                <td>新技术研究中心</td>
                                 <td>张三</td>
                                 <td>男</td>
                                 <td>13312345678</td>
                                 <td>13548965</td>
-                                <td><button class="btn btn-sm btn-primary">移除</button></td>*@
-                            @*</tr>*@
+                                <td><input type="radio" name="aa" value="" style="width: 18px;"></td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">移除</button>
+                                </td>
+                            </tr>
+                            <tr class="cp">
+                                <td>新技术研究中心</td>
+                                <td>张三</td>
+                                <td>男</td>
+                                <td>13312345678</td>
+                                <td>13548965</td>
+                                <td><input type="radio" name="aa" value="" style="width: 18px;"></td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">移除</button>
+                                </td>
+                            </tr>
+                            <tr class="cp">
+                                <td>新技术研究中心</td>
+                                <td>张三</td>
+                                <td>男</td>
+                                <td>13312345678</td>
+                                <td>13548965</td>
+                                <td><input type="radio" name="aa" value="" style="width: 18px;"></td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">移除</button>
+                                </td>
+                            </tr>
+                            <tr class="cp">
+                                <td style="line-height:30px;">新技术研究中心</td>
+                                <td style="line-height:30px;">张三</td>
+                                <td style="line-height:30px;">男</td>
+                                <td style="line-height:30px;">13312345678</td>
+                                <td style="line-height:30px;">13548965</td>
+                                <td><input type="radio" name="aa" value="" style="width: 18px;"></td>
+                                <td style="line-height:30px;">
+                                    <button class="btn btn-sm btn-primary">移除</button>
+                                </td>
+                            </tr>
+                            <tr class="cp">
+                                <td style="line-height:30px;">新技术研究中心</td>
+                                <td style="line-height:30px;">张三</td>
+                                <td style="line-height:30px;">男</td>
+                                <td style="line-height:30px;">13312345678</td>
+                                <td style="line-height:30px;">13548965</td>
+                                <td><input type="radio" name="aa" value="" style="width: 18px;"></td>
+                                <td style="line-height:30px;">
+                                    <button class="btn btn-sm btn-primary">移除</button>
+                                </td>
+                            </tr>
+                            <tr class="cp">
+                                <td style="line-height:30px;">新技术研究中心</td>
+                                <td style="line-height:30px;">张三</td>
+                                <td style="line-height:30px;">男</td>
+                                <td style="line-height:30px;">13312345678</td>
+                                <td style="line-height:30px;">13548965</td>
+                                <td><input type="radio" name="aa" value="" style="width: 18px;"></td>
+                                <td style="line-height:30px;">
+                                    <button class="btn btn-sm btn-primary">移除</button>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
+
             </div>
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <label>开始时间：</label>
-                    <input type="text" class="form-control" id="startingtime" name="startingtime" v-model="userMenu.startingtime" placeholder="开始时间">
-                </div>
-                <div class="col-md-6">
-                    <label>开始时间：</label>
-                    <input type="text" class="form-control" id="endtime" name="endtime" v-model="userMenu.endtime" placeholder="结束时间">
-                </div>
-            </div>
-            <div class="col-md-12">
+            <!--百度编辑器-->
+            <div class="row col-md-12 baidu">
+                <br />
                 <label>详细内容：</label>
-                <script id="editor" type="text/plain" style="height:500px;">
+                <script id="editor" type="text/plain" style="width:100%; height:300px;">
                 </script>
             </div>
-            <div class="col-md-12">
-                <button type="button" class="btn btn-default">添加</button>
-                <button type="button" class="btn btn-default">修改</button>
-                <button type="button" class="btn btn-default">删除</button>
-
+            <!--按钮-->
+            <div class="col-md-5 cc">
+                <br />
+                <button class="btn btn-info col-md-2 col-md-offset-5">保存</button>
+                <button class="btn btn-info col-md-2 col-md-offset-5">修改</button>
+                <button class="btn btn-info col-md-2 col-md-offset-5">删除</button>
             </div>
         </div>
-
     </div>
-</body>
-</html>
 
-@section scripts{
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/jquery.datetimepicker.js"></script>
     <script src="~/lib/vue/dist/vue.js"></script>
     <script src="~/js/jquery.datetimepicker.js"></script>
     <script src="~/lib/ueditor/ueditor.config.js"></script>
@@ -114,7 +198,7 @@
     <script>
         $(function () {
             GetSelect();
-            //createEditor();
+            createEditor();
         });
         //#region 动态添加部门
         function GetSelect() {
@@ -134,7 +218,6 @@
             });
         }
         //#endregion
-
 
         //#region 根据部门ID查询开发人员
         function SelectDevelopers(id) {
@@ -205,15 +288,29 @@
         }
         //#endregion
 
+        //function ProductsDownload(obj) {
+        //    var trstring = '';
+        //    if (obj.List.length != 0) {
+        //        $(obj.List).each(function (index.item) {
+        //            trstring += '<li>' + item.ProductName;
+        //            trstring += '<span class="glyphicon glyphicon-hand-right">' + item.ID + '</span>';
+        //            trstring += '</li>';
+        //        });
+        //        $('.h2').html(trstring);
+        //    } else {
+        //        $('.h2').html("");
+        //    }
+        //}
         //#region  百度编辑器
         //创建编辑器
-        //function createEditor() {
-        //    UE.getEditor('editor');
-        //    UE.getEditor('editor').addListener('ready', function (editor) {
-        //    });
+        function createEditor() {
+            UE.getEditor('editor');
+            UE.getEditor('editor').addListener('ready', function (editor) {
+            });
 
-        //}
+        }
         //#endregion
     </script>
 
-}
+</body>
+</html>

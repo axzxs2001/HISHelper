@@ -25,11 +25,14 @@
 
   <ItemGroup>
     <None Remove="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Remove="Views\InResearch\InResearchDownLoad.html" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="wwwroot\css\DeveloperUpload.css" />
     <Content Include="wwwroot\css\informationMaintenance.css" />
+    <Content Include="wwwroot\css\InResearchDownload.css" />
+    <Content Include="wwwroot\css\InResearchUpload.css" />
     <Content Include="wwwroot\css\jquery.datetimepicker.css" />
     <Content Include="wwwroot\css\main.css" />
     <Content Include="wwwroot\css\researchprojects.css" />
