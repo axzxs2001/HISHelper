@@ -30,6 +30,13 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="researchprojects"></param>
         /// <returns></returns>
         bool InsertResearchers(Researchers researchers);
+
+        /// <summary>
+        /// 修改病人为管理员
+        /// </summary>
+        /// <param name="id">病人ID</param>
+        /// <returns></returns>
+        bool UpdatePersonType(int? id);
         /// <summary>
         /// 删除开发人员ID
         /// </summary>
@@ -43,6 +50,13 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="departmentID"></param>
         /// <returns></returns>
         List<Dictionary<string, dynamic>> SelectDevelopers(int departmentID);
+
+        /// <summary>
+        /// 通过人员ID查询开发人员
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> SelectRenYuan(int id);
 
         /// <summary>
         /// 查询部门信息
@@ -62,5 +76,11 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="upresearch"></param>
         /// <returns></returns>
         bool UpdateResearch(ResearchProjects upresearch);
+        /// <summary>
+        /// 根据项目ID查询所有相关人员
+        /// </summary>
+        /// <param name="id"></param>版本号
+        /// <returns></returns>
+        //List<Dictionary<string, dynamic>> SelectInresearchers(int id);
     }
 }

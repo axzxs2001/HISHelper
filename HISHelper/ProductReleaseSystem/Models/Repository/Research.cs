@@ -33,14 +33,14 @@ namespace ProductReleaseSystem.Models.Repository
         /// <returns></returns>
         public bool InsertResearch(ResearchProjects researchprojects)
         {
-            var sql = "insert into ResearchProjects (ProjectName,ProjectIntroduction,StartingTime,EndTime,ProjectProgress) values(@ProjectName,@ProjectIntroduction,@StartingTime,@EndTime,ProjectProgress)";
-            //var pars = new List<SqlParameter>();
+            var sql = "insert into ResearchProjects (ProjectName,ProjectIntroduction,StartingTime,EndTime,ProjectProgress,Projectcontent) values(@ProjectName,@ProjectIntroduction,@StartingTime,@EndTime,@ProjectProgress,@Projectcontent)";
             var par = new SqlParameter() { ParameterName = "@ProjectName", SqlDbType = System.Data.SqlDbType.VarChar, Value = researchprojects.ProjectName };
             var par2 = new SqlParameter() { ParameterName = "@ProjectIntroduction", SqlDbType = System.Data.SqlDbType.VarChar, Value = researchprojects.ProjectIntroduction };
-            var par3 = new SqlParameter() { ParameterName = "@StartingTime", SqlDbType = System.Data.SqlDbType.DateTime, Value = researchprojects.StartingTime };
-            var par4 = new SqlParameter() { ParameterName = "@EndTime", SqlDbType = System.Data.SqlDbType.DateTime, Value = researchprojects.EndTime };
-            var par5 = new SqlParameter() { ParameterName = "@ProjectProgress", SqlDbType = System.Data.SqlDbType.VarChar, Value = researchprojects.ProjectProgress };
-            return _dbHelper.SavaData(sql, par, par2, par3, par4, par5) > 0 ? true : false;
+            var par3 = new SqlParameter() { ParameterName = "@StartingTime", SqlDbType = System.Data.SqlDbType.VarChar, Value = researchprojects.StartingTime };
+            var par4 = new SqlParameter() { ParameterName = "@EndTime", SqlDbType = System.Data.SqlDbType.VarChar, Value = researchprojects.EndTime };
+            var par5 = new SqlParameter() { ParameterName = "@ProjectProgress", SqlDbType = System.Data.SqlDbType.Text, Value = researchprojects.ProjectProgress };
+            var par6 = new SqlParameter() { ParameterName = "@Projectcontent", SqlDbType = System.Data.SqlDbType.Text, Value = researchprojects.Projectcontent };
+            return _dbHelper.SavaData(sql, par, par2, par3, par4, par5,par6) > 0 ? true : false;
         }
         #endregion
 
@@ -71,16 +71,18 @@ ProjectName=@ProjectName,
 ProjectIntroduction=@ProjectIntroduction,
 StartingTime=@StartingTime,
 EndTime=@EndTime,
-ProjectProgress=@ProjectProgress 
+ProjectProgress=@ProjectProgress,
+Projectcontent=@Projectcontent
 WHERE ID=@id";
             var par1 = new SqlParameter() { ParameterName = "@ProjectName", SqlDbType = System.Data.SqlDbType.VarChar, Value = upresearch.ProjectName };
             var par2 = new SqlParameter() { ParameterName = "@ProjectIntroduction", SqlDbType = System.Data.SqlDbType.VarChar, Value = upresearch.ProjectIntroduction };
             var par3 = new SqlParameter() { ParameterName = "@StartingTime", SqlDbType = System.Data.SqlDbType.VarChar, Value = upresearch.StartingTime };
             var par4 = new SqlParameter() { ParameterName = "@EndTime", SqlDbType = System.Data.SqlDbType.VarChar, Value = upresearch.EndTime };
             var par5 = new SqlParameter() { ParameterName = "@ProjectProgress", SqlDbType = System.Data.SqlDbType.VarChar, Value = upresearch.ProjectProgress };
+            var par6 = new SqlParameter() { ParameterName = "@Projectcontent", SqlDbType = System.Data.SqlDbType.Text, Value = upresearch.Projectcontent };
             var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = upresearch.Id };
 
-            return _dbHelper.SavaData(sql, par1, par2, par3, par4, par5, par) > 0 ? true : false;
+            return _dbHelper.SavaData(sql, par1, par2, par3, par4, par5,par6, par) > 0 ? true : false;
         }
         #endregion
 
@@ -121,7 +123,7 @@ WHERE ID=@id";
         /// <returns></returns>
         public List<Dictionary<string, dynamic>> SelectResearch()
         {
-            var sql = "select ID ProjectName from ResearchProjects";
+            var sql = "select ID, ProjectName,ProjectIntroduction,StartingTime,EndTime,ProjectProgress,Projectcontent from ResearchProjects";
             return _dbHelper.GetList(sql);
         }
         #endregion
@@ -181,6 +183,37 @@ where DepartmentID=@DepartmentID
         }
         #endregion
 
+        #region 通过部门查询开发人员
+        /// <summary>
+        /// 通过部门查询开发人员
+        /// </summary>
+        /// <param name="departmentID">部门ID</param>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> SelectRenYuan(int id)
+        {
+            var sql = (@"SELECT a.ID ID ,
+                        Name ,
+                        Sex ,
+                        qq ,
+                        Email ,
+                        Phone ,
+                        Remarks,
+                        DepartmentName
+                        FROM  dbo.Developers a join
+                        dbo.Departments b on a.DepartmentID=b.ID 
+                        where a.id=@ID
+");
+            var par1 = new SqlParameter()
+            {
+                ParameterName = "@id",
+                SqlDbType = System.Data.SqlDbType.Int,
+                Value = id
+            };
+
+            return _dbHelper.GetList(sql, par1);
+        }
+        #endregion
+
         #region  根据人员ID删除相关人员
         /// <summary>
         /// 根据人员ID删除相关人员
@@ -194,7 +227,27 @@ where DepartmentID=@DepartmentID
             return _dbHelper.SavaData(sql, par) > 0 ? true : false;
         }
         #endregion
+        /// <summary>
+        /// 修改人员为负责人
+        /// </summary>
+        /// <param name="id">人员ID</param>
+        /// <returns></returns>
+        public bool UpdatePersonType(int? id)
+        {
+            var sql = @"update RelatedPersonnels set Personneltype='管理员' where PersonID=@id";
+            var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.SavaData(sql, par) > 0 ? true : false;
 
-       
+
+        }
+        ///// <summary>
+        ///// 根据项目ID查询开发人员
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <returns></returns>
+        //public List<Dictionary<string, dynamic>> SelectInresearchers(int id)
+        //{
+        //    return true;
+        //}
     }
 }

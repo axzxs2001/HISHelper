@@ -411,11 +411,11 @@ c.Personneltype
 from Developers a 
 join Departments b on
 a.DepartmentID=b.ID 
-join RelatedPersonnels c 
-on a.ID=c.PersonID 
-join Versions d 
-on c.VersionID=d.ID 
-where c.VersionID=@id";
+join Researchers c 
+on a.ID=c.ResearchProjectsID 
+join ResearchProjects d
+on c.ResearchProjectsID=d.ID
+where c.ResearchProjectsID=@id";
             var par1 = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.GetList(sql, par1);
         }

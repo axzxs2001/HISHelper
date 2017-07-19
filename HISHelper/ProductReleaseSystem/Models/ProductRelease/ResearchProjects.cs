@@ -13,5 +13,6 @@ namespace ProductReleaseSystem.ProductRelease
         public DateTime StartingTime { get; set; }
         public DateTime EndTime { get; set; }
         public string ProjectProgress { get; set; }
+        public string Projectcontent { get; set; }
     }
 }

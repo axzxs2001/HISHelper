@@ -11,14 +11,14 @@ body {
 .product {
     padding: 20px;
     background: rgba(0,0,0,0.8);
-    height: 980px;
+    height: 920px;
     overflow-y: scroll;
 }
 
     .product > li {
         color: #fff;
         padding: 0 20px;
-        font-size: 24px;
+        font-size: 20px;
         height: 30px;
         line-height: 30px;
         margin-top: 10px;
@@ -141,9 +141,8 @@ body {
 }
 
 /********************************************/
-
+ 
 .inesearchtable {
-   
     margin-top: 20px;
     width: 100%;
 } 
@@ -226,6 +225,26 @@ table select {
     width:100%;
     height:500px;
     border:1px solid #ccc;
+}
+#department {
+    height: 35px;
+}
+#person {
+    height: 35px;
+}
+#divh2 {
+    margin-top: -20px;
+    padding-top:20px;
+    padding-left:40px;
+    
+    height: 80px;
+    line-height:60px;
+    /*background-color: #000;*/
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+}
+.addid {
+margin-left:100px;
 }
 /*自适应*/
 @media screen and (min-width:1280px) {

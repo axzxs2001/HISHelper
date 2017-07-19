@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>开发人员上传</title>
+    <title>在研项目上传</title>
     <link href="~/css/bootstrap.css" rel="stylesheet" />
     <link href="~/css/InResearchDownload.css" rel="stylesheet" />
     <link href="~/css/jquery.datetimepicker.css" rel="stylesheet" />
@@ -14,31 +14,14 @@
     <div class="container-fuild">
         <div class="col-md-3">
             <div class="row">
-
+                <div id="divh2" style="cursor: pointer;" onclick="QingKong();num = 0;">
+                    <h3>
+                        在研产品
+                        <span class="glyphicon glyphicon-plus addid"></span>
+                    </h3>
+                </div>
                 <!-- 产品信息 -->
-                <ul class="product">
-                    <h2 class="h2">在研产品</h2>
-                    <li>
-                        微信公众号
-                        <span class="glyphicon glyphicon-hand-right"></span>
-                    </li>
-                    <li>
-                        院感
-                        <span class="glyphicon glyphicon-hand-right"></span>
-                    </li>
-                    <li>
-                        排队叫号
-                        <span class="glyphicon glyphicon-hand-right"></span>
-                    </li>
-                    <li>
-                        自助服务系统
-                        <span class="glyphicon glyphicon-hand-right"></span>
-                    </li>
-                    <li>
-                        产品发布系统
-                        <span class="glyphicon glyphicon-hand-right"></span>
-                    </li>
-                </ul>
+                <ul class="product"></ul>
             </div>
         </div>
         <div class="col-md-9 top">
@@ -47,34 +30,30 @@
                 <table border="1" align="center" class="inesearchtable">
                     <tbody>
                         <tr>
-                            <th>添加项目</th>
-                            <td colspan="4"><input type="text"></td>
-                        </tr>
-                        <tr>
                             <th>项目名称</th>
-                            <td colspan="4"><input type="text"></td>
+                            <td colspan="4"><input type="text" id="projectname"></td>
                         </tr>
                         <tr>
                             <th>项目介绍</th>
-                            <td colspan="4"><input type="text"></td>
+                            <td colspan="4"><input type="text" id="projectintroduction"></td>
                         </tr>
                         <tr>
                             <th>开始时间</th>
-                            <td colspan="2"><input type="datetime-local"></td>
+                            <td colspan="2"><input type="datetime-local" id="startingtime"></td>
                             <th>结束时间</th>
-                            <td colspan="2"><input type="datetime-local"></td>
+                            <td colspan="2"><input type="datetime-local" id="endtime"></td>
                         </tr>
                         <tr>
                             <th>开发部门</th>
                             <td colspan="2">
-                                <select name="" id="department">
+                                <select name="" id="department" onchange="SelectDevelopers(this.options[this.options.selectedIndex].value);">
                                     <option value="">研发组</option>
                                     <option value="">研发组</option>
                                 </select>
                             </td>
                             <th>开发人员</th>
                             <td colspan="2">
-                                <select name="" id="person">
+                                <select name="" id="person" onchange="SelectDeveloper(this.options[this.options.selectedIndex].value);">
                                     <option value="">就看见</option>
                                     <option value="">蝶恋蜂狂</option>
                                 </select>
@@ -82,7 +61,7 @@
                         </tr>
                     </tbody>
                 </table>
-                
+
                 <!--人员信息-->
                 <div class="row col-md-10 ff">
                     <table class="table table hover  person-news table-striped table-bordered table-condensed">
@@ -93,78 +72,12 @@
                                 <th style="line-height:40px;">性别</th>
                                 <th style="line-height:40px;">电话</th>
                                 <th style="line-height:40px;">QQ</th>
+                                <th style="line-height:40px;">邮箱</th>
                                 <th style="line-height:40px;">类型</th>
                                 <th style="line-height:40px;">操作</th>
                             </tr>
                         </thead>
-                        <tbody class="infoto">
-                            <tr class="cp">
-                                <td>新技术研究中心</td>
-                                <td>张三</td>
-                                <td>男</td>
-                                <td>13312345678</td>
-                                <td>13548965</td>
-                                <td><input type="radio" name="aa" value="" style="width: 18px;"></td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary">移除</button>
-                                </td>
-                            </tr>
-                            <tr class="cp">
-                                <td>新技术研究中心</td>
-                                <td>张三</td>
-                                <td>男</td>
-                                <td>13312345678</td>
-                                <td>13548965</td>
-                                <td><input type="radio" name="aa" value="" style="width: 18px;"></td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary">移除</button>
-                                </td>
-                            </tr>
-                            <tr class="cp">
-                                <td>新技术研究中心</td>
-                                <td>张三</td>
-                                <td>男</td>
-                                <td>13312345678</td>
-                                <td>13548965</td>
-                                <td><input type="radio" name="aa" value="" style="width: 18px;"></td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary">移除</button>
-                                </td>
-                            </tr>
-                            <tr class="cp">
-                                <td style="line-height:30px;">新技术研究中心</td>
-                                <td style="line-height:30px;">张三</td>
-                                <td style="line-height:30px;">男</td>
-                                <td style="line-height:30px;">13312345678</td>
-                                <td style="line-height:30px;">13548965</td>
-                                <td><input type="radio" name="aa" value="" style="width: 18px;"></td>
-                                <td style="line-height:30px;">
-                                    <button class="btn btn-sm btn-primary">移除</button>
-                                </td>
-                            </tr>
-                            <tr class="cp">
-                                <td style="line-height:30px;">新技术研究中心</td>
-                                <td style="line-height:30px;">张三</td>
-                                <td style="line-height:30px;">男</td>
-                                <td style="line-height:30px;">13312345678</td>
-                                <td style="line-height:30px;">13548965</td>
-                                <td><input type="radio" name="aa" value="" style="width: 18px;"></td>
-                                <td style="line-height:30px;">
-                                    <button class="btn btn-sm btn-primary">移除</button>
-                                </td>
-                            </tr>
-                            <tr class="cp">
-                                <td style="line-height:30px;">新技术研究中心</td>
-                                <td style="line-height:30px;">张三</td>
-                                <td style="line-height:30px;">男</td>
-                                <td style="line-height:30px;">13312345678</td>
-                                <td style="line-height:30px;">13548965</td>
-                                <td><input type="radio" name="aa" value="" style="width: 18px;"></td>
-                                <td style="line-height:30px;">
-                                    <button class="btn btn-sm btn-primary">移除</button>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <tbody id="infoto"></tbody>
                     </table>
                 </div>
 
@@ -173,15 +86,14 @@
             <div class="row col-md-12 baidu">
                 <br />
                 <label>详细内容：</label>
-                <script id="editor" type="text/plain" style="width:100%; height:300px;">
+                <script id="editor" type="text/plain" style="width:100%; height:350px;">
                 </script>
             </div>
             <!--按钮-->
             <div class="col-md-5 cc">
                 <br />
-                <button class="btn btn-info col-md-2 col-md-offset-5">保存</button>
-                <button class="btn btn-info col-md-2 col-md-offset-5">修改</button>
                 <button class="btn btn-info col-md-2 col-md-offset-5">删除</button>
+                <button class="btn btn-info col-md-2 col-md-offset-5" onclick="InsertAndUpdate()">保存</button>
             </div>
         </div>
     </div>
@@ -192,14 +104,34 @@
     <script src="~/js/jquery.datetimepicker.js"></script>
     <script src="~/lib/vue/dist/vue.js"></script>
     <script src="~/js/jquery.datetimepicker.js"></script>
+    <script src="~/layer/layer.js"></script>
     <script src="~/lib/ueditor/ueditor.config.js"></script>
     <script src="~/lib/ueditor/ueditor.all.js"></script>
     <script src="~/lib/ueditor/lang/zh-cn/zh-cn.js"></script>
     <script>
         $(function () {
+            SelectInesearch();
             GetSelect();
             createEditor();
         });
+        var num;
+        //在研项目ID
+        function GetID(id) {
+            num = id;
+            SelectAllInesearch(id);
+        }
+
+        //判断点击保存执行的是添加还是修改
+        function InsertAndUpdate() {
+
+            if (num > 0) {
+                UpdateInResearch(num);
+            }
+            else {
+                InsertInResearch();
+            }
+        }
+
         //#region 动态添加部门
         function GetSelect() {
             var str = '';
@@ -214,6 +146,66 @@
                     });
                     $('#department').html(str);
                     $("#person").html('<option value="0">--请选择开发人员--</option>');
+                }
+            });
+        }
+        //#endregion
+
+        //#region  查询在研项目名称
+        function SelectInesearch() {
+            $.ajax({
+                type: "POST",
+                url: '/selectinesearch',
+                data: {},
+                success: function (dataBack) {
+                    var str = '';
+                    $(dataBack.data).each(function (index, item) {
+                        //str += '<li style="cursor: pointer;" onclick=GetID(\'' + item.ID + '\',\'' + item.ProductName + '\');>'
+                        //str += item.ProductName
+
+                        //str += '<span class="glyphicon glyphicon-hand-right" onclick="biuceng(' + item.ID + ')"></span>';
+                        //str += '</li>'
+                        str += '<li value="' + item["id"] + '" style="cursor: pointer;"  onclick=GetID(' + item.id + ');>' + item["projectname"];
+                        str += '<span class="hid" style="display:none">' + item.ID + '</span>';
+                        str += ' <span class="glyphicon glyphicon-hand-right"></span>';
+                        str += '</li>';
+                    });
+                    $(".product").html(str);
+                    $(".product li").click(function (event) {
+                        $(".product").css({ 'background': 'rgba(0,0,0,0.8)', 'color': '#fff' });
+                        $(".product li").css({ 'background': '', 'color': '' });
+                        $(this).css({ 'background': '#fff', 'color': '#000' });
+                    });
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+
+                }
+            });
+        }
+        //#endregion
+        //#region 查询全部信息
+        function SelectAllInesearch(id) {
+            $.ajax({
+                type: "POST",
+                url: '/selectesearchid',
+                data: { id: id },
+                success: function (dataBack) {
+                    var str = '';
+                    $(dataBack.data).each(function (index, item) {
+                        $('#projectname').val(item.projectname);
+                        $('#projectintroduction').val(item.projectintroduction);
+                        $('#startingtime').val(item.startingtime);
+                        $('#endtime').val(item.endtime);
+                        $('#editor').val(item.Projectcontent);
+
+                        UE.getEditor('editor').setContent(item.projectprogress);
+                    });
+
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+
                 }
             });
         }
@@ -245,7 +237,7 @@
         function SelectDeveloper(id) {
             alert(id)
             var array1 = new Array();
-            var tb = $("#selectdeveloper tr");
+            var tb = $("#infoto tr");
             tb.each(function () {
                 var td = $(this).html();
                 var $td = $(td); //将dom对象转化为jquery对象。
@@ -270,11 +262,11 @@
                             str += '<td>' + item.phone + '</td>';
                             str += '<td>' + item.qq + '</td>';
                             str += '<td>' + item.email + '</td>';
-                            str += '<td><input type = "radio" name="permission"></td>';
+                            str += '<td><input type = "radio" name="permission" style="height: 15px;" ></td>';
                             str += '<td><button class="btn btn-sm btn-warning" onclick="$(this).parent().parent().remove()">移除</td>';
                             str += '</tr>';
                         });
-                        $("#selectdeveloper").append(str);
+                        $("#infoto").append(str);
                     },
                     error: function (error) {
                         alert(error.status + error.statusText)
@@ -288,6 +280,104 @@
         }
         //#endregion
 
+        //#region  添加在研项目信息
+        function InsertInResearch() {
+            $.ajax({
+                type: "POST",
+                url: "/insertresearch",
+                data: {
+                    ProjectName: $('#projectname').val(),
+                    ProjectIntroduction: $('#projectintroduction').val(),
+                    StartingTime: $('#startingtime').val(),
+                    EndTime: $('#endtime').val(),
+                    ProjectProgress: UE.getEditor('editor').getContent(),
+                    Projectcontent: UE.getEditor('editor').getPlainTxt()
+                },
+                success: function (dataBack) {
+                    layer.msg(dataBack.message, { icon: 1 });
+                    SelectInesearch();
+                },
+                error: function (error) {
+                    layer.msg(dataBack.message, { icon: 2 });
+                }
+            });
+        }
+        //#endregion
+
+        //#region  修改在研项目信息
+        function UpdateInResearch(id) {
+            $.ajax({
+                type: "POST",
+                url: "/updateresearch",
+                data: {
+                    ID: id,
+                    ProjectName: $('#projectname').val(),
+                    ProjectIntroduction: $('#projectintroduction').val(),
+                    StartingTime: $('#startingtime').val(),
+                    EndTime: $('#endtime').val(),
+                    ProjectProgress: UE.getEditor('editor').getContent(),
+                    Projectcontent: UE.getEditor('editor').getPlainTxt()
+                },
+                success: function (dataBack) {
+                    layer.msg(dataBack.message, { icon: 1 });
+                    SelectInesearch();
+                },
+                error: function (error) {
+                    layer.msg(dataBack.message, { icon: 2 });
+                }
+            });
+        }
+        //#endregion
+
+        //#region 清空数据
+        function QingKong() {
+
+            $('#projectname').val("");
+            $('#projectintroduction').val("");
+            $('#startingtime').val("");
+            $('#endtime').val("");
+            UE.getEditor('editor').setContent("");
+
+        }
+        //#endregion
+
+        var array = new Array();
+        //#region  添加相关人员表
+        //添加相关人员表
+        function addRelatedPersonnels() {
+            array.length = 0;
+
+            //deleteRelatedPersonnels();
+            var id = $('#infoto input[type="radio"]:checked').parent().siblings(":first").text();
+            tb.each(function () {
+                var td = $(this).html();
+                var $td = $(td); //将dom对象转化为jquery对象。
+                // for (var i = 0; i < $td.length; i++) {
+                array.push($td.eq(0).text());
+                // }
+            })
+            if (array.length != 0) {
+                $.ajax({
+                    type: "POST",
+                    url: '/insertresearchers',
+                    data: { ResearchProjectsID: num, idArray: array, id: id },
+                    success: function (dataBack) {
+                        if (dataBack.result == 1) {
+                            alert("保存成功");
+                            // QueryRelatedPersonnels();
+
+                        }
+
+                    },
+                    error: function (error) {
+                        alert(error.status + error.statusText)
+                    }
+                });
+            } else {
+                alert("请选择开发人员")
+            }
+        }
+        //#endregion
         //function ProductsDownload(obj) {
         //    var trstring = '';
         //    if (obj.List.length != 0) {
