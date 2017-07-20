@@ -6,6 +6,7 @@
 
 body {
     background: #aaa;
+    font-size:16px;
 }
 /*产品列表*/
 .product {
@@ -18,7 +19,7 @@ body {
     .product > li {
         color: #fff;
         padding: 0 20px;
-        font-size: 20px;
+        font-size: 24px;
         height: 30px;
         line-height: 30px;
         margin-top: 10px;
@@ -235,16 +236,16 @@ table select {
 #divh2 {
     margin-top: -20px;
     padding-top:20px;
-    padding-left:40px;
+    padding-left:10%;
     
     height: 80px;
-    line-height:60px;
+    line-height:80px;
     /*background-color: #000;*/
     background: rgba(0,0,0,0.8);
     color: #fff;
 }
 .addid {
-margin-left:100px;
+margin-left:50%;
 }
 /*自适应*/
 @media screen and (min-width:1280px) {

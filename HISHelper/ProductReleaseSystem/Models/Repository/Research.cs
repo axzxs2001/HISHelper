@@ -135,7 +135,7 @@ WHERE ID=@id";
         /// <returns></returns>
         public List<Dictionary<string, dynamic>> SelectResearch(int ID)
         {
-            var sql = "select ProjectName,ProjectIntroduction,StartingTime,EndTime,ProjectProgress from ResearchProjects where ID = @ID";
+            var sql = "select ID,ProjectName,ProjectIntroduction,StartingTime,EndTime,ProjectProgress,Projectcontent from ResearchProjects where ID = @ID";
             var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.VarChar, Value=ID };
             return _dbHelper.GetList(sql,par);
         }
@@ -220,9 +220,24 @@ where DepartmentID=@DepartmentID
         /// </summary>
         /// <param name="id">人员ID</param>
         /// <returns></returns>
-        public bool DeleteResearchers(int id)
+        public bool DeleteResearchers(int ResearchProjectsID, int personID)
         {
-            var sql = @"delete Researchers where PersonID=@id";
+            var sql = @"delete Researchers where ResearchProjectsID=@id and PersonID=@personID";
+            var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = ResearchProjectsID };
+            var par1 = new SqlParameter() { ParameterName = "@personID", SqlDbType = System.Data.SqlDbType.Int, Value = personID };
+            return _dbHelper.SavaData(sql, par,par1) > 0 ? true : false;
+        }
+        #endregion
+
+        #region  根据项目ID删除相关人员
+        /// <summary>
+        /// 根据人员ID删除相关人员
+        /// </summary>
+        /// <param name="id">人员ID</param>
+        /// <returns></returns>
+        public bool DeleteAllResearchers(int id)
+        {
+            var sql = @"delete Researchers where ResearchProjectsID=@id";
             var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.SavaData(sql, par) > 0 ? true : false;
         }
@@ -232,22 +247,39 @@ where DepartmentID=@DepartmentID
         /// </summary>
         /// <param name="id">人员ID</param>
         /// <returns></returns>
-        public bool UpdatePersonType(int? id)
+        public bool UpdatePersonType(int? id, int ResearchProjectsID)
         {
-            var sql = @"update RelatedPersonnels set Personneltype='管理员' where PersonID=@id";
+            var sql = @"update Researchers set Personneltype='管理员' where ResearchProjectsID=@ResearchProjectsID and  PersonID=@id";
             var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
-            return _dbHelper.SavaData(sql, par) > 0 ? true : false;
+            var par1 = new SqlParameter() { ParameterName = "@ResearchProjectsID", SqlDbType = System.Data.SqlDbType.Int, Value = ResearchProjectsID };
+            return _dbHelper.SavaData(sql, par, par1) > 0 ? true : false;
 
 
         }
-        ///// <summary>
-        ///// 根据项目ID查询开发人员
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <returns></returns>
-        //public List<Dictionary<string, dynamic>> SelectInresearchers(int id)
-        //{
-        //    return true;
-        //}
+        /// <summary>
+        /// 根据项目ID查询开发人员
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> SelectInresearchers(int id)
+        {
+            var sql = @"select
+a.id,
+b.DepartmentName,
+a.Name,
+a.Sex,
+a.Phone,
+a.QQ,
+a.Email,
+c.Personneltype
+from Developers a 
+join Departments b on
+a.DepartmentID=b.ID 
+join Researchers c 
+on a.ID=c.PersonID 
+where c.ResearchProjectsID=@id";
+            var par1 = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.GetList(sql, par1);
+        }
     }
 }

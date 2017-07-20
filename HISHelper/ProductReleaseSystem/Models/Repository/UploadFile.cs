@@ -411,11 +411,11 @@ c.Personneltype
 from Developers a 
 join Departments b on
 a.DepartmentID=b.ID 
-join Researchers c 
-on a.ID=c.ResearchProjectsID 
-join ResearchProjects d
-on c.ResearchProjectsID=d.ID
-where c.ResearchProjectsID=@id";
+join RelatedPersonnels c 
+on a.ID=c.PersonID 
+join Versions d 
+on c.VersionID=d.ID 
+where c.VersionID=@id";
             var par1 = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.GetList(sql, par1);
         }
@@ -424,11 +424,12 @@ where c.ResearchProjectsID=@id";
         /// </summary>
         /// <param name="id">人员ID</param>
         /// <returns></returns>
-        public bool UpdatePersonType(int? id)
+        public bool UpdatePersonType(int? id,int versionID)
         {
-            var sql = @"update RelatedPersonnels set Personneltype='管理员' where PersonID=@id";
+            var sql = @"update RelatedPersonnels set Personneltype='管理员' where PersonID=@id and VersionID=@versionID";
             var par = new SqlParameter() { ParameterName= "@id",SqlDbType=System.Data.SqlDbType.Int,Value=id} ;
-            return _dbHelper.SavaData(sql, par) > 0 ? true : false;
+            var par1 = new SqlParameter() { ParameterName = "@versionID", SqlDbType = System.Data.SqlDbType.Int, Value = versionID };
+            return _dbHelper.SavaData(sql, par, par1) > 0 ? true : false;
 
 
         }
@@ -438,11 +439,12 @@ where c.ResearchProjectsID=@id";
         /// </summary>
         /// <param name="id">人员ID</param>
         /// <returns></returns>
-        public bool deleteRp(int id)
+        public bool deleteRp(int id,int versionID)
         {
-            var sql = @"delete RelatedPersonnels where PersonID=@id";
+            var sql = @"delete RelatedPersonnels where PersonID=@id and VersionID=@versionID";
             var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
-            return _dbHelper.SavaData(sql, par) > 0 ? true : false;
+            var par1 = new SqlParameter() { ParameterName = "versionID", SqlDbType = System.Data.SqlDbType.Int, Value = versionID };
+            return _dbHelper.SavaData(sql, par,par1) > 0 ? true : false;
         }
 
         /// <summary>

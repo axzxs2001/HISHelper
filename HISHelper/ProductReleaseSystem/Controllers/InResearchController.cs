@@ -85,9 +85,12 @@ namespace ProductReleaseSystem.Controllers
             try
             {
                 var list = _IResearch.SelectResearch(id);
+
+                //return new JsonResult(new { result = 1, message = $"查询在研项目名称成功", data = list }, new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd hh mm" });
                 return new JsonResult(new { result = 1, message = $"查询在研项目名称成功", data = list }, new JsonSerializerSettings()
                 {
-                    ContractResolver = new LowercaseContractResolver()
+                    ContractResolver = new LowercaseContractResolver(),
+                     DateFormatString = "yyyy-MM-ddThh:mm" 
                 });
             }
             catch (Exception exc)
@@ -98,29 +101,34 @@ namespace ProductReleaseSystem.Controllers
         }
         #endregion
 
-        #region 查询部门信息
+        #region 通过ID查询在研项目查看页面
         /// <summary>
-        /// 查询部门信息
+        /// 查询在研项目信息
         /// </summary>
         /// <returns></returns>
-        [HttpGet("selectdepartments")]
-        public IActionResult GetDepartments()
+        [HttpPost("selectesearchidone")]
+        public IActionResult SelectesearchIDone(int id)
         {
             try
             {
-                var list = _IResearch.SelectDepartments();
-                return new JsonResult(new { result = 1, message = $"查询全部部门成功", data = list }, new JsonSerializerSettings()
+                var list = _IResearch.SelectResearch(id);
+
+                //return new JsonResult(new { result = 1, message = $"查询在研项目名称成功", data = list }, new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd hh mm" });
+                return new JsonResult(new { result = 1, message = $"查询在研项目名称成功", data = list }, new JsonSerializerSettings()
                 {
-                    ContractResolver = new LowercaseContractResolver()
+                    ContractResolver = new LowercaseContractResolver(),
+                    DateFormatString = "yyyy-MM-dd hh:mm"
                 });
             }
             catch (Exception exc)
             {
                 // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
-                return new JsonResult(new { result = 0, message = $"查询部门失败：{exc.Message}" });
+                return new JsonResult(new { result = 0, message = $"查询在研项目名称失败：{exc.Message}" });
             }
         }
         #endregion
+
+        
 
         #region 根据部门查询开发人员
         [HttpPost("selectdevelopers")]
@@ -187,6 +195,30 @@ namespace ProductReleaseSystem.Controllers
         }
         #endregion
 
+        #region 查询部门信息
+        /// <summary>
+        /// 查询部门信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("selectdepartments")]
+        public IActionResult GetDepartments()
+        {
+            try
+            {
+                var list = _IResearch.SelectDepartments();
+                return new JsonResult(new { result = 1, message = $"查询全部部门成功", data = list }, new JsonSerializerSettings()
+                {
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
+                return new JsonResult(new { result = 0, message = $"查询部门失败：{exc.Message}" });
+            }
+        }
+        #endregion
+
         #region 添加相关人员
         /// <summary>
         /// 添加在研项目
@@ -206,31 +238,32 @@ namespace ProductReleaseSystem.Controllers
                 {
                     if (id != null)
                     {
-                        _IResearch.UpdatePersonType(id);
+                        _IResearch.UpdatePersonType(id, ResearchProjectsID);
                     }
                 }
                 else
                 {
-                    return new JsonResult(new { result = 0, message = $"添加相关人员失败！" });
+                    return new JsonResult(new { result = 0, message = $"添加失败！" });
                 }
 
             }
             return new JsonResult(new { result = 1, message = "添加成功" });
         }
         #endregion
+
         #region 根据项目ID查询相关人员
         /// <summary>
         /// 根据项目ID查询相关人员
         /// </summary>
         /// <param name="researchprojects">在研项目信息</param>
         /// <returns></returns>
-        [HttpPost("SelectInesearchers")]
-        public IActionResult UpdateResearch(int id)
+        [HttpPost("selectinesearchers")]
+        public IActionResult SelectInesearchers(int id)
         {
             try
             {
-                var list = _IResearch.SelectRenYuan(id);
-                return new JsonResult(new { result = 1, message = $"修改项目成功！", data = list }, new JsonSerializerSettings()
+                var list = _IResearch.SelectInresearchers(id);
+                return new JsonResult(new { result = 1, message = $"查询项目信息成功！", data = list }, new JsonSerializerSettings()
                 {
                     ContractResolver = new LowercaseContractResolver()
                 });
@@ -238,11 +271,60 @@ namespace ProductReleaseSystem.Controllers
             catch (Exception exc)
             {
                 // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
-                return new JsonResult(new { result = 0, message = $"修改项目失败：{exc.Message}" });
+                return new JsonResult(new { result = 0, message = $"查询项目信息失败：{exc.Message}" });
             }
         }
         #endregion
 
+        #region  根据项目ID删除相关人员信息
+        /// <summary>
+        /// 根据项目ID删除相关人员信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost("seleteallresearchers")]
+        public IActionResult SeleteAllResearchers (int id)
+        {
+            try
+            {
+                var list = _IResearch.DeleteAllResearchers(id);
+                return new JsonResult(new { result = 1, message = $"删除成功！", data = list }, new JsonSerializerSettings()
+                {
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
+                return new JsonResult(new { result = 0, message = $"删除失败：{exc.Message}" });
+            }
+        }
+        #endregion
+
+        #region  根据人员ID删除相关人员信息
+        /// <summary>
+        /// 根据人员ID删除相关人员信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost("deleteresearchers")]
+        public IActionResult DeleteResearchers(int ResearchProjectsID, int personID)
+        {
+            try
+            {
+                var list = _IResearch.DeleteResearchers(ResearchProjectsID, personID);
+                return new JsonResult(new { result = 1, message = $"删除成功！", data = list }, new JsonSerializerSettings()
+                {
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
+                return new JsonResult(new { result = 0, message = $"删除失败：{exc.Message}" });
+            }
+        }
+        #endregion
 
         #region 修改在研项目
         /// <summary>
@@ -267,9 +349,57 @@ namespace ProductReleaseSystem.Controllers
             return new JsonResult(new { result = 0, message = $"修改项目失败：{exc.Message}" });
         }
     }
-    #endregion
+        #endregion
+
+        #region  删除在研项目
+        /// <summary>
+        /// 删除在研项目
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("deleteinresearch")]
+        public IActionResult DeleteInresearch(int id)
+        {
+            try
+            {
+                var list = _IResearch.DeleteResearch(id);
+                return new JsonResult(new { result = 1, message = $"删除成功！", data = list }, new JsonSerializerSettings()
+                {
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
+                return new JsonResult(new { result = 0, message = $"删除失败：{exc.Message}" });
+            }
+        }
+        #endregion
+
+        #region  删除在研项目人员
+        /// <summary>
+        /// 删除在研项目人员
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("deleteallresearchers")]
+        public IActionResult DeleteAllResearchers(int id)
+        {
+            try
+            {
+                var list = _IResearch.DeleteAllResearchers(id);
+                return new JsonResult(new { result = 1, message = $"删除成功！", data = list }, new JsonSerializerSettings()
+                {
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
+                return new JsonResult(new { result = 0, message = $"删除失败：{exc.Message}" });
+            }
+        }
+        #endregion
 
 
 
-}
+    }
 }

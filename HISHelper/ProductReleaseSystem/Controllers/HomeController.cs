@@ -642,9 +642,9 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="id">人员ID</param>
         /// <returns></returns>
         [HttpPost("deleterp")]
-        public IActionResult DeleteRp(int id)
+        public IActionResult DeleteRp(int id,int versionID)
         {
-            if (_IUploadFile.deleteRp(id))
+            if (_IUploadFile.deleteRp(id, versionID))
             {
                 return new JsonResult(new { result = 1, message = "移除成功" });
             }
@@ -698,7 +698,7 @@ namespace ProductReleaseSystem.Controllers
                 {
                     if (id != null)
                     {
-                        _IUploadFile.UpdatePersonType(id);
+                        _IUploadFile.UpdatePersonType(id,versionID);
 
                     }
                 }

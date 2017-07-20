@@ -177,14 +177,14 @@ namespace ProductReleaseSystem.Models.IRepository
         /// </summary>
         /// <param name="id">病人ID</param>
         /// <returns></returns>
-        bool UpdatePersonType(int? id);
+        bool UpdatePersonType(int? id,int versionID);
 
         /// <summary>
         /// 根据人员ID删除相关人员
         /// </summary>
         /// <param name="id"></param>人员ID
         /// <returns></returns>
-        bool deleteRp(int id);
+        bool deleteRp(int id,int versionID);
 
         /// <summary>
         /// 根据版本ID删除版本

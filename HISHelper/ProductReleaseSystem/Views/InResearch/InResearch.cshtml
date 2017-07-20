@@ -12,13 +12,14 @@
 </head>
 <body>
     <div class="container-fuild">
+        <span id="dsds" style="display:none"></span>
         <div class="col-md-3">
             <div class="row">
                 <div id="divh2" style="cursor: pointer;" onclick="QingKong();num = 0;">
-                    <h3>
+                    <h2>
                         在研产品
                         <span class="glyphicon glyphicon-plus addid"></span>
-                    </h3>
+                    </h2>
                 </div>
                 <!-- 产品信息 -->
                 <ul class="product"></ul>
@@ -31,17 +32,17 @@
                     <tbody>
                         <tr>
                             <th>项目名称</th>
-                            <td colspan="4"><input type="text" id="projectname"></td>
+                            <td colspan="4"><input type="text" id="projectname" style="padding-left:20px;"></td>
                         </tr>
                         <tr>
                             <th>项目介绍</th>
-                            <td colspan="4"><input type="text" id="projectintroduction"></td>
+                            <td colspan="4"><input type="text" id="projectintroduction" style="padding-left:20px;"></td>
                         </tr>
                         <tr>
                             <th>开始时间</th>
-                            <td colspan="2"><input type="datetime-local" id="startingtime"></td>
+                            <td colspan="2"><input type="datetime-local" id="startingtime" style="padding-left:20px;"></td>
                             <th>结束时间</th>
-                            <td colspan="2"><input type="datetime-local" id="endtime"></td>
+                            <td colspan="2"><input type="datetime-local" id="endtime" style="padding-left:20px;"></td>
                         </tr>
                         <tr>
                             <th>开发部门</th>
@@ -92,8 +93,8 @@
             <!--按钮-->
             <div class="col-md-5 cc">
                 <br />
-                <button class="btn btn-info col-md-2 col-md-offset-5">删除</button>
-                <button class="btn btn-info col-md-2 col-md-offset-5" onclick="InsertAndUpdate()">保存</button>
+                <button class="btn btn-info col-md-2 col-md-offset-5" onclick="DeleteResearchers(); DeleteAllResearchers();">删除</button>
+                <button class="btn btn-info col-md-2 col-md-offset-5" onclick="InsertAndUpdate(num)">保存</button>
             </div>
         </div>
     </div>
@@ -114,18 +115,25 @@
             GetSelect();
             createEditor();
         });
+        var array = new Array();
         var num;
         //在研项目ID
         function GetID(id) {
+
             num = id;
-            SelectAllInesearch(id);
+            SelectAllInesearch(num);  //查询项目全部信息
+            SelectInesearchers(num);  //根据项目ID查询相关人员
         }
 
         //判断点击保存执行的是添加还是修改
-        function InsertAndUpdate() {
+        function InsertAndUpdate(num) {
 
             if (num > 0) {
+                
                 UpdateInResearch(num);
+                addRelatedPersonnels(num);
+                
+                SelectInesearchers(id);
             }
             else {
                 InsertInResearch();
@@ -149,6 +157,7 @@
                 }
             });
         }
+        
         //#endregion
 
         //#region  查询在研项目名称
@@ -160,11 +169,6 @@
                 success: function (dataBack) {
                     var str = '';
                     $(dataBack.data).each(function (index, item) {
-                        //str += '<li style="cursor: pointer;" onclick=GetID(\'' + item.ID + '\',\'' + item.ProductName + '\');>'
-                        //str += item.ProductName
-
-                        //str += '<span class="glyphicon glyphicon-hand-right" onclick="biuceng(' + item.ID + ')"></span>';
-                        //str += '</li>'
                         str += '<li value="' + item["id"] + '" style="cursor: pointer;"  onclick=GetID(' + item.id + ');>' + item["projectname"];
                         str += '<span class="hid" style="display:none">' + item.ID + '</span>';
                         str += ' <span class="glyphicon glyphicon-hand-right"></span>';
@@ -184,12 +188,13 @@
             });
         }
         //#endregion
-        //#region 查询全部信息
-        function SelectAllInesearch(id) {
+
+        //#region 查询项目全部信息
+        function SelectAllInesearch(num) {
             $.ajax({
                 type: "POST",
                 url: '/selectesearchid',
-                data: { id: id },
+                data: { id: num },
                 success: function (dataBack) {
                     var str = '';
                     $(dataBack.data).each(function (index, item) {
@@ -197,8 +202,6 @@
                         $('#projectintroduction').val(item.projectintroduction);
                         $('#startingtime').val(item.startingtime);
                         $('#endtime').val(item.endtime);
-                        $('#editor').val(item.Projectcontent);
-
                         UE.getEditor('editor').setContent(item.projectprogress);
                     });
 
@@ -235,7 +238,6 @@
         var arrayUser = new Array();
         //根据成员ID添加开发人员
         function SelectDeveloper(id) {
-            alert(id)
             var array1 = new Array();
             var tb = $("#infoto tr");
             tb.each(function () {
@@ -321,6 +323,7 @@
                 success: function (dataBack) {
                     layer.msg(dataBack.message, { icon: 1 });
                     SelectInesearch();
+                    
                 },
                 error: function (error) {
                     layer.msg(dataBack.message, { icon: 2 });
@@ -337,18 +340,20 @@
             $('#startingtime').val("");
             $('#endtime').val("");
             UE.getEditor('editor').setContent("");
+            $('#infoto').text("");
 
         }
         //#endregion
 
-        var array = new Array();
+
         //#region  添加相关人员表
-        //添加相关人员表
         function addRelatedPersonnels() {
+            
             array.length = 0;
 
-            //deleteRelatedPersonnels();
+            DeleteAllResearchers();
             var id = $('#infoto input[type="radio"]:checked').parent().siblings(":first").text();
+            var tb = $("#infoto tr");
             tb.each(function () {
                 var td = $(this).html();
                 var $td = $(td); //将dom对象转化为jquery对象。
@@ -356,28 +361,144 @@
                 array.push($td.eq(0).text());
                 // }
             })
-            if (array.length != 0) {
-                $.ajax({
-                    type: "POST",
-                    url: '/insertresearchers',
-                    data: { ResearchProjectsID: num, idArray: array, id: id },
-                    success: function (dataBack) {
-                        if (dataBack.result == 1) {
-                            alert("保存成功");
-                            // QueryRelatedPersonnels();
-
-                        }
-
-                    },
-                    error: function (error) {
-                        alert(error.status + error.statusText)
+            alert(array);
+            $.ajax({
+                type: "POST",
+                url: '/insertresearchers',
+                data: { ResearchProjectsID: num, idArray: array, id: id },
+                success: function (dataBack) {
+                    if (dataBack.result == 1) {
+                        layer.msg(dataBack.message, { icon: 1 });
+                        SelectInesearchers(num)
                     }
-                });
-            } else {
-                alert("请选择开发人员")
-            }
+
+                },
+                error: function (error) {
+                    layer.msg(dataBack.message, { icon: 2 });
+                }
+            });
         }
         //#endregion
+        //#region  根据项目ID删除相关人员信息
+        function DeleteAllResearchers() {
+            $.ajax({
+                type: "POST",
+                url: '/seleteallresearchers',
+                data: { id: num },
+                success: function (dataBack) {
+                    
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+
+        }
+        //#endregion
+
+        //#region  根据人员ID删除相关人员信息
+        function YichuResearchers(id) {
+            $.ajax({
+                type: "POST",
+                url: '/deleteresearchers',
+                data: {
+                    ResearchProjectsID: num,
+                    personID: id
+                },
+                success: function (dataBack) {
+                    SelectInesearchers(num);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+
+        }
+        //#endregion
+
+        //#region  删除在研项目
+        function DeleteResearchers() {
+            $.ajax({
+                type: "POST",
+                url: '/deleteinresearch',
+                data: {
+                    id: num,
+                },
+                success: function (dataBack) {
+                    if (dataBack.result == 1) {
+                        layer.msg(dataBack.message, { icon: 1 });
+                        QingKong();
+                        SelectInesearch();
+                    }
+                },
+                error: function (error) {
+                    layer.msg(dataBack.message, { icon: 2 });
+                }
+            });
+
+        }
+        //#endregion
+
+        //#region  删除在研项目人员
+        function DeleteAllResearchers() {
+            $.ajax({
+                type: "POST",
+                url: '/deleteallresearchers',
+                data: {
+                    id: num,
+                },
+                success: function (dataBack) {
+                    if (dataBack.result == 1) {
+
+                    }
+                },
+                error: function (error) {
+
+                }
+            });
+
+        }
+        //#endregion
+
+
+
+        //#region  根据项目ID查询所有相关人员
+        function SelectInesearchers(num) {
+            $.ajax({
+                type: "POST",
+                url: "/selectinesearchers",
+                data: { id: num },
+                success: function (dataBack) {
+                    var str = '';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<tr>';
+                        str += '<td style="display:none">' + item.id + '</td>';
+                        str += '<td>' + item.departmentname + '</td>';
+                        str += '<td>' + item.name + '</td > ';
+                        str += '<td>' + (item.sex == false ? "男" : "女") + '</td>';
+                        str += '<td>' + item.phone + '</td>';
+                        str += '<td>' + item.qq + '</td>';
+                        str += '<td>' + item.email + '</td>';
+                        if (item.personneltype == "管理员") {
+                            str += '<td><input type = "radio" checked  name="permission"  style="height: 15px;"></td>';
+                        } else {
+                            str += '<td><input type = "radio"  name="permission" style="height: 15px;"></td>';
+                        }
+                        str += '<td><button class="btn btn-sm btn-warning" onclick=YichuResearchers(' + item.id + ')>移除</td>';
+                        str += '</tr>';
+                    });
+                    $("#infoto").html(str);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText);
+                }
+            })
+
+        }
+        //#endregion
+
+
+
         //function ProductsDownload(obj) {
         //    var trstring = '';
         //    if (obj.List.length != 0) {

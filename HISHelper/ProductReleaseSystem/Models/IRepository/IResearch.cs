@@ -36,13 +36,20 @@ namespace ProductReleaseSystem.Models.IRepository
         /// </summary>
         /// <param name="id">病人ID</param>
         /// <returns></returns>
-        bool UpdatePersonType(int? id);
+        bool UpdatePersonType(int? id,int ResearchProjectsID);
         /// <summary>
         /// 删除开发人员ID
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        bool DeleteResearchers(int id);
+        bool DeleteResearchers(int ResearchProjectsID, int personID);
+
+        /// <summary>
+        /// 根据项目ID删除相关人员
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        bool DeleteAllResearchers(int id);
 
         /// <summary>
         /// 通过部门ID查询开发人员
@@ -81,6 +88,6 @@ namespace ProductReleaseSystem.Models.IRepository
         /// </summary>
         /// <param name="id"></param>版本号
         /// <returns></returns>
-        //List<Dictionary<string, dynamic>> SelectInresearchers(int id);
+        List<Dictionary<string, dynamic>> SelectInresearchers(int id);
     }
 }

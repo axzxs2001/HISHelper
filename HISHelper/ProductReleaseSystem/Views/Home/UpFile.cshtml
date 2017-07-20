@@ -815,7 +815,7 @@
         $.ajax({
             type: "POST",
             url: "/deleterp",
-            data: { id: id },
+            data: { id: id, versionID: $('#versionID').text()},
             success: function (dataBack) {
                 if (dataBack.result == 1) {
                     QueryRelatedPersonnels();
