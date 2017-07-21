@@ -89,5 +89,11 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="id"></param>版本号
         /// <returns></returns>
         List<Dictionary<string, dynamic>> SelectInresearchers(int id);
+
+        /// <summary>
+        /// 逆查询
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> ReverseInquiry();
     }
 }

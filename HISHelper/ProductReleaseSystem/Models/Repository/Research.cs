@@ -281,5 +281,21 @@ where c.ResearchProjectsID=@id";
             var par1 = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.GetList(sql, par1);
         }
+
+
+        /// <summary>
+        /// 根据项目ID查询开发人员
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> ReverseInquiry()
+        {
+            var sql = @"select top 1 ID from ResearchProjects order by id desc" ;
+            return _dbHelper.GetList(sql);
+        }
     }
 }
+
+
+
+

@@ -90,7 +90,7 @@ namespace ProductReleaseSystem.Controllers
                 return new JsonResult(new { result = 1, message = $"查询在研项目名称成功", data = list }, new JsonSerializerSettings()
                 {
                     ContractResolver = new LowercaseContractResolver(),
-                     DateFormatString = "yyyy-MM-ddThh:mm" 
+                    DateFormatString = "yyyy-MM-ddThh:mm"
                 });
             }
             catch (Exception exc)
@@ -128,7 +128,7 @@ namespace ProductReleaseSystem.Controllers
         }
         #endregion
 
-        
+
 
         #region 根据部门查询开发人员
         [HttpPost("selectdevelopers")]
@@ -283,7 +283,7 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost("seleteallresearchers")]
-        public IActionResult SeleteAllResearchers (int id)
+        public IActionResult SeleteAllResearchers(int id)
         {
             try
             {
@@ -333,22 +333,22 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="researchprojects">在研项目信息</param>
         /// <returns></returns>
         [HttpPost("updateresearch")]
-    public IActionResult UpdateResearch(ResearchProjects upresearch)
-    {
-        try
+        public IActionResult UpdateResearch(ResearchProjects upresearch)
         {
-            var list = _IResearch.UpdateResearch(upresearch);
-            return new JsonResult(new { result = 1, message = $"修改项目成功！", data = list }, new JsonSerializerSettings()
+            try
             {
-                ContractResolver = new LowercaseContractResolver()
-            });
+                var list = _IResearch.UpdateResearch(upresearch);
+                return new JsonResult(new { result = 1, message = $"修改项目成功！", data = list }, new JsonSerializerSettings()
+                {
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
+                return new JsonResult(new { result = 0, message = $"修改项目失败：{exc.Message}" });
+            }
         }
-        catch (Exception exc)
-        {
-            // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
-            return new JsonResult(new { result = 0, message = $"修改项目失败：{exc.Message}" });
-        }
-    }
         #endregion
 
         #region  删除在研项目
@@ -398,6 +398,28 @@ namespace ProductReleaseSystem.Controllers
             }
         }
         #endregion
+
+        /// <summary>
+        /// 逆查询
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("reverseinquiry")]
+        public IActionResult ReverseInquiry()
+        {
+            try
+            {
+                var list = _IResearch.ReverseInquiry();
+                return new JsonResult(new { result = 1, message = $"查询成功！", data = list }, new JsonSerializerSettings()
+                {
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
+                return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
+            }
+        }
 
 
 

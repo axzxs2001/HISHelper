@@ -119,7 +119,6 @@
         var num;
         //在研项目ID
         function GetID(id) {
-
             num = id;
             SelectAllInesearch(num);  //查询项目全部信息
             SelectInesearchers(num);  //根据项目ID查询相关人员
@@ -131,14 +130,69 @@
             if (num > 0) {
                 
                 UpdateInResearch(num);
-                addRelatedPersonnels(num);
-                
-                SelectInesearchers(id);
+                SelectInesearchers(num);
+               
             }
             else {
                 InsertInResearch();
+                
             }
         }
+        //#region 逆查询
+        var sum;
+        function ReverseInquiry() {
+            
+            $.ajax({
+                type: 'POST',
+                url: '/reverseinquiry',
+                data: {},
+                success: function (dataBack) {
+                    
+                    $(dataBack.data).each(function (index, item) {
+                        sum = item.id;
+                    });
+                    AddReverseInquiry();
+                }
+            });
+        }
+
+        //#endregion
+
+        //#region  添加是获取项目ID传到添加相关人员
+        function AddReverseInquiry() {
+
+            array.length = 0;
+
+            DeleteAllResearchers();
+            var id = $('#infoto input[type="radio"]:checked').parent().siblings(":first").text();
+            var tb = $("#infoto tr");
+            tb.each(function () {
+                var td = $(this).html();
+                var $td = $(td); //将dom对象转化为jquery对象。
+                // for (var i = 0; i < $td.length; i++) {
+                array.push($td.eq(0).text());
+                // }
+            })
+            alert(array);
+            $.ajax({
+                type: "POST",
+                url: '/insertresearchers',
+                data: { ResearchProjectsID: sum, idArray: array, id: id },
+                success: function (dataBack) {
+                    if (dataBack.result == 1) {
+                        SelectInesearchers(sum)
+                        if ($("product li").val() = sum) {
+                            $("product li").addClass('selected');
+                        }
+                        
+                    }
+
+                },
+                error: function (error) {
+                }
+            });
+        }
+        //#endregion
 
         //#region 动态添加部门
         function GetSelect() {
@@ -160,6 +214,19 @@
         
         //#endregion
 
+        //#region  判断结束时间是否大于开始时间
+        var startTime;
+        var endTime;
+        function checkEndTime() {
+            startTime= $("#startingtime").val();
+            endTime= $("#endtime").val();
+             if (endTime < startTime) {
+                 layer.msg("结束时间不能小于开始时间！", { icon: 2 });
+                 return false;
+            }
+            return true;
+        }  
+        //#endregion
         //#region  查询在研项目名称
         function SelectInesearch() {
             $.ajax({
@@ -275,7 +342,7 @@
                     }
                 });
             } else {
-                alert("不能添加相同人员")
+                layer.msg("不能添加相同人员！", { icon: 3 });
 
             }
 
@@ -284,6 +351,7 @@
 
         //#region  添加在研项目信息
         function InsertInResearch() {
+            if (checkEndTime()){ 
             $.ajax({
                 type: "POST",
                 url: "/insertresearch",
@@ -297,18 +365,22 @@
                 },
                 success: function (dataBack) {
                     layer.msg(dataBack.message, { icon: 1 });
+                    ReverseInquiry();
+                    
                     SelectInesearch();
                 },
                 error: function (error) {
                     layer.msg(dataBack.message, { icon: 2 });
                 }
             });
+            }
         }
         //#endregion
 
         //#region  修改在研项目信息
         function UpdateInResearch(id) {
-            $.ajax({
+            if (checkEndTime()) { 
+                $.ajax({
                 type: "POST",
                 url: "/updateresearch",
                 data: {
@@ -321,7 +393,11 @@
                     Projectcontent: UE.getEditor('editor').getPlainTxt()
                 },
                 success: function (dataBack) {
+                    addRelatedPersonnels(num);
                     layer.msg(dataBack.message, { icon: 1 });
+                    if ($("product li").val() = num) {
+                        $("product li").addClass('selected');
+                    }
                     SelectInesearch();
                     
                 },
@@ -329,6 +405,8 @@
                     layer.msg(dataBack.message, { icon: 2 });
                 }
             });
+            
+            }
         }
         //#endregion
 
@@ -344,6 +422,7 @@
 
         }
         //#endregion
+
 
 
         //#region  添加相关人员表
@@ -368,13 +447,11 @@
                 data: { ResearchProjectsID: num, idArray: array, id: id },
                 success: function (dataBack) {
                     if (dataBack.result == 1) {
-                        layer.msg(dataBack.message, { icon: 1 });
                         SelectInesearchers(num)
                     }
 
                 },
                 error: function (error) {
-                    layer.msg(dataBack.message, { icon: 2 });
                 }
             });
         }
