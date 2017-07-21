@@ -32,17 +32,18 @@
                     <tbody>
                         <tr>
                             <th>项目名称</th>
-                            <td colspan="4"><input type="text" id="projectname" style="padding-left:20px;"></td>
+                            <td colspan="4"><input type="text" id="projectname" style="padding-left:20px;" placeholder="项目名称"></td>
                         </tr>
                         <tr>
                             <th>项目介绍</th>
-                            <td colspan="4"><input type="text" id="projectintroduction" style="padding-left:20px;"></td>
+                            <td colspan="4"><input type="text" id="projectintroduction" style="padding-left:20px;" placeholder="项目介绍"></td>
                         </tr>
                         <tr>
                             <th>开始时间</th>
-                            <td colspan="2"><input type="datetime-local" id="startingtime" style="padding-left:20px;"></td>
+                            <td colspan="2"><input type="text" id="startingtime" style="padding-left:20px;" placeholder="请选择开始时间"></td>
                             <th>结束时间</th>
-                            <td colspan="2"><input type="datetime-local" id="endtime" style="padding-left:20px;"></td>
+                            <td colspan="2"><input type="text" id="endtime" style="padding-left:20px;" placeholder="请选择开始时间"></td>
+                            @*<td colspan="2"><input type="datetime-local" id="endtime" style="padding-left:20px;"></td>*@
                         </tr>
                         <tr>
                             <th>开发部门</th>
@@ -111,10 +112,41 @@
     <script src="~/lib/ueditor/lang/zh-cn/zh-cn.js"></script>
     <script>
         $(function () {
+
             SelectInesearch();
             GetSelect();
             createEditor();
+            time();
         });
+        //#region  日期函数
+        function time() {
+            document.getElementById("startingtime").readOnly = true;
+            $('#startingtime').datetimepicker({
+                timepicker: false,
+                format: 'Y-m-d',
+                lang: 'ch',
+                // 开始年份
+                yearStart: 1900,
+                // 不默认当前时间
+                validateOnBlur: false,
+                //阻止滚动鼠标滑轮滑动改变时间
+                scrollInput: false
+            });
+
+            document.getElementById("endtime").readOnly = true;
+            $('#endtime').datetimepicker({
+                timepicker: false,
+                format: 'Y-m-d',
+                lang: 'ch',
+                // 开始年份
+                yearStart: 1900,
+                // 不默认当前时间
+                validateOnBlur: false,
+                //阻止滚动鼠标滑轮滑动改变时间
+                scrollInput: false
+            });
+        }
+        //#endregion
         var array = new Array();
         var num;
         //在研项目ID
@@ -126,32 +158,30 @@
 
         //判断点击保存执行的是添加还是修改
         function InsertAndUpdate(num) {
-
             if (num > 0) {
-                
+
                 UpdateInResearch(num);
                 SelectInesearchers(num);
-               
             }
             else {
                 InsertInResearch();
-                
+
             }
         }
         //#region 逆查询
         var sum;
         function ReverseInquiry() {
-            
+
             $.ajax({
                 type: 'POST',
                 url: '/reverseinquiry',
                 data: {},
                 success: function (dataBack) {
-                    
+
                     $(dataBack.data).each(function (index, item) {
                         sum = item.id;
                     });
-                    AddReverseInquiry();
+                    AddReverseInquiry(sum);
                 }
             });
         }
@@ -159,7 +189,7 @@
         //#endregion
 
         //#region  添加是获取项目ID传到添加相关人员
-        function AddReverseInquiry() {
+        function AddReverseInquiry(sum) {
 
             array.length = 0;
 
@@ -173,7 +203,6 @@
                 array.push($td.eq(0).text());
                 // }
             })
-            alert(array);
             $.ajax({
                 type: "POST",
                 url: '/insertresearchers',
@@ -181,10 +210,7 @@
                 success: function (dataBack) {
                     if (dataBack.result == 1) {
                         SelectInesearchers(sum)
-                        if ($("product li").val() = sum) {
-                            $("product li").addClass('selected');
-                        }
-                        
+                        SelectInesearchsum(sum);
                     }
 
                 },
@@ -211,21 +237,42 @@
                 }
             });
         }
-        
+
         //#endregion
 
         //#region  判断结束时间是否大于开始时间
         var startTime;
         var endTime;
         function checkEndTime() {
-            startTime= $("#startingtime").val();
-            endTime= $("#endtime").val();
-             if (endTime < startTime) {
-                 layer.msg("结束时间不能小于开始时间！", { icon: 2 });
-                 return false;
+           
+            var str='';
+            if ($('#projectname').val()=='') {
+                str += "项目名称不能为空！";
             }
-            return true;
-        }  
+            if ($('#projectintroduction').val() == '') {
+                str += "项目介绍不能为空！";
+            }
+            if ($('#startingtime').val() == '') {
+                str += "开始时间不能为空！";
+            }
+            if ($('#endtime').val() == '') {
+                str += "结束时间不能为空！";
+            }
+            startTime = $("#startingtime").val();
+            endTime = $("#endtime").val();
+            if (endTime < startTime) {
+                str += "结束时间不能小于开始时间!";
+            }
+            if (UE.getEditor('editor').getContent()==''){ 
+                str = "详细内容不能为空！";
+            }
+            if (str != '') {
+                layer.msg(str, { icon: 2 });
+                return false;
+            } else {
+                return true;
+            }
+        }
         //#endregion
         //#region  查询在研项目名称
         function SelectInesearch() {
@@ -236,17 +283,52 @@
                 success: function (dataBack) {
                     var str = '';
                     $(dataBack.data).each(function (index, item) {
-                        str += '<li value="' + item["id"] + '" style="cursor: pointer;"  onclick=GetID(' + item.id + ');>' + item["projectname"];
+                        str += '<li id="' + item["id"] + '" style="cursor: pointer;"  onclick=GetID(' + item.id + ');>' + item["projectname"];
                         str += '<span class="hid" style="display:none">' + item.ID + '</span>';
                         str += ' <span class="glyphicon glyphicon-hand-right"></span>';
                         str += '</li>';
                     });
+
                     $(".product").html(str);
+                    $("#" + num + "").css({ 'background': '#fff', 'color': '#000' });
                     $(".product li").click(function (event) {
                         $(".product").css({ 'background': 'rgba(0,0,0,0.8)', 'color': '#fff' });
                         $(".product li").css({ 'background': '', 'color': '' });
                         $(this).css({ 'background': '#fff', 'color': '#000' });
                     });
+
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+
+                }
+            });
+        }
+        //#endregion
+
+        //#region  添加查询在研项目名称
+        function SelectInesearchsum(sum) {
+            $.ajax({
+                type: "POST",
+                url: '/selectinesearch',
+                data: {},
+                success: function (dataBack) {
+                    var str = '';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<li id="' + item["id"] + '" style="cursor: pointer;"  onclick=GetID(' + item.id + ');>' + item["projectname"];
+                        str += '<span class="hid" style="display:none">' + item.ID + '</span>';
+                        str += ' <span class="glyphicon glyphicon-hand-right"></span>';
+                        str += '</li>';
+                    });
+
+                    $(".product").html(str);
+                    $("#" + sum + "").css({ 'background': '#fff', 'color': '#000' });
+                    $(".product li").click(function (event) {
+                        $(".product").css({ 'background': 'rgba(0,0,0,0.8)', 'color': '#fff' });
+                        $(".product li").css({ 'background': '', 'color': '' });
+                        $(this).css({ 'background': '#fff', 'color': '#000' });
+                    });
+
                 },
                 error: function (error) {
                     alert(error.status + error.statusText)
@@ -351,61 +433,59 @@
 
         //#region  添加在研项目信息
         function InsertInResearch() {
-            if (checkEndTime()){ 
-            $.ajax({
-                type: "POST",
-                url: "/insertresearch",
-                data: {
-                    ProjectName: $('#projectname').val(),
-                    ProjectIntroduction: $('#projectintroduction').val(),
-                    StartingTime: $('#startingtime').val(),
-                    EndTime: $('#endtime').val(),
-                    ProjectProgress: UE.getEditor('editor').getContent(),
-                    Projectcontent: UE.getEditor('editor').getPlainTxt()
-                },
-                success: function (dataBack) {
-                    layer.msg(dataBack.message, { icon: 1 });
-                    ReverseInquiry();
-                    
-                    SelectInesearch();
-                },
-                error: function (error) {
-                    layer.msg(dataBack.message, { icon: 2 });
-                }
-            });
+            if (checkEndTime()) {
+                $.ajax({
+                    type: "POST",
+                    url: "/insertresearch",
+                    data: {
+                        ProjectName: $('#projectname').val(),
+                        ProjectIntroduction: $('#projectintroduction').val(),
+                        StartingTime: $('#startingtime').val(),
+                        EndTime: $('#endtime').val(),
+                        ProjectProgress: UE.getEditor('editor').getContent(),
+                        Projectcontent: UE.getEditor('editor').getPlainTxt()
+                    },
+                    success: function (dataBack) {
+                        if (dataBack.result == 1) {
+                            layer.msg(dataBack.message, { icon: 1 });
+                            ReverseInquiry();   //逆查询
+                        }
+                    },
+                    error: function (error) {
+                        layer.msg(dataBack.message, { icon: 2 });
+                    }
+                });
             }
         }
         //#endregion
 
         //#region  修改在研项目信息
         function UpdateInResearch(id) {
-            if (checkEndTime()) { 
+            if (checkEndTime()) {
                 $.ajax({
-                type: "POST",
-                url: "/updateresearch",
-                data: {
-                    ID: id,
-                    ProjectName: $('#projectname').val(),
-                    ProjectIntroduction: $('#projectintroduction').val(),
-                    StartingTime: $('#startingtime').val(),
-                    EndTime: $('#endtime').val(),
-                    ProjectProgress: UE.getEditor('editor').getContent(),
-                    Projectcontent: UE.getEditor('editor').getPlainTxt()
-                },
-                success: function (dataBack) {
-                    addRelatedPersonnels(num);
-                    layer.msg(dataBack.message, { icon: 1 });
-                    if ($("product li").val() = num) {
-                        $("product li").addClass('selected');
+                    type: "POST",
+                    url: "/updateresearch",
+                    data: {
+                        ID: id,
+                        ProjectName: $('#projectname').val(),
+                        ProjectIntroduction: $('#projectintroduction').val(),
+                        StartingTime: $('#startingtime').val(),
+                        EndTime: $('#endtime').val(),
+                        ProjectProgress: UE.getEditor('editor').getContent(),
+                        Projectcontent: UE.getEditor('editor').getPlainTxt()
+                    },
+                    success: function (dataBack) {
+                        if (dataBack.result == 1) {
+                            addRelatedPersonnels(num);
+                            layer.msg(dataBack.message, { icon: 1 });
+                            SelectInesearch();
+                        }
+                    },
+                    error: function (error) {
+                        layer.msg(dataBack.message, { icon: 2 });
                     }
-                    SelectInesearch();
-                    
-                },
-                error: function (error) {
-                    layer.msg(dataBack.message, { icon: 2 });
-                }
-            });
-            
+                });
+
             }
         }
         //#endregion
@@ -420,6 +500,10 @@
             UE.getEditor('editor').setContent("");
             $('#infoto').text("");
 
+            $('#' + num + '').val("");
+            $('#' + sum + '').val("");
+            SelectInesearch();
+
         }
         //#endregion
 
@@ -427,7 +511,7 @@
 
         //#region  添加相关人员表
         function addRelatedPersonnels() {
-            
+
             array.length = 0;
 
             DeleteAllResearchers();
@@ -463,7 +547,7 @@
                 url: '/seleteallresearchers',
                 data: { id: num },
                 success: function (dataBack) {
-                    
+
                 },
                 error: function (error) {
                     alert(error.status + error.statusText)

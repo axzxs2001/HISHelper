@@ -90,7 +90,7 @@ namespace ProductReleaseSystem.Controllers
                 return new JsonResult(new { result = 1, message = $"查询在研项目名称成功", data = list }, new JsonSerializerSettings()
                 {
                     ContractResolver = new LowercaseContractResolver(),
-                    DateFormatString = "yyyy-MM-ddThh:mm"
+                    DateFormatString = "yyyy-MM-dd"
                 });
             }
             catch (Exception exc)
@@ -100,36 +100,7 @@ namespace ProductReleaseSystem.Controllers
             }
         }
         #endregion
-
-        #region 通过ID查询在研项目查看页面
-        /// <summary>
-        /// 查询在研项目信息
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost("selectesearchidone")]
-        public IActionResult SelectesearchIDone(int id)
-        {
-            try
-            {
-                var list = _IResearch.SelectResearch(id);
-
-                //return new JsonResult(new { result = 1, message = $"查询在研项目名称成功", data = list }, new Newtonsoft.Json.JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd hh mm" });
-                return new JsonResult(new { result = 1, message = $"查询在研项目名称成功", data = list }, new JsonSerializerSettings()
-                {
-                    ContractResolver = new LowercaseContractResolver(),
-                    DateFormatString = "yyyy-MM-dd hh:mm"
-                });
-            }
-            catch (Exception exc)
-            {
-                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
-                return new JsonResult(new { result = 0, message = $"查询在研项目名称失败：{exc.Message}" });
-            }
-        }
-        #endregion
-
-
-
+        
         #region 根据部门查询开发人员
         [HttpPost("selectdevelopers")]
         public IActionResult SelectDevelopers(int departmentID)
@@ -399,6 +370,7 @@ namespace ProductReleaseSystem.Controllers
         }
         #endregion
 
+        #region 逆查询
         /// <summary>
         /// 逆查询
         /// </summary>
@@ -420,7 +392,7 @@ namespace ProductReleaseSystem.Controllers
                 return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
             }
         }
-
+        #endregion
 
 
     }

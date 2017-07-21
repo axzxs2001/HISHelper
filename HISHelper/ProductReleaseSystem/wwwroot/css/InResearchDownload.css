@@ -247,13 +247,6 @@ table select {
 .addid {
 margin-left:40%;
 }
-
-
-.selected {
-    font-weight: bold;
-    background: #fff;
-    color: #000;
-}
 /*自适应*/
 @media screen and (min-width:1280px) {
     table {
