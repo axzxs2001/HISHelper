@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>在研项目上传</title>
+    <title>在研项目添加</title>
     <link href="~/css/bootstrap.css" rel="stylesheet" />
     <link href="~/css/InResearchDownload.css" rel="stylesheet" />
     <link href="~/css/jquery.datetimepicker.css" rel="stylesheet" />
@@ -26,76 +26,78 @@
             </div>
         </div>
         <div class="col-md-9 top">
-            <div class="row col-md-12" id="inesearch">
-                <!--right-->
-                <table border="1" align="center" class="inesearchtable">
-                    <tbody>
-                        <tr>
-                            <th>项目名称</th>
-                            <td colspan="4"><input type="text" id="projectname" style="padding-left:20px;" placeholder="项目名称"></td>
-                        </tr>
-                        <tr>
-                            <th>项目介绍</th>
-                            <td colspan="4"><input type="text" id="projectintroduction" style="padding-left:20px;" placeholder="项目介绍"></td>
-                        </tr>
-                        <tr>
-                            <th>开始时间</th>
-                            <td colspan="2"><input type="text" id="startingtime" style="padding-left:20px;" placeholder="请选择开始时间"></td>
-                            <th>结束时间</th>
-                            <td colspan="2"><input type="text" id="endtime" style="padding-left:20px;" placeholder="请选择开始时间"></td>
-                            @*<td colspan="2"><input type="datetime-local" id="endtime" style="padding-left:20px;"></td>*@
-                        </tr>
-                        <tr>
-                            <th>开发部门</th>
-                            <td colspan="2">
-                                <select name="" id="department" onchange="SelectDevelopers(this.options[this.options.selectedIndex].value);">
-                                    <option value="">研发组</option>
-                                    <option value="">研发组</option>
-                                </select>
-                            </td>
-                            <th>开发人员</th>
-                            <td colspan="2">
-                                <select name="" id="person" onchange="SelectDeveloper(this.options[this.options.selectedIndex].value);">
-                                    <option value="">就看见</option>
-                                    <option value="">蝶恋蜂狂</option>
-                                </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <!--人员信息-->
-                <div class="row col-md-10 ff">
-                    <table class="table table hover  person-news table-striped table-bordered table-condensed">
-                        <thead>
-                            <tr class="info">
-                                <th style="line-height:40px;">部门</th>
-                                <th style="line-height:40px;">姓名</th>
-                                <th style="line-height:40px;">性别</th>
-                                <th style="line-height:40px;">电话</th>
-                                <th style="line-height:40px;">QQ</th>
-                                <th style="line-height:40px;">邮箱</th>
-                                <th style="line-height:40px;">类型</th>
-                                <th style="line-height:40px;">操作</th>
+            <div id="topliebiao">
+                <div class="row col-md-12" id="inesearch">
+                    <!--right-->
+                    <table border="1" align="center" class="inesearchtable">
+                        <tbody>
+                            <tr>
+                                <th>项目名称</th>
+                                <td colspan="4"><input type="text" id="projectname" style="padding-left:20px;" placeholder="项目名称"></td>
                             </tr>
-                        </thead>
-                        <tbody id="infoto"></tbody>
+                            <tr>
+                                <th>项目介绍</th>
+                                <td colspan="4"><input type="text" id="projectintroduction" style="padding-left:20px;" placeholder="项目介绍"></td>
+                            </tr>
+                            <tr>
+                                <th>开始时间</th>
+                                <td colspan="2"><input type="text" id="startingtime" style="padding-left:20px;" placeholder="请选择开始时间"></td>
+                                <th>结束时间</th>
+                                <td colspan="2"><input type="text" id="endtime" style="padding-left:20px;" placeholder="请选择开始时间"></td>
+                                @*<td colspan="2"><input type="datetime-local" id="endtime" style="padding-left:20px;"></td>*@
+                            </tr>
+                            <tr>
+                                <th>开发部门</th>
+                                <td colspan="2">
+                                    <select name="" id="department" onchange="SelectDevelopers(this.options[this.options.selectedIndex].value);">
+                                        <option value="">研发组</option>
+                                        <option value="">研发组</option>
+                                    </select>
+                                </td>
+                                <th>开发人员</th>
+                                <td colspan="2">
+                                    <select name="" id="person" onchange="SelectDeveloper(this.options[this.options.selectedIndex].value);">
+                                        <option value="">就看见</option>
+                                        <option value="">蝶恋蜂狂</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
-                </div>
 
-            </div>
-            <!--百度编辑器-->
-            <div class="row col-md-12 baidu">
-                <br />
-                <label>详细内容：</label>
-                <script id="editor" type="text/plain" style="width:100%; height:350px;">
-                </script>
-            </div>
-            <!--按钮-->
-            <div class="col-md-5 cc">
-                <br />
-                <button class="btn btn-info col-md-2 col-md-offset-5" onclick="DeleteResearchers(); DeleteAllResearchers();">删除</button>
-                <button class="btn btn-info col-md-2 col-md-offset-5" onclick="InsertAndUpdate(num)">保存</button>
+                    <!--人员信息-->
+                    <div class="row col-md-10 ff">
+                        <table class="table table hover  person-news table-striped table-bordered table-condensed">
+                            <thead>
+                                <tr class="info">
+                                    <th style="line-height:40px;">部门</th>
+                                    <th style="line-height:40px;">姓名</th>
+                                    <th style="line-height:40px;">性别</th>
+                                    <th style="line-height:40px;">电话</th>
+                                    <th style="line-height:40px;">QQ</th>
+                                    <th style="line-height:40px;">邮箱</th>
+                                    <th style="line-height:40px;">类型</th>
+                                    <th style="line-height:40px;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="infoto"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <!--百度编辑器-->
+                <div class="row col-md-12 baidu">
+                    <br />
+                    <label>详细内容：</label>
+                    <script id="editor" type="text/plain" style="width:100%; height:350px;">
+                    </script>
+                </div>
+                <!--按钮-->
+                <div class="col-md-5 cc">
+                    <br />
+                    <button class="btn btn-info col-md-2 col-md-offset-5" onclick="DeleteResearchers(); DeleteAllResearchers();">删除</button>
+                    <button class="btn btn-info col-md-2 col-md-offset-5" onclick="InsertAndUpdate(num)">保存</button>
+                </div>
             </div>
         </div>
     </div>
@@ -274,6 +276,7 @@
             }
         }
         //#endregion
+
         //#region  查询在研项目名称
         function SelectInesearch() {
             $.ajax({
@@ -322,7 +325,6 @@
                     });
 
                     $(".product").html(str);
-                    $("#" + sum + "").css({ 'background': '#fff', 'color': '#000' });
                     $(".product li").click(function (event) {
                         $(".product").css({ 'background': 'rgba(0,0,0,0.8)', 'color': '#fff' });
                         $(".product li").css({ 'background': '', 'color': '' });
@@ -506,9 +508,7 @@
 
         }
         //#endregion
-
-
-
+        
         //#region  添加相关人员表
         function addRelatedPersonnels() {
 
@@ -540,6 +540,7 @@
             });
         }
         //#endregion
+
         //#region  根据项目ID删除相关人员信息
         function DeleteAllResearchers() {
             $.ajax({
@@ -620,9 +621,7 @@
 
         }
         //#endregion
-
-
-
+        
         //#region  根据项目ID查询所有相关人员
         function SelectInesearchers(num) {
             $.ajax({
@@ -658,21 +657,6 @@
         }
         //#endregion
 
-
-
-        //function ProductsDownload(obj) {
-        //    var trstring = '';
-        //    if (obj.List.length != 0) {
-        //        $(obj.List).each(function (index.item) {
-        //            trstring += '<li>' + item.ProductName;
-        //            trstring += '<span class="glyphicon glyphicon-hand-right">' + item.ID + '</span>';
-        //            trstring += '</li>';
-        //        });
-        //        $('.h2').html(trstring);
-        //    } else {
-        //        $('.h2').html("");
-        //    }
-        //}
         //#region  百度编辑器
         //创建编辑器
         function createEditor() {

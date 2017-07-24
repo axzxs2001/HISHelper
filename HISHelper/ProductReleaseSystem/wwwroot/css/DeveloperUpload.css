@@ -27,12 +27,11 @@ body>div{
 	position: relative;
 	top: 5px;
 }
-.product{
-	padding: 20px;
-	background: rgba(0,0,0,0.8);
-	overflow-y: scroll;
-    margin-bottom:0!important;
-    
+.product {
+
+    background: rgba(0,0,0,0.8);
+    overflow-y: scroll;
+    margin-bottom: 0 !important;
 }
 .product>li{
 	color:#fff;
@@ -78,6 +77,8 @@ body>div{
 	float: right;
 }
 .version{
+    width:102%;
+    padding:0.2% 0 0;
 	background: rgba(255,255,255,0.8);
 	height: 390px;
 	overflow-y: scroll;

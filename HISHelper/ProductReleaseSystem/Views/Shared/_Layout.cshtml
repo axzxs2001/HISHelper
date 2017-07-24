@@ -3,16 +3,7 @@
 <html>
 <head>
 
-    <style>
-        #useryonghu {
-            color: #fff;
-            float: left;
-            list-style-type: none;
-            font-size: 14px;
-            margin-left: 400px;
-            margin-top: 16px;
-        }
-    </style>
+    
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ProductReleaseSystem</title>
@@ -28,6 +19,16 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    <style>
+        #useryonghu {
+            color: #fff;
+            float: left;
+            list-style-type: none;
+            font-size: 14px;
+            margin-left: 400px;
+            margin-top: 16px;
+        }
+    </style>
     @RenderSection("css", required: false)
 </head>
 <body>
@@ -40,17 +41,43 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">产品发布系统</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><span style="font-weight:900;">@ViewData["CompanyName"]</span>产品发布系统</a>
 
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li role="presentation" class="dropdown"><a asp-area="" asp-controller="Home" asp-action="UpFile">上传文件</a></li>
-                    <li role="presentation" class="dropdown"><a asp-area="" asp-controller="DownLoad" asp-action="DownLoad">下载文件</a></li>
-                    <li role="presentation" class="dropdown"><a asp-area="" asp-controller="Home" asp-action="informationMaintenance">人员管理</a></li>
-                    <li role="presentation" class="dropdown"><a asp-area="" asp-controller="Home" asp-action="Documentation">使用文档</a></li>
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" id="drop1" aria-expanded="false" aria-haspopup="true" href="#" data-toggle="dropdown">
+                            文件管理
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+                            <li role="presentation">
+                                <a asp-area="" asp-controller="Home" asp-action="UpFile">上传文件</a>
+                            </li>
+                            <li role="presentation">
+                                <a asp-area="" asp-controller="DownLoad" asp-action="DownLoad">下载文件</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" id="drop1" aria-expanded="false" aria-haspopup="true" href="#" data-toggle="dropdown">
+                            在研项目管理
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+                            <li role="presentation"><a asp-area="" asp-controller="InResearch" asp-action="InResearch">再研项目添加</a></li>
+                            <li role="presentation"><a asp-area="" asp-controller="InResearch" asp-action="InresearchDownLoad">在研项目查看</a></li>
+                        </ul>
+                    </li>
+                    <li role="presentation"><a asp-area="" asp-controller="Home" asp-action="informationMaintenance">人员管理</a></li>
+                    <li role="presentation"><a asp-area="" asp-controller="Home" asp-action="Documentation">使用文档</a></li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
                     <li role="presentation" id="useryonghu">当前用户：<span id="usermz" onclick="UserInsert()">@User.Identity.Name</span></li>
-                    <li role="presentation" class="dropdown"><a href="/logout">注销</a></li>
+                    <li role="presentation"><a href="/logout">注销</a></li>
                 </ul>
             </div>
         </div>
@@ -68,11 +95,11 @@
 
                         <div class="col-md-6">
                             用户名：
-                            <input type="text" class="form-control" id="insertname" name="insertname" disabled="disabled"  placeholder="用户名">
+                            <input type="text" class="form-control" id="insertname" name="insertname" disabled="disabled" placeholder="用户名">
                         </div>
                         <div class="col-md-6">
                             密码：
-                            <input type="text" class="form-control" id="insertpassword" name="insertpassword"  placeholder="密码">
+                            <input type="text" class="form-control" id="insertpassword" name="insertpassword" placeholder="密码">
                         </div>
                     </div>
                 </div>
@@ -96,7 +123,25 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/layer/layer.js"></script>
-        <script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+    <script type="text/javascript">
             var name = @User.Identity.Name;
             var ID;
             var Character;
@@ -139,7 +184,7 @@
                             $("#InsertUsers").modal('hide');
                            // GetUser();
                         }
-                       
+
                     });
                 }
             }
@@ -159,27 +204,7 @@
                     return true;
                 }
             }
-        </script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment names="Staging,Production">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-            
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-       
-    </environment>
-
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
