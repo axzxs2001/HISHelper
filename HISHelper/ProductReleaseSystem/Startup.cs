@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http.Features;
 using ProductReleaseSystem.Data;
 using ProductReleaseSystem.Models.IRepository;
 using ProductReleaseSystem.Models.Repository;
+using ProductReleaseSystem.Models.Data;
 
 namespace ProductReleaseSystem
 {
@@ -35,6 +36,15 @@ namespace ProductReleaseSystem
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //验证码类
+            services.AddTransient<VierificationCodeServices, VierificationCodeServices>();
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(120000);
+                options.CookieHttpOnly = true;
+            });
             services.Configure<FormOptions>(x => {
 
                 x.ValueLengthLimit = int.MaxValue;
@@ -42,6 +52,7 @@ namespace ProductReleaseSystem
                 x.MultipartBodyLengthLimit = int.MaxValue;
 
             });
+            
             //用于生成EF的ProductRelease数据库连接字符串
             var prconntion = Configuration.GetConnectionString("prConnectionStrings");
 
@@ -52,8 +63,9 @@ namespace ProductReleaseSystem
             services.AddTransient<IResearch,Research>();
 
             services.AddMvc();
-            //设置body的长度
-           
+
+            
+
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -91,6 +103,7 @@ namespace ProductReleaseSystem
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            app.UseSession();
 
             app.UseStaticFiles();
             app.UseMvc(routes =>

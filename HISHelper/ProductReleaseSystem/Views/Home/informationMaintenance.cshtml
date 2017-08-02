@@ -120,6 +120,12 @@
                             <label for="developer-phone">电话：</label>
                             <input type="text" class="form-control" id="developer-phone" v-model="phone" placeholder="此处输入开发人员电话">
                         </div>
+                        <div class="form-group col-md-3  developer-news">
+                            <label for="Authority-name">权限：</label>
+                            <select class="form-control" id="authoritytable-name">
+                                <option value="0">--请选择权限--</option>
+                            </select>
+                        </div>
                         <div class="sex form-group col-md-3 developer-news" id="sex">
                             <label>性别：</label>
                             <label class="radio-inline">
@@ -137,7 +143,8 @@
                             <label for="developer-note ">备注：</label>
                             <input type="text" class="form-control" id="developer-note" v-model="remarks" placeholder="此处输入备注">
                         </div>
-                        <button type="button" class="btn btn-info col-md-offset-2 developer-news" v-on:click="savaDeveloper">添&nbsp;&nbsp;&nbsp;加</button>
+                        
+                        <button type="button" class="btn btn-info col-md-offset-2 developer-news" v-on:click="savaDeveloper" style="margin-left:91%;">添&nbsp;&nbsp;&nbsp;加</button>
                     </form>
                     <h3>开发人员列表：</h3>
                     <div class="developer-list" id="developer-div">
@@ -150,8 +157,9 @@
                                     <th>性别</th>
                                     <th>电话</th>
                                     <th>QQ</th>
-                                    <th>邮箱</th>
+                                    <th style="width:170px">邮箱</th>
                                     <th>备注</th>
+                                    <th>权限</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -183,7 +191,14 @@
                                         <label>名称：</label>
                                         <input type="text" class="form-control" id="name" name="name" v-model="developerMenu.name" placeholder="用户名">
                                     </div>
-                                    <div class="sex2 form-group col-md-3 developer-news" id="sex2">
+                                    <div class="form-group col-md-4">
+                                        <label for="authority-person-name">权限：</label>
+                                        <input style="display:none" v-model="developerMenu.authority" />
+                                        <select class="form-control" id="authority-person-name">
+                                            <option id="selectdepartment" v-bind:value="developerMenu.authority">{{developerMenu.authority}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="sex2 form-group col-md-4 developer-news" id="sex2">
                                         <label>性别：</label>
                                         <label class="radio-inline">
                                             <input type="radio" name="sex2" id="man" value="0">男
@@ -206,7 +221,7 @@
                                         <input type="text" class="form-control" id="email" name="email" v-model="developerMenu.email" placeholder="email">
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label>备注：</label>
                                         <input type="text" class="form-control" id="remarks" name="remarks" v-model="developerMenu.remarks" placeholder="remarks">
                                     </div>
@@ -329,6 +344,7 @@
             <td>{{developer.qq}}</td>
             <td>{{developer.email}}</td>
             <td>{{developer.remarks}}</td>
+            <td>{{developer.authority}}</td>
             <td>
                 <button class="btn btn-xs btn-primary" style="margin-bottom:-5px;margin-top:-5px;" data-toggle="modal" data-target="#Modiydevelopers" v-on:click="modifyDeveloper()">
                     修改
@@ -344,6 +360,7 @@
             GetUser();
             GetDevelopers();
             GetSelect();
+            AuthorityTable();
             GetDepartments();
         })
 
@@ -692,6 +709,7 @@
                 $.post("/updatedeveloper", {
                     Id: modiyDeveloperVue.developerMenu.id,
                     DepartmentId: $("#department-person-name").find("option:selected").val(),
+                    AuthorityID: $("#authority-person-name").find("option:selected").val(),
                     Name: modiyDeveloperVue.developerMenu.name,
                     QQ: modiyDeveloperVue.developerMenu.qq,
                     Email: modiyDeveloperVue.developerMenu.email,
@@ -728,7 +746,24 @@
             });
         }
 
+        //动态添加权限
+        function AuthorityTable() {
+            var str = '';
+            $.ajax({
+                type: 'GET',
+                url: '/authoritytable',
+                data: {},
+                success: function (dataBack) {
 
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<option value="' + item["id"] + '">' + item["authority"] + '</option>';
+                    });
+                    $('#authoritytable-name').append(str);
+                    $('#authority-person-name').append(str);
+                    
+                }
+            });
+        }
         //开发人员表格行组件
         Vue.component("developer-row", {
             props: ["developer"],
@@ -784,7 +819,8 @@
                         Email: this.email,
                         Phone: this.phone,
                         DepartmentId: $("#department-developer-name").find("option:selected").val(),
-                        remarks: this.remarks
+                        remarks: this.remarks,
+                        AuthorityID: $("#authoritytable-name").find("option:selected").val()
                     }, function (dataBack) {
                         if (dataBack.result == 0) {
                             layer.msg(dataBack.message, { icon: 2 })
@@ -843,6 +879,9 @@
             else if (!$("#developer-phone").val().match(/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/))
             {
                 str += "联系方式格式不正确！";
+            }
+            if ($("#authoritytable-name").val() == '' || $("#authoritytable-name").val() == 0) {
+                str += "权限不能为空！";
             }
             if ($("#developer-Email").val() == '') {
                 str += "请输入邮箱！";

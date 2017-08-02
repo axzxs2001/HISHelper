@@ -19,6 +19,7 @@ namespace ProductReleaseSystem.ProductRelease
         public string Phone { get; set; }
         public int DepartmentId { get; set; }
         public string Remarks { get; set; }
+        public string AuthorityID { get; set; }
 
         public virtual ICollection<Files> Files { get; set; }
         public virtual ICollection<RelatedPersonnels> RelatedPersonnels { get; set; }

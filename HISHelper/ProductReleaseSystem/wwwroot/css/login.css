@@ -1,4 +1,189 @@
-*{
+
+body, ul, li, a, div, dd, dt, td, th, u, em, i, span, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    font-family: "Î¢ÈíÑÅºÚ";
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.lt {
+    float: left;
+}
+
+.rt {
+    float: right;
+}
+/******Ð´******/
+body {
+    width: 100%;
+    height: 950px;
+    background: #f1f1f1;
+}
+
+#logo {
+    background: url('../images/login/logo.png')no-repeat left;
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+    margin: 0 auto;
+    margin-top:40px;
+}
+
+#border {
+    width: 480px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+    #border .max {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 9px solid #1c77ac;
+        width: 40%;
+        height: 40%;
+        border-radius: 50%;
+        margin: 0 auto;
+        margin-top: 55px;
+    }
+
+    #border .min {
+        border: 1px solid #89c6e9;
+        background: #89c6e9;
+        width: 70%;
+        height: 70%;
+        border-radius: 50%;
+    }
+
+    #border a {
+        color: #1c77ac;
+        font-size: 15px;
+        display: inline-block;
+        margin: 10px 85px;
+    }
+
+    #border .amn {
+        color: #023c81;
+        font-size: 18px;
+        width: 180px;
+        margin-left: 75px;
+        font-weight: 500;
+    }
+
+    #border .welcome {
+        font-size: 18px;
+        font-weight: bold;
+        color: #1c77ac;
+        float: left;
+        margin-top: 46px;
+        margin-bottom: 30px;
+        margin-left: 100px;
+    }
+
+    #border .right form input {
+        width: 240px;
+        height: 46px;
+        margin: 20px 0 auto 10px;
+        color: #999;
+        font-weight: 700;
+        padding-left: 35px;
+        border: 1px solid #f3f1f2;
+        border-radius: 10px;
+        background: #f3f1f2;
+        outline: none;
+    }
+
+    #border .right .inp {
+        margin-left: 70px;
+        margin-top: 20px;
+    }
+
+        #border .right .inp input {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+        }
+
+        #border .right .inp span {
+            color: #7f7677;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+    #border form span {
+        color: #7f7677;
+        font-weight: bold;
+        font-size: 12px;
+    }
+
+.span1 {
+    width: 40px;
+}
+
+#border .right .inp span a {
+    color: #7f7677;
+    font-weight: bold;
+    font-size: 12px;
+    text-decoration: underline;
+    display: inline-block;
+    margin-left: 0;
+}
+
+#border .right {
+    background: #ffffff;
+    width: 480px;
+    height: 530px;
+    border-radius: 10px;
+}
+
+    #border .right .inp .wj {
+        color: #7f7677;
+        font-weight: 600;
+        margin-top: -4px;
+        font-size: 12px;
+        text-decoration: underline;
+    }
+
+#border .button {
+    background: #07b7e6;
+    width: 240px;
+    height: 60px;
+    -webkit-box-shadow: 0 3px 20px #07b7e6;
+    border-radius: 25px;
+    margin-top: 35px;
+    position: relative;
+    top: -66px;
+    left: 115px;
+    cursor: pointer;
+}
+
+    #border .button span {
+        display: inline-block;
+        color: #fff;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 30px;
+        position: relative;
+        top: 14px;
+        left: 94px;
+        
+    }
+
+form {
+    text-align: center;
+}
+
+.footer {
+    color: #8f8f8f;
+    font-size: 12px;
+    text-align: center;
+}
+
+/**{
 	list-style: none;
 	text-decoration: none;
 	margin: 0;
@@ -69,4 +254,4 @@ body .container-fuild {
 .login .main .sure-btn>button:active{
 	top:1px;
 	right: 119px;
-}
+}*/

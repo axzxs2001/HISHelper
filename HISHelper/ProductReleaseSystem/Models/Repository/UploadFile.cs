@@ -117,6 +117,16 @@ VALUES(@DepartmentName)";
         }
         #endregion
 
+        /// <summary>
+        /// 查询所有权限ID和名称
+        /// </summary>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> AuthorityTable()
+        {
+            var sql = "SELECT ID,Authority FROM dbo.AuthorityTable";
+            return _dbHelper.GetList(sql);
+        }
+
         #region 维护开发人员信息
         /// <summary>
         /// 添加开发人员
@@ -132,9 +142,10 @@ VALUES(@DepartmentName)";
           Email ,
           Phone ,
           DepartmentID,
-           remarks
+           remarks,
+AuthorityID
         )
-VALUES  ( @name,@sex,@qq,@email,@phone,@departmentID,@remarks
+VALUES  ( @name,@sex,@qq,@email,@phone,@departmentID,@remarks,@AuthorityID
         )";
             var par1 = new SqlParameter() { ParameterName = "@name", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Name };
             var par2 = new SqlParameter() { ParameterName = "@sex", SqlDbType = System.Data.SqlDbType.Bit, Value = developer.Sex };
@@ -143,7 +154,8 @@ VALUES  ( @name,@sex,@qq,@email,@phone,@departmentID,@remarks
             var par5 = new SqlParameter() { ParameterName = "@phone", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Phone };
             var par6 = new SqlParameter() { ParameterName = "@departmentID", SqlDbType = System.Data.SqlDbType.Int, Value = developer.DepartmentId };
             var par7 = new SqlParameter() { ParameterName = "@remarks", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Remarks };
-            return _dbHelper.SavaData(sql, par1, par2, par3, par4, par5, par6, par7) > 0 ? true : false;
+            var par8 = new SqlParameter() { ParameterName = "@AuthorityID", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.AuthorityID };
+            return _dbHelper.SavaData(sql, par1, par2, par3, par4, par5, par6, par7, par8) > 0 ? true : false;
         }
 
         /// <summary>
@@ -161,9 +173,12 @@ b.ID as departmentid,
         qq,
         Email,
         Phone,
-        Remarks
+        Remarks,
+Authority
 FROM    dbo.Developers a JOIN dbo.Departments b
 ON a.DepartmentID=b.ID 
+JOIN AuthorityTable c 
+ON a.AuthorityID = c.ID
 ";
 
             return _dbHelper.GetList(sql);
@@ -183,7 +198,8 @@ SET     Name = @name ,
         Email = @email ,
         Phone = @phone,
         Remarks=@remarks,
-        DepartmentID = @departmentID
+        DepartmentID = @departmentID,
+        AuthorityID=@AuthorityID
 WHERE   ID=@Id";
             var par1 = new SqlParameter() { ParameterName = "@name", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Name };
             var par2 = new SqlParameter() { ParameterName = "@sex", SqlDbType = System.Data.SqlDbType.Int, Value = developer.Sex };
@@ -192,9 +208,10 @@ WHERE   ID=@Id";
             var par5 = new SqlParameter() { ParameterName = "@phone", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Phone };
             var par6 = new SqlParameter() { ParameterName = "@remarks", SqlDbType = System.Data.SqlDbType.VarChar, Value = developer.Remarks };
             var par7 = new SqlParameter() { ParameterName = "@departmentID", SqlDbType = System.Data.SqlDbType.Int, Value = developer.DepartmentId };
-            var par8 = new SqlParameter() { ParameterName = "@Id", SqlDbType = System.Data.SqlDbType.Int, Value = developer.Id };
+            var par8 = new SqlParameter() { ParameterName = "@AuthorityID", SqlDbType = System.Data.SqlDbType.Int, Value = developer.AuthorityID };
+            var par9 = new SqlParameter() { ParameterName = "@Id", SqlDbType = System.Data.SqlDbType.Int, Value = developer.Id };
 
-            return _dbHelper.SavaData(sql, par1, par2, par3, par4, par5, par6, par7, par8) > 0 ? true : false;
+            return _dbHelper.SavaData(sql, par1, par2, par3, par4, par5, par6, par7, par8, par9) > 0 ? true : false;
         }
 
         /// <summary>
@@ -209,7 +226,7 @@ WHERE   ID=@Id";
             return _dbHelper.SavaData(sql, par) > 0 ? true : false;
         }
 
-        
+
 
 
         #endregion
@@ -247,7 +264,7 @@ WHERE   ID = @id";
             var par2 = new SqlParameter() { ParameterName = "@password", SqlDbType = System.Data.SqlDbType.VarChar, Value = user.PassWord };
             var par3 = new SqlParameter() { ParameterName = "@character", SqlDbType = System.Data.SqlDbType.VarChar, Value = user.Character };
             var par4 = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = user.Id };
-            return _dbHelper.SavaData(sql, par1, par2,par3,par4) > 0 ? true : false;
+            return _dbHelper.SavaData(sql, par1, par2, par3, par4) > 0 ? true : false;
         }
         /// <summary>
         /// 删除用户
@@ -287,14 +304,14 @@ FROM    dbo.Users";
         Character
 FROM    dbo.Users where UserName=@username";
             var par1 = new SqlParameter() { ParameterName = "@username", SqlDbType = System.Data.SqlDbType.VarChar, Value = name };
-            return _dbHelper.GetList(sql,par1);
+            return _dbHelper.GetList(sql, par1);
         }
 
         /// <summary>
         /// 查询用户
         /// </summary>
         /// <returns></returns>
-        public List< Dictionary<string,dynamic>> SelectUsers(string username,string password)
+        public List<Dictionary<string, dynamic>> SelectUsers(string username, string password)
         {
             var sql = @"SELECT  ID ,
         UserName ,
@@ -302,9 +319,9 @@ FROM    dbo.Users where UserName=@username";
         Character
 FROM    dbo.Users
 where UserName=@username and PassWord=@password";
-            var par1 = new SqlParameter() {ParameterName= "@username",SqlDbType=System.Data.SqlDbType.VarChar,Value=username };
-            var par2 = new SqlParameter() { ParameterName= "@password",SqlDbType=System.Data.SqlDbType.VarChar,Value=password };
-            return _dbHelper.GetList(sql,par1,par2);
+            var par1 = new SqlParameter() { ParameterName = "@username", SqlDbType = System.Data.SqlDbType.VarChar, Value = username };
+            var par2 = new SqlParameter() { ParameterName = "@password", SqlDbType = System.Data.SqlDbType.VarChar, Value = password };
+            return _dbHelper.GetList(sql, par1, par2);
         }
         #endregion
 
@@ -323,7 +340,7 @@ where UserName=@username and PassWord=@password";
         /// 根据成员ID查询成员信息
         /// </summary>
         /// <returns></returns>
-        public List<Dictionary<string,dynamic>> QueryDeveloper(int id)
+        public List<Dictionary<string, dynamic>> QueryDeveloper(int id)
         {
             var sql = (@"SELECT a.ID ID ,
                         Name ,
@@ -339,14 +356,14 @@ where UserName=@username and PassWord=@password";
         ");
             var par1 = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
 
-            return _dbHelper.GetList(sql,par1);
+            return _dbHelper.GetList(sql, par1);
         }
 
         /// <summary>
         /// 查询所有开发人员
         /// </summary>
         /// <returns></returns>
-        public List<Dictionary<string,dynamic>> Querykf()
+        public List<Dictionary<string, dynamic>> Querykf()
         {
             var sql = @"select ID,UserName from Users where Character=2";
             return _dbHelper.GetList(sql);
@@ -385,7 +402,7 @@ where UserName=@username and PassWord=@password";
         /// 根据版本号查询所有文件
         /// </summary>
         /// <returns></returns>
-        public List<Dictionary<string,dynamic>> QueryAllFiles(int id)
+        public List<Dictionary<string, dynamic>> QueryAllFiles(int id)
         {
             var sql = @"select ID,FileName,UploadTime from Files where VersionsID=@VersionsID";
             var par1 = new SqlParameter() { ParameterName = "@VersionsID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
@@ -424,10 +441,10 @@ where c.VersionID=@id";
         /// </summary>
         /// <param name="id">人员ID</param>
         /// <returns></returns>
-        public bool UpdatePersonType(int? id,int versionID)
+        public bool UpdatePersonType(int? id, int versionID)
         {
             var sql = @"update RelatedPersonnels set Personneltype='管理员' where PersonID=@id and VersionID=@versionID";
-            var par = new SqlParameter() { ParameterName= "@id",SqlDbType=System.Data.SqlDbType.Int,Value=id} ;
+            var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             var par1 = new SqlParameter() { ParameterName = "@versionID", SqlDbType = System.Data.SqlDbType.Int, Value = versionID };
             return _dbHelper.SavaData(sql, par, par1) > 0 ? true : false;
 
@@ -439,12 +456,12 @@ where c.VersionID=@id";
         /// </summary>
         /// <param name="id">人员ID</param>
         /// <returns></returns>
-        public bool deleteRp(int id,int versionID)
+        public bool deleteRp(int id, int versionID)
         {
             var sql = @"delete RelatedPersonnels where PersonID=@id and VersionID=@versionID";
             var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             var par1 = new SqlParameter() { ParameterName = "versionID", SqlDbType = System.Data.SqlDbType.Int, Value = versionID };
-            return _dbHelper.SavaData(sql, par,par1) > 0 ? true : false;
+            return _dbHelper.SavaData(sql, par, par1) > 0 ? true : false;
         }
 
         /// <summary>
@@ -454,15 +471,17 @@ where c.VersionID=@id";
         /// <returns></returns>
         public List<Dictionary<string, dynamic>> SelectDevelopers(int departmentID)
         {
-            var sql = (@"SELECT ID ID ,
+            var sql = (@"SELECT a.ID ID ,
         Name ,
         Sex ,
         qq ,
         Email ,
         Phone ,
-     
-        Remarks
-FROM    dbo.Developers
+        Remarks,
+		Authority
+FROM    dbo.Developers a
+JOIN AuthorityTable b
+ON a.AuthorityID=b.ID
 where DepartmentID=@DepartmentID
 ");
             var par1 = new SqlParameter()
@@ -580,5 +599,5 @@ where DepartmentID=@DepartmentID
             return _dbHelper.GetValue(sql, par);
         }
     }
-  
+
 }

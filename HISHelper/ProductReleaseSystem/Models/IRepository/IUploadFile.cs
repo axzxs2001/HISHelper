@@ -48,6 +48,11 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <returns></returns>
         List<Dictionary<string, dynamic>> QueryDepartments();
         /// <summary>
+        /// 查询所有权限
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> AuthorityTable();
+        /// <summary>
         /// 删除部门
         /// </summary>
         /// <param name="id">部门</param>

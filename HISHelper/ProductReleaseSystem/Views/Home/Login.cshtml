@@ -1,58 +1,81 @@
 ﻿@{
     Layout = null;
 }
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>登录页面</title>
-    <link href="~/css/bootstrap.css" rel="stylesheet" />
+    <title>登录</title>
     <link href="~/css/login.css" rel="stylesheet" />
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
-    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
-    <META http-equiv="Expires" content="0">
 </head>
-
-
 <body>
-    <form method="post" action="/login" name="form1">
-        <div class="container-fuild">
-            <div class="login">
-                <div class="logo">
-                    欢迎登录产品发布系统
+    <div id="header">
+        <div id="logo"></div>
+        <div id="border">
+            <div class="right">
+                <img src="~/images/Login/1_03.png" alt="" style="border-radius: 10px 0  0;" />
+                <form method="post" action="/login" name="form1">
+                    <span class="span1">账&nbsp;号</span>
+                    <input type="text" name="username" id="username" placeholder="请输入用户名" onkeydown="KeyDown()"><br>
+                    <span class="span1">密&nbsp;码</span>
+                    <input type="password" name="password" id="userpassword" placeholder="请输入密码" onkeydown="KeyDown()"><br>
+                    <span class="span1">验证码</span>
+                    <input type="text" value="">
+                    <img id="imgVerify" src="/validatecode" alt="看不清？点击更换" onclick="this.src = this.src + '?'" style=" position:absolute; margin:20px 0 0 -73px;" />
+                </form>
+                <div class="inp">
+                    <input type="checkbox" value="" name="" id="i1" checked>
+                    <label for="i1"></label>
+                    <span>记住我的登录信息</span>
+                    <a href="#" class="wj rt">忘记密码</a><br>
+                    <input type="checkbox" value="" name="" id="i2">
+                    <label for="i2"></label>
+                    <span>我已阅读并接受<a href="#">《用户协议》</a></span>
                 </div>
-                <div class="main">
-                    <div id="user-name">
-                        <span>用户名：</span>
-                        <input type="text" name="username" id="username" onkeydown="KeyDown()">
-                    </div>
-                    <div id="user-password">
-                        <span>密&nbsp;&nbsp;&nbsp;码：</span>
-                        <input type="password" name="password" id="userpassword" onkeydown="KeyDown()">
-                    </div>
-                    <div id="user-error">
-                        <p id="usererror">
-                            @if (ViewBag.error != null)
-                            {
-                                <font color="red">@ViewBag.error</font>
-                            }
-                        </p>
-                    </div>
-                    <input type="hidden" value="@ViewBag.returnUrl" name="returnUrl" />
-                    <div class="sure-btn">
-                        <button>重置</button>
-                        <button id="btnsubmit" type="submit" name="btnsubmit" onclick="ValueCheck()">登录</button>
-                    </div>
-                </div>
-            </div> 
+            </div>
+
+            <div class="button"  onclick="ValueCheck()">
+                <span>登&nbsp;录</span>
+                <input type="hidden" value="@ViewBag.returnUrl" name="returnUrl" />
+            </div>
+            <div class="footer">Copyright 2017 大连医卫 New technology research center</div>
         </div>
-    </form>
+    </div>
+    @*<form method="post" action="/login" name="form1">
+            <div class="container-fuild">
+                <div class="login">
+                    <div class="logo">
+                        欢迎登录产品发布系统
+                    </div>
+                    <div class="main">
+                        <div id="user-name">
+                            <span>用户名：</span>
+                            <input type="text" name="username" id="username" onkeydown="KeyDown()">
+                        </div>
+                        <div id="user-password">
+                            <span>密&nbsp;&nbsp;&nbsp;码：</span>
+                            <input type="password" name="password" id="userpassword" onkeydown="KeyDown()">
+                        </div>
+                        <div id="user-error">
+                            <p id="usererror">
+                                @if (ViewBag.error != null)
+                                {
+                                    <font color="red">@ViewBag.error</font>
+                                }
+                            </p>
+                        </div>
+                        <input type="hidden" value="@ViewBag.returnUrl" name="returnUrl" />
+                        <div class="sure-btn">
+                            <button>重置</button>
+                            <button id="btnsubmit" type="submit" name="btnsubmit" onclick="ValueCheck()">登录</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>*@
 </body>
 </html>
-
+<script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/layer/layer.js"></script>
 <script type="text/javascript">
     //防止页面后退
@@ -62,7 +85,7 @@
     });
 
     $(function () {
-        $(".sure-btn button:first").click(function (event) {
+        $(".button button:first").click(function (event) {
             $("input").val('');
         });
         $("#username").focus(function () {
@@ -80,31 +103,35 @@
                 username: $('#username').val(),
                 password: $('#userpassword').val()
             },
-            success: function (result) {
-
+            success: function (dataBack) {
+                if (dataBack.result == 1) {
+                    window.location.href = "http://localhost:61110/";
+                } else {
+                    layer.msg(dataBack.message, { icon: 2 });
+                }
             },
             error: function (error) {
-                console.log(error.status + error.statusText);
+                layer.msg(dataBack.message, { icon: 2 });
             }
         });
     }
 
-    $("#btnsubmit").click(function () {
-        $.ajax({
-            type: 'POST',
-            url: '/login',
-            data: {
-                username: $('#username').val(),
-                password: $('#userpassword').val()
-            },
-            success: function (result) {
+    //$("#btnsubmit").click(function () {
+    //    $.ajax({
+    //        type: 'POST',
+    //        url: '/login',
+    //        data: {
+    //            username: $('#username').val(),
+    //            password: $('#userpassword').val()
+    //        },
+    //        success: function (result) {
 
-            },
-            error: function (error) {
-                console.log(error.status + error.statusText);
-            }
-        });
-    })
+    //        },
+    //        error: function (error) {
+    //            console.log(error.status + error.statusText);
+    //        }
+    //    });
+    //})
 
     function KeyDown() {
         if (event.keyCode == 13) {

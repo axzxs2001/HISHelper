@@ -7,11 +7,12 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Hosting;
 using System.Collections;
-using System.IO;
 using ProductReleaseSystem.ProductRelease;
 using ProductReleaseSystem.Models.IRepository;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using System.IO;
+using ProductReleaseSystem.Models.Data;
 
 namespace ProductReleaseSystem.Controllers
 {
@@ -110,8 +111,7 @@ namespace ProductReleaseSystem.Controllers
             {
                 if (username == null || password == null)
                 {
-                    ViewBag.error = "用户名或密码错误！";
-                    return View();
+                    return new JsonResult(new { result = 0, message = $"账号或密码错误！" });
                 }
                 else
                 {
@@ -128,13 +128,12 @@ namespace ProductReleaseSystem.Controllers
                         HttpContext.Authentication.SignInAsync("loginvalidate", new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookie")));
                         HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
 
-                        return new RedirectResult(returnUrl == null ? "/" : returnUrl);
+                        return new JsonResult(new { result = 1, message = $"查询全部部门成功", data = list }, new JsonSerializerSettings());
 
                     }
                     else
                     {
-                        ViewBag.error = "用户名或密码错误！";
-                        return View();
+                        return new JsonResult(new { result = 0, message = $"账号或密码错误！" });
                     }
                 }
             }
@@ -159,6 +158,21 @@ namespace ProductReleaseSystem.Controllers
             return View();
         }
 
+
+        /// <summary>
+        /// 图形验证码
+        /// </summary>
+        /// <param name="_vierificationCodeServices"></param>
+        /// <returns></returns>
+        [HttpGet("validatecode")]
+        public IActionResult ValidateCode([FromServices]VierificationCodeServices _vierificationCodeServices)
+        {
+            string code = "";
+            MemoryStream ms = _vierificationCodeServices.Create(out code);
+            HttpContext.Session.SetString("LoginValidateCode", code);
+            Response.Body.Dispose();
+            return File(ms.ToArray(), @"images/png");
+        }
 
         #region 人员维护
         /// <summary>
@@ -267,7 +281,29 @@ namespace ProductReleaseSystem.Controllers
         }
         #endregion
         #endregion
-
+        #region 查询权限信息
+        /// <summary>
+        /// 查询权限信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("authoritytable")]
+        public IActionResult AuthorityTable()
+        {
+            try
+            {
+                var list = _IUploadFile.AuthorityTable();
+                return new JsonResult(new { result = 1, message = $"查询全部部门成功", data = list }, new JsonSerializerSettings()
+                {
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
+                return new JsonResult(new { result = 0, message = $"查询部门失败：{exc.Message}" });
+            }
+        }
+        #endregion
         #region 开发人员增删改查
         #region 添加开发人员
         /// <summary>
