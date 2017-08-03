@@ -26,12 +26,12 @@ body {
 }
 
 #logo {
-    background: url('../images/login/logo.png')no-repeat left;
+    background: url('../images/login/logo.jpg')no-repeat left;
     width: 100px;
     height: 100px;
     background-size: cover;
     margin: 0 auto;
-    margin-top:40px;
+    margin-top: 40px;
 }
 
 #border {

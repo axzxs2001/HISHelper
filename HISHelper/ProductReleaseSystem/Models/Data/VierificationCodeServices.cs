@@ -63,7 +63,7 @@ namespace ProductReleaseSystem.Models.Data
 
 
             //定义图像的大小，生成图像的实例  
-            Img = new Bitmap((int)code.Length * 19, 45);
+            Img = new Bitmap((int)code.Length * 18, 50);
 
             g = Graphics.FromImage(Img);//从Img对象生成新的Graphics对象    
 
@@ -81,7 +81,7 @@ namespace ProductReleaseSystem.Models.Data
             {
                 int cindex = random.Next(7);//随机颜色索引值  
                 int findex = random.Next(5);//随机字体索引值  
-                Font f = new Font(fonts[findex], 15, FontStyle.Bold);//字体  
+                Font f = new Font(fonts[findex], 21, FontStyle.Bold);//字体  
                 Brush b = new SolidBrush(c[cindex]);//颜色  
                 int ii = 4;
                 if ((i + 1) % 2 == 0)//控制验证码不在同一高度  

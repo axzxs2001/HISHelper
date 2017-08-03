@@ -23,7 +23,7 @@ namespace ProductReleaseSystem.Controllers
     public class HomeController : Controller
     {
         IUploadFile _IUploadFile;
-
+       
         public HomeController(IUploadFile iUploadFile)
         {
             _IUploadFile = iUploadFile;
@@ -103,7 +103,7 @@ namespace ProductReleaseSystem.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("login")]
-        public IActionResult Login(string username, string password, string returnUrl)
+        public IActionResult Login(string username, string password, string returnUrl, string verificationcode)
         {
             //从数据库验证用户，关取出用户所需要信息
 
@@ -112,6 +112,10 @@ namespace ProductReleaseSystem.Controllers
                 if (username == null || password == null)
                 {
                     return new JsonResult(new { result = 0, message = $"账号或密码错误！" });
+                }
+                else if (verificationcode == verification)
+                {
+                    return new JsonResult(new { result = 0, message = $"验证码错误！" });
                 }
                 else
                 {
@@ -157,13 +161,14 @@ namespace ProductReleaseSystem.Controllers
         {
             return View();
         }
-
+       public static string verification = "";
 
         /// <summary>
         /// 图形验证码
         /// </summary>
         /// <param name="_vierificationCodeServices"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet("validatecode")]
         public IActionResult ValidateCode([FromServices]VierificationCodeServices _vierificationCodeServices)
         {
@@ -171,6 +176,7 @@ namespace ProductReleaseSystem.Controllers
             MemoryStream ms = _vierificationCodeServices.Create(out code);
             HttpContext.Session.SetString("LoginValidateCode", code);
             Response.Body.Dispose();
+            verification = code;
             return File(ms.ToArray(), @"images/png");
         }
 
@@ -678,7 +684,7 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="id">人员ID</param>
         /// <returns></returns>
         [HttpPost("deleterp")]
-        public IActionResult DeleteRp(int id,int versionID)
+        public IActionResult DeleteRp(int id, int versionID)
         {
             if (_IUploadFile.deleteRp(id, versionID))
             {
@@ -734,7 +740,7 @@ namespace ProductReleaseSystem.Controllers
                 {
                     if (id != null)
                     {
-                        _IUploadFile.UpdatePersonType(id,versionID);
+                        _IUploadFile.UpdatePersonType(id, versionID);
 
                     }
                 }
@@ -865,7 +871,7 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="description">版本描述</param>
         /// <returns></returns>
         [HttpPost("updateversion")]
-        public IActionResult updateVersion(int id,string versionNumber,DateTime releaseTime,string publisher,string description)
+        public IActionResult updateVersion(int id, string versionNumber, DateTime releaseTime, string publisher, string description)
         {
             var version = new Versions();
             version.Id = id;
@@ -890,9 +896,10 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="id">产品ID</param>
         /// <returns></returns>
         [HttpPost("deleteproduct")]
-        public IActionResult DeleteProduct(int id,int versionId)
+        public IActionResult DeleteProduct(int id, int versionId)
         {
-            try{
+            try
+            {
                 if (_IUploadFile.deleteProduct(id))
                 {
                     return new JsonResult(new { result = 1, message = "移除成功" });
@@ -929,7 +936,7 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="description">产品描述</param>
         /// <returns></returns>
         [HttpPost("updateproduct")]
-        public IActionResult updateProduct(int id,string productName,string description)
+        public IActionResult updateProduct(int id, string productName, string description)
         {
             var product = new Products();
             product.Id = id;

@@ -20,8 +20,8 @@
                     <span class="span1">密&nbsp;码</span>
                     <input type="password" name="password" id="userpassword" placeholder="请输入密码" onkeydown="KeyDown()"><br>
                     <span class="span1">验证码</span>
-                    <input type="text" value="">
-                    <img id="imgVerify" src="/validatecode" alt="看不清？点击更换" onclick="this.src = this.src + '?'" style=" position:absolute; margin:20px 0 0 -73px;" />
+                    <input type="text" name="verificationcode" id="verificationcode" placeholder="请输入验证码" maxlength="4">
+                    <img id="imgVerify" src="/validatecode" alt="看不清？点击更换" title="看不清？点击更换" onclick="this.src = this.src + '?'" style=" position:absolute; margin:20px 0 0 -73px; cursor:pointer;" />
                 </form>
                 <div class="inp">
                     <input type="checkbox" value="" name="" id="i1" checked>
@@ -41,38 +41,6 @@
             <div class="footer">Copyright 2017 大连医卫 New technology research center</div>
         </div>
     </div>
-    @*<form method="post" action="/login" name="form1">
-            <div class="container-fuild">
-                <div class="login">
-                    <div class="logo">
-                        欢迎登录产品发布系统
-                    </div>
-                    <div class="main">
-                        <div id="user-name">
-                            <span>用户名：</span>
-                            <input type="text" name="username" id="username" onkeydown="KeyDown()">
-                        </div>
-                        <div id="user-password">
-                            <span>密&nbsp;&nbsp;&nbsp;码：</span>
-                            <input type="password" name="password" id="userpassword" onkeydown="KeyDown()">
-                        </div>
-                        <div id="user-error">
-                            <p id="usererror">
-                                @if (ViewBag.error != null)
-                                {
-                                    <font color="red">@ViewBag.error</font>
-                                }
-                            </p>
-                        </div>
-                        <input type="hidden" value="@ViewBag.returnUrl" name="returnUrl" />
-                        <div class="sure-btn">
-                            <button>重置</button>
-                            <button id="btnsubmit" type="submit" name="btnsubmit" onclick="ValueCheck()">登录</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>*@
 </body>
 </html>
 <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -101,7 +69,8 @@
             url: '/login',
             data: {
                 username: $('#username').val(),
-                password: $('#userpassword').val()
+                password: $('#userpassword').val(),
+                verificationcode: $('#verificationcode').val()
             },
             success: function (dataBack) {
                 if (dataBack.result == 1) {
@@ -115,6 +84,17 @@
             }
         });
     }
+    //$("#checkbox-id").is(':checked').click(function () { 
+    //    $ajax({
+    //        type: 'GET',
+    //        url: '/denglu',
+    //        data:{
+
+    //        },
+    //        success: function (dataBack) { 
+    //        }
+    //    });
+    //});
 
     //$("#btnsubmit").click(function () {
     //    $.ajax({
@@ -137,7 +117,7 @@
         if (event.keyCode == 13) {
             event.returnValue = false;
             event.cancel = true;
-            form1.btnsubmit.click();
+            //div.button.click();
         }
     }
 
