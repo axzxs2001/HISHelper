@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using ProductReleaseSystem.Models.IRepository;
 using Newtonsoft.Json;
 using ProductReleaseSystem.ProductRelease;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -31,6 +32,7 @@ namespace ProductReleaseSystem.Controllers
         /// 在研项目主页
         /// </summary>
         /// <returns></returns>
+        [Authorize(Roles = "管理员,开发负责人,开发人员")]
         [HttpGet("inresearch")]
         public IActionResult InResearch()
         {
@@ -43,6 +45,7 @@ namespace ProductReleaseSystem.Controllers
         /// 在研项目查看主页
         /// </summary>
         /// <returns></returns>
+        [Authorize(Roles = "管理员,开发负责人,开发人员,实施负责人,实施人员,产品人员")]
         [HttpGet("inresearchdown")]
         public IActionResult InResearchDownLoad()
         {

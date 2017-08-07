@@ -1,0 +1,229 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>需求发布</title>
+    <link href="~/css/register_index.css" rel="stylesheet" />
+</head>
+<body>
+    <!--上-->
+    <div id="top">
+        <div class="green">
+            <div class="wrap">
+                <ul class="ulz lt">
+                    <li class="cp lt">产品需求发布</li>
+                </ul>
+                <ul class="uly rt">
+                    <!--<li class="tp rt"><img src="img/a_03.png" alt=""></li>-->
+                    <li class="sub rt"><p>subjec：pc</p><p> Publisher：@User.Identity.Name</p><p class="shijiandata">date：2017/7/31</p></li>
+                    <li class="x rt"><span></span></li>
+                    <li class="wx rt">微信公众号 <p>version:1.0.0.0</p> </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    <!--左四个钮-->
+    <div class="hahaha">
+        <ul>
+            <li><a href="#"><img src="~/images/Demand/a_07.png" /></a></li>
+            <li><a href="#"><img src="~/images/Demand/a_13.png" /></a></li>
+            <li><a href="#"><img src="~/images/Demand/a_15.png" /></a></li>
+            <li><a href="#"><img src="~/images/Demand/a_21.png" /></a></li>
+        </ul>
+    </div>
+    <!--中-->
+    <div id="content">
+        <div class="msn">
+            <div class="pc_top">
+                <div class="lt name">
+                    <div class="black">
+                        <span>基本信息</span>
+                    </div>
+                    <p><img src="~/images/Demand/1.png" /></p>
+                    <form action="" class="f_one">
+                        <ul>
+                            <li>
+                                <img src="~/images/Demand/a_31.png" class="im" alt="" /><span class="span_1">院方名称&nbsp;<a></a></span>
+                                <input type="text" name="" class="inpp" placeholder="请输入医院名称">
+                            </li>
+                            <li>
+                                <img src="~/images/Demand/a_17.png"class="im" alt="" /><span class="span_1">&nbsp; 姓&nbsp;&nbsp;&nbsp;&nbsp;名&nbsp;&nbsp; <a></a></span>
+                                <input type="text" name="" class="inpp" placeholder="请输入负责人姓名">
+                            </li>
+                            <li>
+                                <img src="~/images/Demand/a_24.png"  class="im" alt=""/><span class="span_1">&nbsp;联系方式&nbsp;<a></a></span>
+                                <input type="text" name="" class="inpp" placeholder="请输入负责人联系方式">
+                            </li>
+                            @*<li>
+                                <img src="~/images/Demand/a_28.png"  class="im" alt=""/><span class="span_1">电子邮件<a></a></span>
+                                <input type="text" name="" class="inpp" placeholder="请输入电子邮件">
+                            </li>*@
+                            
+                        </ul>
+                    </form>
+                </div>
+                <div class="rt ">
+                    <img src="~/images/Demand/a_11.png"  alt="" class="a_11"/>
+                </div>
+            </div>
+            <div class="pc_bot">
+
+                <div class="name rt nas">
+                    <div class="black la ">
+                        <span>需求信息</span>
+                        <p><img src="~/images/Demand/2.png"class="pp" alt="" /></p>
+                    </div>
+
+                    <form action="" class="f_one">
+                        <ul class="ulyy">
+                            <li>
+                                <img src="~/images/Demand/a_39.png"  class="im" alt=""/> <span class="span_1">需求名称<a></a></span>
+                                <input type="text" name="" class="inpp" placeholder="请输入需求名称">
+                            </li>
+                            <li>
+                                <img src="~/images/Demand/a_43.png" class="im" alt="" /><span class="span_1">优&nbsp;&nbsp;先&nbsp; 级 <a></a></span>
+                                <!--<input type="text" name="" class="inpp" value="必填：请选择需求优先级">-->
+                                <select name="" id="" class="inpps">
+                                    <option value="" style="color:#bfbebe">请选择优先级</option>
+                                    <option value="">最高级</option>
+                                    <option value="">中等级</option>
+                                    <option value="">最低级</option>
+                                </select>
+                            </li>
+                            <li>
+                                <img src="~/images/Demand/a_46.png"  class="im" alt=""/><span class="span_1">交付部门 <a></a></span>
+                                <!--<input type="text" name="" class="inpp" value="必填：请选择交付的部门">-->
+                                <select name="" id="bumen" class="inpps">
+                                    <option value="" style="color:#bfbebe">请选择交付的部门</option>
+                                    @*<option value="">必填：请选择交付的部门</option>
+                                    <option value="">必填：请选择交付的部门</option>*@
+                                </select>
+                            </li>
+                            @*<li>
+                                <img src="~/images/Demand/a_48.png"  class="im" alt=""/><span class="span_1">发布时间 <a></a></span>
+                                <input type="date" name="" class="inpp">
+                                <select name="" id="" class="inpps">
+                                    <option value="">必填：请选择需求优先级</option>
+                                    <option value="">必填：请选择需求优先级</option>
+                                    <option value="">必填：请选择需求优先级</option>
+                                </select>
+                            </li>*@
+                        </ul>
+
+                    </form>
+
+                </div>
+                <div class="cofes rt">
+                    <img src="~/images/Demand/a_36.png" alt="" class="a_36" />
+                </div>
+            </div>
+            <div class="foot">
+                <p>请在下方输入需求详细信息（ 慎重！）</p>
+                <!--百度编辑器-->
+                <div class="bd">
+                    <script id="editor" type="text/plain" style="width:100%; height:350px;">
+                    </script>
+                </div>
+                <!--button-->
+                <div class="buttt rt">
+                    <img src="~/images/Demand/a_67.png" />
+                    <img src="~/images/Demand/a_69.png" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="haha">
+        <ul>
+            <li class="def"><a href="#"><img src="~/images/Demand/a_60.png" /></a></li>
+            <li class="abc"><a href="#"><img src="~/images/Demand/a_55.png" /></a></li>
+        </ul>
+    </div>
+    <!--下-->
+    <div id="sos">
+        <ul class="">
+            <li class="lt"><a href="#">帮助中心</a></li>
+            <li class="lt"><a href="#">关于我们</a></li>
+            <li class="lt"><a href="#">注意事项</a></li>
+        </ul>
+        <p> Copyright 2017-08-01 大连医卫 New technology research center</p>
+
+    </div>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/ueditor/ueditor.config.js"></script>
+    <script src="~/lib/ueditor/ueditor.all.js"></script>
+    <script src="~/lib/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script src="~/lib/vue/dist/vue.js"></script>
+    <script src="~/layer/layer.js"></script>
+    <script>
+        $(function () {
+            datetime();
+            GetSelect();
+            createEditor();
+        });
+        //#region  百度编辑器
+        //创建编辑器
+        function createEditor() {
+            UE.getEditor('editor');
+            UE.getEditor('editor').addListener('ready', function (editor) {
+            });
+        }
+        //#endregion
+
+        //#region 获取当前时间
+        var date = (new Date()).getTime();
+        function datetime() {
+            var now = new Date();
+            var year = now.getFullYear();
+            var month = now.getMonth();
+            var day = now.getDate();
+            $(".shijiandata").html("date：" + year + "/" + (month+1) + "/" + day + "");
+        }
+         //#endregion
+
+
+        //动态添加部门
+        function GetSelect() {
+            var str = '';
+            $.ajax({
+                type: 'POST',
+                url: '/departments',
+                data: {},
+                success: function (dataBack) {
+                    str += "请选择交付部门";
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<option value="' + item["id"] + '">' + item["departmentname"] + '</option>';
+                    });
+                    $('#bumen').append(str);
+                }
+            });
+        }
+
+        //var adddemand = new Vue({
+        //    savaDemand: function () { 
+        //        $.ajax({
+        //            type: "POST",
+        //            url: '/adddemand',
+        //            data: { id: num },
+        //            success: function (dataBack) {
+        //                if (dataBack.result == 1) { 
+        //                    layer.msg(dataBack.message, { icon: 1 });
+        //                }
+
+        //            },
+        //            error: function (error) {
+        //                layer.msg(dataBack.message, { icon: 2 });
+
+        //            }
+        //        });
+        //    }
+        //})
+
+
+    </script>
+</body>
+</html>

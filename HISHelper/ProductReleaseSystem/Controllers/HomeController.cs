@@ -19,7 +19,7 @@ namespace ProductReleaseSystem.Controllers
     /// <summary>
     /// 本Controller允许admin和user两种角色可以访问
     /// </summary>
-    [Authorize(Roles = "1,2,3")]    //	Authorize 授权，批准，委托    Roles 角色
+    //	Authorize 授权，批准，委托    Roles 角色
     public class HomeController : Controller
     {
         IUploadFile _IUploadFile;
@@ -29,6 +29,7 @@ namespace ProductReleaseSystem.Controllers
             _IUploadFile = iUploadFile;
         }
         #region 原始页面
+        [Authorize(Roles = "管理员,开发负责人,实施负责人,开发人员,实施人员,产品人员")]
         public IActionResult Index()
         {
             return View();
@@ -67,7 +68,7 @@ namespace ProductReleaseSystem.Controllers
         /// 说明文档
         /// </summary>
         /// <returns></returns>
-        //[Authorize("1,2,3")]
+        [AllowAnonymous]
         public IActionResult Documentation()
         {
             return View();
@@ -125,7 +126,7 @@ namespace ProductReleaseSystem.Controllers
                         //登录成功后，设置声明
                         var claims = new Claim[] {
                       new Claim(ClaimTypes.UserData,username),
-                      new Claim(ClaimTypes.Role,list[0]["Character"].ToString()),
+                      new Claim(ClaimTypes.Role,list[0]["Authority"]),
                       new Claim(ClaimTypes.Name,list[0]["UserName"].ToString()),
                       new Claim(ClaimTypes.Sid,list[0]["ID"].ToString())
                         };
@@ -185,7 +186,7 @@ namespace ProductReleaseSystem.Controllers
         /// 人员维护
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles = "3")]
+        [Authorize(Roles = "管理员,开发负责人,开发人员")]
         [HttpGet("information")]
         public IActionResult InformationMaintenance()
         {
@@ -594,7 +595,7 @@ namespace ProductReleaseSystem.Controllers
         /// 上传主页
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles = "2,3")]
+        [Authorize(Roles = "管理员,开发负责人,开发人员")]
         [HttpGet("send")]
         public IActionResult UpFile()
         {

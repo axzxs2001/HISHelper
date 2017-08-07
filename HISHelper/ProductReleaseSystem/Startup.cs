@@ -61,6 +61,7 @@ namespace ProductReleaseSystem
             services.AddTransient<IUploadFile, UploadFile>();
             //在研项目
             services.AddTransient<IResearch,Research>();
+            services.AddTransient<IDemand,Demand>();
 
             services.AddMvc();
 

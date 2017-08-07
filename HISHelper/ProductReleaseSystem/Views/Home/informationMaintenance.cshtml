@@ -34,13 +34,13 @@
                             <label for="user-password">密&nbsp;&nbsp;&nbsp;码:</label>
                             <input type="password" class="form-control" id="user-password" v-model="userpassword" placeholder="此处输入密码">
                         </div>
-                        <label class="radio-inline">
-                            <input type="radio" name="eng" id="implementation-eng" value="1" checked>实施工程师
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="eng" id="developer-eng" value="2">开发工程师
-                        </label>
-                        <button type="button" class="btn btn-info col-md-offset-2" v-on:click="savaUser()">添&nbsp;&nbsp;&nbsp;加</button>
+                        <div class="form-group col-md-4">
+                            <label for="Authority-name">权限：</label>
+                            <select class="form-control"id="authoritytable-addusers-name">
+                                <option value="0">--请选择权限--</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-info col-md-offset-11" v-on:click="savaUser()">添&nbsp;&nbsp;&nbsp;加</button>
                     </form>
                     <h3>用户列表：</h3>
                     <div class="user-list" id="user-div">
@@ -71,22 +71,19 @@
                             <div class="modal-body" id="modeluserbody">
                                 <div class="row" style="margin-top:10px;">
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <label>用户名：</label>
                                         <input type="text" class="form-control" id="username" name="username" v-model="userMenu.username" placeholder="用户名">
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <label>密码：</label>
                                         <input type="text" class="form-control" id="password" name="password" v-model="userMenu.password" placeholder="密码">
                                     </div>
-                                    <div class="mtceng form-group col-md-6 developer-news" id="mtceng">
-                                        <label>权限选择：</label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="mtceng" id="implementation-mtceng" value="1" checked>实施工程师
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="mtceng" id="developer-mtceng" value="2">开发工程师
-                                        </label>
+                                    <div class="form-group col-md-4">
+                                        <label for="Authority-name">权限：</label>
+                                        <select class="form-control "id="authoritytable-add-name">
+                                            <option v-bind:value="userMenu.authority">{{userMenu.authority}}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -184,7 +181,7 @@
                                         <label for="department-person-name">部门：</label>
                                         <input style="display:none" v-model="developerMenu.departmentname" />
                                         <select class="form-control" id="department-person-name">
-                                            <option id="selectdepartment" v-bind:value="developerMenu.departmentid">{{developerMenu.departmentname}}</option>
+                                            <option v-bind:value="developerMenu.departmentid">{{developerMenu.departmentname}}</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4">
@@ -195,7 +192,7 @@
                                         <label for="authority-person-name">权限：</label>
                                         <input style="display:none" v-model="developerMenu.authority" />
                                         <select class="form-control" id="authority-person-name">
-                                            <option id="selectdepartment" v-bind:value="developerMenu.authority">{{developerMenu.authority}}</option>
+                                            <option v-bind:value="developerMenu.authority">{{developerMenu.authority}}</option>
                                         </select>
                                     </div>
                                     <div class="sex2 form-group col-md-4 developer-news" id="sex2">
@@ -323,7 +320,7 @@
             <td>{{user.id}}</td>
             <td>{{user.username}}</td>
             <td>{{user.password}}</td>
-            <td>{{user.character}}</td>
+            <td>{{user.authority}}</td>
             <td>
                 <button class="btn btn-xs btn-primary" style="margin-bottom:-5px;margin-top:-5px;" data-toggle="modal" data-target="#ModiyUsers" v-on:click="modifyUser()">
                     修改
@@ -566,7 +563,7 @@
                         $.post("/adduser", {
                             UserName: this.username,
                             PassWord: this.userpassword,
-                            Character: $('#user input[type="radio"]:checked').val()
+                            Character: $("#authoritytable-addusers-name").find("option:selected").val()
                         }, function (dataBack) {
                             if (dataBack.result == 0) {
                                 layer.msg(dataBack.message, { icon: 2 });
@@ -575,9 +572,7 @@
                                 GetUser();
                                 $("#user-name").val("");
                                 $("#user-password").val("");
-                                $('input[type="radio"][name="eng"][value="1"]').attr("checked", 'checked');
                             }
-
                         });
                     }
                 }
@@ -603,14 +598,7 @@
         //用户赋值修改数据
         var modiyUserVue;
         function showModifyUser(user) {
-            if (user.character == 2) {
-                $("#developer-mtceng").attr("checked", true);
-                $("#developer-mtceng").prop("checked", true);
-            }
-            else {
-                $("#implementation-mtceng").attr("checked", true);
-                $("#implementation-mtceng").prop("checked", true);
-            }
+           
             if (modiyUserVue == null) {
                 modiyUserVue = new Vue({
                     el: "#modeluserbody",
@@ -630,7 +618,7 @@
                     id: modiyUserVue.userMenu.id,
                     UserName: modiyUserVue.userMenu.username,
                     PassWord: modiyUserVue.userMenu.password,
-                    Character: $('#mtceng input[type="radio"]:checked').val()
+                    Character: $("#authoritytable-add-name").find("option:selected").val()
 
                 }, function (dataBack) {
                     if (dataBack.result == 0) {
@@ -760,6 +748,8 @@
                     });
                     $('#authoritytable-name').append(str);
                     $('#authority-person-name').append(str);
+                    $('#authoritytable-addusers-name').append(str);
+                    $('#authoritytable-add-name').append(str);
                     
                 }
             });

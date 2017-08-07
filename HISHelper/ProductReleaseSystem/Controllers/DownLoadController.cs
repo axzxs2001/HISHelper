@@ -29,7 +29,7 @@ namespace ProductReleaseSystem.Controllers
         /// 下载页面入口
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles = "1,2,3")]
+        [Authorize(Roles = "管理员,开发负责人,开发人员,实施负责人,实施人员")]
         [HttpGet("download")]
         public IActionResult DownLoad()
         {

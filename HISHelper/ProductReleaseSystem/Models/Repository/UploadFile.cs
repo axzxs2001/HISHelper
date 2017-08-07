@@ -284,11 +284,13 @@ WHERE   ID = @id";
         /// <returns></returns>
         public List<Dictionary<string, dynamic>> QueryUsers()
         {
-            var sql = @"SELECT  ID ,
+            var sql = @"SELECT  a.ID ,
         UserName ,
         PassWord ,
-        Character
-FROM    dbo.Users";
+        Authority
+FROM    dbo.Users a
+JOIN AuthorityTable b
+on a.Character =b.ID";
             return _dbHelper.GetList(sql);
         }
 
@@ -313,11 +315,13 @@ FROM    dbo.Users where UserName=@username";
         /// <returns></returns>
         public List<Dictionary<string, dynamic>> SelectUsers(string username, string password)
         {
-            var sql = @"SELECT  ID ,
+            var sql = @"SELECT  a.ID ,
         UserName ,
         PassWord ,
-        Character
-FROM    dbo.Users
+        Authority
+FROM    dbo.Users a
+JOIN AuthorityTable b
+ON a.Character =b.ID
 where UserName=@username and PassWord=@password";
             var par1 = new SqlParameter() { ParameterName = "@username", SqlDbType = System.Data.SqlDbType.VarChar, Value = username };
             var par2 = new SqlParameter() { ParameterName = "@password", SqlDbType = System.Data.SqlDbType.VarChar, Value = password };
