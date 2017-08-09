@@ -142,14 +142,14 @@
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
     <script type="text/javascript">
-            var name = @User.Identity.Name;
+            @*var name =@User.Identity.Name;*@
             var ID;
             var Character;
             function UserInsert() {
-               $.ajax({
-            type: "POST",
-            url: "/insertiser",
-            data: { name:name},
+                $.ajax({
+                    type: "POST",
+                    url: "/insertiser",
+                    data: { name: $('#usermz').text() },
             success: function (dataBack) {
                 $(dataBack.data).each(function (index, item) {
                     $("#InsertUsers").modal('show');

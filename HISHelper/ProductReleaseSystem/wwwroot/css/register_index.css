@@ -1,4 +1,4 @@
- body,ul,li,a,div,dd,dt,td,th,u,em,i,span,h1,h2,h3,h4,h5,h6{
+﻿ body,ul,li,a,div,dd,dt,td,th,u,em,i,span,h1,h2,h3,h4,h5,h6{
      margin: 0;
      padding:0;
      list-style:none ;
@@ -180,7 +180,7 @@ body{
     text-align: center;
 }
 
-/***********************01*********************************/
+/***********************02*********************************/
 
 #top{
     background: #f1f1f1;
@@ -226,7 +226,7 @@ body{
      font-weight: 500;
      margin-left: -136px;
      position: relative;
-     top: 0;
+     top: 17px;
      left: 170px;
  }
  /*.green .uly .tp{*/
@@ -238,22 +238,46 @@ body{
      background: #293335;
      margin:0 auto;
      width: 1244px;
-     margin-top: -370px;
+     margin-top: 40px;
      overflow:auto;
  }
 
- .hahaha ul li img{
-     margin-top:66px;
-     margin-left: 225px;
+ .hahaha ul li.a_p {
+     /*margin-top:66px;*/
+     /*margin-left: 225px;*/
+     position: fixed;
+     left:210px;
+     top:160px;
+ }
+ .hahaha ul li.b_p {
+     /*margin-top:66px;*/
+     /*margin-left: 225px;*/
+     position: fixed;
+     left:210px;
+     top:260px;
+ }
+ .hahaha ul li.c_p {
+     /*margin-top:66px;*/
+     /*margin-left: 225px;*/
+     position: fixed;
+     left:210px;
+     top:360px;
+ }
+ .hahaha ul li.d_p {
+     /*margin-top:66px;*/
+     /*margin-left: 225px;*/
+     position: fixed;
+     left:210px;
+     top:460px;
  }
  .haha ul .abc {
      position: fixed;
-       top:370px;
+       top:730px;
      left: 1600px;
    }
  .haha ul .def{
      position: fixed;
-     top:470px;
+     top:830px;
      left: 1600px;
  }
 .msn{
@@ -288,7 +312,7 @@ body{
 
  .msn .pc_top .name .f_one ul li .im{
     /*margin-left: -50px;*/
-     margin-top: 9px;
+     margin-top: -12px;
  }
  .msn .pc_top .name .f_one ul li .span_1{
      vertical-align: super;
@@ -304,12 +328,12 @@ body{
  }
  .msn .pc_top .name .f_one ul li input{
      width: 230px;
-     height: 36px;
+     height:44px;
      background: #f3f2f2;
      vertical-align: super;
      border: none;
      outline: none;
-     color: #000;
+     color: #bfbebe;
      /*margin-left: 120px;*/
  }
 
@@ -330,12 +354,12 @@ body{
 }
 .name  p img{
     position: relative;
-    top: -25px;
+    top: -26px;
     left: -10px;
 }
  /*kafei*/
  .msn .pc_bot{
-     width: 101%;
+     width: 102%;
      height: 430px;
      /*border: 1px solid red;*/
      /*margin-top:120px;*/
@@ -360,7 +384,7 @@ body{
 
  .msn .pc_bot .name .f_one ul li .im{
      margin-left: 20px;
-     margin-top: 9px;
+     margin-top: -10px;
  }
  .msn .pc_bot .name .f_one ul li .span_1{
      vertical-align: super;
@@ -397,11 +421,11 @@ body{
      background: #000;
      width: 200px;
      height: 40px;
-     margin: 20px 447px;
+     margin: 20px 453px;
  }
  .nas  p img.pp{
      position:relative;
-     top: -25px;
+     top: -6px;
      left: 190px;
  }
 
@@ -425,10 +449,6 @@ body{
      outline: none;
      color: #000;
  }
-
-
-
-
 /*foot*/
  .foot{
      margin-top: 110px;
@@ -448,42 +468,95 @@ body{
 
  #sos{
      width: 100%;
-     height: 200px;
+     height: 144px;
      background: #293335;
      margin-top: 40px;
+     overflow: hidden;
+     text-align:center;
  }
- #sos ul{
-    width: 480px;
-     margin: 0 auto;
+
+ #sos ul.uubb{
+     display:inline-block;
+     text-align:center;
      line-height: 80px;
  }
  #sos ul li a{
      margin:  0 auto;
      text-align: center;
      display: inline-block;
-     color: #fff;
-     font-size: 20px;
-     padding: 0 30px;
+     color: #cacaca;
+     font-size: 16px;
+     padding: 0 15px;
+     text-decoration: none;
  }
-#sos p{
-    color: #fff;
-    font-size: 20px;
-    position: absolute;
-    left:640px;
+#sos .pp_1{
+    color:#cacaca;
+    font-size:16px;
+    text-align:center;
+}
+#sos .pp_2{
+    text-align:center;
 }
 
 /*适配*/
 
  @media  (max-width:1800px){
-     .hahaha ul li img {
-         margin-top: 66px;
-         margin-left: 180px;
+     /*.hahaha ul li img {*/
+         /*margin-top: 66px;*/
+         /*margin-left: 180px;*/
+     /*}*/
+     .hahaha ul li.a_p{
+         left:160px;
+         top: 160px;
      }
+     .hahaha ul li.b_p{
+         left:160px;
+         top: 260px;
+     }
+     .hahaha ul li.c_p{
+         left:160px;
+         top: 360px;
+     }
+     .hahaha ul li.d_p{
+         left:160px;
+         top: 460px;
+     }
+     .whyy .uis{
+         margin-right: 193px !important;
+     }
+     .green .uly .shd{
+         width: 530px !important;
+         margin-right: -450px !important;
+     }
+
  }
 @media (max-width:1680px) {
-    .hahaha ul li img {
-        margin-top: 66px;
-        margin-left: 120px;
+    /*.hahaha ul li img {*/
+        /*margin-top: 66px;*/
+        /*margin-left: 120px;*/
+    /*}*/
+    .whyy .uis{
+        margin-right: 170px !important;
+    }
+    .green .uly .shd{
+        width: 530px !important;
+        margin-right: -220px !important;
+    }
+    .hahaha ul li.a_p{
+        left: 100px;
+        top: 162px;
+    }
+    .hahaha ul li.b_p{
+        left: 100px;
+        top: 262px;
+    }
+    .hahaha ul li.c_p{
+        left: 100px;
+        top: 362px;
+    }
+    .hahaha ul li.d_p{
+        left: 100px;
+        top: 462px;
     }
 
     .def {
@@ -499,8 +572,6 @@ body{
     #sos p{
         color: #fff;
         font-size: 20px;
-        position: absolute;
-        left: 500px;
     }
     .green .ulz li{
         margin-left: 0 !important;
@@ -508,9 +579,32 @@ body{
 }
 
  @media (max-width:1600px) {
-     .hahaha ul li img {
-         margin-top: 66px;
-         margin-left: 80px;
+     /*.hahaha ul li img {*/
+         /*margin-top: 66px;*/
+         /*margin-left: 80px;*/
+     /*}*/
+     .whyy .uis{
+         margin-right: 155px !important;
+     }
+     .green .uly .shd{
+         width: 530px !important;
+         margin-right: -200px !important;
+         }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
      }
 
      .def {
@@ -526,8 +620,6 @@ body{
      #sos p{
          color: #fff;
          font-size: 20px;
-         position: absolute;
-         left: 450px;
      }
      .green .uly .sub{
          position: relative;
@@ -549,9 +641,39 @@ body{
      .green .ulz li{
          margin-left: 20px !important;
      }
-     .hahaha ul li img {
-         margin-top: 66px;
-         margin-left: 80px;
+     /*.hahaha ul li img {*/
+         /*margin-top: 66px;*/
+         /*margin-left: 80px;*/
+     /*}*/
+     .whyy .uis{
+         margin-right: 147px !important;
+     }
+     .green .uly .shd .texxx{
+        width: 310px !important;
+     }
+     .green .uly .shd{
+         width:450px !important;
+         margin-right: -160px !important;
+     }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
      }
 
      .def {
@@ -567,8 +689,6 @@ body{
      #sos p{
          color: #fff;
          font-size: 20px;
-         position: absolute;
-         left: 450px;
      }
      .green .uly .sub{
          position: relative;
@@ -589,11 +709,39 @@ body{
      .green .ulz li{
          margin-left: 78px !important;
      }
-     .hahaha ul li img {
-         margin-top: 66px;
-         margin-left: 80px;
+     .whyy .uis{
+         margin-right: 130px !important;
      }
-
+     /*.hahaha ul li img {*/
+         /*margin-top: 66px;*/
+         /*margin-left: 80px;*/
+     /*}*/
+     .whyy .uis{
+         margin-right: 132px !important;
+     }
+     .green .uly .shd .texxx{
+         width: 310px !important;
+     }
+     .green .uly .shd{
+         width:450px !important;
+         margin-right: -70px !important;
+     }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
+     }
      .def {
          position: fixed !important;
          top: 470px !important;
@@ -607,13 +755,11 @@ body{
      #sos p{
          color: #fff;
          font-size: 20px;
-         position: absolute;
-         left: 450px;
      }
      .green .uly .sub{
          position: relative;
          top: 0;
-         left: 0px;
+         left: 0;
      }
      .green .uly  .wx{
          margin-right: -130px;
@@ -630,9 +776,33 @@ body{
      .green .ulz li{
          margin-left: 130px !important;
      }
-     .hahaha ul li img {
-         margin-top: 66px;
-         margin-left: 80px;
+
+     /*.hahaha ul li img {*/
+         /*margin-top: 66px;*/
+         /*margin-left: 80px;*/
+     /*}*/
+     .green .uly .shd{
+         width: 450px !important;
+         margin-right: 0 !important;
+     }
+     .green .uly .shd .texxx{
+         width: 310px !important;
+     }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
      }
 
      .def {
@@ -648,8 +818,6 @@ body{
      #sos p{
          color: #fff;
          font-size: 20px;
-         position: absolute;
-         left: 370px;
      }
      .green .uly .sub{
          position: relative;
@@ -694,6 +862,11 @@ body{
          margin-left: 20px;
      }
  }
+ /*.green .uly .shd{*/
+     /*width: 530px !important;*/
+     /*margin-right:-70px !important;*/
+ /*}*/
+
 
  /*@media (max-width:1395px){*/
      /*.la{*/
@@ -709,10 +882,29 @@ body{
      .green .ulz li{
          margin-left: 130px !important;
      }
- .hahaha ul li img {
-     margin-top: 66px;
-     margin-left: 80px;
- }
+ /*.hahaha ul li img {*/
+     /*margin-top: 66px;*/
+     /*margin-left: 80px;*/
+ /*}*/
+     .whyy .uis{
+         margin-right: 114px !important;
+     }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
+     }
 
  .def {
      position: fixed !important;
@@ -727,8 +919,6 @@ body{
  #sos p{
      color: #fff;
      font-size: 20px;
-     position: absolute;
-     left: 370px;
  }
  .green .uly .sub{
      position: relative;
@@ -772,26 +962,51 @@ body{
 
 }
  @media (max-width:1280px){
-     .hahaha ul li img {
-         margin-top: 66px;
-         margin-left: 80px;
+     /*.hahaha ul li img {*/
+         /*margin-top: 66px;*/
+         /*margin-left: 80px;*/
+     /*}*/
+     .green .uly .shd{
+         width: 450px !important;
+         margin-right: 30px !important;
+     }
+     .green .uly .shd .texxx{
+         width: 310px !important;
+     }
+     .whyy .uis{
+         margin-right: 98px !important;
+     }
+
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
      }
 
      .def {
          position: fixed !important;
          top: 470px !important;
-         left: 1100px !important;
+         left: 1150px !important;
      }
      .haha ul .abc {
          position: fixed !important;
          top: 370px !important;
-         left: 1100px !important;
+         left: 1150px !important;
      }
      #sos p{
          color: #fff;
          font-size: 20px;
-         position: absolute;
-         left: 320px;
      }
      .green .uly .sub{
          position: relative;
@@ -845,16 +1060,41 @@ body{
  }
 
  @media (max-width:1240px){
-     .hahaha ul li {
-         position:fixed;
-         margin-top: 66px;
-         margin-left: 80px;
+     /*.hahaha ul li img {*/
+         /*margin-top: 66px;*/
+         /*margin-left: 80px;*/
+     /*}*/
+     .whyy .uis{
+         margin-right: 90px !important;
+     }
+     .green .uly .shd{
+         width: 450px !important;
+         margin-right: 44px !important;
+     }
+     .green .uly .shd .texxx{
+         width: 310px !important;
+     }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
      }
 
      .def {
          position: fixed !important;
          top: 470px !important;
-         left: 1500px !important;
+         left: 1100px !important;
      }
      .haha ul .abc {
          position: fixed !important;
@@ -864,8 +1104,6 @@ body{
      #sos p{
          color: #fff;
          font-size: 20px;
-         position: absolute;
-         left: 260px;
      }
      .green .uly .sub{
          position: relative;
@@ -940,9 +1178,35 @@ body{
 
  }
  @media (max-width:1180px){
-     .hahaha ul li img {
-         margin-top: 66px;
-         margin-left: 80px;
+     /*.hahaha ul li img {*/
+         /*margin-top: 66px;*/
+         /*margin-left: 80px;*/
+     /*}*/
+     .whyy .uis{
+         margin-right: 80px !important;
+     }
+     .green .uly .shd{
+         width: 380px !important;
+         margin-right: 96px !important;
+     }
+     .green .uly .shd .texxx{
+         width: 240px !important;
+     }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
      }
 
      .def {
@@ -958,8 +1222,6 @@ body{
      #sos p{
          color: #fff;
          font-size: 20px;
-         position: absolute;
-         left: 260px;
      }
      .green .uly .sub{
          position: relative;
@@ -1040,9 +1302,35 @@ body{
  }
 
  @media (max-width:1124px){
-     .hahaha ul li img {
-         margin-top: 66px;
-         margin-left: 80px;
+     /*.hahaha ul li img {*/
+         /*margin-top: 66px;*/
+         /*margin-left: 80px;*/
+     /*}*/
+     .whyy .uis{
+     margin-right: 73px !important;
+    }
+     .green .uly .shd{
+         width: 300px !important;
+         margin-right: 142px !important;
+     }
+     .green .uly .shd .texxx{
+         width: 170px !important;
+     }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
      }
 
      .def {
@@ -1058,8 +1346,6 @@ body{
      #sos p{
          color: #fff;
          font-size: 20px;
-         position: absolute;
-         left: 260px;
      }
      .green .uly .sub{
          position: relative;
@@ -1103,9 +1389,10 @@ body{
      }
      .msn .pc_bot .name .f_one li{
          width: 390px;
-     }    .msn .pc_bot .nas .f_one ul li .inpps {
-        width: 45%;
-    }
+     }
+     .msn .pc_bot .nas .f_one ul li .inpps{
+         width: 45%;
+     }
      .pc_bot .cofes{
          margin-right: -10px;
      }
@@ -1138,11 +1425,51 @@ body{
          padding: 0 0 0 10px;
      }
  }
-
+@media (max-width: 1060px) {
+    .whyy .uis{
+        margin-right: 60px !important;
+    }
+    .green .uly .shd{
+        width: 300px !important;
+        margin-right: 197px !important;
+    }
+    .green .uly .shd .texxx{
+        width: 170px !important;
+    }
+}
  @media (max-width: 1040px){
+     .whyy .uis{
+         margin-right:55px !important;
+     }
+     .green .uly .shd{
+         width: 320px !important;
+         margin-right: 218px !important;
+     }
+     .green .uly .shd .texxx{
+         width: 190px !important;
+     }
+     .msn{
+         width: 92% !important
+     }
     .la{
         margin: 20px 0 0 44%;
     }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
+     }
 
  .haha ul .def{
         left: 920px !important;
@@ -1152,7 +1479,153 @@ body{
      }
 
  }
+/*-----------------------------01-------------------------------------------*/
 
+ .green .uly .subb{
+     color: #fff;
+     margin-top: 17px;
+     font-size: 16px;
+     font-weight: 500;
+     /*margin-left: 45px;*/
+ }
+ .green .uly .shd{
+     width: 540px;
+     height: 40px;
+     background: #fff;
+     margin-right: -480px;
+     margin-top: 40px;
+ }
+ .green .uly .shd .texxx{
+    float: right;
+     width: 400px;
+     height: 40px;
+     border: none;
+     outline: none;
+     color: #b6b6b6;
+ }
+ .green .uly .shd .fdj{
+     padding: 12px 17px 8px 18px;
+ }
+ .green .uly .shd .bbbb{
+     display: inline-block;
+     border-right: 1px solid #a2a2a2;
+     width: 1px;
+     height: 20px;
+     vertical-align: middle;
+     padding-left:17px;;
+ }
+
+.why{
+    width: 100%;
+    background: #4f5d60;
+    height:50px;
+}
+.why ul li {
+    margin-left: 360px;
+}
+ .why ul li button{
+     margin-right: 50px;
+     margin-top:8px;
+     padding: 6px 30px;
+     font-size: 16px;
+ }
+ .btn-primary{
+     background-color: #293335;
+     border: none;
+ }
+ .btn-primary:hover{
+     background-color: #394447;
+ }
+ /*中间*/
+ .nav{
+     position: relative;
+     width: 250px;
+     background: #394447;
+     height:660px;
+     /*overflow: hidden;*/
+ }
+ /*.nav .nav_ui{*/
+     /*margin-left: 50px;*/
+ /*}*/
+ .nav .nav_ui li{
+    margin-top: 50px;
+     text-align: center;
+ }
+ .nav .nav_ui li a{
+     display: inline-block;
+     color: #fff;
+     font-size: 16px;
+     height: 35px;
+     line-height: 35px;
+     text-decoration: none;
+     width:100%;
+ }
+ .nav .nav_ui li a:hover{
+     background-color:#293335;
+ }
+ .right_content{
+    float: left;
+    width: calc(100% - 250px);
+    background: #293335;
+     height:660px;
+}
+
+.tabb{
+    width: 100%;
+    margin-top: 0;
+    margin-left: 0;
+    margin-bottom: 0;
+}
+
+ .table-hover>tbody>tr:hover{
+     background-color: #394447;
+ }
+.table thead tr th  span{
+    display: inline-block;
+    border-right: 1px solid #fff;
+    width: 1px;
+    height:18px;
+    vertical-align: middle;
+    margin: 0 10px;
+}
+ .table thead tr th input{
+     vertical-align: sub;
+ }
+ .table tr td input{
+     vertical-align: sub;
+     margin: 0 20px 0 -18px;
+ }
+ .table tr td{
+
+     cursor:pointer;
+    padding-left: 26px !important;
+ }
+ .table>thead>tr>th{
+     border-bottom: 2px solid #555;
+ }
+ .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+     border-top: 1px solid transparent;
+ }
+
+.whyy{
+    height: 40px;
+    background: #4f5d60;
+    line-height: 35px;
+
+}
+.whyy .uis{
+    margin-right: 212px;
+}
+ .whyy input{
+     width: 40px;
+     height:26px;
+     border: none;
+     outline: none;
+ }
+ .whyy ul li a{
+     display: inline-block;
+     padding:0 10px !important;
+    }
 
 
 

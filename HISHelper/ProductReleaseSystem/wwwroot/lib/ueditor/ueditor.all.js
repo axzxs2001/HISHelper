@@ -10170,7 +10170,6 @@
                                 })
                             }
                             break;
-                            break;
                         case 'span':
                             val = node.getAttr('id');
                             if (val && /^_baidu_bookmark_/i.test(val)) {
@@ -24576,6 +24575,7 @@
 
                     domUtils.on(iframe, 'load', callback);
                     form.action = utils.formatUrl(imageActionUrl + (imageActionUrl.indexOf('?') == -1 ? '?' : '&') + params);
+                 
                     form.submit();
                 });
 

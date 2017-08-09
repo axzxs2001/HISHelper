@@ -16,6 +16,8 @@ using ProductReleaseSystem.Data;
 using ProductReleaseSystem.Models.IRepository;
 using ProductReleaseSystem.Models.Repository;
 using ProductReleaseSystem.Models.Data;
+using UEditorNetCore;
+using Microsoft.AspNetCore.Http;
 
 namespace ProductReleaseSystem
 {
@@ -25,16 +27,16 @@ namespace ProductReleaseSystem
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)      //Startup构造，加载配置文件
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfigurationRoot Configuration { get; }     //配置文件实体
 
 
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)     //注入服务到容器中
         {
             //验证码类
             services.AddTransient<VierificationCodeServices, VierificationCodeServices>();
@@ -45,14 +47,15 @@ namespace ProductReleaseSystem
                 options.IdleTimeout = TimeSpan.FromSeconds(120000);
                 options.CookieHttpOnly = true;
             });
-            services.Configure<FormOptions>(x => {
+            services.Configure<FormOptions>(x =>
+            {
 
                 x.ValueLengthLimit = int.MaxValue;
 
                 x.MultipartBodyLengthLimit = int.MaxValue;
 
             });
-            
+
             //用于生成EF的ProductRelease数据库连接字符串
             var prconntion = Configuration.GetConnectionString("prConnectionStrings");
 
@@ -60,16 +63,26 @@ namespace ProductReleaseSystem
             //上传文件
             services.AddTransient<IUploadFile, UploadFile>();
             //在研项目
-            services.AddTransient<IResearch,Research>();
-            services.AddTransient<IDemand,Demand>();
+            services.AddTransient<IResearch, Research>();
+            services.AddTransient<IDemand, Demand>();
 
+            services.AddUEditorService()
+                .Add("test", context =>
+                 {
+                     context.Response.WriteAsync("from test action");
+                 })
+                .Add("test2", context =>
+                 {
+                     context.Response.WriteAsync("from test2 action");
+                 }
+                );
             services.AddMvc();
 
-            
+
 
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)   //添加中间件到Request请求管道中
         {
 
             // 验证权限 为权限添加中间件

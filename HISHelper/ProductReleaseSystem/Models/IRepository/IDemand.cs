@@ -61,7 +61,11 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="requestform">需求信息</param>
         /// <returns></returns>
         List<Dictionary<string, dynamic>> SelectDepartments();
-
+        /// <summary>
+        /// 通过姓名查询用户ID
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> InsertUsers(string name);
 
 
     }

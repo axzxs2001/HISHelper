@@ -74,13 +74,12 @@
     <Content Include="wwwroot\images\Images3.jpg" />
     <Content Include="wwwroot\images\Images4.jpg" />
     <Content Include="wwwroot\images\Login\1_03.png" />
-    <Content Include="wwwroot\images\Login\dlyw.jpg" />
     <Content Include="wwwroot\images\Login\logo.jpg" />
     <Content Include="wwwroot\images\main-logo.png" />
     <Content Include="wwwroot\images\product.png" />
     <Content Include="wwwroot\images\shishitupian.jpg" />
-    <Content Include="wwwroot\js\bootstrap.js" />
     <Content Include="wwwroot\js\jquery.datetimepicker.js" />
+    <Content Include="wwwroot\js\jquery.form.js" />
     <Content Include="wwwroot\lib\ueditor\dialogs\anchor\anchor.html" />
     <Content Include="wwwroot\lib\ueditor\dialogs\attachment\attachment.css" />
     <Content Include="wwwroot\lib\ueditor\dialogs\attachment\attachment.html" />
@@ -366,7 +365,9 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.2" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.4.1" />
+    <PackageReference Include="RestSharp.NetCore" Version="105.2.4-rc4-24214-01" />
     <PackageReference Include="System.Data.SqlClient" Version="4.4.0-preview1-25305-02" />
+    <PackageReference Include="UEditorNetCore" Version="1.1.0" />
     <PackageReference Include="ZKWeb.System.Drawing" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup>
