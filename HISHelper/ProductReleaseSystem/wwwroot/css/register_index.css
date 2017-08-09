@@ -333,7 +333,7 @@ body{
      vertical-align: super;
      border: none;
      outline: none;
-     color: #bfbebe;
+     color: #000;
      /*margin-left: 120px;*/
  }
 
@@ -366,9 +366,10 @@ body{
  }
 
  .msn .pc_bot .name{
-     width:62% ;
+     width:61% ;
      height: 427px;
      background: #4f5d60;
+     margin-right:17px;
  }
  .msn .pc_bot.name .f_one ul{
      margin-top: -20px;
@@ -405,7 +406,7 @@ body{
      vertical-align: super;
      border: none;
      outline: none;
-     color: #bfbebe;
+     color: #000;
      /*margin-left: 120px;*/
  }
  .la span{
@@ -421,7 +422,7 @@ body{
      background: #000;
      width: 200px;
      height: 40px;
-     margin: 20px 453px;
+     margin: 20px 442px;
  }
  .nas  p img.pp{
      position:relative;
@@ -449,6 +450,10 @@ body{
      outline: none;
      color: #000;
  }
+
+
+
+
 /*foot*/
  .foot{
      margin-top: 110px;
@@ -840,7 +845,7 @@ body{
          width: 54%;
      }
      .msn .pc_bot .name{
-         width: 52.6%;
+         width: 51.6%;
      }
      .pc_bot .cofes{
          margin-right: 36px;
@@ -851,7 +856,7 @@ body{
      }
      .nas  p img.pp{
          position: relative;
-         top: -25px;
+         top: -6px;
          left: 190px;
      }
      .bd img{
@@ -941,7 +946,7 @@ body{
      width: 50%;
  }
  .msn .pc_bot .name{
-     width: 49.9%;
+     width: 47.9%;
  }
  .la{
      /*margin: 20px 287px;*/
@@ -1126,7 +1131,7 @@ body{
          width: 45%;
      }
      .msn .pc_bot .name{
-         width: 48.9%;
+         width: 47.9%;
      }
      .la{
          /*margin: 20px 287px;*/

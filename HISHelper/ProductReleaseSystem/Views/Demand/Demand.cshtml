@@ -64,9 +64,9 @@
                                 <input type="text" name="" class="inpp" id="information" placeholder="请输入负责人联系方式">
                             </li>
                             @*<li>
-                <img src="~/images/Demand/a_28.png"  class="im" alt=""/><span class="span_1">电子邮件<a></a></span>
-                <input type="text" name="" class="inpp" placeholder="请输入电子邮件">
-            </li>*@
+                                    <img src="~/images/Demand/a_28.png"  class="im" alt=""/><span class="span_1">电子邮件<a></a></span>
+                                    <input type="text" name="" class="inpp" placeholder="请输入电子邮件">
+                                </li>*@
 
                         </ul>
                     </form>
@@ -89,13 +89,13 @@
                         <ul class="ulyy">
                             <li>
                                 <img src="~/images/Demand/a_39.png" class="im" alt="" /><span class="span_1">需求名称<a></a></span>
-                                <input type="text" name=""id="demandname"  class="inpp" placeholder="必填：请输入需求名称">
+                                <input type="text" name="" id="demandname" class="inpp" placeholder="必填：请输入需求名称">
                             </li>
                             <li>
                                 <img src="~/images/Demand/a_43.png" class="im" alt="" /><span class="span_1"> 优  先 级 <a></a></span>
                                 <!--<input type="text" name="" class="inpp" value="必填：请选择需求优先级">-->
                                 <select name="" id="priority" class="inpps">
-                                    <option value="" style="color:#000">请选择优先级</option>
+                                    <option value="" style="color:#999">请选择优先级</option>
                                     <option value="">A</option>
                                     <option value="">B</option>
                                     <option value="">C</option>
@@ -106,7 +106,7 @@
                                 <img src="~/images/Demand/a_46.png" class="im" alt="" /><span class="span_1">交付部门<a></a></span>
                                 <!--<input type="text" name="" class="inpp" value="必填：请选择交付的部门">-->
                                 <select name="" id="bumen" class="inpps">
-                                    <option value="" style="color:#000">请选择交付的部门</option>
+                                    <option value="" style="color:#666">请选择交付的部门</option>
                                     @*<option value="">必填：请选择交付的部门</option>
                                         <option value="">必填：请选择交付的部门</option>*@
                                 </select>
@@ -245,34 +245,79 @@
 
         //#region 添加实施需求
         function savaDemand(ID) {
-            $.ajax({
-                type: "POST",
-                url: '/adddemand',
-                data: {
-                    DemandNname: $('#demandname').val(),
-                    RequirementsDescription: UE.getEditor('editor').getContent(),
-                    Priority: $('#priority').find("option:selected").text(),
-                    UserName: $('#username').val(),
-                    Producer: $('#producer').val(),
-                    ContactInformation: $('#information').val(),
-                    ImplementerID: ID,
-                    MakeTime: $('#shijiandata').text(),
-                    VersionNumber: '1.0.0.0',
-                    DeliveryDepartment: $("#bumen").find("option:selected").val(),
-                    Status: '未通过'
-                },
-                success: function (dataBack) {
-                    if (dataBack.result == 1) {
-                        upload();
-                        layer.msg(dataBack.message, { icon: 1 });
+            if (panduan()){
+                $.ajax({
+                    type: "POST",
+                    url: '/adddemand',
+                    data: {
+                        DemandNname: $('#demandname').val(),
+                        RequirementsDescription: UE.getEditor('editor').getContent(),
+                        Priority: $('#priority').find("option:selected").text(),
+                        UserName: $('#username').val(),
+                        Producer: $('#producer').val(),
+                        ContactInformation: $('#information').val(),
+                        ImplementerID: ID,
+                        MakeTime: $('#shijiandata').text(),
+                        VersionNumber: '1.0.0.0',
+                        DeliveryDepartment: $("#bumen").find("option:selected").val(),
+                        Status: '未通过'
+                    },
+                    success: function (dataBack) {
+                        if (dataBack.result == 1) {
+                            upload();
+                            qingkong();
+                            layer.msg(dataBack.message, { icon: 1 });
+                        }
+                    },
+                    error: function (error) {
+                        layer.msg(dataBack.message, { icon: 2 });
                     }
-                },
-                error: function (error) {
-                    layer.msg(dataBack.message, { icon: 2 });
-                }
-            });
+                });
+            }
         }
         //#endregion
+
+        function panduan() {
+            var str = '';
+            if ($('#username').val() == '') {
+                str += "院方名称不能为空！";
+            }
+            if ($('#producer').val() == '') {
+                str += "客户姓名不能为空！";
+            }
+            if ($('#information').val() == '') {
+                str += "联系方式不能为空！";
+            }
+            if ($('#demandname').val() == '') {
+                str += "项目名称不能为空！";
+            }
+            if ($('#priority').find("option:selected").text() == '' || $('#priority').find("option:selected").text() == '请选择优先级') {
+                str += "请选择优先级!";
+            }
+            if ($("#bumen").find("option:selected").val() == '' || $("#bumen").find("option:selected").val() == '请选择交付的部门') {
+                str += "请选择交付的部门";
+            }
+            if (UE.getEditor('editor').getContent() == '') {
+                str += "详细信息不能为空！";
+            }
+            if (str != '') {
+                layer.msg(str, { icon: 2 });
+                return false;
+            } else {
+                return true;
+            }
+
+        }
+        function qingkong() {
+            alert(12332);
+            $('#username').val("");
+            $('#producer').val("");
+            $('#information').val("");
+            $('#demandname').val("");
+            $('#priority').find("option:selected").text("请选择优先级") ;
+            $("#bumen").find("option:selected").val("请选择交付的部门");
+            UE.getEditor('editor').getContent("");
+        }
     </script>
 </body>
 

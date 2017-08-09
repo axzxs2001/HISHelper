@@ -378,7 +378,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
-    <Folder Include="wwwroot\upload\" />
+    <Folder Include="wwwroot\upload\image\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="NLog.config">
