@@ -18,7 +18,8 @@ namespace ProductReleaseSystem.ProductRelease
         public DateTime MakeTime { get; set; }
         public string VersionNumber { get; set; }
         public int DeliveryDepartment { get; set; }
-        public string Status { get; set; } 
-
+        public string Status { get; set; }
+        public string ProductName { get; set; } 
+        
     }
 }

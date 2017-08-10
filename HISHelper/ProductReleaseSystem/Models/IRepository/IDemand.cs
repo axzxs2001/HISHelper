@@ -56,11 +56,15 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <returns></returns>
         bool DeleteProductDemand(int ID);
         /// <summary>
-        /// 查询产品需求表
+        /// 查询部门
         /// </summary>
-        /// <param name="requestform">需求信息</param>
         /// <returns></returns>
         List<Dictionary<string, dynamic>> SelectDepartments();
+        /// <summary>
+        /// 查询产品
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> Products(); 
         /// <summary>
         /// 通过姓名查询用户ID
         /// </summary>

@@ -22,27 +22,30 @@ namespace ProductReleaseSystem.Controllers
         {
             _demand = idemand;
         }
+        #region 需求提交页面
         /// <summary>
         /// 需求提交页面
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("demand")]
-        
+
         public IActionResult Demand()
         {
             return View();
         }
+        #endregion
+
         #region 实施添加需求
         /// <summary>
         /// 实施添加需求
         /// </summary>
         /// <param name="requestform"></param>
         /// <returns></returns>
-        [HttpPost("adddemand")] 
+        [HttpPost("adddemand")]
         public IActionResult AddDemand(RequestForm requestform)
         {
-           
+
             try
             {
                 var list = _demand.InsertDemand(requestform);
@@ -70,7 +73,7 @@ namespace ProductReleaseSystem.Controllers
             try
             {
                 var list = _demand.SelectDepartments();
-                return new JsonResult(new { result = 1, message = $"查询开发人员成功！", data = list }, new JsonSerializerSettings()
+                return new JsonResult(new { result = 1, message = $"查询部门成功！", data = list }, new JsonSerializerSettings()
                 {
                     ContractResolver = new LowercaseContractResolver()
                 });
@@ -78,10 +81,11 @@ namespace ProductReleaseSystem.Controllers
             catch (Exception exc)
             {
                 // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
-                return new JsonResult(new { result = 0, message = $"查询开发人员失败！：{exc.Message}" });
+                return new JsonResult(new { result = 0, message = $"查询部门失败！：{exc.Message}" });
             }
         }
         #endregion
+
         #region 通过姓名用户查询ID
         /// <summary>
         /// 通过姓名用户查询ID
@@ -138,6 +142,30 @@ namespace ProductReleaseSystem.Controllers
             }
             return new JsonResult(list, new Newtonsoft.Json.JsonSerializerSettings());
 
+        }
+        #endregion
+
+        #region 产品添加
+        /// <summary>
+        /// 产品添加
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("products")]
+        public IActionResult Products()
+        {
+            try
+            {
+                var list = _demand.Products();
+                return new JsonResult(new { result = 1, message = $"查询部门成功！", data = list }, new JsonSerializerSettings()
+                {
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
+                return new JsonResult(new { result = 0, message = $"查询部门失败！：{exc.Message}" });
+            }
         }
         #endregion
     }

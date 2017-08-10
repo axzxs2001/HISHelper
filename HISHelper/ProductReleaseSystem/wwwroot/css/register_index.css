@@ -449,13 +449,10 @@ body{
      border: none;
      outline: none;
      color: #000;
+     cursor:pointer;
  }
-
-
-
-
-/*foot*/
- .foot{
+    /*foot*/
+    .foot{
      margin-top: 110px;
  }
  .foot p{

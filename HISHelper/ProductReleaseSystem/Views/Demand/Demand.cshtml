@@ -63,6 +63,10 @@
                                 <img src="~/images/Demand/a_24.png" class="im" alt="" /><span class="span_1">&nbsp;联系方式&nbsp;<a></a></span>
                                 <input type="text" name="" class="inpp" id="information" placeholder="请输入负责人联系方式">
                             </li>
+                            <li>
+                                <img src="~/images/Demand/dizhi.png" class="im" alt=""  /><span class="span_1">院方地址&nbsp;<a></a></span>
+                                <input type="text" name="" class="inpp" id="address" placeholder="请输入院方地址">
+                            </li>
                             @*<li>
                                     <img src="~/images/Demand/a_28.png"  class="im" alt=""/><span class="span_1">电子邮件<a></a></span>
                                     <input type="text" name="" class="inpp" placeholder="请输入电子邮件">
@@ -90,6 +94,13 @@
                             <li>
                                 <img src="~/images/Demand/a_39.png" class="im" alt="" /><span class="span_1">需求名称<a></a></span>
                                 <input type="text" name="" id="demandname" class="inpp" placeholder="必填：请输入需求名称">
+                            </li>
+                            <li>
+                                <img src="~/images/Demand/chanpin.png" class="im" alt=""/><span class="span_1">产品名称<a></a></span>
+                                <select name="" id="productname" class="inpps">
+                                    <option value="" style="color:#999">请选择产品名称</option>
+                                    
+                                </select>
                             </li>
                             <li>
                                 <img src="~/images/Demand/a_43.png" class="im" alt="" /><span class="span_1"> 优  先 级 <a></a></span>
@@ -138,8 +149,8 @@
                 </div>
                 <!--button-->
                 <div class="buttt rt">
-                    <img src="~/images/Demand/a_67.png" />
-                    <img src="~/images/Demand/a_69.png" onclick="InsertUser()" />
+                    <img src="~/images/Demand/a_67.png"  style="cursor:pointer" title="清空" onclick="qingkong()"/>
+                    <img src="~/images/Demand/a_69.png" style="cursor:pointer" onclick="InsertUser()" />
                 </div>
             </div>
         </div>
@@ -173,8 +184,9 @@
             createEditor();
             datetime();
             GetSelect();
+            PostProducts();
         });
-        //上传图片
+        //#region 上传图片
         function upload() {
             $("#form").ajaxSubmit({
                 type: "POST",//提交类型 
@@ -187,6 +199,8 @@
                 async: true
             });
         }
+        //#endregion
+
         //#region  百度编辑器
         //创建编辑器
         function createEditor() {
@@ -196,6 +210,7 @@
             });
         }
         //#endregion
+
         //#region 获取当前时间
         var date = (new Date()).getTime();
         function datetime() {
@@ -203,10 +218,15 @@
             var year = now.getFullYear();
             var month = now.getMonth();
             var day = now.getDate();
+            var hour = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            var tolocalestring = now.toLocaleTimeString();
             $("#shijiandata").html("" + year + "/" + (month + 1) + "/" + day + "");
         }
         //#endregion
-        //动态添加部门
+
+        //#region 动态添加部门
         function GetSelect() {
             var str = '';
             $.ajax({
@@ -222,6 +242,26 @@
                 }
             });
         }
+        //#endregion
+
+        //#region 动态添加部门
+        function PostProducts() {
+            var str = '';
+            $.ajax({
+                type: 'POST',
+                url: '/products',
+                data: {},
+                success: function (dataBack) {
+                    str += "请选择产品名称";
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<option value="' + item["id"] + '">' + item["productname"] + '</option>';
+                    });
+                    $('#productname').append(str);
+                }
+            });
+        }
+        //#endregion
+
         //#region  通过名称查询ID
         var ID;
         var Character;
@@ -260,7 +300,8 @@
                         MakeTime: $('#shijiandata').text(),
                         VersionNumber: '1.0.0.0',
                         DeliveryDepartment: $("#bumen").find("option:selected").val(),
-                        Status: '未通过'
+                        Status: '未通过',
+                        ProductName: $("#productname").find("option:selected").text()
                     },
                     success: function (dataBack) {
                         if (dataBack.result == 1) {
@@ -277,6 +318,7 @@
         }
         //#endregion
 
+        //#region 判断是否为空跟清空数据
         function panduan() {
             var str = '';
             if ($('#username').val() == '') {
@@ -288,17 +330,23 @@
             if ($('#information').val() == '') {
                 str += "联系方式不能为空！";
             }
+            else if (!$("#information").val().match(/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/)) {
+                str += "联系方式格式不正确！";
+            }
             if ($('#demandname').val() == '') {
                 str += "项目名称不能为空！";
             }
             if ($('#priority').find("option:selected").text() == '' || $('#priority').find("option:selected").text() == '请选择优先级') {
-                str += "请选择优先级!";
+                str += "请选择优先级！";
             }
             if ($("#bumen").find("option:selected").val() == '' || $("#bumen").find("option:selected").val() == '请选择交付的部门') {
-                str += "请选择交付的部门";
+                str += "请选择交付的部门！";
             }
             if (UE.getEditor('editor').getContent() == '') {
                 str += "详细信息不能为空！";
+            }
+            if ($('#productname').find("option:selected").text() == '' || $('#productname').find("option:selected").text() == '请选择产品名称'){
+                str += "详细信息产品名称！";
             }
             if (str != '') {
                 layer.msg(str, { icon: 2 });
@@ -309,15 +357,17 @@
 
         }
         function qingkong() {
-            alert(12332);
             $('#username').val("");
             $('#producer').val("");
             $('#information').val("");
             $('#demandname').val("");
+            $('#productname').find("option:selected").text("请选择产品名称");
             $('#priority').find("option:selected").text("请选择优先级") ;
-            $("#bumen").find("option:selected").val("请选择交付的部门");
-            UE.getEditor('editor').getContent("");
+            $("#bumen").find("option:selected").text("请选择交付的部门");
+            UE.getEditor('editor').setContent("");
+           
         }
+       //#endregion
     </script>
 </body>
 

@@ -69,6 +69,11 @@
     <Content Include="wwwroot\images\Demand\a_63.png" />
     <Content Include="wwwroot\images\Demand\a_67.png" />
     <Content Include="wwwroot\images\Demand\a_69.png" />
+    <Content Include="wwwroot\images\Demand\chanpin.png" />
+    <Content Include="wwwroot\images\Demand\dizhi.png" />
+    <Content Include="wwwroot\images\Demand\informationMaintenance.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="wwwroot\images\Images1.jpg" />
     <Content Include="wwwroot\images\Images2.jpg" />
     <Content Include="wwwroot\images\Images3.jpg" />
@@ -378,7 +383,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
-    <Folder Include="wwwroot\upload\image\" />
+    <Folder Include="wwwroot\upload\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="NLog.config">
