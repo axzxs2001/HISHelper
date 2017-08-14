@@ -64,7 +64,7 @@
                                 <input type="text" name="" class="inpp" id="information" placeholder="请输入负责人联系方式">
                             </li>
                             <li>
-                                <img src="~/images/Demand/dizhi.png" class="im" alt=""  /><span class="span_1">院方地址&nbsp;<a></a></span>
+                                <img src="~/images/Demand/dizhi.png" class="im" alt="" /><span class="span_1">院方地址&nbsp;<a></a></span>
                                 <input type="text" name="" class="inpp" id="address" placeholder="请输入院方地址">
                             </li>
                             @*<li>
@@ -96,10 +96,10 @@
                                 <input type="text" name="" id="demandname" class="inpp" placeholder="必填：请输入需求名称">
                             </li>
                             <li>
-                                <img src="~/images/Demand/chanpin.png" class="im" alt=""/><span class="span_1">产品名称<a></a></span>
+                                <img src="~/images/Demand/chanpin.png" class="im" alt="" /><span class="span_1">产品名称<a></a></span>
                                 <select name="" id="productname" class="inpps">
                                     <option value="" style="color:#999">请选择产品名称</option>
-                                    
+
                                 </select>
                             </li>
                             <li>
@@ -144,17 +144,16 @@
                 <p>请在下方输入需求详细信息（ 慎重！）</p>
                 <!--百度编辑器-->
                 <<div class="bd">
-                    <script id="editor" type="text/plain" style="width:100%; height:350px;">
+                    <script id="editor" type="text/plain" style="width:100%; height:350px; overflow:auto">
                     </script>
                 </div>
                 <!--button-->
                 <div class="buttt rt">
-                    <img src="~/images/Demand/a_67.png"  style="cursor:pointer" title="清空" onclick="qingkong()"/>
-                    <img src="~/images/Demand/a_69.png" style="cursor:pointer" onclick="InsertUser()" />
+                    <img src="~/images/Demand/a_67.png" style="cursor:pointer" title="清空按钮" onclick="qingkong()" />
+                    <img src="~/images/Demand/a_69.png" style="cursor:pointer" onclick="InsertUser()" id="tianjia" />
                 </div>
             </div>
         </div>
-
     </div>
     <div class="haha">
         <ul>
@@ -168,12 +167,12 @@
             <li class="lt"><a href="#">帮助中心</a></li>
             <li class="lt"><a href="#">关于我们</a></li>
             <li class="lt"><a href="#">注意事项</a></li>
-            <br>
         </ul>
         <p class="pp_1 pp_2"> Copyright 2017-08-01 大连医卫 New technology research center</p>
 
     </div>
     <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/js/jquery.form.js"></script>
     <script src="~/layer/layer.js"></script>
     <script type="text/javascript" charset="utf-8" src="~/lib/ueditor/ueditor.config.js"></script>
@@ -244,7 +243,7 @@
         }
         //#endregion
 
-        //#region 动态添加部门
+        //#region 动态添加产品名称
         function PostProducts() {
             var str = '';
             $.ajax({
@@ -285,7 +284,7 @@
 
         //#region 添加实施需求
         function savaDemand(ID) {
-            if (panduan()){
+            if (panduan()) {
                 $.ajax({
                     type: "POST",
                     url: '/adddemand',
@@ -323,51 +322,75 @@
             var str = '';
             if ($('#username').val() == '') {
                 str += "院方名称不能为空！";
+                $('#username').focus();
+                layer.msg(str, { icon: 2 });
+                return false;
             }
             if ($('#producer').val() == '') {
                 str += "客户姓名不能为空！";
+                $('#producer').focus();
+                layer.msg(str, { icon: 2 });
+                return false;
             }
             if ($('#information').val() == '') {
                 str += "联系方式不能为空！";
+                $('#information').focus();
+                layer.msg(str, { icon: 2 });
+                return false;
             }
             else if (!$("#information").val().match(/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/)) {
                 str += "联系方式格式不正确！";
+                $('#information').focus();
+                layer.msg(str, { icon: 2 });
+                return false;
+            }
+            if ($('#address').val() == '') {
+                str += "院方地址不能为空！";
+                $('#address').focus();
+                layer.msg(str, { icon: 2 });
+                return false;
             }
             if ($('#demandname').val() == '') {
                 str += "项目名称不能为空！";
+                $('#demandname').focus();
+                layer.msg(str, { icon: 2 });
+                return false;
             }
             if ($('#priority').find("option:selected").text() == '' || $('#priority').find("option:selected").text() == '请选择优先级') {
                 str += "请选择优先级！";
+                layer.msg(str, { icon: 2 });
+                return false;
             }
             if ($("#bumen").find("option:selected").val() == '' || $("#bumen").find("option:selected").val() == '请选择交付的部门') {
                 str += "请选择交付的部门！";
+                layer.msg(str, { icon: 2 });
+                return false;
             }
             if (UE.getEditor('editor').getContent() == '') {
                 str += "详细信息不能为空！";
-            }
-            if ($('#productname').find("option:selected").text() == '' || $('#productname').find("option:selected").text() == '请选择产品名称'){
-                str += "详细信息产品名称！";
-            }
-            if (str != '') {
+
                 layer.msg(str, { icon: 2 });
                 return false;
-            } else {
-                return true;
             }
-
+            if ($('#productname').find("option:selected").text() == '' || $('#productname').find("option:selected").text() == '请选择产品名称') {
+                str += "请选择产品名称！";
+                layer.msg(str, { icon: 2 });
+                return false;
+            }
+            return true;
         }
         function qingkong() {
             $('#username').val("");
             $('#producer').val("");
             $('#information').val("");
+            $('#address').val("");
             $('#demandname').val("");
             $('#productname').find("option:selected").text("请选择产品名称");
-            $('#priority').find("option:selected").text("请选择优先级") ;
+            $('#priority').find("option:selected").text("请选择优先级");
             $("#bumen").find("option:selected").text("请选择交付的部门");
             UE.getEditor('editor').setContent("");
-           
         }
-       //#endregion
+        //#endregion
     </script>
 </body>
 

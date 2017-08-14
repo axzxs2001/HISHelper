@@ -113,13 +113,11 @@
     //    });
     //})
 
-    function KeyDown() {
+    $(document).keyup(function (event) {
         if (event.keyCode == 13) {
-            event.returnValue = false;
-            event.cancel = true;
-            //div.button.click();
+            ValueCheck();
         }
-    }
+    });
 
 </script>
 

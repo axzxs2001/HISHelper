@@ -114,7 +114,7 @@ namespace ProductReleaseSystem.Controllers
                 {
                     return new JsonResult(new { result = 0, message = $"账号或密码错误！" });
                 }
-                else if (verificationcode == verification)
+                else if (verificationcode != verification)
                 {
                     return new JsonResult(new { result = 0, message = $"验证码错误！" });
                 }
@@ -177,7 +177,7 @@ namespace ProductReleaseSystem.Controllers
             MemoryStream ms = _vierificationCodeServices.Create(out code);
             HttpContext.Session.SetString("LoginValidateCode", code);
             Response.Body.Dispose();
-            verification = code;
+            verification = code.ToLower();
             return File(ms.ToArray(), @"images/png");
         }
 
