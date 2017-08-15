@@ -42,6 +42,7 @@
     <Content Include="wwwroot\css\productdemand.css" />
     <Content Include="wwwroot\css\register_index.css" />
     <Content Include="wwwroot\css\researchprojects.css" />
+    <Content Include="wwwroot\css\viewrequirements.css" />
     <Content Include="wwwroot\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="wwwroot\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="wwwroot\fonts\glyphicons-halflings-regular.ttf" />

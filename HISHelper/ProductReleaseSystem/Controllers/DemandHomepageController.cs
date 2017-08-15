@@ -21,31 +21,39 @@ namespace ProductReleaseSystem.Controllers
         public DemandHomepageController(IDemand idemand)
         {
             _idemand = idemand;
-        } 
-        #region 查看需求页面
+        }
         /// <summary>
-        /// 查看需求页面
+        /// 产品需求主页
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpGet("demandhomepage")]
-        public IActionResult DemandHomepage()
+        [HttpGet("productdemand")]
+        public IActionResult ProductDemand()
         {
             return View();
         }
-        #endregion
+        /// <summary>
+        /// 产品需求主页
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("viewrequirements")]
+        public IActionResult ViewRequirements()
+        {
+            return View();
+        }
         #region 查询所有产品
         /// <summary>
         /// 查询所有产品
         /// </summary>
         /// <returns></returns>
-        [HttpGet("queryproducts")]
+        [HttpGet("queryselectproducts")]
         public IActionResult QueryProducts()
         {
             try
             {
                 var list = _idemand.QueryProducts();
-                return new JsonResult(new { result = 1, message = "查询成功", data = list });
+                return new JsonResult(new { result = 1, data = list, message = "查询成功"},new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
             }
             catch (Exception exc)
             {

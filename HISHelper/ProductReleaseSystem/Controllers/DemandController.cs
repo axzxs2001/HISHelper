@@ -36,18 +36,6 @@ namespace ProductReleaseSystem.Controllers
             return View();
         }
         #endregion
-
-        /// <summary>
-        /// 产品需求主页
-        /// </summary>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [HttpGet("productdemand")]
-        public IActionResult ProductDemand()
-        {
-            return View();
-        }
-
         #region 实施添加需求
         /// <summary>
         /// 实施添加需求
@@ -79,7 +67,7 @@ namespace ProductReleaseSystem.Controllers
         /// 部门添加
         /// </summary>
         /// <returns></returns>
-        [HttpPost("departments")]
+        [HttpGet("departments")]
         public IActionResult Departments()
         {
             try
