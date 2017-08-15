@@ -21,7 +21,7 @@ namespace ProductReleaseSystem.Controllers
         public DemandHomepageController(IDemand idemand)
         {
             _idemand = idemand;
-        }
+        } 
         #region 查看需求页面
         /// <summary>
         /// 查看需求页面
