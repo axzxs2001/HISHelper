@@ -143,8 +143,8 @@
             <div class="foot">
                 <p>请在下方输入需求详细信息（ 慎重！）</p>
                 <!--百度编辑器-->
-                <<div class="bd">
-                    <script id="editor" type="text/plain" style="width:100%; height:350px; overflow:auto">
+                <div class="bd">
+                    <script id="editor" type="text/plain" style="width:100%; height:350px;overflow:auto">
                     </script>
                 </div>
                 <!--button-->
@@ -300,7 +300,7 @@
                         VersionNumber: '1.0.0.0',
                         DeliveryDepartment: $("#bumen").find("option:selected").val(),
                         Status: '未通过',
-                        ProductName: $("#productname").find("option:selected").text()
+                        ProductID: $("#productname").find("option:selected").val()
                     },
                     success: function (dataBack) {
                         if (dataBack.result == 1) {

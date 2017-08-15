@@ -1,0 +1,1644 @@
+﻿ body,ul,li,a,div,dd,dt,td,th,u,em,i,span,h1,h2,h3,h4,h5,h6{
+     margin: 0;
+     padding:0;
+     list-style:none ;
+ }
+ a{
+     font-family: "微软雅黑";
+     font-size: 12px;
+     text-decoration:none;
+ }
+ .lt{
+     float: left;
+ }
+ .rt{
+     float: right;
+ }
+ .wrap{
+     margin: 0 auto;
+     width: 1244px;
+ }
+/******写******/
+body{
+     width: 100%;
+     height:950px;
+     background:#f1f1f1;
+
+ }
+#logo{
+    background: url("../img/logo.png")no-repeat left;
+    width:100px;
+    height:100px;
+    background-size:cover;
+    margin: 0 auto;
+    margin-top: 105px;
+
+}
+#border{
+    /*!*border: 2px solid #4092c2;*!*/
+    width:480px;
+    /*!*height:505px;*!*/
+    margin: 0 auto;
+    margin-top:20px;
+}
+ /*#border .left{*/
+     /*width:300px;*/
+     /*height:304px;*/
+     /*background: #d6effd;*/
+ /*}*/
+ /*#border .right{*/
+     /*width:405px;*/
+     /*height:304px;*/
+     /*background: #fff;*/
+ /*}*/
+ #border .max{
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     border:9px solid #1c77ac;
+     width: 40%;
+     height:40%;
+     border-radius: 50%;
+     margin:0 auto;
+     margin-top:55px;
+ }
+ #border .min{
+     border:1px solid #89c6e9;
+     background: #89c6e9;
+     width: 70%;
+     height:70%;
+     border-radius: 50%;
+ }
+ /*#border a{*/
+     /*color: #1c77ac;*/
+     /*font-size: 15px;*/
+    /*display: inline-block;*/
+    /*margin:10px 85px;*/
+ /*}*/
+#border .amn{
+    color: #023c81;
+    font-size: 18px;
+    width:180px;
+    margin-left:75px;
+    font-weight: 500;
+}
+
+#border .welcome{
+    font-size: 18px;
+    font-weight:bold;
+    color:#1c77ac;
+    float: left;
+    margin-top:46px;
+    margin-bottom:30px;
+    margin-left:100px;
+}
+
+ #border .right form input{
+     /*display: block;*/
+     width:240px;
+     height:46px;
+     margin:20px 0 auto 10px;
+     color: #999;
+     font-weight: 700;
+     padding-left:35px;
+     border: 1px solid #f3f1f2;
+     border-radius: 10px;
+     background: #f3f1f2;
+     outline:none;
+ }
+ #border .right .inp{
+     margin-left:70px;
+     margin-top: 20px;
+ }
+ #border .right .inp input{
+     width: 20px;
+     height: 20px;
+     vertical-align:middle;
+
+ }
+ #border .right .inp span{
+     color: #7f7677;
+     font-size: 12px;
+     font-weight:600;
+
+ }
+#border form span{
+    color: #7f7677;
+    font-weight: bold;
+    font-size: 12px;
+}
+ #border .right .inp span a{
+     color: #7f7677;
+     font-weight: bold;
+     font-size: 12px;
+     text-decoration:underline;
+     display: inline-block;
+     margin-left: 0;
+ }
+
+#border .right{
+    background: #ffffff;
+    width: 480px;
+    height:550px;
+    border-radius: 10px;
+}
+ #border .right .inp .wj{
+     color:#7f7677;
+     font-weight: 600;
+     margin-right: 50px;
+     margin-top: -4px;
+     font-size: 12px;
+     text-decoration: underline;;
+ }
+ #border .button{
+     background: #07b7e6;
+     width:240px;
+     height:60px;
+     -webkit-box-shadow:0 3px 20px #07b7e6;
+    border-radius: 25px;
+     margin-top:35px;
+     position: relative;
+     top: -66px;;
+     left:115px;
+ }
+ #border .button span{
+     display: inline-block;
+     color: #fff;
+     font-weight: 600;
+     font-size: 18px;
+     line-height: 30px;
+    position: relative;
+     top: 14px;;
+     left:94px;
+ }
+/*form {*/
+ /*text-align: center;*/
+/*}*/
+.footer{
+    color: #8f8f8f;
+    font-size: 12px;
+    text-align: center;
+}
+
+/***********************02*********************************/
+
+#top{
+    background: #f1f1f1;
+    overflow: hidden;
+}
+.green{
+    background: #293335;
+    width: 100%;
+    height: 120px;
+    overflow: hidden;
+}
+.green .ulz li{
+    color: #fff;
+    font-family:"华文楷体";
+    line-height:120px;
+    font-size:48px;
+    margin-left: -200px;
+}
+ .green .uly  .wx{
+     color: #fff;
+     line-height:90px;
+     font-size:32px;
+     font-family:"华文楷体";
+     margin-right: 30px;
+ }
+ .green .uly  .wx p{
+     color: #fff;
+     margin-top: -50px;
+     font-size:16px;
+     margin-left: 30px;
+ }
+ .green .uly .x span{
+     border-right:1px solid #a2a2a2;
+     width: 1px;
+     height: 86px;
+     display: inline-block;
+     margin: 17px 0;
+ }
+ .green .uly .sub{
+     color: #fff;
+     /*margin-top: -50px;*/
+     font-size:16px;
+     font-weight: 500;
+     margin-left: -136px;
+     position: relative;
+     top: 17px;
+     left: 170px;
+ }
+ /*.green .uly .tp{*/
+     /*line-height: 160px;*/
+     /*margin-right: -400px;*/
+ /*}*/
+/*中间内容*/
+ #content{
+     background: #293335;
+     margin:0 auto;
+     width: 1244px;
+     margin-top: 40px;
+     overflow:auto;
+ }
+
+ .hahaha ul li.a_p {
+     /*margin-top:66px;*/
+     /*margin-left: 225px;*/
+     position: fixed;
+     left:210px;
+     top:160px;
+ }
+ .hahaha ul li.b_p {
+     /*margin-top:66px;*/
+     /*margin-left: 225px;*/
+     position: fixed;
+     left:210px;
+     top:260px;
+ }
+ .hahaha ul li.c_p {
+     /*margin-top:66px;*/
+     /*margin-left: 225px;*/
+     position: fixed;
+     left:210px;
+     top:360px;
+ }
+ .hahaha ul li.d_p {
+     /*margin-top:66px;*/
+     /*margin-left: 225px;*/
+     position: fixed;
+     left:210px;
+     top:460px;
+ }
+ .haha ul .abc {
+     position: fixed;
+       top:730px;
+     left: 1600px;
+   }
+ .haha ul .def{
+     position: fixed;
+     top:830px;
+     left: 1600px;
+ }
+.msn{
+    margin: 0 auto;
+    border: 1px solid transparent;
+    width: 1019px;
+    /*height: 95%;*/
+    /*overflow: hidden;*/
+}
+.msn .pc_top{
+    width: 100%;
+    height: 430px;
+    /*border: 1px solid red;*/
+    margin-top:60px;
+}
+.msn .pc_top .name{
+    width:62% ;
+    height: 427px;
+    background: #4f5d60;
+}
+ .msn .pc_top .name .f_one ul{
+     margin-top: -20px;
+     text-align: center;
+ }
+ .msn .pc_top .name .f_one li{
+     width: 405px;
+     height: 44px;
+     background: #f3f2f2;
+     margin:0 auto;
+     margin-top:30px;
+ }
+
+ .msn .pc_top .name .f_one ul li .im{
+    /*margin-left: -50px;*/
+     margin-top: -12px;
+ }
+ .msn .pc_top .name .f_one ul li .span_1{
+     vertical-align: super;
+     padding: 0 10px;
+ }
+ .msn .pc_top .name .f_one ul li .span_1 a{
+     display: inline-block;
+     border-right: 1px solid #a2a2a2;
+     width: 1px;
+     height: 30px;
+     vertical-align: middle;
+     margin: 0 10px 0 5px ;
+ }
+ .msn .pc_top .name .f_one ul li input{
+     width: 230px;
+     height:44px;
+     background: #f3f2f2;
+     vertical-align: super;
+     border: none;
+     outline: none;
+     color: #bfbebe;
+     /*margin-left: 120px;*/
+ }
+
+.black{
+    background: #000;
+    width: 200px;
+    height: 40px;
+    margin: 20px -10px;
+}
+
+.black span{
+    display: inline-block;
+    font-family: "华文楷体";
+    font-size: 22px;
+    line-height: 40px;
+    margin-left: 40px;
+    color: #fff;
+}
+.name  p img{
+    position: relative;
+    top: -26px;
+    left: -10px;
+}
+ /*kafei*/
+ .msn .pc_bot{
+     width: 102%;
+     height: 430px;
+     /*border: 1px solid red;*/
+     /*margin-top:120px;*/
+ }
+
+ .msn .pc_bot .name{
+     width:62% ;
+     height: 427px;
+     background: #4f5d60;
+ }
+ .msn .pc_bot.name .f_one ul{
+     margin-top: -20px;
+     text-align: center;
+ }
+ .msn .pc_bot .name .f_one li{
+     width: 405px;
+     height: 44px;
+     background: #f3f2f2;
+     margin:0 auto;
+     margin-top:30px;
+ }
+
+ .msn .pc_bot .name .f_one ul li .im{
+     margin-left: 20px;
+     margin-top: -10px;
+ }
+ .msn .pc_bot .name .f_one ul li .span_1{
+     vertical-align: super;
+     padding: 0 10px;
+ }
+ .msn .pc_bot .name .f_one ul li .span_1 a{
+     display: inline-block;
+     border-right: 1px solid #a2a2a2;
+     width: 1px;
+     height: 30px;
+     vertical-align: middle;
+     margin: 0 10px 0 5px ;
+ }
+ .msn .pc_bot .name .f_one ul li input{
+     width: 230px;
+     height: 40px;
+     background: #f3f2f2;
+     vertical-align: super;
+     border: none;
+     outline: none;
+     color: #bfbebe;
+     /*margin-left: 120px;*/
+ }
+ .la span{
+     display: inline-block;
+     font-family: "华文楷体";
+     font-size: 22px;
+     line-height: 40px;
+     margin-left: 80px;
+     color: #fff;
+ }
+
+ .la{
+     background: #000;
+     width: 200px;
+     height: 40px;
+     margin: 20px 453px;
+ }
+ .nas  p img.pp{
+     position:relative;
+     top: -6px;
+     left: 190px;
+ }
+
+
+ .pc_bot .cofes{
+     margin-top: 90px;
+ }
+
+ .pc_bot .nas{
+    margin-top:90px;
+}
+ .pc_bot.nas .ulyy{
+     padding-top: 70px;
+ }
+ .msn .pc_bot .nas .f_one ul li .inpps{
+     width: 230px;
+     height: 44px;
+     background: #f3f2f2;
+     vertical-align: super;
+     border: none;
+     outline: none;
+     color: #bfbebe;
+ }
+
+
+
+
+/*foot*/
+ .foot{
+     margin-top: 110px;
+ }
+ .foot p{
+     text-align: center;
+     color: #f1f1f1;
+     font-size: 16px;
+     padding: 20px 0;
+ }
+.buttt img{
+    margin-top: 25px;
+    padding: 15px 20px 40px 10px;
+}
+
+/*Xoxoxo下*/
+
+ #sos{
+     width: 100%;
+     height: 144px;
+     background: #293335;
+     margin-top: 40px;
+     overflow: hidden;
+     text-align:center;
+ }
+
+ #sos ul.uubb{
+     display:inline-block;
+     text-align:center;
+     line-height: 80px;
+ }
+ #sos ul li a{
+     margin:  0 auto;
+     text-align: center;
+     display: inline-block;
+     color: #cacaca;
+     font-size: 16px;
+     padding: 0 15px;
+     text-decoration: none;
+ }
+#sos .pp_1{
+    color:#cacaca;
+    font-size:16px;
+    text-align:center;
+}
+#sos .pp_2{
+    text-align:center;
+}
+
+/*适配*/
+
+ @media  (max-width:1800px){
+     /*.hahaha ul li img {*/
+         /*margin-top: 66px;*/
+         /*margin-left: 180px;*/
+     /*}*/
+     .hahaha ul li.a_p{
+         left:160px;
+         top: 160px;
+     }
+     .hahaha ul li.b_p{
+         left:160px;
+         top: 260px;
+     }
+     .hahaha ul li.c_p{
+         left:160px;
+         top: 360px;
+     }
+     .hahaha ul li.d_p{
+         left:160px;
+         top: 460px;
+     }
+     .whyy .uis{
+         margin-right: 193px !important;
+     }
+     .green .uly .shd{
+         width: 530px !important;
+         margin-right: -450px !important;
+     }
+
+ }
+@media (max-width:1680px) {
+    /*.hahaha ul li img {*/
+        /*margin-top: 66px;*/
+        /*margin-left: 120px;*/
+    /*}*/
+    .whyy .uis{
+        margin-right: 170px !important;
+    }
+    .green .uly .shd{
+        width: 530px !important;
+        margin-right: -220px !important;
+    }
+    .hahaha ul li.a_p{
+        left: 100px;
+        top: 162px;
+    }
+    .hahaha ul li.b_p{
+        left: 100px;
+        top: 262px;
+    }
+    .hahaha ul li.c_p{
+        left: 100px;
+        top: 362px;
+    }
+    .hahaha ul li.d_p{
+        left: 100px;
+        top: 462px;
+    }
+
+    .def {
+        position: fixed !important;
+        top: 470px !important;
+        left: 1500px !important;
+    }
+    .haha ul .abc {
+        position: fixed !important;
+        top: 370px !important;
+        left: 1500px !important;
+    }
+    #sos p{
+        color: #fff;
+        font-size: 20px;
+    }
+    .green .ulz li{
+        margin-left: 0 !important;
+    }
+}
+
+ @media (max-width:1600px) {
+     /*.hahaha ul li img {*/
+         /*margin-top: 66px;*/
+         /*margin-left: 80px;*/
+     /*}*/
+     .whyy .uis{
+         margin-right: 155px !important;
+     }
+     .green .uly .shd{
+         width: 530px !important;
+         margin-right: -200px !important;
+         }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
+     }
+
+     .def {
+         position: fixed !important;
+         top: 470px !important;
+         left: 1450px !important;
+     }
+     .haha ul .abc {
+         position: fixed !important;
+         top: 370px !important;
+         left: 1450px !important;
+     }
+     #sos p{
+         color: #fff;
+         font-size: 20px;
+     }
+     .green .uly .sub{
+         position: relative;
+         top: 0;
+         left: 87px;
+     }
+     .green .uly  .wx{
+         margin-right: -60px;
+     }
+     .green .uly .x span{
+         margin: 17px 120px;
+     }
+     .green .ulz li{
+         margin-left: 0 !important;
+     }
+ }
+
+ @media (max-width:1550px){
+     .green .ulz li{
+         margin-left: 20px !important;
+     }
+     /*.hahaha ul li img {*/
+         /*margin-top: 66px;*/
+         /*margin-left: 80px;*/
+     /*}*/
+     .whyy .uis{
+         margin-right: 147px !important;
+     }
+     .green .uly .shd .texxx{
+        width: 310px !important;
+     }
+     .green .uly .shd{
+         width:450px !important;
+         margin-right: -160px !important;
+     }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
+     }
+
+     .def {
+         position: fixed !important;
+         top: 470px !important;
+         left: 1380px !important;
+     }
+     .haha ul .abc {
+         position: fixed !important;
+         top: 370px !important;
+         left: 1380px !important;
+     }
+     #sos p{
+         color: #fff;
+         font-size: 20px;
+     }
+     .green .uly .sub{
+         position: relative;
+         top: 0;
+         left: 87px;
+     }
+     .green .uly  .wx{
+         margin-right: -60px;
+     }
+     .green .uly .x span{
+         margin: 17px 120px;
+     }
+     #content{
+         width: 80%;
+     }
+ }
+ @media (max-width:1460px){
+     .green .ulz li{
+         margin-left: 78px !important;
+     }
+     .whyy .uis{
+         margin-right: 130px !important;
+     }
+     /*.hahaha ul li img {*/
+         /*margin-top: 66px;*/
+         /*margin-left: 80px;*/
+     /*}*/
+     .whyy .uis{
+         margin-right: 132px !important;
+     }
+     .green .uly .shd .texxx{
+         width: 310px !important;
+     }
+     .green .uly .shd{
+         width:450px !important;
+         margin-right: -70px !important;
+     }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
+     }
+     .def {
+         position: fixed !important;
+         top: 470px !important;
+         left: 1310px !important;
+     }
+     .haha ul .abc {
+         position: fixed !important;
+         top: 370px !important;
+         left: 1310px !important;
+     }
+     #sos p{
+         color: #fff;
+         font-size: 20px;
+     }
+     .green .uly .sub{
+         position: relative;
+         top: 0;
+         left: 0;
+     }
+     .green .uly  .wx{
+         margin-right: -130px;
+     }
+     .green .uly .x span{
+         margin: 17px 176px;
+     }
+     #content{
+         width: 75%;
+     }
+ }
+
+ @media (max-width:1400px){
+     .green .ulz li{
+         margin-left: 130px !important;
+     }
+
+     /*.hahaha ul li img {*/
+         /*margin-top: 66px;*/
+         /*margin-left: 80px;*/
+     /*}*/
+     .green .uly .shd{
+         width: 450px !important;
+         margin-right: 0 !important;
+     }
+     .green .uly .shd .texxx{
+         width: 310px !important;
+     }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
+     }
+
+     .def {
+         position: fixed !important;
+         top: 470px !important;
+         left: 1250px !important;
+     }
+     .haha ul .abc {
+         position: fixed !important;
+         top: 370px !important;
+         left: 1250px !important;
+     }
+     #sos p{
+         color: #fff;
+         font-size: 20px;
+     }
+     .green .uly .sub{
+         position: relative;
+         top: 0;
+         left: 0px;
+     }
+     .green .uly  .wx{
+         margin-right: -130px;
+     }
+     .green .uly .x span{
+         margin: 17px 176px;
+     }
+     #content{
+         width: 75%;
+     }
+     .msn{
+         width: 88% !important;
+     }
+     .msn .pc_top .name{
+         width: 54%;
+     }
+     .msn .pc_bot .name{
+         width: 52.6%;
+     }
+     .pc_bot .cofes{
+         margin-right: 36px;
+     }
+     .la{
+         /*margin: 20px 286px;*/
+         margin: 20px 0 0 61%;
+     }
+     .nas  p img.pp{
+         position: relative;
+         top: -25px;
+         left: 190px;
+     }
+     .bd img{
+         width: 100%;
+     }
+     .pc_top .a_11{
+         width: 95%;
+         margin-left: 20px;
+     }
+ }
+ /*.green .uly .shd{*/
+     /*width: 530px !important;*/
+     /*margin-right:-70px !important;*/
+ /*}*/
+
+
+ /*@media (max-width:1395px){*/
+     /*.la{*/
+         /*margin: 20px 305px;*/
+     /*}*/
+     /*.nas  p img.pp{*/
+        /**/
+         /*left: 495px;*/
+     /*}*/
+ /*}*/
+
+ @media (max-width:1360px){
+     .green .ulz li{
+         margin-left: 130px !important;
+     }
+ /*.hahaha ul li img {*/
+     /*margin-top: 66px;*/
+     /*margin-left: 80px;*/
+ /*}*/
+     .whyy .uis{
+         margin-right: 114px !important;
+     }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
+     }
+
+ .def {
+     position: fixed !important;
+     top: 470px !important;
+     left: 1190px !important;
+ }
+ .haha ul .abc {
+     position: fixed !important;
+     top: 370px !important;
+     left: 1190px !important;
+ }
+ #sos p{
+     color: #fff;
+     font-size: 20px;
+ }
+ .green .uly .sub{
+     position: relative;
+     top: 0;
+     left: 0px;
+ }
+ .green .uly  .wx{
+     margin-right: -130px;
+ }
+ .green .uly .x span{
+     margin: 17px 176px;
+ }
+ #content{
+     width: 75%;
+ }
+ .msn{
+     width: 88% !important;
+ }
+ .msn .pc_top .name{
+     width: 50%;
+ }
+ .msn .pc_bot .name{
+     width: 49.9%;
+ }
+ .la{
+     /*margin: 20px 287px;*/
+     margin: 20px 0 0 57.7%;
+ }
+ .nas  p img.pp{
+     position: relative;
+     top: -25px;
+     left: 190px;
+ }
+ .bd img{
+     width: 100%;
+ }
+ .pc_top .a_11{
+     width: 95%;
+     margin-left: 20px;
+ }
+
+}
+ @media (max-width:1280px){
+     /*.hahaha ul li img {*/
+         /*margin-top: 66px;*/
+         /*margin-left: 80px;*/
+     /*}*/
+     .green .uly .shd{
+         width: 450px !important;
+         margin-right: 30px !important;
+     }
+     .green .uly .shd .texxx{
+         width: 310px !important;
+     }
+     .whyy .uis{
+         margin-right: 98px !important;
+     }
+
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
+     }
+
+     .def {
+         position: fixed !important;
+         top: 470px !important;
+         left: 1150px !important;
+     }
+     .haha ul .abc {
+         position: fixed !important;
+         top: 370px !important;
+         left: 1150px !important;
+     }
+     #sos p{
+         color: #fff;
+         font-size: 20px;
+     }
+     .green .uly .sub{
+         position: relative;
+         top: 0;
+         left: -60px;
+     }
+     .green .uly  .wx{
+         margin-right: -200px;
+     }
+     .green .uly .x span{
+         margin: 17px 220px;
+     }
+     #content{
+         width: 75%;
+     }
+     .msn{
+         width: 88% !important;
+     }
+     .msn .pc_top .name{
+         width: 50%;
+     }
+     .msn .pc_bot .name{
+         width: 48.9%;
+     }
+     .la{
+         /*margin: 20px 287px;*/
+         margin: 20px 0 0 54%;
+     }
+     .nas  p img.pp{
+         position: relative;
+         top: -25px;
+         left: 190px;
+     }
+     .bd img{
+         width: 100%;
+     }
+     .pc_top .a_11{
+         width: 95%;
+         margin-left: 20px;
+     }
+     .msn .pc_bot .name .f_one li{
+         width: 390px;
+     }
+     .msn .pc_bot .nas .f_one ul li .inpps{
+         width: 45%;
+     }
+     .pc_bot .cofes{
+         margin-right: 20px;
+     }
+
+ }
+
+ @media (max-width:1240px){
+     /*.hahaha ul li img {*/
+         /*margin-top: 66px;*/
+         /*margin-left: 80px;*/
+     /*}*/
+     .whyy .uis{
+         margin-right: 90px !important;
+     }
+     .green .uly .shd{
+         width: 450px !important;
+         margin-right: 44px !important;
+     }
+     .green .uly .shd .texxx{
+         width: 310px !important;
+     }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
+     }
+
+     .def {
+         position: fixed !important;
+         top: 470px !important;
+         left: 1100px !important;
+     }
+     .haha ul .abc {
+         position: fixed !important;
+         top: 370px !important;
+         left: 1100px !important;
+     }
+     #sos p{
+         color: #fff;
+         font-size: 20px;
+     }
+     .green .uly .sub{
+         position: relative;
+         top: 0;
+         left: -90px;
+     }
+     .green .uly  .wx{
+         margin-right: -230px;
+     }
+     .green .uly .x span{
+         margin: 17px 250px;
+     }
+     #content{
+         width: 75%;
+     }
+     .msn{
+         width: 88% !important;
+     }
+     .msn .pc_top .name{
+         width: 45%;
+     }
+     .msn .pc_bot .name{
+         width: 48.9%;
+     }
+     .la{
+         /*margin: 20px 287px;*/
+         margin: 20px 0 0 52%;
+     }
+     .nas  p img.pp{
+         position: relative;
+         top: -25px;
+         left: 190px;
+     }
+     .bd img{
+         width: 100%;
+     }
+     .pc_top .a_11{
+         width: 95%;
+         margin-left: 20px;
+     }
+     .msn .pc_bot .name .f_one li{
+         width: 390px;
+     }
+     .msn .pc_bot .nas .f_one ul li .inpps{
+         width: 45%;
+     }
+     .pc_bot .cofes{
+         margin-right: 10px;
+     }
+     .msn .pc_top .name .f_one li{
+         width: 93%;
+     }
+     .msn .pc_top .name .f_one ul li input{
+         width: 46%;
+         margin-left: 0;
+     }
+     .msn .pc_top .name .f_one ul li .span_1{
+         padding: 0 0 0 10px;
+     }
+     .msn .pc_bot .name .f_one ul li input{
+         width: 36%;
+     }
+     .msn .pc_bot .name .f_one li{
+         width: 92%
+     }
+     .msn .pc_bot .nas .f_one ul li .inpps{
+         width: 49%;
+     }
+     .msn .pc_bot .nas .f_one ul li .inpps option{
+         width: 50%;
+     }
+
+ }
+ @media (max-width:1180px){
+     /*.hahaha ul li img {*/
+         /*margin-top: 66px;*/
+         /*margin-left: 80px;*/
+     /*}*/
+     .whyy .uis{
+         margin-right: 80px !important;
+     }
+     .green .uly .shd{
+         width: 380px !important;
+         margin-right: 96px !important;
+     }
+     .green .uly .shd .texxx{
+         width: 240px !important;
+     }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
+     }
+
+     .def {
+         position: fixed !important;
+         top: 470px !important;
+         left: 1040px !important;
+     }
+     .haha ul .abc {
+         position: fixed !important;
+         top: 370px !important;
+         left: 1040px !important;
+     }
+     #sos p{
+         color: #fff;
+         font-size: 20px;
+     }
+     .green .uly .sub{
+         position: relative;
+         top: 0;
+         left: -190px;
+     }
+     .green .uly  .wx{
+         margin-right: -330px;
+     }
+     .green .uly .x span{
+         margin: 17px 350px;
+     }
+     #content{
+         width: 75%;
+     }
+     .msn{
+         width: 88% !important;
+     }
+     .msn .pc_top .name{
+         width: 45%;
+         height: 407px;
+     }
+     .msn .pc_bot .name{
+         width: 48.9%;
+         height: 392px;
+     }
+     .la{
+         /*margin: 20px 287px;*/
+         margin: 20px 0 0 52%;
+     }
+     .nas  p img.pp{
+         position: relative;
+         top: -25px;
+         left: 190px;
+     }
+     .bd img{
+         width: 100%;
+     }
+     .pc_top .a_11{
+         width: 95%;
+         margin-left:0;
+     }
+     .msn .pc_bot .name .f_one li{
+         width: 390px;
+     }
+     .msn .pc_bot .nas .f_one ul li .inpps{
+         width: 45%;
+     }
+     .pc_bot .cofes{
+         margin-right: 20px;
+     }
+     .msn .pc_top .name .f_one li{
+         width: 93%;
+     }
+     .msn .pc_top .name .f_one ul li input{
+         width: 46%;
+         margin-left: 0;
+     }
+     .msn .pc_top .name .f_one ul li .span_1{
+         padding: 0 0 0 10px;
+     }
+     .msn .pc_bot .name .f_one ul li input{
+         width: 36%;
+     }
+     .msn .pc_bot .name .f_one li{
+         width: 92%
+     }
+     .msn .pc_bot .nas .f_one ul li .inpps{
+         width: 49%;
+     }
+     .msn .pc_bot .nas .f_one ul li .inpps option{
+         width: 50%;
+     }
+     .cofes img{
+         height: 390px;
+     }
+
+ }
+
+ @media (max-width:1124px){
+     /*.hahaha ul li img {*/
+         /*margin-top: 66px;*/
+         /*margin-left: 80px;*/
+     /*}*/
+     .whyy .uis{
+     margin-right: 73px !important;
+    }
+     .green .uly .shd{
+         width: 300px !important;
+         margin-right: 142px !important;
+     }
+     .green .uly .shd .texxx{
+         width: 170px !important;
+     }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
+     }
+
+     .def {
+         position: fixed !important;
+         top: 470px !important;
+         left: 990px !important;
+     }
+     .haha ul .abc {
+         position: fixed !important;
+         top: 370px !important;
+         left: 990px !important;
+     }
+     #sos p{
+         color: #fff;
+         font-size: 20px;
+     }
+     .green .uly .sub{
+         position: relative;
+         top: 0;
+         left: -240px;
+     }
+     .green .uly  .wx{
+         margin-right: -380px;
+     }
+     .green .uly .x span{
+         margin: 17px 390px;
+     }
+     #content{
+         width: 75%;
+     }
+     .msn{
+         width: 88% !important;
+     }
+     .msn .pc_top .name{
+         width: 45%;
+         height: 407px;
+     }
+     .msn .pc_bot .name{
+         width: 48.9%;
+         height: 392px;
+     }
+     .la{
+         margin: 20px 0 0 52%;
+     }
+     .nas  p img.pp{
+         position: relative;
+         top: -25px;
+         left: 190px;
+     }
+     .bd img{
+         width: 100%;
+     }
+     .pc_top .a_11{
+         width: 100%;
+         margin-left: -10px;
+     }
+     .msn .pc_bot .name .f_one li{
+         width: 390px;
+     }
+     .msn .pc_bot .nas .f_one ul li .inpps{
+         width: 45%;
+     }
+     .pc_bot .cofes{
+         margin-right: -10px;
+     }
+     .msn .pc_top .name .f_one li{
+         width: 93%;
+     }
+     .msn .pc_top .name .f_one ul li input{
+         width: 46%;
+         margin-left: 0;
+     }
+     .msn .pc_top .name .f_one ul li .span_1{
+         padding: 0 0 0 10px;
+     }
+     .msn .pc_bot .name .f_one ul li input{
+         width: 36%;
+     }
+     .msn .pc_bot .name .f_one li{
+         width: 92%
+     }
+     .msn .pc_bot .nas .f_one ul li .inpps{
+         width: 45%;
+     }
+     .msn .pc_bot .nas .f_one ul li .inpps option{
+         width: 50%;
+     }
+     .cofes img{
+         height: 390px;
+     }
+     .msn .pc_bot .name .f_one ul li .span_1{
+         padding: 0 0 0 10px;
+     }
+ }
+@media (max-width: 1060px) {
+    .whyy .uis{
+        margin-right: 60px !important;
+    }
+    .green .uly .shd{
+        width: 300px !important;
+        margin-right: 197px !important;
+    }
+    .green .uly .shd .texxx{
+        width: 170px !important;
+    }
+}
+ @media (max-width: 1040px){
+     .whyy .uis{
+         margin-right:55px !important;
+     }
+     .green .uly .shd{
+         width: 320px !important;
+         margin-right: 218px !important;
+     }
+     .green .uly .shd .texxx{
+         width: 190px !important;
+     }
+     .msn{
+         width: 92% !important
+     }
+    .la{
+        margin: 20px 0 0 44%;
+    }
+     .hahaha ul li.a_p{
+         left: 75px;
+         top: 157px;
+     }
+     .hahaha ul li.b_p{
+         left: 75px;
+         top: 257px;
+     }
+     .hahaha ul li.c_p{
+         left: 75px;
+         top: 350px;
+     }
+     .hahaha ul li.d_p{
+         left:75px;
+         top: 445px;
+     }
+
+ .haha ul .def{
+        left: 920px !important;
+ }
+     .haha ul .abc{
+         left: 920px !important;
+     }
+
+ }
+/*-----------------------------01-------------------------------------------*/
+
+ .green .uly .subb{
+     color: #fff;
+     margin-top: 17px;
+     font-size: 16px;
+     font-weight: 500;
+     /*margin-left: 45px;*/
+ }
+ .green .uly .shd{
+     width: 540px;
+     height: 40px;
+     background: #fff;
+     margin-right: -480px;
+     margin-top: 40px;
+ }
+ .green .uly .shd .texxx{
+    float: right;
+     width: 400px;
+     height: 40px;
+     border: none;
+     outline: none;
+     color: #b6b6b6;
+ }
+ .green .uly .shd .fdj{
+     padding: 12px 17px 8px 18px;
+ }
+ .green .uly .shd .bbbb{
+     display: inline-block;
+     border-right: 1px solid #a2a2a2;
+     width: 1px;
+     height: 20px;
+     vertical-align: middle;
+     padding-left:17px;;
+ }
+
+.why{
+    width: 100%;
+    background: #4f5d60;
+    height:50px;
+}
+.why ul li {
+    margin-left: 250px;
+}
+ .why ul li button{
+     margin-right: 50px;
+     margin-top:8px;
+     padding: 6px 30px;
+     font-size: 16px;
+ }
+ .btn-primary{
+     background-color: #293335;
+     border: none;
+ }
+ .btn-primary:hover{
+     background-color: #394447;
+ }
+ /*中间*/
+ .nav{
+     position: relative;
+     width: 250px;
+     background: #394447;
+     height:660px;
+     /*overflow: hidden;*/
+ }
+ /*.nav .nav_ui{*/
+     /*margin-left: 50px;*/
+ /*}*/
+ .nav .nav_ui li{
+    margin-top: 50px;
+     text-align: center;
+ }
+ .nav .nav_ui li a{
+     display: inline-block;
+     color: #fff;
+     font-size: 16px;
+     height: 35px;
+     line-height: 35px;
+     text-decoration: none;
+     width:100%;
+ }
+ .nav .nav_ui li a:hover{
+     background-color:#293335;
+ }
+ .right_content{
+    float: left;
+    width: calc(100% - 250px);
+    background: #293335;
+     height:660px;
+}
+
+.tabb{
+    width: 100%;
+    margin-top: 0;
+    margin-left: 0;
+    margin-bottom: 0;
+}
+
+ .table-hover>tbody>tr:hover{
+     background-color: #394447;
+ }
+.table thead tr th  span{
+    display: inline-block;
+    border-right: 1px solid #fff;
+    width: 1px;
+    height:18px;
+    vertical-align: middle;
+    margin: 0 10px;
+}
+ .table thead tr th input{
+     vertical-align: sub;
+ }
+ .table tr td input{
+     vertical-align: sub;
+     margin: 0 20px 0 -18px;
+ }
+ .table tr td{
+
+     cursor:pointer;
+    padding-left: 26px !important;
+ }
+ .table>thead>tr>th{
+     border-bottom: 2px solid #555;
+ }
+ .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+     border-top: 1px solid transparent;
+ }
+
+.whyy{
+    height: 40px;
+    background: #4f5d60;
+    line-height: 35px;
+
+}
+.whyy .uis{
+    margin-right: 212px;
+}
+ .whyy input{
+     width: 40px;
+     height:26px;
+     border: none;
+     outline: none;
+ }
+ .whyy ul li a{
+     display: inline-block;
+     padding:0 10px !important;
+    }
+ /*新增 的 样式*/
+ @media (min-width: 768px){
+     .modal-dialog {
+         width: 600px;
+         margin: 322px auto;
+     }
+ }
+
+
+
+
+
