@@ -269,5 +269,51 @@ FROM    dbo.Users where UserName=@username";
             return _dbHelper.GetList(sql, par1);
         }
         #endregion
+
+        #region 查询所有产品
+        /// <summary>
+        /// 查询所有产品
+        /// </summary>
+        /// <returns></returns>
+        public List<Dictionary<string,dynamic>> QueryProducts()
+        {
+            var sql = @"select Id,ProductName from Products";
+            return _dbHelper.GetList(sql);
+        }
+        #endregion
+
+        #region 根据产品ID查询所有审核中以及审核通过的需求
+        /// <summary>
+        /// 根据根据产品ID查询所有审核中以及审核通过的需求
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        public List<Dictionary<string,dynamic>> QueryRequestByProductId(int id)
+        {
+            var sql = @"select 
+a.Id,
+a.DemandNname,
+a.Priority,
+b.ProductName,
+a.status,
+a.MakeTime from RequestForm a inner join Products b on a.ProductID=b.ID where ProductID=@ID and Status!='已完成'";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.GetList(sql, par);
+        }
+        #endregion
+
+        #region 查询产品共有多少条审核中及审核通过的需求
+        /// <summary>
+        /// 查询产品共有多少条审核中及审核通过的需求
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        public object QueryRequestCount(int id)
+        {
+            var sql = @"select count(*) from RequestForm where ProductID=@ID and Status!='已完成'";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.GetValue(sql, par);
+        }
+#endregion
     }
 }

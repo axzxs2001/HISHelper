@@ -70,7 +70,22 @@ namespace ProductReleaseSystem.Models.IRepository
         /// </summary>
         /// <returns></returns>
         List<Dictionary<string, dynamic>> InsertUsers(string name);
-
-
+        /// <summary>
+        /// 查询所有产品
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> QueryProducts();
+        /// <summary>
+        /// 根据产品ID查询需求信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> QueryRequestByProductId(int id);
+        /// <summary>
+        /// 根据产品ID查询需求条数
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        object QueryRequestCount(int id);
     }
 }
