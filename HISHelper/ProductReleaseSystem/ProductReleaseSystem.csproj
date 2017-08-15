@@ -39,6 +39,7 @@
     <Content Include="wwwroot\css\InResearchUpload.css" />
     <Content Include="wwwroot\css\jquery.datetimepicker.css" />
     <Content Include="wwwroot\css\main.css" />
+    <Content Include="wwwroot\css\productdemand.css" />
     <Content Include="wwwroot\css\register_index.css" />
     <Content Include="wwwroot\css\researchprojects.css" />
     <Content Include="wwwroot\fonts\glyphicons-halflings-regular.eot" />
@@ -71,6 +72,7 @@
     <Content Include="wwwroot\images\Demand\a_69.png" />
     <Content Include="wwwroot\images\Demand\chanpin.png" />
     <Content Include="wwwroot\images\Demand\dizhi.png" />
+    <Content Include="wwwroot\images\Demand\fd_03.png" />
     <Content Include="wwwroot\images\Demand\informationMaintenance.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -83,8 +85,10 @@
     <Content Include="wwwroot\images\main-logo.png" />
     <Content Include="wwwroot\images\product.png" />
     <Content Include="wwwroot\images\shishitupian.jpg" />
+    <Content Include="wwwroot\js\index.js" />
     <Content Include="wwwroot\js\jquery.datetimepicker.js" />
     <Content Include="wwwroot\js\jquery.form.js" />
+    <Content Include="wwwroot\js\productdemand.js" />
     <Content Include="wwwroot\lib\ueditor\dialogs\anchor\anchor.html" />
     <Content Include="wwwroot\lib\ueditor\dialogs\attachment\attachment.css" />
     <Content Include="wwwroot\lib\ueditor\dialogs\attachment\attachment.html" />

@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using ProductReleaseSystem.Models.IRepository;
 using ProductReleaseSystem.ProductRelease;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Authorization;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -35,6 +36,17 @@ namespace ProductReleaseSystem.Controllers
             return View();
         }
         #endregion
+
+        /// <summary>
+        /// 产品需求主页
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("productdemand")]
+        public IActionResult ProductDemand()
+        {
+            return View();
+        }
 
         #region 实施添加需求
         /// <summary>
