@@ -102,7 +102,6 @@ namespace ProductReleaseSystem.Controllers
             try
             {
                 var count = _idemand.QueryRequestCount(id);
-                ViewData["count"] = count;
                 return new JsonResult(new { result = 1, message = "查询成功", data = count });
             }
             catch (Exception exc)

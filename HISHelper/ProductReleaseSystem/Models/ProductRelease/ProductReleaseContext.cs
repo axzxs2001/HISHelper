@@ -17,6 +17,14 @@ namespace ProductReleaseSystem.ProductRelease
         public virtual DbSet<ResearchProjects> ResearchProjects { get; set; }
         public virtual DbSet<Researchers> Researchers { get; set; }
         public virtual DbSet<AuthorityTable> AuthorityTable { get; set; }
+        public virtual DbSet<RequestForm> RequestForm { get; set; }
+        public virtual DbSet<ProductDemandTable> ProductDemandTable { get; set; }
+        public virtual DbSet<SubDemandTable> SubDemandTable { get; set; }
+        public virtual DbSet<DevelopmentRequirementsTable> DevelopmentRequirementsTable { get; set; }
+        public virtual DbSet<BugQuestionTable> BugQuestionTable { get; set; }
+        public virtual DbSet<BuganswerSheet> BuganswerSheet { get; set; }
+
+        public virtual DbSet<Opinion> Opinion { get; set; }
 
         public ProductReleaseContext(DbContextOptions<ProductReleaseContext> options) : base(options)
         {

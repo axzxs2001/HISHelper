@@ -320,7 +320,7 @@ a.MakeTime from RequestForm a
         /// <returns></returns>
         public object QueryRequestCount(int id)
         {
-            var sql = @"select count(*) from RequestForm where ProductID=@ID and Status!='已完成'";
+            var sql = @"select count(*) AS COUNT from RequestForm where ProductID=@ID and Status!='已完成'";
             var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.GetValue(sql, par);
         }

@@ -234,9 +234,9 @@
         <!-- 查看全部-->
         <div class="tabb ss1" style="display: none">
             <table id="table1" class="table table-hover" style=" color: #ccc;">
-                <thead>
+                <thead id="thead">
                     <tr>
-                        <th><input type="checkbox"><span></span>标题 @ViewData["count"]</th>
+                        <th><input type="checkbox"><span></span>标题</th>
                         <th><span></span>优先级</th>
                         <th></th>
                         <th><span></span>发布人</th>
@@ -1142,9 +1142,9 @@
                 success: function (dataBack) {
                     var str = '';
                     $(dataBack.data).each(function (index, item) {
-                        str += '<thead id="' + item["Id"]+'" value="' + item["Id"] + '">';
+                        str += '<thead id="' + item["Id"] + '" value="' + item["Id"] + '">';
                         str += '<tr>';
-                        str += '<th>' + item["ProductName"]+ '</th>';
+                        str += '<th id="a' + item["Id"] + '">' + item["ProductName"] + '</th>';
                         str += '<th></th>';
                         str += '<th></th>';
                         str += '<th></th>';
@@ -1152,8 +1152,8 @@
                         str += '<th></th>';
                         str += '</tr>';
                         str += '</thead>';
-                        QueryRequestByProductId(item["Id"]);
                         QueryRequestCount(item["Id"]);
+                        QueryRequestByProductId(item["Id"]);
                     });
                     $("#table1").append(str);
                 },
@@ -1176,7 +1176,7 @@
                         str += ' <td></td>';
                         str += '<td>' + item["Name"] + '</td>';
                         str += '<td>' + item["status"] + '</td>';
-                        str += '<td>' + item["MakeTime"]+'</td>';
+                        str += '<td>' + item["MakeTime"] + '</td>';
                         str += " </tr>";
                     });
                     $("#" + id + "").append(str);
@@ -1193,13 +1193,7 @@
                 url: '/queryrequestcount',
                 data: { id: id },
                 success: function (dataBack) {
-                    //var str = '';
-                    //$(dataBack.data).each(function (index, item) {
-                    //    str += ;
-
-                    //});
-                    //alert(str);
-                    $("#table1").val(@ViewData["count"]);
+                    $("#a" + id + "").append("（" + dataBack.data + "条）");
                 },
                 error: function (error) {
                     alert(error.status + error.statusText)
