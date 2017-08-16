@@ -87,5 +87,11 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="id"></param>
         /// <returns></returns>
         object QueryRequestCount(int id);
+        /// <summary>
+        /// 查询详细需求
+        /// </summary>
+        /// <param name="id">需求ID</param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> QueryDetailedRequirements(int id);
     }
 }

@@ -111,5 +111,25 @@ namespace ProductReleaseSystem.Controllers
             }
         }
         #endregion
+
+        #region 查看详细需求
+        /// <summary>
+        /// 查看详细需求
+        /// </summary>
+        /// <param name="id">需求ID</param>
+        /// <returns></returns>
+        [HttpPost("querydetailedrequirements")]
+        public IActionResult QueryDetailedRequirements(int id)
+        {
+            try
+            {
+                var list = _idemand.QueryDetailedRequirements(id);
+                return new JsonResult(new { result = 1, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            } catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}" });
+            }
+        }
+#endregion
     }
 }

@@ -324,6 +324,35 @@ a.MakeTime from RequestForm a
             var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.GetValue(sql, par);
         }
-#endregion
+        #endregion
+
+        #region 查询详细需求
+        /// <summary>
+        /// 查询详细需求
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> QueryDetailedRequirements(int id)
+        {
+            var sql = @"select a.DemandNname AS 标题,
+a.RequirementsDescription AS 详细需求,
+a.Priority AS 优先级,
+a.UserName AS 医院名称,
+a.Address AS 医院地址,
+a.Producer AS 提出者姓名,
+a.ContactInformation AS 医院联系方式,
+b.Name AS 发布人姓名,
+b.QQ AS QQ,
+b.Email AS Email,
+b.Phone AS 电话,
+c.DepartmentName AS 交付部门,
+a.MakeTime AS 发布时间,
+a.VersionNumber AS 版本号
+ from
+RequestForm a inner join Developers b on a.ImplementerID=b.ID inner join Departments c on a.DeliveryDepartment=c.id where a.ID=@ID";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.GetList(sql, par);
+        }
+        #endregion
     }
 }
