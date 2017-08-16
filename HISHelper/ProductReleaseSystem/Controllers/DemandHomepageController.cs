@@ -33,7 +33,7 @@ namespace ProductReleaseSystem.Controllers
             return View();
         }
         /// <summary>
-        /// 产品需求主页
+        /// 产品需求查看主页
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
@@ -74,7 +74,14 @@ namespace ProductReleaseSystem.Controllers
             try
             {
                 var list = _idemand.QueryRequestByProductId(id);
-                return new JsonResult(new { result = 1, message = "查询成功", data = list });
+                if (list.Count == 0)
+                {
+                    return new JsonResult(new { result = 1, message = $"查询成功,没有需求！" });
+                }
+                else
+                {
+                return new JsonResult(new { result = 1, message = "查询成功", data = list }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+                }
             }
             catch (Exception exc)
             {
@@ -95,6 +102,7 @@ namespace ProductReleaseSystem.Controllers
             try
             {
                 var count = _idemand.QueryRequestCount(id);
+                ViewData["count"] = count;
                 return new JsonResult(new { result = 1, message = "查询成功", data = count });
             }
             catch (Exception exc)

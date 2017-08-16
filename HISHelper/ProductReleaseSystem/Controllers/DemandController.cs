@@ -67,7 +67,7 @@ namespace ProductReleaseSystem.Controllers
         /// 部门添加
         /// </summary>
         /// <returns></returns>
-        [HttpGet("departments")]
+        [HttpPost("seldepartments")]
         public IActionResult Departments()
         {
             try

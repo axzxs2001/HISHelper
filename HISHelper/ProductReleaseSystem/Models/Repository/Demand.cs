@@ -47,7 +47,7 @@ namespace ProductReleaseSystem.Models.Repository
         /// <returns></returns>
         public bool InsertDemand(RequestForm requestform)
         {
-            var sql = "insert into RequestForm (DemandNname,RequirementsDescription,Priority,UserName,Producer,ContactInformation,ImplementerID,MakeTime,VersionNumber,DeliveryDepartment,Status,ProductID) values(@DemandNname,@RequirementsDescription,@Priority,@UserName,@Producer,@ContactInformation,@ImplementerID,@MakeTime,@VersionNumber,@DeliveryDepartment,@Status,@ProductID)";
+            var sql = "insert into RequestForm (DemandNname,RequirementsDescription,Priority,UserName,Producer,ContactInformation,ImplementerID,MakeTime,VersionNumber,DeliveryDepartment,Status,ProductID,Address) values(@DemandNname,@RequirementsDescription,@Priority,@UserName,@Producer,@ContactInformation,@ImplementerID,@MakeTime,@VersionNumber,@DeliveryDepartment,@Status,@ProductID,@Address)";
             var par = new SqlParameter() { ParameterName = "@DemandNname", SqlDbType = System.Data.SqlDbType.VarChar, Value = requestform.DemandNname };
             var par2 = new SqlParameter() { ParameterName = "@RequirementsDescription", SqlDbType = System.Data.SqlDbType.Text, Value = requestform.RequirementsDescription };
             var par3 = new SqlParameter() { ParameterName = "@Priority", SqlDbType = System.Data.SqlDbType.VarChar, Value = requestform.Priority };
@@ -60,7 +60,8 @@ namespace ProductReleaseSystem.Models.Repository
             var par10 = new SqlParameter() { ParameterName = "@DeliveryDepartment", SqlDbType = System.Data.SqlDbType.Int, Value = requestform.DeliveryDepartment };
             var par11 = new SqlParameter() { ParameterName = "@Status", SqlDbType = System.Data.SqlDbType.VarChar, Value = requestform.Status };
             var par12 = new SqlParameter() { ParameterName = "@ProductID", SqlDbType = System.Data.SqlDbType.VarChar, Value = requestform.ProductID };
-            return _dbHelper.SavaData(sql, par, par2, par3, par4, par5, par6, par7, par8, par9,par10,par11,par12) > 0 ? true : false;
+            var par13 = new SqlParameter() { ParameterName = "@Address", SqlDbType = System.Data.SqlDbType.VarChar, Value = requestform.Address };
+            return _dbHelper.SavaData(sql, par, par2, par3, par4, par5, par6, par7, par8, par9,par10,par11,par12, par13) > 0 ? true : false;
         }
         #endregion
 
@@ -83,7 +84,8 @@ MakeTime,
 VersionNumber,
 DeliveryDepartment,
 Status,
-ProductID
+ProductID,
+Address
  from RequestForm a
  JOIN Developers b
  ON a.ImplementerID = b.ID";
@@ -111,7 +113,8 @@ MakeTime=@MakeTime,
 VersionNumber=@VersionNumber,
 DeliveryDepartment=@DeliveryDepartment,
 Status=@Status,
-ProductID=@ProductID
+ProductID=@ProductID,
+Address=@Address
 WHERE ID=@id";
             var par1 = new SqlParameter() { ParameterName = "@DemandNname", SqlDbType = System.Data.SqlDbType.VarChar, Value = requestform.DemandNname };
             var par2 = new SqlParameter() { ParameterName = "@RequirementsDescription", SqlDbType = System.Data.SqlDbType.Text, Value = requestform.RequirementsDescription };
@@ -125,9 +128,10 @@ WHERE ID=@id";
             var par10 = new SqlParameter() { ParameterName = "@DeliveryDepartment", SqlDbType = System.Data.SqlDbType.Int, Value = requestform.DeliveryDepartment };
             var par11 = new SqlParameter() { ParameterName = "@Status", SqlDbType = System.Data.SqlDbType.VarChar, Value = requestform.Status };
             var par12 = new SqlParameter() { ParameterName = "@ProductID", SqlDbType = System.Data.SqlDbType.VarChar, Value = requestform.ProductID };
+            var par13 = new SqlParameter() { ParameterName = "@Address", SqlDbType = System.Data.SqlDbType.VarChar, Value = requestform.Address };
             var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = requestform.ID };
 
-            return _dbHelper.SavaData(sql, par1, par2, par3, par4, par5, par6, par7, par8, par9,par10,par11,par12,par) > 0 ? true : false;
+            return _dbHelper.SavaData(sql, par1, par2, par3, par4, par5, par6, par7, par8, par9,par10,par11,par12, par13,par) > 0 ? true : false;
         }
         #endregion
         #endregion
@@ -297,9 +301,12 @@ on a.UserName = b.Name
 a.Id,
 a.DemandNname,
 a.Priority,
-b.ProductName,
+c.Name,
 a.status,
-a.MakeTime from RequestForm a inner join Products b on a.ProductID=b.ID where ProductID=@ID and Status!='已完成'";
+a.MakeTime from RequestForm a 
+ join Products b on a.ProductID=b.ID 
+ JOIN Developers c on a.ImplementerID=c.ID
+ where ProductID=@id and Status!='已完成'";
             var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.GetList(sql, par);
         }

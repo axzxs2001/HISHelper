@@ -182,7 +182,7 @@
         $(function () {
             createEditor();
             datetime();
-            GetSelect();
+            SelectBumen();
             PostProducts();
         });
         //#region 上传图片
@@ -226,11 +226,11 @@
         //#endregion
 
         //#region 动态添加部门
-        function GetSelect() {
+        function SelectBumen() {
             var str = '';
             $.ajax({
                 type: 'POST',
-                url: '/departments',
+                url: '/seldepartments',
                 data: {},
                 success: function (dataBack) {
                     str += "请选择交付部门";
@@ -300,7 +300,8 @@
                         VersionNumber: '1.0.0.0',
                         DeliveryDepartment: $("#bumen").find("option:selected").val(),
                         Status: '未通过',
-                        ProductID: $("#productname").find("option:selected").val()
+                        ProductID: $("#productname").find("option:selected").val(),
+                        Address: $("#address").val()
                     },
                     success: function (dataBack) {
                         if (dataBack.result == 1) {

@@ -19,7 +19,8 @@ namespace ProductReleaseSystem.ProductRelease
         public string VersionNumber { get; set; }
         public int DeliveryDepartment { get; set; }
         public string Status { get; set; }
-        public string ProductID { get; set; } 
-        
+        public string ProductID { get; set; }
+        public string Address { get; set; }
+
     }
 }
