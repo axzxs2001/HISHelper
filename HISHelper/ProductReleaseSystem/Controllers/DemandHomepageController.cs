@@ -61,7 +61,6 @@ namespace ProductReleaseSystem.Controllers
             }
         }
         #endregion
-
         #region 根据产品ID查询需求信息
         /// <summary>
         /// 根据产品ID查询需求信息
@@ -74,14 +73,7 @@ namespace ProductReleaseSystem.Controllers
             try
             {
                 var list = _idemand.QueryRequestByProductId(id);
-                if (list.Count == 0)
-                {
-                    return new JsonResult(new { result = 1, message = $"查询成功,没有需求！" });
-                }
-                else 
-                {
                 return new JsonResult(new { result = 1, message = "查询成功", data = list }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
-                }
             } 
             catch (Exception exc)
             {
@@ -129,6 +121,104 @@ namespace ProductReleaseSystem.Controllers
                 return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}" });
             }
         }
-#endregion
+        #endregion
+
+
+        #region 我发布的页面
+
+        #region 通过姓名用户查询ID
+        /// <summary>
+        /// 通过姓名用户查询ID
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [HttpPost("selectchaxun")]
+        public IActionResult SelectUsers(string name)
+        {
+            try
+
+            {
+                var list = _idemand.InsertUsers(name);
+                return new JsonResult(new { result = 1, message = $"查询用户成功！", data = list }, new JsonSerializerSettings()
+                {
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
+                return new JsonResult(new { result = 0, message = $"查询用户失败！：{exc.Message}" });
+            };
+        }
+        #endregion
+
+        #region 通过姓名ID查询产品需求
+        /// <summary>
+        /// 通过姓名ID查询产品需求
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [HttpPost("selectdemand")]
+        public IActionResult SelectDemand(int id)
+        {
+            try
+
+            {
+                var list = _idemand.SelectDemand(id);
+                return new JsonResult(new { result = 1, message = $"查询用户成功！", data = list }, new JsonSerializerSettings()
+                {
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
+                return new JsonResult(new { result = 0, message = $"查询用户失败！：{exc.Message}" });
+            };
+        }
+        #endregion
+
+        #region 根据产品ID查询需求信息(我发布的)
+        /// <summary>
+        /// 根据产品ID查询需求信息(我发布的)
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        [HttpPost("queryfbproductid")]
+        public IActionResult QueryfbProductId(int id,int nameid)
+        {
+            try
+            {
+                var list = _idemand.QueryfbProductId(id, nameid);
+                return new JsonResult(new { result = 1, message = "查询成功", data = list }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
+            }
+        }
+        #endregion
+
+        #region 根据产品ID查询需求条数(我发布的)
+        /// <summary>
+        /// 根据产品ID查询需求条数(我发布的)
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        [HttpPost("queryfbcount")]
+        public IActionResult QueryfbCount(int id,int nameid)
+        {
+            try
+            {
+                var count = _idemand.QueryfbCount(id,nameid);
+                return new JsonResult(new { result = 1, message = "查询成功", data = count });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
+            }
+        }
+        #endregion
+        #endregion
     }
 }

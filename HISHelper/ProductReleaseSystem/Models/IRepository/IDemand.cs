@@ -93,5 +93,25 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="id">需求ID</param>
         /// <returns></returns>
         List<Dictionary<string, dynamic>> QueryDetailedRequirements(int id);
+
+        /// <summary>
+        /// 通过姓名ID查询产品需求
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> SelectDemand(int id);
+        /// <summary>
+        /// 根据产品ID查询需求信息
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <param name="nameid">人员ID</param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> QueryfbProductId(int id,int nameid);
+        /// <summary>
+        /// 根据产品ID查询需求条数
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <param name="nameid">人员ID</param>
+        /// <returns></returns>
+        object QueryfbCount(int id,int nameid);
     }
 }
