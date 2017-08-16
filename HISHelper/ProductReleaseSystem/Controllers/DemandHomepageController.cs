@@ -78,11 +78,11 @@ namespace ProductReleaseSystem.Controllers
                 {
                     return new JsonResult(new { result = 1, message = $"查询成功,没有需求！" });
                 }
-                else
+                else 
                 {
                 return new JsonResult(new { result = 1, message = "查询成功", data = list }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
                 }
-            }
+            } 
             catch (Exception exc)
             {
                 return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
