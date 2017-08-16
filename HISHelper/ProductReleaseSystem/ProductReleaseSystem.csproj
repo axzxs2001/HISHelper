@@ -73,6 +73,7 @@
     <Content Include="wwwroot\images\Demand\a_69.png" />
     <Content Include="wwwroot\images\Demand\chanpin.png" />
     <Content Include="wwwroot\images\Demand\dizhi.png" />
+    <Content Include="wwwroot\images\Demand\fb_03.png" />
     <Content Include="wwwroot\images\Demand\fd_03.png" />
     <Content Include="wwwroot\images\Demand\informationMaintenance.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

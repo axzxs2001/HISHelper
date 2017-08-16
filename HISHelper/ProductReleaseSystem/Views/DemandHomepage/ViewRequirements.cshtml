@@ -25,6 +25,32 @@
 <script type="text/javascript" src="js/html5shiv.min.js"></script>
 <script type="text/javascript" src="js/respond.min.js"></script>
 <![endif]-->
+
+ 
+<style type="text/css">
+
+    #fbb6 {
+        color: #ffffff;
+        word-wrap: break-word;
+        margin-left: 110px;
+        max-width: 80%;
+    }
+
+    #fbb6 span img{
+        max-width:99%;
+    }
+        #fbb6 p img {
+            max-width: 99%;
+        }
+        #fbb6 p span{
+            color:#fff !important;
+        }
+
+</style>
+
+
+
+
 <body>
     <!--上-->
     <div id="top">
@@ -108,13 +134,13 @@
                         <span>详细需求</span>
                         <p><img src="~/images/Demand/1.png" alt="" style="margin-top: -13px;" /></p>
                     </div>
-                    <div class="news">
-                        <ul class=" fbb" id="fbb6">
+                    <div class="news" id="fbb6"  >
+                        @*<ul class=" fbb">*@
                             @*<li class="lt asdf">医院名称：眼科医院</li>
                             <li class="lt asdf">院方联系人名称：安不上</li>
-                            <li class="lt asdf">联系电话：13212121212</li>
-                            <li class="lt asdf">
-                                雷姆 - "Re:从零开始的异世界生活"中的人物 免费编辑 修改义项名
+                            <li class="lt asdf">联系电话：13212121212</li>*@
+                            @*<li class="lt asdf" >*@
+                                @*雷姆 - "Re:从零开始的异世界生活"中的人物 免费编辑 修改义项名
                                 所属类别 : 动漫人物
                                 雷姆，轻小说《Re：从零开始的异世界生活》及其衍生作品的主要角色，在罗兹沃尔的宅邸中一手担当全部杂务的双胞胎女仆中的
                                 妹妹，小时候家人被魔女教所杀，姐姐角被斩断，从而憎恨魔女教，初识昴因其身上有魔女气味不待见昴，之后解开误会被昴拯救，
@@ -122,16 +148,16 @@
                                 2016年斩获第二届bilibili人气大赏活动日漫区萌王(女子组第一名) 雷姆，轻小说《Re：从零开始的异世界生活》及其衍生作品的主要角色，在罗兹沃尔的宅邸中一手担当全部杂务的双胞胎女仆中的
                                 妹妹，小时候家人被魔女教所杀，姐姐角被斩断，从而憎恨魔女教，初识昴因其身上有魔女气味不待见昴，之后解开误会被昴拯救，
                                 认定昴是她的英雄，一心一意的相信并照顾昴，看似毒舌冷漠，其实内心很坚强，很温柔。
-                                2016年斩获第二届bilibili人气大赏活动日漫区萌王(女子组第一名)
-                            </li>
-                            <li class="lt asdf"><img src="img/q_03.png" alt=""></li>*@
-                        </ul>
-
+                                2016年斩获第二届bilibili人气大赏活动日漫区萌王(女子组第一名)*@
+                            @*</li>*@
+                            @*<li class="lt asdf"><img src="img/q_03.png" alt=""></li>*@
+                        @*</ul>*@
+                        
                     </div>
                 </div>
 
             </div>
-            <div class="pc_top sobsd three" style="display:none">
+            <div class="pc_top sobsd three">
                 <div class="lt nal">
                     <div class="black">
                         <span>人员意见</span>
@@ -187,7 +213,7 @@
                         <!--button-->
                         <div class="buttt rt">
                             <img src="~/images/Demand/a_67.png" style="cursor:pointer" title="清空" />
-                            <img src="~/images/Demand/a_69.png" style="cursor:pointer" />
+                            <img src="~/images/Demand/fb_03.png" style="cursor:pointer"/>
                         </div>
                     </div>
                 </div>
@@ -224,7 +250,7 @@
             $.ajax({
                 type: "POST",
                 url: "/querydetailedrequirements",
-                data: { id: 6 },
+                data: { id: 1003 },
                 success: function (dataBack) {
                     var str = "";
                     var str1 = "";
