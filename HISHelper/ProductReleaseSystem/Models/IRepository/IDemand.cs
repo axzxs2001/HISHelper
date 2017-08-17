@@ -93,5 +93,17 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="id">需求ID</param>
         /// <returns></returns>
         List<Dictionary<string, dynamic>> QueryDetailedRequirements(int id);
+        /// <summary>
+        /// 根据需求ID查询人员意见
+        /// </summary>
+        /// <param name="id">需求ID</param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> QueryOpinion(int id);
+        /// <summary>
+        /// 添加人员意见
+        /// </summary>
+        /// <param name="option">人员意见实体类</param>
+        /// <returns></returns>
+        bool AddOpinion(Opinion option);
     }
 }
