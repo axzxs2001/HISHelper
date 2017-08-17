@@ -113,5 +113,22 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="nameid">人员ID</param>
         /// <returns></returns>
         object QueryfbCount(int id,int nameid);
+        /// <summary>
+        /// 查询已完成的所有产品
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> CarryOutProducts();
+        /// <summary>
+        /// 根据产品ID查询需求信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> QueryCarryOutProductId(int id);
+        /// <summary>
+        /// 根据产品ID查询需求条数
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        object QueryCarryOutCount(int id);
     }
 }

@@ -220,5 +220,68 @@ namespace ProductReleaseSystem.Controllers
         }
         #endregion
         #endregion
+
+
+        #region  已完成的页面
+        #region 查询已完成的所有产品
+        /// <summary>
+        /// 查询已完成的所有产品
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("carryoutproducts")]
+        public IActionResult CarryOutProducts()
+        {
+            try
+            {
+                var list = _idemand.CarryOutProducts();
+                return new JsonResult(new { result = 1, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}" });
+            }
+        }
+        #endregion
+        #region 根据产品ID查询已完成需求信息
+        /// <summary>
+        /// 根据产品ID查询已完成需求信息
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        [HttpPost("querycarryoutproductid")]
+        public IActionResult QueryCarryOutProductId(int id)
+        {
+            try
+            {
+                var list = _idemand.QueryCarryOutProductId(id);
+                return new JsonResult(new { result = 1, message = "查询成功", data = list }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
+            }
+        }
+        #endregion
+        #region 根据产品ID查询已完成需求条数
+        /// <summary>
+        /// 根据产品ID查询需求条数
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        [HttpPost("querycarryoutcount")]
+        public IActionResult QueryCarryOutCount(int id)
+        {
+            try
+            {
+                var count = _idemand.QueryCarryOutCount(id);
+                return new JsonResult(new { result = 1, message = "查询成功", data = count });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
+            }
+        }
+        #endregion
+        #endregion
     }
 }

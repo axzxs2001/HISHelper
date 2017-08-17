@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
-    <title>02</title>
+    <title>产品需求</title>
     <!--boot的css-->
     <link href="~/css/bootstrap.css" rel="stylesheet" />
     <!--自己的css-->
@@ -178,10 +178,10 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <button id="deletestatus" type="button" class="btn btn-default" data-dismiss="modal">
                         是
                     </button>
-                    <button type="button" class="btn btn-primary">
+                    <button type="button" class="btn btn-primary"data-dismiss="modal">
                         否
                     </button>
                 </div>
@@ -223,7 +223,7 @@
         <ul class="nav_ui">
             <li style="background:#293335"><a href="#" class="momo-js" id="quanbu">查看全部</a></li>
             <li><a href="#" class="momo-js" id="fabu" onclick="InsertUser()">我发布的</a></li>
-            <li><a href="#" class="momo-js" id="wanchegn">已完成的</a></li>
+            <li><a href="#" class="momo-js" id="wanchegn" onclick="CarryOutProducts()">已完成的</a></li>
             <!--<li><a href="#">添加产品</a></li>-->
             <li><a href="#" class="momo-js" id="zhikan" onclick="JustlookProducts()">只看产品</a></li>
             <li><a href="#" class="momo-js" id="caogao">草稿箱</a></li>
@@ -394,7 +394,7 @@
         <!-- 我发布的-->
         <div class="tabb ss2" style="display: none">
             <table id="tablefb" class="table table-hover" style=" color: #ccc; ">
-                <thead>
+                @*<thead>
                     <tr>
                         <th><input type="checkbox"><span></span>标题</th>
                         <th><span></span>优先级</th>
@@ -547,12 +547,12 @@
                     <td>娃娃娃娃女</td>
                     <td>未通过</td>
                     <td>2017/8/7</td>
-                </tr>
+                </tr>*@
             </table>
         </div>
         <!-- 已完成的-->
         <div class="tabb ss3" style="display: none">
-            <table class="table table-hover" style=" color: #ccc; ">
+            <table id="carryout" class="table table-hover" style=" color: #ccc; ">
                 <thead>
                     <tr>
                         <th><input type="checkbox"><span></span>标题</th>
@@ -712,7 +712,7 @@
         <!--只看产品-->
         <div class="tabb ss4" style="display:none">
             <table id="tablezkcp" class="table table-hover" style="color: #ccc">
-                <thead>
+                @*<thead>
                     <tr>
                         <th><input type="checkbox"><span></span>标题</th>
                         <!--<th><span></span>优先级</th>-->
@@ -840,7 +840,7 @@
                         <!--<th></th>-->
                         <!--<th></th>-->
                     </tr>
-                </thead>
+                </thead>*@
                 <!--<tr>-->
                 <!--<td><input type="checkbox">微信公众号挂号</td>-->
                 <!--<td>娃娃娃娃女</td>-->
@@ -1408,6 +1408,88 @@
         //#endregion
 
 
+        //#region  添加产品
+        function CarryOutProducts() {
+            $.ajax({
+                type: "GET",
+                url: '/carryoutproducts',
+                data: {},
+                success: function (dataBack) {
+                    var str = '';
+                    str += '<thead>';
+                    str += '<tr>';
+                    str += '<th><input type="checkbox"><span></span>标题</th>';
+                    str += ' <th><span></span>优先级</th>';
+                    str += ' <th></th>';
+                    str += '<th><span></span>发布人</th>';
+                    str += '<th><span></span>审核状态</th>';
+                    str += '<th><span></span>发布时间</th>';
+                    str += '</tr>';
+                    str += '</thead>';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<thead id="carry' + item["Id"] + '" value="' + item["Id"] + '">';
+                        str += '<tr>';
+                        str += '<th id="carry1' + item["Id"] + '">' + item["ProductName"] + '</th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '</tr>';
+                        str += '</thead>';
+                        QueryCarryOutProductId(item["Id"]);   //获得产品ID查询需求信息
+                        QueryCarryOutCount(item["Id"]);   //获得产品ID查询需求条数
+                    });
+                    $("#carryout").html(str);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+        //#endregion
+        //#region  通过产品ID查询需求信息
+        function QueryCarryOutProductId(id) {
+            $.ajax({
+                type: "POST",
+                url: '/querycarryoutproductid',
+                data: { id: id },
+                success: function (dataBack) {
+                    var str = '';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<tr value="' + item["Id"] + '">';
+                        str += '<td><input type="checkbox">' + item["DemandNname"] + '</td>';
+                        str += ' <td>' + item["Priority"] + '</td>';
+                        str += ' <td></td>';
+                        str += '<td>' + item["Name"] + '</td>';
+                        str += '<td>' + item["status"] + '</td>';
+                        str += '<td>' + item["MakeTime"] + '</td>';
+                        str += " </tr>";
+                    });
+                    $("#carry" + id + "").append(str);
+                    str = '';
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+        //#endregion
+        //#region  通过产品ID查询需求条数
+        function QueryCarryOutCount(id) {
+            $.ajax({
+                type: "POST",
+                url: '/querycarryoutcount',
+                data: { id: id },
+                success: function (dataBack) {
+                    $("#carry1" + id + "").append("（" + dataBack.data + "条）");
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+        //#endregion
     </script>
 </body>
 </html>

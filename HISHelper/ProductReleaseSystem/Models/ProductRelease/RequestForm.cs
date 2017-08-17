@@ -21,6 +21,7 @@ namespace ProductReleaseSystem.ProductRelease
         public string Status { get; set; }
         public string ProductID { get; set; }
         public string Address { get; set; }
+        public int DeleteStatus { get; set; }
 
     }
 }
