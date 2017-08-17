@@ -53,11 +53,11 @@ namespace ProductReleaseSystem.Controllers
             try
             {
                 var list = _idemand.QueryProducts();
-                return new JsonResult(new { result = 1, data = list, message = "查询成功"},new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+                return new JsonResult(new { result = 1, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
             }
             catch (Exception exc)
             {
-                return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}"});
+                return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}" });
             }
         }
         #endregion
@@ -74,7 +74,7 @@ namespace ProductReleaseSystem.Controllers
             {
                 var list = _idemand.QueryRequestByProductId(id);
                 return new JsonResult(new { result = 1, message = "查询成功", data = list }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
-            } 
+            }
             catch (Exception exc)
             {
                 return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
@@ -116,7 +116,8 @@ namespace ProductReleaseSystem.Controllers
             {
                 var list = _idemand.QueryDetailedRequirements(id);
                 return new JsonResult(new { result = 1, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
-            } catch (Exception exc)
+            }
+            catch (Exception exc)
             {
                 return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}" });
             }
@@ -185,7 +186,7 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="id">产品ID</param>
         /// <returns></returns>
         [HttpPost("queryfbproductid")]
-        public IActionResult QueryfbProductId(int id,int nameid)
+        public IActionResult QueryfbProductId(int id, int nameid)
         {
             try
             {
@@ -206,11 +207,11 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="id">产品ID</param>
         /// <returns></returns>
         [HttpPost("queryfbcount")]
-        public IActionResult QueryfbCount(int id,int nameid)
+        public IActionResult QueryfbCount(int id, int nameid)
         {
             try
             {
-                var count = _idemand.QueryfbCount(id,nameid);
+                var count = _idemand.QueryfbCount(id, nameid);
                 return new JsonResult(new { result = 1, message = "查询成功", data = count });
             }
             catch (Exception exc)
@@ -279,6 +280,111 @@ namespace ProductReleaseSystem.Controllers
             catch (Exception exc)
             {
                 return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
+            }
+        }
+        #endregion
+        #endregion
+
+        #region 删除需求改变需求的状态放在垃圾箱里
+        /// <summary>
+        /// 删除需求改变需求的状态放在垃圾箱里
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("deletestatus")]
+        public IActionResult DeleteStatus(int deletestatus, int ID)
+        {
+            try
+            {
+                var list = _idemand.DeleteStatus(deletestatus, ID);
+                return new JsonResult(new { result = 1, data = list, message = "删除成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"删除失败:{exc.Message}" });
+            }
+        }
+        #endregion
+
+        #region 垃圾箱页面方法
+
+        #region 垃圾箱查询所有产品
+        /// <summary>
+        /// 垃圾箱查询所有产品
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("deletequeryselectproducts")]
+        public IActionResult DeleteQueryProducts()
+        {
+            try
+            {
+                var list = _idemand.DeleteQueryProducts();
+                return new JsonResult(new { result = 1, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}" });
+            }
+        }
+        #endregion
+
+        #region 垃圾箱根据产品ID查询需求信息
+        /// <summary>
+        /// 垃圾箱根据产品ID查询需求信息
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        [HttpPost("deletequeryrequestbyproductid")]
+        public IActionResult DeleteQueryRequestByProductId(int id)
+        {
+            try
+            {
+                var list = _idemand.DeleteQueryRequestByProductId(id);
+                return new JsonResult(new { result = 1, message = "查询成功", data = list }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
+            }
+        }
+        #endregion
+
+        #region 垃圾箱根据产品ID查询需求条数
+        /// <summary>
+        /// 垃圾箱根据产品ID查询需求条数
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        [HttpPost("deletequeryrequestcount")]
+        public IActionResult DeleteQueryRequestCount(int id)
+        {
+            try
+            {
+                var count = _idemand.DeleteQueryRequestCount(id);
+                return new JsonResult(new { result = 1, message = "查询成功", data = count });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
+            }
+        }
+        #endregion
+
+        #region 垃圾箱还原需求
+        /// <summary>
+        /// 垃圾箱还原需求
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("reduction")]
+        public IActionResult Reduction(int deletestatus, int ID)
+        {
+            try
+            {
+                var list = _idemand.Reduction(deletestatus, ID);
+                return new JsonResult(new { result = 1, data = list, message = "还原成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"还原失败:{exc.Message}" });
             }
         }
         #endregion

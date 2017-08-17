@@ -291,7 +291,7 @@ WHERE ID=@id";
         {
             var sql = @"select distinct  a.ID AS Id,a.ProductName AS ProductName from Products a 
 JOIN RequestForm b 
-ON a.ID=b.ProductID";
+ON a.ID=b.ProductID and DeleteStatus=1";
             return _dbHelper.GetList(sql);
         }
         #endregion
@@ -313,7 +313,7 @@ a.status,
 a.MakeTime from RequestForm a 
  join Products b on a.ProductID=b.ID 
  JOIN Developers c on a.ImplementerID=c.ID
- where ProductID=@id and Status!='已完成'";
+ where ProductID=@id and Status!='已完成'and DeleteStatus=1";
             var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.GetList(sql, par);
         }
@@ -327,7 +327,7 @@ a.MakeTime from RequestForm a
         /// <returns></returns>
         public object QueryRequestCount(int id)
         {
-            var sql = @"select count(*) AS COUNT from RequestForm where ProductID=@ID and Status!='已完成'";
+            var sql = @"select count(*) AS COUNT from RequestForm where ProductID=@ID and Status!='已完成'and DeleteStatus=1";
             var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.GetValue(sql, par);
         }
@@ -376,7 +376,7 @@ RequestForm a inner join Developers b on a.ImplementerID=b.ID inner join Departm
             var sql = @"select distinct  a.ID,a.ProductName from Products a 
 JOIN RequestForm b 
 ON a.ID=b.ProductID
-where b.ImplementerID=@ID";
+where b.ImplementerID=@ID and DeleteStatus=1";
             var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.GetList(sql, par);
         }
@@ -399,7 +399,7 @@ a.status,
 a.MakeTime from RequestForm a 
  join Products b on a.ProductID=b.ID 
  JOIN Developers c on a.ImplementerID=c.ID
- where ProductID=@id  and a.ImplementerID=@nameid and Status!='已完成'";
+ where ProductID=@id  and a.ImplementerID=@nameid and Status!='已完成'and DeleteStatus=1";
             var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             var par1 = new SqlParameter() { ParameterName = "@nameid", SqlDbType = System.Data.SqlDbType.Int, Value = nameid };
             return _dbHelper.GetList(sql, par,par1);
@@ -414,7 +414,7 @@ a.MakeTime from RequestForm a
         /// <returns></returns>
         public object QueryfbCount(int id,int nameid)
         {
-            var sql = @"select count(*) AS COUNT from RequestForm where ProductID=@ID and ImplementerID=@nameid and Status!='已完成'";
+            var sql = @"select count(*) AS COUNT from RequestForm where ProductID=@ID and ImplementerID=@nameid and Status!='已完成'and DeleteStatus=1";
             var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             var par1 = new SqlParameter() { ParameterName = "@nameid", SqlDbType = System.Data.SqlDbType.Int, Value = nameid };
             return _dbHelper.GetValue(sql, par, par1);
@@ -432,7 +432,7 @@ a.MakeTime from RequestForm a
         {
             var sql = @"select distinct  a.ID AS Id,a.ProductName AS ProductName from Products a 
 JOIN RequestForm b 
-ON a.ID=b.ProductID where b.Status='已完成'";
+ON a.ID=b.ProductID where b.Status='已完成'and DeleteStatus=1";
             return _dbHelper.GetList(sql);
         }
         #endregion
@@ -453,7 +453,7 @@ a.status,
 a.MakeTime from RequestForm a 
  join Products b on a.ProductID=b.ID 
  JOIN Developers c on a.ImplementerID=c.ID
- where ProductID=@id and Status='已完成'";
+ where ProductID=@id and Status='已完成'and DeleteStatus=1";
             var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.GetList(sql, par);
         }
@@ -466,11 +466,105 @@ a.MakeTime from RequestForm a
         /// <returns></returns>
         public object QueryCarryOutCount(int id)
         {
-            var sql = @"select count(*) AS COUNT from RequestForm where ProductID=@ID and Status='已完成'";
+            var sql = @"select count(*) AS COUNT from RequestForm where ProductID=@ID and Status='已完成'and DeleteStatus=1";
             var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.GetValue(sql, par);
         }
         #endregion
         #endregion
+
+        #region  删除修改需求编号
+        /// <summary>
+        /// 删除修改需求编号
+        /// </summary>
+        /// <param name="requestform"></param>
+        /// <returns></returns>
+        public bool DeleteStatus(int deletestatus, int ID)
+        {
+            var sql = @"UPDATE RequestForm SET 
+DeleteStatus=@DeleteStatus
+WHERE ID=@id";
+            
+            var par1 = new SqlParameter() { ParameterName = "@DeleteStatus", SqlDbType = System.Data.SqlDbType.Int, Value = deletestatus };
+            var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = ID };
+
+            return _dbHelper.SavaData(sql,par1, par) > 0 ? true : false;
+        }
+        #endregion
+
+
+        #region 垃圾箱页面
+
+        #region 垃圾箱查询所有产品
+        /// <summary>
+        /// 查询所有产品
+        /// </summary>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> DeleteQueryProducts()
+        {
+            var sql = @"select distinct  a.ID AS Id,a.ProductName AS ProductName from Products a 
+JOIN RequestForm b 
+ON a.ID=b.ProductID and DeleteStatus=3";
+            return _dbHelper.GetList(sql);
+        }
+        #endregion
+
+        #region 垃圾箱根据产品ID查询所有审核中以及审核通过的需求
+        /// <summary>
+        /// 根据根据产品ID查询所有审核中以及审核通过的需求
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> DeleteQueryRequestByProductId(int id)
+        {
+            var sql = @"select 
+a.Id,
+a.DemandNname,
+a.Priority,
+c.Name,
+a.status,
+a.MakeTime from RequestForm a 
+ join Products b on a.ProductID=b.ID 
+ JOIN Developers c on a.ImplementerID=c.ID
+ where ProductID=@id and Status!='已完成'and DeleteStatus=3";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.GetList(sql, par);
+        }
+        #endregion
+
+        #region 垃圾箱查询产品共有多少条审核中及审核通过的需求
+        /// <summary>
+        /// 查询产品共有多少条审核中及审核通过的需求
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        public object DeleteQueryRequestCount(int id)
+        {
+            var sql = @"select count(*) AS COUNT from RequestForm where ProductID=@ID and Status!='已完成'and DeleteStatus=3";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.GetValue(sql, par);
+        }
+        #endregion
+
+        #region  还原垃圾箱需求
+        /// <summary>
+        /// 删除修改需求编号
+        /// </summary>
+        /// <param name="requestform"></param>
+        /// <returns></returns>
+        public bool Reduction(int deletestatus, int ID)
+        {
+            var sql = @"UPDATE RequestForm SET 
+DeleteStatus=@DeleteStatus
+WHERE ID=@id";
+
+            var par1 = new SqlParameter() { ParameterName = "@DeleteStatus", SqlDbType = System.Data.SqlDbType.Int, Value = deletestatus };
+            var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = ID };
+
+            return _dbHelper.SavaData(sql, par1, par) > 0 ? true : false;
+        }
+        #endregion
+        #endregion
+
     }
 }

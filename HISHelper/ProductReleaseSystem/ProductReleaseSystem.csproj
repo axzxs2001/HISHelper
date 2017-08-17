@@ -33,6 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\css\04index.css" />
     <Content Include="wwwroot\css\DeveloperUpload.css" />
     <Content Include="wwwroot\css\informationMaintenance.css" />
     <Content Include="wwwroot\css\InResearchDownload.css" />
@@ -88,6 +89,7 @@
     <Content Include="wwwroot\images\product.png" />
     <Content Include="wwwroot\images\shishitupian.jpg" />
     <Content Include="wwwroot\js\index.js" />
+    <Content Include="wwwroot\js\jquery - 复制.datetimepicker.js" />
     <Content Include="wwwroot\js\jquery.datetimepicker.js" />
     <Content Include="wwwroot\js\jquery.form.js" />
     <Content Include="wwwroot\js\productdemand.js" />

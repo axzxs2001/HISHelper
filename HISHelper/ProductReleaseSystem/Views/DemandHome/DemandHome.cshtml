@@ -1,0 +1,1141 @@
+﻿@{ 
+    Layout = null;
+}
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html lang="en" class="ie6 ielt8"> <![endif]-->
+<!--[if IE 7 ]> <html lang="en" class="ie7 ielt8"> <![endif]-->
+<!--[if IE 8 ]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <title>04index</title>
+    <!--boot的css-->
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+    <!--自己的css-->
+    <link href="~/css/register_index.css" rel="stylesheet" />
+    <link href="~/css/04index.css" rel="stylesheet" />
+</head>
+<!--jquery+boot+ie9以下适配html5的js-->
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+<!--[if lte IE 9]>
+<script type="text/javascript" src="js/html5shiv.min.js"></script>
+<script type="text/javascript" src="js/respond.min.js"></script>
+
+<![endif]-->
+<script src="~/js/index.js"></script>
+<body>
+    <!--上-->
+    <div id="top">
+        <div class="green">
+            <div class="wrap">
+                <ul class="ulz lt">
+                    <li class="cp lt">产品需求查看</li>
+                </ul>
+                <ul class="uly lt" style="width:70%">
+                    <li style="color:#fff;float:left;margin-top:35px;margin-left:20px"><p>Publisher：刘靖凯</p><p>date：2017/7/31</p></li>
+                    <li class="shd rt">
+                        <img src="~/images/Demand/fd_03.png" alt="" class="fdj"/>
+                        <span>搜&nbsp;&nbsp;索</span>
+                        <span class="bbbb"></span>
+                        <input type="text" class="texxx" value="" placeholder="请输入要搜索的内容">
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--点击按钮-->
+        <div class="why momo">
+            <ul class="momo-0">
+                <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">工作台</button></li>
+
+                <!--<li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">新增</button></li>-->
+                <!--<li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myMsso">删除</button></li>-->
+                <!--<li><button class="lt btn btn-primary ">审核通过</button></li>-->
+            </ul>
+            <ul class="momo-1" style="display:none ;">
+                <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">工作台</button></li>
+                <!--<li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">新增</button></li>-->
+                <!--<li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myMsso">删除</button></li>-->
+                <!--&lt;!&ndash;<li><button class="btn btn-primary lt">审核通过</button></li>&ndash;&gt;-->
+            </ul>
+            <ul class="momo-2" style="display:none ;">
+                <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">工作台</button></li>
+                <!--&lt;!&ndash;<li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">新增</button></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><button class="btn btn-primary lt">删除</button></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><button class="btn btn-primary lt">审核通过</button></li>&ndash;&gt;-->
+            </ul>
+            <ul class="momo-3" style="display:none ;">
+                <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">工作台</button></li>
+                <!--<li><button class="btn btn-primary lt btn-lg" data-toggle="modal" data-target="#myMsso">删除</button></li>-->
+                <!--&lt;!&ndash;<li><button class="btn btn-primary lt">审核通过</button></li>&ndash;&gt;-->
+            </ul>
+            <ul class="momo-4" style="display:none ;">
+                <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">工作台</button></li>
+                <!--<li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myMsso">删除</button></li>-->
+            </ul>
+            <ul class="momo-5" style="display:none ;">
+                <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">工作台</button></li>
+                <!--<li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myYuan">还原</button></li>-->
+                <!--<li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myMsso">删除</button></li>-->
+                <!--<li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myMos">清空</button></li>-->
+            </ul>
+        </div>
+    </div>
+    <!--模态框 点击新增-->
+    <!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+    <!--<div class="modal-dialog">-->
+    <!--<div class="modal-content">-->
+    <!--<div class="modal-header">-->
+    <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">-->
+    <!--&times;-->
+    <!--</button>-->
+    <!--<h4 class="modal-title" id="myModa">-->
+    <!--添加产品-->
+    <!--</h4>-->
+    <!--</div>-->
+    <!--<div class="modal-body">-->
+    <!--<form role="form">-->
+    <!--<div class="form-group" style="overflow:hidden;">-->
+    <!--<label for="inputEmail3" class="col-sm-2 control-label">添加产品</label>-->
+    <!--<div class="col-lg-10">-->
+    <!--<input type="text" class="form-control" id="inputEmail3" placeholder="请输入名称">-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="form-group"  style="overflow:hidden;">-->
+    <!--<label for="inputEmail3" class=" control-label col-xs-2">适配环境</label>-->
+    <!--<div class="col-xs-10">-->
+    <!--<select class="form-control ">-->
+    <!--<option>1</option>-->
+    <!--<option>2</option>-->
+    <!--<option>3</option>-->
+    <!--<option>4</option>-->
+    <!--<option>5</option>-->
+    <!--</select>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</form>-->
+    <!--</div>-->
+    <!--<div class="modal-footer">-->
+    <!--<button type="button" class="btn btn-default" data-dismiss="modal">关闭-->
+    <!--</button>-->
+    <!--<button type="button" class="btn btn-primary">-->
+    <!--提交更改-->
+    <!--</button>-->
+    <!--</div>-->
+    <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
+    <!--</div>&lt;!&ndash; /.modal &ndash;&gt;-->
+    <!--</div>-->
+    <!--&lt;!&ndash;模态框 点击还原&ndash;&gt;-->
+    <!--<div class="modal fade" id="myYuan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+    <!--<div class="modal-dialog">-->
+    <!--<div class="modal-content">-->
+    <!--<div class="modal-header">-->
+    <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">-->
+    <!--&times;-->
+    <!--</button>-->
+    <!--<h4 class="modal-title" id="myModalLabel">-->
+    <!--提&nbsp;&nbsp;示-->
+    <!--</h4>-->
+    <!--</div>-->
+    <!--<div class="modal-body">-->
+    <!--<form role="form">-->
+    <!--<div class="form-group" style="overflow:hidden;">-->
+    <!--<h3 style="text-align: center">是否还原内容？</h3>-->
+    <!--</div>-->
+    <!--</form>-->
+    <!--</div>-->
+    <!--<div class="modal-footer">-->
+    <!--<button type="button" class="btn btn-default" data-dismiss="modal">是-->
+    <!--</button>-->
+    <!--<button type="button" class="btn btn-primary">-->
+    <!--否-->
+    <!--</button>-->
+    <!--</div>-->
+    <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
+    <!--</div>&lt;!&ndash; /.modal &ndash;&gt;-->
+    <!--</div>-->
+    <!--&lt;!&ndash;删除&ndash;&gt;-->
+    <!--<div class="modal fade" id="myMsso" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+    <!--<div class="modal-dialog">-->
+    <!--<div class="modal-content">-->
+    <!--<div class="modal-header">-->
+    <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">-->
+    <!--&times;-->
+    <!--</button>-->
+    <!--<h4 class="modal-title" id="myMod">-->
+    <!--提&nbsp;&nbsp;示-->
+    <!--</h4>-->
+    <!--</div>-->
+    <!--<div class="modal-body">-->
+    <!--<form role="form">-->
+    <!--<div class="form-group" style="overflow:hidden;">-->
+    <!--<h3 style="text-align: center">是否删除内容？</h3>-->
+    <!--</div>-->
+    <!--&lt;!&ndash;&lt;!&ndash;</div>&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;<div class="form-group"  style="overflow:hidden;">&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;<label for="inputEmail3" class=" control-label col-xs-2">适配环境</label>&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;<div class="col-xs-10">&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;<select class="form-control ">&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;<option>1</option>&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;<option>2</option>&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;<option>3</option>&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;<option>4</option>&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;<option>5</option>&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;</select>&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--</form>-->
+    <!--</div>-->
+    <!--<div class="modal-footer">-->
+    <!--<button type="button" class="btn btn-default" data-dismiss="modal">是-->
+    <!--</button>-->
+    <!--<button type="button" class="btn btn-primary">-->
+    <!--否-->
+    <!--</button>-->
+    <!--</div>-->
+    <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
+    <!--</div>&lt;!&ndash; /.modal &ndash;&gt;-->
+    <!--</div>-->
+    <!--&lt;!&ndash;模态框 点击清空&ndash;&gt;-->
+    <!--<div class="modal fade" id="myMos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+    <!--<div class="modal-dialog">-->
+    <!--<div class="modal-content">-->
+    <!--<div class="modal-header">-->
+    <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">-->
+    <!--&times;-->
+    <!--</button>-->
+    <!--<h4 class="modal-title" id="myMooo">-->
+    <!--提&nbsp;&nbsp;示-->
+    <!--</h4>-->
+    <!--</div>-->
+    <!--<div class="modal-body">-->
+    <!--<form role="form">-->
+    <!--<div class="form-group" style="overflow:hidden;">-->
+    <!--<h3 style="text-align: center">是否清空内容？</h3>-->
+    <!--</div>-->
+    <!--</form>-->
+    <!--</div>-->
+    <!--<div class="modal-footer">-->
+    <!--<button type="button" class="btn btn-default" data-dismiss="modal">是-->
+    <!--</button>-->
+    <!--<button type="button" class="btn btn-primary">-->
+    <!--否-->
+    <!--</button>-->
+    <!--</div>-->
+    <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
+    <!--</div>&lt;!&ndash; /.modal &ndash;&gt;-->
+    <!--</div>-->
+    <!--left content-->
+    <div class="nav lt">
+        <ul class="nav_ui">
+            <li><a href="#" class="momo-js">所有需求</a></li>
+            <li><a href="#" class="momo-js">与我相关</a></li>
+            <li><a href="#" class="momo-js">在研项目</a></li>
+            <!--<li><a href="#">添加产品</a></li>-->
+            <li><a href="#" class="momo-js">已完成的</a></li>
+            <li><a href="#" class="momo-js">未开始的</a></li>
+            <li><a href="#" class="momo-js">我的收藏</a></li>
+        </ul>
+    </div>
+    <!--right_content-->
+    <div class="right_content">
+        <!-- 所有需求-->
+        <div class="tabb ss1" style="display: none">
+            <table class="table table-hover" style=" color: #ccc; ">
+                <thead>
+                    <tr>
+                        <th><span></span>标题</th>
+                        <th><span></span>优先级</th>
+                        <th></th>
+                        <th><span></span>发布人</th>
+                        <th><span></span>状态</th>
+                        <th><span></span>发布时间</th>
+
+                    </tr>
+                </thead>
+                <thead>
+                    <tr>
+                        <th class="hh">微信公众号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+
+                </thead>
+                <tr>
+                    <td>微信公众号收费</td>
+                    <td>aaaa</td>
+                    <td></td>
+                    <td>地球求</td>
+                    <td>已确认</td>
+                    <td>2017/8/7</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">门诊挂号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>门诊挂号</td>
+                    <td>sssss</td>
+                    <td></td>
+                    <td>你是谁</td>
+                    <td>开发中</td>
+                    <td>2017/8/7</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">预约挂号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>预约挂号挂号</td>
+                    <td>dddddd</td>
+                    <td></td>
+                    <td>走开</td>
+                    <td>测试中</td>
+                    <td>2017/8/7</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">药物挂号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>药物挂号</td>
+                    <td>ffffff</td>
+                    <td></td>
+                    <td>你该吃药了兄弟</td>
+                    <td>已完成</td>
+                    <td>2017/8/7</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">服务号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>呜呜挂号</td>
+                    <td>ggga</td>
+                    <td></td>
+                    <td>挂你妹</td>
+                    <td>已完成</td>
+                    <td>2017/8/7</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">眼科挂号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>眼科挂号</td>
+                    <td>jiangj</td>
+                    <td></td>
+                    <td>验验验验验验验</td>
+                    <td>测试中</td>
+                    <td>2017/8/7</td>
+                </tr>
+                <tr>
+                    <td>眼科挂号</td>
+                    <td>aaaadddd</td>
+                    <td></td>
+                    <td>啊啊啊啊啊啊啊啊</td>
+                    <td>测试中</td>
+                    <td>2017/8/7</td>
+                </tr>
+                <tr>
+                    <td>眼科挂号</td>
+                    <td>别再说</td>
+                    <td></td>
+                    <td>eeeeeeee</td>
+                    <td>测试中</td>
+                    <td>2017/8/7</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">微信公众号挂号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>微信公众号挂号</td>
+                    <td>a折磨a</td>
+                    <td></td>
+                    <td>娃娃娃娃女</td>
+                    <td>测试中</td>
+                    <td>2017/8/7</td>
+                </tr>
+            </table>
+        </div>
+        <!-- 与我相关-->
+        <div class="tabb ss2" style="display: none">
+            <table class="table table-hover" style=" color: #ccc; ">
+                <thead>
+                    <tr>
+                        <th><span></span>标题</th>
+                        <th><span></span>状态</th>
+                        <th></th>
+                        <th><span></span>发布人</th>
+                    </tr>
+                </thead>
+                <thead>
+                    <tr>
+                        <th class="hh">微信公众号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>微信公众号收费</td>
+                    <td>地球求</td>
+                    <td></td>
+                    <td>测试中</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">门诊挂号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>门诊挂号</td>
+                    <td>门诊挂号</td>
+                    <td></td>
+                    <td>2017/8/7</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">预约挂号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>预约挂号挂号</td>
+                    <td>走开</td>
+                    <td></td>
+                    <td>开发中</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">药物挂号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>药物挂号</td>
+                    <td>已确认</td>
+                    <td></td>
+                    <td>2017/8/7</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">服务号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>呜呜挂号</td>
+                    <td>呜呜挂号</td>
+                    <td></td>
+                    <td>2017/8/7</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">眼科挂号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>眼科挂号</td>
+                    <td>测试中</td>
+                    <td></td>
+                    <td>2017/8/7</td>
+                </tr>
+                <tr>
+                    <td>眼科挂号</td>
+                    <td>未通过</td>
+                    <td></td>
+                    <td>2017/8/7</td>
+                </tr>
+                <tr>
+                    <td>未通过</td>
+                    <td>眼科挂号</td>
+                    <td></td>
+                    <td>2017/8/7</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">微信公众号挂号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tr>
+                    <td>微信公众号挂号</td>
+                    <td>未通过</td>
+                    <td></td>
+                    <td>2017/8/7</td>
+                </tr>
+            </table>
+        </div>
+        <!-- 在研项目-->
+        <div class="tabb ss3" style="display: none">
+            <table class="table table-hover" style=" color: #ccc; ">
+                <thead>
+                    <tr>
+                        <th><span></span>标题</th>
+                        <th><span></span>开始时间</th>
+                        <th></th>
+                        <th><span></span>预计结束时间</th>
+                        <th><span></span>发布人</th>
+                    </tr>
+                </thead>
+                <thead>
+                    <tr>
+                        <th class="hh">微信公众号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+
+                </thead>
+                <tr>
+                    <td>微信公众号收费</td>
+                    <td>2017/8/7</td>
+                    <td></td>
+                    <td>2018/9/10</td>
+                    <td>海贼王</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">门诊挂号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>门诊挂号</td>
+                    <td>2017/8/7</td>
+                    <td></td>
+                    <td>2018/9/10</td>
+                    <td>海贼王</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">预约挂号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>预约挂号挂号</td>
+                    <td>2017/8/7</td>
+                    <td></td>
+                    <td>2018/9/10</td>
+                    <td>海贼王</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">药物挂号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>药物挂号</td>
+                    <td>2017/8/7</td>
+                    <td></td>
+                    <td>2018/9/10</td>
+                    <td>海贼王</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">服务号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>呜呜挂号</td>
+                    <td>2017/8/7</td>
+                    <td></td>
+                    <td>2018/9/10</td>
+                    <td>海贼王</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">眼科挂号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>眼科挂号</td>
+                    <td>2017/8/7</td>
+                    <td></td>
+                    <td>2018/9/10</td>
+                    <td>海贼王</td>
+                </tr>
+                <tr>
+                    <td>眼科挂号</td>
+                    <td>2017/8/7</td>
+                    <td></td>
+                    <td>2018/9/10</td>
+                    <td>海贼王</td>
+                </tr>
+                <tr>
+                    <td>眼科挂号</td>
+                    <td>2017/8/7</td>
+                    <td></td>
+                    <td>2018/9/10</td>
+                    <td>海贼王</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">微信公众号挂号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>微信公众号挂号</td>
+                    <td>2017/8/7</td>
+                    <td></td>
+                    <td>2018/9/10</td>
+                    <td>海贼王</td>
+                </tr>
+            </table>
+        </div>
+        <!--已完成的-->
+        <div class="tabb ss4" style="display:none">
+            <table class="table table-hover" style="color: #ccc">
+                <thead>
+                    <tr>
+                        <th><span></span>标题</th>
+                        <!--<th></th>-->
+                        <th><span></span>发布人</th>
+                        <th><span></span>状态</th>
+                        <th><span></span>结束时间</th>
+                        <th><span></span>版本号</th>
+                    </tr>
+                </thead>
+                <thead>
+                    <tr>
+                        <th class="hh">微信公众号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <!--<th></th>-->
+                    </tr>
+
+                </thead>
+                <tr>
+                    <td>微信公众号收费</td>
+                    <td>路飞</td>
+                    <td>测试中</td>
+                    <td>2019/8/7</td>
+                    <td>15/8/8</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">门诊挂号&nbsp;&nbsp;&nbsp;（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>微信公众号收费</td>
+                    <td>路飞</td>
+                    <td>测试中</td>
+                    <td>2019/8/7</td>
+                    <td>15/8/8</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">预约挂号&nbsp;&nbsp;&nbsp;（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <!--<th></th>-->
+                    </tr>
+                </thead>
+                <tr>
+                    <td>微信公众号收费</td>
+                    <td>路飞</td>
+                    <td>测试中</td>
+                    <td>2019/8/7</td>
+                    <td>15/8/8</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">药物挂号&nbsp;&nbsp;&nbsp;（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <!--<th></th>-->
+                    </tr>
+                </thead>
+                <tr>
+                    <td>微信公众号收费</td>
+                    <td>路飞</td>
+                    <td>测试中</td>
+                    <td>2019/8/7</td>
+                    <td>15/8/8</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">服务号&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <!--<th></th>-->
+                    </tr>
+                </thead>
+                <tr>
+                    <td>微信公众号收费</td>
+                    <td>路飞</td>
+                    <td>测试中</td>
+                    <td>2019/8/7</td>
+                    <td>15/8/8</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">眼科挂号 &nbsp;&nbsp;（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <!--<th></th>-->
+                    </tr>
+                </thead>
+                <tr>
+                    <td>微信公众号收费</td>
+                    <td>路飞</td>
+                    <td>测试中</td>
+                    <td>2019/8/7</td>
+                    <td>15/8/8</td>
+                </tr>
+                <tr>
+                    <td>微信公众号收费</td>
+                    <td>路飞</td>
+                    <td>测试中</td>
+                    <td>2019/8/7</td>
+                    <td>15/8/8</td>
+                </tr>
+                <tr>
+                    <td>微信公众号收费</td>
+                    <td>路飞</td>
+                    <td>测试中</td>
+                    <td>2019/8/7</td>
+                    <td>15/8/8</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">微信公众号挂号&nbsp;（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <!--<th></th>-->
+                    </tr>
+                </thead>
+                <tr>
+                    <td>微信公众号收费</td>
+                    <td>路飞</td>
+                    <td>测试中</td>
+                    <td>2019/8/7</td>
+                    <td>15/8/8</td>
+                </tr>
+            </table>
+        </div>
+        <!--未开始的-->
+        <div class="tabb ss5" style="display: none">
+            <table class="table table-hover" style="color: #ccc">
+                <thead>
+                    <tr>
+                        <th><span></span>标题</th>
+                        <!--<th></th>-->
+                        <th><span></span>版本号</th>
+                        <th><span></span>通过时间</th>
+                        <th><span></span>优先级状态</th>
+                        <th><span></span>发布人</th>
+                    </tr>
+                </thead>
+                <thead>
+                    <tr>
+                        <th class="hh">微信公众号（20条）</th>
+                        <!--<th></th>-->
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+                    </tr>
+
+                </thead>
+                <tr>
+                    <td>微信公众号收费</td>
+                    <!--<td></td>-->
+                    <td>2015/8/8</td>
+                    <td>2015/8/8</td>
+                    <td>高</td>
+                    <td>膏药</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">门诊挂号（20条）</th>
+                        <!--<th></th>-->
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>门诊挂号</td>
+                    <!--<td></td>-->
+                    <td>2015/8/8</td>
+                    <td>2015/8/8</td>
+                    <td>高</td>
+                    <td>膏药</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">预约挂号（20条）</th>
+                        <!--<th></th>-->
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>预约挂号挂号</td>
+                    <!--<td></td>-->
+                    <td>2015/8/8</td>
+                    <td>2015/8/8</td>
+                    <td>高</td>
+                    <td>膏药</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">药物挂号（20条）</th>
+                        <!--<th></th>-->
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>药物挂号</td>
+                    <!--<td></td>-->
+                    <td>2015/8/8</td>
+                    <td>2015/8/8</td>
+                    <td>高</td>
+                    <td>膏药</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">服务号（20条）</th>
+                        <!--<th></th>-->
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>呜呜挂号</td>
+                    <!--<td></td>-->
+                    <td>2015/8/8</td>
+                    <td>2015/8/8</td>
+                    <td>高</td>
+                    <td>膏药</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">眼科挂号（20条）</th>
+                        <!--<th></th>-->
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>眼科挂号</td>
+                    <!--<td></td>-->
+                    <td>2015/8/8</td>
+                    <td>2015/8/8</td>
+                    <td>高</td>
+                    <td>膏药</td>
+                </tr>
+                <tr>
+                    <td>眼科挂号</td>
+                    <!--<td></td>-->
+                    <td>2015/8/8</td>
+                    <td>2015/8/8</td>
+                    <td>高</td>
+                    <td>膏药</td>
+                </tr>
+                <tr>
+                    <td>眼科挂号</td>
+                    <!--<td></td>-->
+                    <td>2015/8/8</td>
+                    <td>2015/8/8</td>
+                    <td>高</td>
+                    <td>膏药</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">微信公众号挂号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>微信公众号挂号</td>
+                    <!--<td></td>-->
+                    <td>2015/8/8</td>
+                    <td>2015/8/8</td>
+                    <td>高</td>
+                    <td>膏药</td>
+                </tr>
+            </table>
+        </div>
+        <!--我的收藏-->
+        <div class="tabb ss6" style="display:none">
+            <table class="table table-hover" style="color: #ccc">
+                <thead>
+                    <tr>
+                        <th><span></span>标题</th>
+                        <!--<th></th>-->
+                        <th><span></span>版本号</th>
+                        <th><span></span>通过时间</th>
+                        <th><span></span>发布人</th>
+                    </tr>
+                </thead>
+                <thead>
+                    <tr>
+                        <th class="hh">微信公众号（20条）</th>
+                        <!--<th></th>-->
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+                    </tr>
+
+                </thead>
+                <tr>
+                    <td>微信公众号收费</td>
+                    <!--<td></td>-->
+                    <td>2015/8/8</td>
+                    <td>2015/8/8</td>
+                    <td>膏药</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">门诊挂号（20条）</th>
+                        <!--<th></th>-->
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>门诊挂号</td>
+                    <!--<td></td>-->
+                    <td>2015/8/8</td>
+                    <td>2015/8/8</td>
+                    <td>高</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">预约挂号（20条）</th>
+                        <!--<th></th>-->
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>预约挂号挂号</td>
+                    <!--<td></td>-->
+                    <td>2015/8/8</td>
+                    <td>2015/8/8</td>
+                    <td>高</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">药物挂号（20条）</th>
+                        <!--<th></th>-->
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>药物挂号</td>
+                    <!--<td></td>-->
+                    <td>2015/8/8</td>
+                    <td>2015/8/8</td>
+                    <td>高</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">服务号（20条）</th>
+                        <!--<th></th>-->
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>呜呜挂号</td>
+                    <!--<td></td>-->
+                    <td>2015/8/8</td>
+                    <td>2015/8/8</td>
+                    <td>高</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">眼科挂号（20条）</th>
+                        <!--<th></th>-->
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>眼科挂号</td>
+                    <!--<td></td>-->
+                    <td>2015/8/8</td>
+                    <td>2015/8/8</td>
+                    <td>高</td>
+                </tr>
+                <tr>
+                    <td>眼科挂号</td>
+                    <!--<td></td>-->
+                    <td>2015/8/8</td>
+                    <td>2015/8/8</td>
+                    <td>高</td>
+                </tr>
+                <tr>
+                    <td>眼科挂号</td>
+                    <!--<td></td>-->
+                    <td>2015/8/8</td>
+                    <td>2015/8/8</td>
+                    <td>高</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th class="hh">微信公众号挂号（20条）</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>微信公众号挂号</td>
+                    <!--<td></td>-->
+                    <td>2015/8/8</td>
+                    <td>2015/8/8</td>
+                    <td>高</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!--最下-->
+    <div id="sos" style="text-align:center">
+        <div class="whyy">
+            <div class="rt">
+                <ul class="uis">
+                    <li class="lt"><a href="#">1/8页</a></li>
+                    <li class="lt"><a href="#">下一页</a></li>
+                    <li class="lt"><input type="text"></li>
+                    <li class="lt"><a href="#">跳 转</a></li>
+                </ul>
+            </div>
+        </div>
+        <ul class="uubb">
+            <li style="line-height:50px;display:inline-block"><a href="#">帮助中心</a></li>
+            <li style="line-height:50px;display:inline-block"><a href="#">关于我们</a></li>
+            <li style="line-height:50px;display:inline-block"><a href="#">注意事项</a></li>
+            <br>
+        </ul>
+        <p class="pp_1 pp_2"> Copyright 2017-08-01 大连医卫 New technology research center</p>
+
+    </div>
+
+</body>
+</html>

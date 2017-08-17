@@ -129,6 +129,35 @@ namespace ProductReleaseSystem.Models.IRepository
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        object QueryCarryOutCount(int id);
+        object QueryCarryOutCount(int id); 
+        /// <summary>
+        /// 修改产品需求把需求放在垃圾箱里
+        /// </summary>
+        /// <param name="ID">需求ID</param>
+        /// <returns></returns>
+        bool DeleteStatus(int deletestatus, int ID);
+        /// <summary>
+        /// 查询所有产品
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> DeleteQueryProducts();
+        /// <summary>
+        /// 根据产品ID查询需求信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> DeleteQueryRequestByProductId(int id);
+        /// <summary>
+        /// 根据产品ID查询需求条数
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        object DeleteQueryRequestCount(int id);
+        /// <summary>
+        /// 修改产品需求把需求放在垃圾箱里
+        /// </summary>
+        /// <param name="ID">需求ID</param>
+        /// <returns></returns>
+        bool Reduction(int deletestatus, int ID); 
     }
 }
