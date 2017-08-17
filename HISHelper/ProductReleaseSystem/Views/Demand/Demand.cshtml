@@ -301,7 +301,8 @@
                         DeliveryDepartment: $("#bumen").find("option:selected").val(),
                         Status: '未通过',
                         ProductID: $("#productname").find("option:selected").val(),
-                        Address: $("#address").val()
+                        Address: $("#address").val(),
+                        DeleteStatus: 1
                     },
                     success: function (dataBack) {
                         if (dataBack.result == 1) {
@@ -390,6 +391,7 @@
             $('#priority').find("option:selected").text("请选择优先级");
             $("#bumen").find("option:selected").text("请选择交付的部门");
             UE.getEditor('editor').setContent("");
+            $('#username').focus();
         }
         //#endregion
     </script>

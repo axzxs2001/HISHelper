@@ -93,17 +93,42 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="id">需求ID</param>
         /// <returns></returns>
         List<Dictionary<string, dynamic>> QueryDetailedRequirements(int id);
+
         /// <summary>
-        /// 根据需求ID查询人员意见
+        /// 通过姓名ID查询产品需求
         /// </summary>
-        /// <param name="id">需求ID</param>
         /// <returns></returns>
-        List<Dictionary<string, dynamic>> QueryOpinion(int id);
+        List<Dictionary<string, dynamic>> SelectDemand(int id);
         /// <summary>
-        /// 添加人员意见
+        /// 根据产品ID查询需求信息
         /// </summary>
-        /// <param name="option">人员意见实体类</param>
+        /// <param name="id">产品ID</param>
+        /// <param name="nameid">人员ID</param>
         /// <returns></returns>
-        bool AddOpinion(Opinion option);
+        List<Dictionary<string, dynamic>> QueryfbProductId(int id,int nameid);
+        /// <summary>
+        /// 根据产品ID查询需求条数
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <param name="nameid">人员ID</param>
+        /// <returns></returns>
+        object QueryfbCount(int id,int nameid);
+        /// <summary>
+        /// 查询已完成的所有产品
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> CarryOutProducts();
+        /// <summary>
+        /// 根据产品ID查询需求信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> QueryCarryOutProductId(int id);
+        /// <summary>
+        /// 根据产品ID查询需求条数
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        object QueryCarryOutCount(int id);
     }
 }
