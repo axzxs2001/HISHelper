@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Newtonsoft.Json;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
+using ProductReleaseSystem.ProductRelease;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -124,6 +125,46 @@ namespace ProductReleaseSystem.Controllers
         }
         #endregion
 
+        #region 根据需求ID查询人员意见
+        /// <summary>
+        /// 根据需求ID查询人员意见
+        /// </summary>
+        /// <param name="id">需求ID</param>
+        /// <returns></returns>
+        [HttpPost("queryopinion")]
+        public IActionResult QueryOpinion(int id)
+        {
+            try
+            {
+                var list = _idemand.QueryOpinion(id);
+                return new JsonResult(new { result = 1, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch(Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}" });
+            }
+        }
+        #endregion
+
+        #region 添加人员意见
+        /// <summary>
+        /// 添加人员意见
+        /// </summary>
+        /// <param name="option">人员意见实体类</param>
+        /// <returns></returns>
+        [HttpPost("addopinion")]
+        public IActionResult AddOpinion(Opinion option)
+        {
+            if (_idemand.AddOpinion(option))
+            {
+                return new JsonResult(new { result = 1, message = "添加成功" });
+            }
+            else
+            {
+                return new JsonResult(new { result = 0, message = "添加失败" });
+            }
+        }
+        #endregion
 
         #region 我发布的页面
 

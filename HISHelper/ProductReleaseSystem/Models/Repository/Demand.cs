@@ -334,6 +334,44 @@ a.MakeTime from RequestForm a
         #endregion
         #endregion
 
+        #region 根据需求ID查询人员意见
+        /// <summary>
+        /// 根据需求ID查询人员意见
+        /// </summary>
+        /// <param name="id">人员ID</param>
+        /// <returns></returns>
+        public List<Dictionary<string,dynamic>> QueryOpinion(int id)
+        {
+            var sql = @"select a.purpose AS 目的,
+a.detailed AS 详细,
+a.Initiatedtime AS 发起时间,
+b.Name AS 发起人姓名,
+b.Phone AS 电话,
+b.QQ AS QQ
+from Opinion a inner join Developers b on a.proposerID = b.ID inner join RequestForm c on a.DemandID = c.ID where a.DemandID = @ID";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.GetList(sql, par);
+        }
+        #endregion
+
+        #region 添加人员意见
+        /// <summary>
+        /// 添加人员意见
+        /// </summary>
+        /// <param name="opinion">人员意见实体类</param>
+        /// <returns></returns>
+        public bool AddOpinion(Opinion opinion)
+        {
+            var sql = "insert into Opinion(DemandID,proposerID,purpose,detailed,Initiatedtime) values(@DemandID,@proposerID,@purpose,@detailed,@Initiatedtime)";
+            var par1 = new SqlParameter() { ParameterName = "@DemandID", SqlDbType = System.Data.SqlDbType.Int, Value = opinion.DemandID };
+            var par2 = new SqlParameter() { ParameterName = "@proposerID", SqlDbType = System.Data.SqlDbType.Int, Value = opinion.proposerID };
+            var par3 = new SqlParameter() { ParameterName = "@purpose", SqlDbType = System.Data.SqlDbType.VarChar, Value = opinion.purpose };
+            var par4 = new SqlParameter() { ParameterName = "@detailed", SqlDbType = System.Data.SqlDbType.Text, Value = opinion.detailed };
+            var par5 = new SqlParameter() { ParameterName = "@Initiatedtime", SqlDbType = System.Data.SqlDbType.DateTime, Value = DateTime.Now };
+            return _dbHelper.SavaData(sql,par1,par2,par3,par4,par5) > 0 ? true : false;
+        }
+#endregion
+
         #region 查询详细需求
         /// <summary>
         /// 查询详细需求
@@ -342,7 +380,8 @@ a.MakeTime from RequestForm a
         /// <returns></returns>
         public List<Dictionary<string, dynamic>> QueryDetailedRequirements(int id)
         {
-            var sql = @"select a.DemandNname AS 标题,
+            var sql = @"select
+a.DemandNname AS 标题,
 a.RequirementsDescription AS 详细需求,
 a.Priority AS 优先级,
 a.UserName AS 医院名称,
