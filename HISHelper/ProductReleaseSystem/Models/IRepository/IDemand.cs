@@ -130,5 +130,17 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="id"></param>
         /// <returns></returns>
         object QueryCarryOutCount(int id);
+        /// <summary>
+        /// 添加人员意见
+        /// </summary>
+        /// <param name="opinion">人员意见实体类</param>
+        /// <returns></returns>
+        bool AddOpinion(Opinion opinion);
+        /// <summary>
+        /// 根据需求ID查询人员意见
+        /// </summary>
+        /// <param name="id">需求ID</param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> QueryOpinion(int id);
     }
 }

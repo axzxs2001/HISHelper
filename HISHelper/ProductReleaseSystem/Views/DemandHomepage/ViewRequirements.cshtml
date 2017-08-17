@@ -272,7 +272,7 @@
             $.ajax({
                 type: "POST",
                 url: "/querydetailedrequirements",
-                data: { id: 1003 },
+                data: { id: 1 },
                 success: function (dataBack) {
                     var str = "";
                     var str1 = "";
@@ -319,9 +319,9 @@
             $.ajax({
                 type: "POST",
                 url: "/queryopinion",
-                data: { id: 1003 },
+                data: { id: 1 },
                 success: function (dataBack) {
-                    if (dataBack.data != null) {
+                    if (dataBack.data != "") {
                         $("#fbbb1").css("display", "block");
                         var str = "";
                         $(dataBack.data).each(function (index, item) {
@@ -340,8 +340,7 @@
                             str += "</ul>";
                         })
                         $("#fbbb2").html(str);
-                    }
-
+                    } 
                 },
                 error: function (error) {
                     alert(error.status + error.statusText)
@@ -355,7 +354,7 @@
                 $.ajax({
                     type: "POST",
                     url: "/addopinion",
-                    data: { DemandID: 1003, proposerID: 8, purpose: $("#purpose1").val(), detailed: $("#text1").val() },
+                    data: { DemandID: 1, proposerID: 8, purpose: $("#purpose1").val(), detailed: $("#text1").val() },
                     success: function (dataBack) {
                         if (dataBack.result==1) {
                             layer.msg(dataBack.message, { icon: 1 });
