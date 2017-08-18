@@ -173,6 +173,13 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="ID">需求ID</param>
         /// <returns></returns>
         bool Reduction(int deletestatus, int ID);
+        /// <summary>
+        /// 审核通过修改状态
+        /// </summary>
+        /// <param name="Status">状态</param>
+        /// <param name="ID">需求ID</param>
+        /// <returns></returns>
+        bool Review(string Status, int ID);
 
     }
 }

@@ -43,7 +43,7 @@
             <ul class="momo-0">
                 <li><a href="http://localhost:61110/demand"><button class="lt btn btn-primary btn-lg" data-toggle="modal">新增</button></a></li>
                 <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myMsso">删除</button></li>
-                <li><button class="lt btn btn-primary ">审核通过</button></li>
+                <li><button class="lt btn btn-primary" data-toggle="modal" data-target="#myMssoReview">审核通过</button></li>
             </ul>
             <ul class="momo-1" style="display:none ;">
                 <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">新增</button></li>
@@ -65,7 +65,7 @@
             </ul>
             <ul class="momo-5" style="display:none ;">
                 <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myYuan">还原</button></li>
-                <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myMsso">删除</button></li>
+                <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myMssoDelete">删除</button></li>
                 <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myMos">清空</button></li>
             </ul>
         </div>
@@ -182,6 +182,67 @@
                         是
                     </button>
                     <button type="button" class="btn btn-primary"data-dismiss="modal">
+                        否
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!--垃圾箱删除数据-->
+    <div class="modal fade" id="myMssoDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myMod">
+                        提&nbsp;&nbsp;示
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="form-group" style="overflow:hidden;">
+                            <h3 style="text-align: center">是否删除内容？</h3>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="DeleteData()">
+                        是
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                        否
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <!--确认审核通过模态层-->
+    <div class="modal fade" id="myMssoReview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myMod">
+                        提&nbsp;&nbsp;示
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="form-group" style="overflow:hidden;">
+                            <h3 style="text-align: center">是否要审核通过该需求？</h3>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="Review()">
+                        是
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
                         否
                     </button>
                 </div>
@@ -1235,7 +1296,6 @@
                         str += " </tr>";
                     });
                     $("#" + id + "").append(str);
-                    str = '';
                 },
                 error: function (error) {
                     alert(error.status + error.statusText)
@@ -1315,7 +1375,7 @@
                     var str = '';
                     $(dataBack.data).each(function (index, item) {
                         str += '<tr value="' + item["Id"] + '">';
-                        str += '<td><input type="checkbox">' + item["DemandNname"] + '</td>';
+                        str += '<td><input type="checkbox" value="' + item["Id"] +'">' + item["DemandNname"] + '</td>';
                         str += ' <td>' + item["Priority"] + '</td>';
                         str += ' <td></td>';
                         str += '<td>' + item["Name"] + '</td>';
@@ -1324,7 +1384,6 @@
                         str += " </tr>";
                     });
                     $("#fb" + id + "").append(str);
-                    str = '';
                 },
                 error: function (error) {
                     alert(error.status + error.statusText)
@@ -1497,7 +1556,6 @@
         function DeleteStatus() {
             $.each($('input:checkbox:checked'), function () {
                 num = $(this).val();
-                alert(num);
             });
             if (num == 0) {
                 layer.msg("请选择删除的需求！", { icon: 3 });
@@ -1514,6 +1572,7 @@
                     if (dataBack.result == 1) {
                         layer.msg(dataBack.message, { icon: 1 });
                         QueryProducts();
+                        SelectDemand(ID);
                     }
                 },
                 error: function (error) {
@@ -1629,6 +1688,65 @@
                         if (dataBack.result == 1) {
                             layer.msg(dataBack.message, { icon: 1 });
                             DeleteQueryProducts();
+                        }
+                    },
+                    error: function (error) {
+                        layer.msg(dataBack.message, { icon: 2 });
+                    }
+                });
+            }
+        }
+        //#endregion
+
+        var sum = 0;
+        //#region  删除需求信息
+        function DeleteData() {
+            $.each($('input:checkbox:checked'), function () {
+                sum = $(this).val();
+            });
+            if (sum == 0) {
+                layer.msg("请选择删除的需求！", { icon: 3 });
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/deletedata",
+                    data: {
+                        ID: sum
+                    },
+                    success: function (dataBack) {
+                        if (dataBack.result == 1) {
+                            layer.msg(dataBack.message, { icon: 1 });
+                            DeleteQueryProducts();
+                        }
+                    },
+                    error: function (error) {
+                        layer.msg(dataBack.message, { icon: 2 });
+                    }
+                });
+            }
+        }
+        //#endregion
+
+        var reviewid = 0;
+        //#region  删除需求信息
+        function Review() {
+            $.each($('input:checkbox:checked'), function () {
+                reviewid = $(this).val();
+            });
+            if (reviewid == 0) {
+                layer.msg("请选择需审核的需求！", { icon: 3 });
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/review",
+                    data: {
+                        Status: "已通过",
+                        ID: reviewid
+                    },
+                    success: function (dataBack) {
+                        if (dataBack.result == 1) {
+                            layer.msg(dataBack.message, { icon: 1 });
+                            QueryProducts();
                         }
                     },
                     error: function (error) {

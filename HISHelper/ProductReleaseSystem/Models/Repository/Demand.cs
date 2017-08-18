@@ -304,7 +304,7 @@ ON a.ID=b.ProductID and DeleteStatus=1";
         /// <returns></returns>
         public List<Dictionary<string,dynamic>> QueryRequestByProductId(int id)
         {
-            var sql = @"select 
+            var sql = @"select
 a.Id,
 a.DemandNname,
 a.Priority,
@@ -604,6 +604,15 @@ WHERE ID=@id";
         }
         #endregion
         #endregion
+
+        public bool Review(string Status, int ID)
+        {
+            var sql = @"UPDATE RequestForm SET Status=@Status where ID=@id";
+            var par1 = new SqlParameter() { ParameterName = "@Status", SqlDbType = System.Data.SqlDbType.VarChar, Value = Status };
+            var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = ID };
+
+            return _dbHelper.SavaData(sql, par1, par) > 0 ? true : false;
+        }
 
     }
 }

@@ -430,5 +430,48 @@ namespace ProductReleaseSystem.Controllers
         }
         #endregion
         #endregion
+
+        #region 删除需求信息
+        /// <summary>
+        /// 删除需求信息
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        [HttpPost("deletedata")]
+        public IActionResult DeleteData(int ID)
+        {
+            try
+            {
+                var list = _idemand.DeleteDemand(ID);
+                return new JsonResult(new { result = 1, data = list, message = "删除成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"删除失败:{exc.Message}" });
+            }
+        }
+        #endregion
+
+        #region  审核通过需改状态
+        /// <summary>
+        /// 审核通过需改状态
+        /// </summary>
+        /// <param name="Status">状态</param>
+        /// <param name="ID">ID</param>
+        /// <returns></returns>
+        [HttpPost("review")]
+        public IActionResult ExaminationPassed(string Status,int ID)
+        {
+            try
+            {
+                var list = _idemand.Review(Status,ID);
+                return new JsonResult(new { result = 1, data = list, message = "审核通过成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"审核通过失败:{exc.Message}" });
+            }
+        }
+        #endregion
     }
 }
