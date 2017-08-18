@@ -1,9 +1,9 @@
-$(function(){
-    for(var mo=0;mo<$('.momo-js').length;mo++){
+$(function () {
+    for (var mo = 0; mo < $('.momo-js').length; mo++) {
         console.log(mo);
-        $('.momo-js').eq(mo).attr('data-idx',mo)
+        $('.momo-js').eq(mo).attr('data-idx', mo)
     }
-    $('.momo-js').click(function(){
+    $('.momo-js').click(function () {
         $('.momo ul').hide();
         $('.momo-js').removeClass('bg-color');
         $('.momo-js').eq($(this).attr('data-idx')).addClass('bg-color')
@@ -12,7 +12,7 @@ $(function(){
         $('.tabb').eq($(this).attr('data-idx')).show();
     });
     //刷新页面默认显示ss1
-    $(document).ready(function(){
+    $(document).ready(function () {
         $('.ss1').show();
     });
 
