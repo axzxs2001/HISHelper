@@ -1567,12 +1567,12 @@ body{
  .nav .nav_ui li a:hover{
      background-color:#293335;
  }
- .right_content{
+.right_content {
     float: left;
     width: calc(100% - 250px);
     background: #293335;
-     height:660px;
-     overflow-y:auto;
+    height: 660px;
+    overflow: auto;
 }
 
 .tabb{
