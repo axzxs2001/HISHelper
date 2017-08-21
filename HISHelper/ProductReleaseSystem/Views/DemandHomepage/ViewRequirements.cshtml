@@ -216,7 +216,7 @@
                             <ul style=" margin:0 auto;">
                                 <li>
                                     <img src="~/images/Demand/a_17.png" class="im" alt="" /><span class="span_1">修该新增目的<a></a></span>
-                                    <input type="text" name="" class="inpp" id="purpose1"  placeholder="必填：请输入新增活修改的目的">
+                                    <input type="text" name="" class="inpp" id="purpose1"style="color:#555555"  placeholder="必填：请输入新增活修改的目的">
                                 </li>
                             </ul>
                         </div>
@@ -272,7 +272,7 @@
             $.ajax({
                 type: "POST",
                 url: "/querydetailedrequirements",
-                data: { id: 1 },
+                data: { id: 24 },
                 success: function (dataBack) {
                     var str = "";
                     var str1 = "";
@@ -319,7 +319,7 @@
             $.ajax({
                 type: "POST",
                 url: "/queryopinion",
-                data: { id: 1 }, 
+                data: { id: 24 }, 
                 success: function (dataBack) {
                     if (dataBack.data != "") {
                         $("#fbbb1").css("display", "block");
@@ -354,7 +354,7 @@
                 $.ajax({
                     type: "POST",
                     url: "/addopinion",
-                    data: { DemandID: 1, proposerID: 8, purpose: $("#purpose1").val(), detailed: $("#text1").val() },
+                    data: { DemandID: 24, proposerID: 8, purpose: $("#purpose1").val(), detailed: $("#text1").val() },
                     success: function (dataBack) {
                         if (dataBack.result==1) {
                             layer.msg(dataBack.message, { icon: 1 });
