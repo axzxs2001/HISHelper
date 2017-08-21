@@ -93,6 +93,7 @@
     <Content Include="wwwroot\js\index.js" />
     <Content Include="wwwroot\js\jquery.datetimepicker.js" />
     <Content Include="wwwroot\js\jquery.form.js" />
+    <Content Include="wwwroot\js\Paging.js" />
     <Content Include="wwwroot\js\productdemand.js" />
     <Content Include="wwwroot\lib\ueditor\dialogs\anchor\anchor.html" />
     <Content Include="wwwroot\lib\ueditor\dialogs\attachment\attachment.css" />

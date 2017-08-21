@@ -180,6 +180,15 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="ID">需求ID</param>
         /// <returns></returns>
         bool Review(string Status, int ID);
-
+        /// <summary>
+        /// 只看产品查询所有产品
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> QueryzkcpProducts(int currentPageIndex, int recordPerPage, int pagePerGroup);
+        /// <summary>
+        /// 只看产品查询所有产品
+        /// </summary>
+        /// <returns></returns>
+        object GetCount( int currentPageIndex, int RecordPerPage, int pagePerGroup);
     }
 }

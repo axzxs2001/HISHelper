@@ -1574,7 +1574,9 @@ body{
     height: 660px;
     overflow: auto;
 }
-
+    .right_content::-webkit-scrollbar {
+        display: none;
+    }
 .tabb{
     width: 100%;
     margin-top: 0;

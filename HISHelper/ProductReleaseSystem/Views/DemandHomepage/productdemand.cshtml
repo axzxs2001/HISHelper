@@ -1167,14 +1167,14 @@
     <!--最下-->
     <div id="sos" style="text-align:center">
         <div class="whyy">
-            @*<div class="rt">
+            <div class="rt">
                 <ul class="uis">
                     <li class="lt"><a href="#">1/8页</a></li>
                     <li class="lt"><a href="#">下一页</a></li>
                     <li class="lt"><input type="text"></li>
                     <li class="lt"><a href="#">跳 转</a></li>
                 </ul>
-            </div>*@
+            </div>
         </div>
         <ul class="uubb">
             <li style="line-height:50px;display:inline-block"><a href="#">帮助中心</a></li>
@@ -1187,6 +1187,7 @@
     </div>
     <script language="javascript" src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/Paging.js"></script>
     <script src="~/js/productdemand.js"></script>
     <script src="~/layer/layer.js"></script>
     <script language="javascript">
@@ -1421,60 +1422,60 @@
 
 
         //#region  只看产品页面查询产品
-        function JustlookProducts() {
-            $.ajax({
-                type: "GET",
-                url: '/queryselectproducts',
-                data: {},
-                success: function (dataBack) {
-                    var str = '';
-                    str += '<thead>';
-                    str += '<tr>';
-                    str += '<th><input type="checkbox"><span></span>标题</th>';
-                    str += ' <th><span></span>优先级</th>';
-                    str += ' <th></th>';
-                    str += '<th><span></span>发布人</th>';
-                    str += '<th><span></span>审核状态</th>';
-                    str += '<th><span></span>发布时间</th>';
-                    str += '</tr>';
-                    str += '</thead>';
-                    $(dataBack.data).each(function (index, item) {
-                        str += '<thead id="' + item["Id"] + '" value="' + item["Id"] + '">';
-                        str += '<tr>';
-                        str += '<th id="zkcp' + item["Id"] + '"><input type="checkbox" style="margin-right: 8px;">' + item["ProductName"] + '</th>';
-                        str += '<th></th>';
-                        str += '<th></th>';
-                        str += '<th></th>';
-                        str += '<th></th>';
-                        str += '<th></th>';
-                        str += '</tr>';
-                        str += '</thead>';
-                        QueryzkcpCount(item["Id"]);   //获得产品ID查询需求条数
-                    });
-                    $("#tablezkcp").html(str);
-                },
-                error: function (error) {
-                    alert(error.status + error.statusText)
-                }
-            });
-        }
-        //#endregion
+        //function JustlookProducts() {
+        //    $.ajax({
+        //        type: "GET",
+        //        url: '/queryzkcpproducts',
+        //        data: {},
+        //        success: function (dataBack) {
+        //            var str = '';
+        //            str += '<thead>';
+        //            str += '<tr>';
+        //            str += '<th><input type="checkbox"><span></span>标题</th>';
+        //            str += ' <th><span></span>优先级</th>';
+        //            str += ' <th></th>';
+        //            str += '<th><span></span>发布人</th>';
+        //            str += '<th><span></span>审核状态</th>';
+        //            str += '<th><span></span>发布时间</th>';
+        //            str += '</tr>';
+        //            str += '</thead>';
+        //            $(dataBack.data).each(function (index, item) {
+        //                str += '<thead id="' + item["Id"] + '" value="' + item["Id"] + '">';
+        //                str += '<tr>';
+        //                str += '<th id="zkcp' + item["Id"] + '"><input type="checkbox" style="margin-right: 8px;">' + item["ProductName"] + '</th>';
+        //                str += '<th></th>';
+        //                str += '<th></th>';
+        //                str += '<th></th>';
+        //                str += '<th></th>';
+        //                str += '<th></th>';
+        //                str += '</tr>';
+        //                str += '</thead>';
+        //                QueryzkcpCount(item["Id"]);   //获得产品ID查询需求条数
+        //            });
+        //            $("#tablezkcp").html(str);
+        //        },
+        //        error: function (error) {
+        //            alert(error.status + error.statusText)
+        //        }
+        //    });
+        //}
+        ////#endregion
 
-        //#region  只看产品页面查询需求条数
-        function QueryzkcpCount(id) {
-            $.ajax({
-                type: "POST",
-                url: '/queryrequestcount',
-                data: { id: id },
-                success: function (dataBack) {
-                    $("#zkcp" + id + "").append("（" + dataBack.data + "条）");
-                },
-                error: function (error) {
-                    alert(error.status + error.statusText)
-                }
-            });
-        }
-        //#endregion
+        ////#region  只看产品页面查询需求条数
+        //function QueryzkcpCount(id) {
+        //    $.ajax({
+        //        type: "POST",
+        //        url: '/queryrequestcount',
+        //        data: { id: id },
+        //        success: function (dataBack) {
+        //            $("#zkcp" + id + "").append("（" + dataBack.data + "条）");
+        //        },
+        //        error: function (error) {
+        //            alert(error.status + error.statusText)
+        //        }
+        //    });
+        //}
+        ////#endregion
 
 
         //#region  添加产品

@@ -473,5 +473,26 @@ namespace ProductReleaseSystem.Controllers
             }
         }
         #endregion
+
+        #region 只看产品查询所有产品
+        /// <summary>
+        /// 只看产品查询所有产品
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("queryzkcpproducts")]
+        public IActionResult QueryzkcpProducts(int? currentPageIndex = 1, int? recordPerPage = 10, int? pagePerGroup = 10)
+        {
+            try
+            {
+                var list = _idemand.QueryzkcpProducts(currentPageIndex.Value, recordPerPage.Value, pagePerGroup.Value);
+                var Count = _idemand.GetCount(currentPageIndex.Value, recordPerPage.Value, pagePerGroup.Value);
+                return new JsonResult(new { result = 1, RecordCount = Count, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}" });
+            }
+        }
+        #endregion
     }
 }

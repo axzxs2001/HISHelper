@@ -604,7 +604,12 @@ WHERE ID=@id";
         }
         #endregion
         #endregion
-
+        /// <summary>
+        /// 审核状态修改
+        /// </summary>
+        /// <param name="Status">状态</param>
+        /// <param name="ID">ID</param>
+        /// <returns></returns>
         public bool Review(string Status, int ID)
         {
             var sql = @"UPDATE RequestForm SET Status=@Status where ID=@id";
@@ -613,6 +618,39 @@ WHERE ID=@id";
 
             return _dbHelper.SavaData(sql, par1, par) > 0 ? true : false;
         }
+        /// <summary>
+        /// 只看产品查询所有产品
+        /// </summary>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> QueryzkcpProducts(int currentPageIndex, int recordPerPage, int pagePerGroup)
+        {
+            var sql = $@"select TOP  {recordPerPage} *
+from(
+select ROW_NUMBER() over(ORDER BY ID) as 行号,*
+from(
+select distinct  a.ID AS Id,a.ProductName AS ProductName from Products a 
+JOIN RequestForm b 
+ON a.ID=b.ProductID and DeleteStatus=1 and Status!='已完成'
 
+)liu
+)qwe
+where 行号>({currentPageIndex}-1)*{recordPerPage};";
+            return _dbHelper.GetList(sql);
+        }
+        public object GetCount(int currentPageIndex, int recordPerPage, int pagePerGroup)
+        {
+            var sql = $@"select COUNT(*) AS CountRow
+from(
+select ROW_NUMBER() over(ORDER BY ID) as 行号,*
+from(
+select distinct  a.ID AS Id,a.ProductName AS ProductName from Products a 
+JOIN RequestForm b 
+ON a.ID=b.ProductID and DeleteStatus=1 and Status!='已完成'
+
+)liu
+)qwe
+where 行号>({currentPageIndex}-1)*{recordPerPage};";
+            return _dbHelper.GetValue(sql);
+        }
     }
 }
