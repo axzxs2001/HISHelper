@@ -43,7 +43,7 @@
             <ul class="momo-0">
                 <li><a href="http://localhost:61110/demand"><button class="lt btn btn-primary btn-lg" data-toggle="modal">新增</button></a></li>
                 <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myMsso">删除</button></li>
-                <li><button class="lt btn btn-primary ">审核通过</button></li>
+                <li><button class="lt btn btn-primary" data-toggle="modal" data-target="#myMssoReview">审核通过</button></li>
             </ul>
             <ul class="momo-1" style="display:none ;">
                 <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">新增</button></li>
@@ -65,7 +65,7 @@
             </ul>
             <ul class="momo-5" style="display:none ;">
                 <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myYuan">还原</button></li>
-                <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myMsso">删除</button></li>
+                <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myMssoDelete">删除</button></li>
                 <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myMos">清空</button></li>
             </ul>
         </div>
@@ -181,7 +181,68 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal" onclick="DeleteStatus()">
                         是
                     </button>
-                    <button type="button" class="btn btn-primary"data-dismiss="modal">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                        否
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!--垃圾箱删除数据-->
+    <div class="modal fade" id="myMssoDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myMod">
+                        提&nbsp;&nbsp;示
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="form-group" style="overflow:hidden;">
+                            <h3 style="text-align: center">是否删除内容？</h3>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="DeleteData()">
+                        是
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                        否
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <!--确认审核通过模态层-->
+    <div class="modal fade" id="myMssoReview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myMod">
+                        提&nbsp;&nbsp;示
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="form-group" style="overflow:hidden;">
+                            <h3 style="text-align: center">是否要审核通过该需求？</h3>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="Review()">
+                        是
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
                         否
                     </button>
                 </div>
@@ -231,22 +292,340 @@
         </ul>
     </div>
     <!--right_content-->
-    <div class="right_content">
-        <!-- 查看全部-->
-        <div class="tabb ss1" style="display: none">
-            <table id="table1" class="table table-hover" style=" color: #ccc;">
-                @*<thead>
-                    <tr>
-                        <th><input type="checkbox"><span></span>标题</th>
-                        <th><span></span>优先级</th>
-                        <th></th>
-                        <th><span></span>发布人</th>
-                        <th><span></span>审核状态</th>
-                        <th><span></span>发布时间</th>
+        <div class="right_content">
+            <!-- 查看全部-->
+            <div class="tabb ss1" style="display: none">
+                <table id="table1" class="table table-hover" style=" color: #ccc;">
+                    @*<thead>
+                            <tr>
+                                <th><input type="checkbox"><span></span>标题</th>
+                                <th><span></span>优先级</th>
+                                <th></th>
+                                <th><span></span>发布人</th>
+                                <th><span></span>审核状态</th>
+                                <th><span></span>发布时间</th>
 
-                    </tr>
-                </thead>*@
-                @*<thead>
+                            </tr>
+                        </thead>*@
+                    @*<thead>
+                            <tr>
+                                <th>微信公众号（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+
+                        </thead>
+                        <tr>
+                            <td><input type="checkbox">微信公众号收费</td>
+                            <td>aaaa</td>
+                            <td></td>
+                            <td>地球求</td>
+                            <td>未通过</td>
+                            <td>2017/8/7</td>
+                        </tr>
+                        <thead>
+                            <tr>
+                                <th>门诊挂号（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td><input type="checkbox">门诊挂号</td>
+                            <td>sssss</td>
+                            <td></td>
+                            <td>你是谁</td>
+                            <td>未通过</td>
+                            <td>2017/8/7</td>
+                        </tr>
+                        <thead>
+                            <tr>
+                                <th>预约挂号（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td><input type="checkbox">预约挂号挂号</td>
+                            <td>dddddd</td>
+                            <td></td>
+                            <td>走开</td>
+                            <td>未通过</td>
+                            <td>2017/8/7</td>
+                        </tr>
+                        <thead>
+                            <tr>
+                                <th>药物挂号（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td><input type="checkbox">药物挂号</td>
+                            <td>ffffff</td>
+                            <td></td>
+                            <td>你该吃药了兄弟</td>
+                            <td>未通过</td>
+                            <td>2017/8/7</td>
+                        </tr>
+                        <thead>
+                            <tr>
+                                <th>服务号（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td><input type="checkbox">呜呜挂号</td>
+                            <td>ggga</td>
+                            <td></td>
+                            <td>挂你妹</td>
+                            <td>未通过</td>
+                            <td>2017/8/7</td>
+                        </tr>
+                        <thead>
+                            <tr>
+                                <th>眼科挂号（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td><input type="checkbox">眼科挂号</td>
+                            <td>jiangj</td>
+                            <td></td>
+                            <td>验验验验验验验</td>
+                            <td>未通过</td>
+                            <td>2017/8/7</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox">眼科挂号</td>
+                            <td>aaaadddd</td>
+                            <td></td>
+                            <td>啊啊啊啊啊啊啊啊</td>
+                            <td>未通过</td>
+                            <td>2017/8/7</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox">眼科挂号</td>
+                            <td>别再说</td>
+                            <td></td>
+                            <td>eeeeeeee</td>
+                            <td>未通过</td>
+                            <td>2017/8/7</td>
+                        </tr>
+                        <thead>
+                            <tr>
+                                <th>微信公众号挂号（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td><input type="checkbox">微信公众号挂号</td>
+                            <td>a折磨a</td>
+                            <td></td>
+                            <td>娃娃娃娃女</td>
+                            <td>未通过</td>
+                            <td>2017/8/7</td>
+                        </tr>*@
+                </table>
+            </div>
+            <!-- 我发布的-->
+            <div class="tabb ss2" style="display: none">
+                <table id="tablefb" class="table table-hover" style=" color: #ccc; ">
+                    @*<thead>
+                            <tr>
+                                <th><input type="checkbox"><span></span>标题</th>
+                                <th><span></span>优先级</th>
+                                <th></th>
+                                <th><span></span>发布人</th>
+                                <th><span></span>审核状态</th>
+                                <th><span></span>发布时间</th>
+
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th>微信公众号（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+
+                        </thead>
+                        <tr>
+                            <td><input type="checkbox">微信公众号收费</td>
+                            <td>aaaa</td>
+                            <td></td>
+                            <td>地球求</td>
+                            <td>未通过</td>
+                            <td>2017/8/7</td>
+                        </tr>
+                        <thead>
+                            <tr>
+                                <th>门诊挂号（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td><input type="checkbox">门诊挂号</td>
+                            <td>sssss</td>
+                            <td></td>
+                            <td>你是谁</td>
+                            <td>未通过</td>
+                            <td>2017/8/7</td>
+                        </tr>
+                        <thead>
+                            <tr>
+                                <th>预约挂号（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td><input type="checkbox">预约挂号挂号</td>
+                            <td>dddddd</td>
+                            <td></td>
+                            <td>走开</td>
+                            <td>未通过</td>
+                            <td>2017/8/7</td>
+                        </tr>
+                        <thead>
+                            <tr>
+                                <th>药物挂号（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td><input type="checkbox">药物挂号</td>
+                            <td>ffffff</td>
+                            <td></td>
+                            <td>你该吃药了兄弟</td>
+                            <td>未通过</td>
+                            <td>2017/8/7</td>
+                        </tr>
+                        <thead>
+                            <tr>
+                                <th>服务号（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td><input type="checkbox">呜呜挂号</td>
+                            <td>ggga</td>
+                            <td></td>
+                            <td>挂你妹</td>
+                            <td>未通过</td>
+                            <td>2017/8/7</td>
+                        </tr>
+                        <thead>
+                            <tr>
+                                <th>眼科挂号（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td><input type="checkbox">眼科挂号</td>
+                            <td>jiangj</td>
+                            <td></td>
+                            <td>验验验验验验验</td>
+                            <td>未通过</td>
+                            <td>2017/8/7</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox">眼科挂号</td>
+                            <td>aaaadddd</td>
+                            <td></td>
+                            <td>啊啊啊啊啊啊啊啊</td>
+                            <td>未通过</td>
+                            <td>2017/8/7</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox">眼科挂号</td>
+                            <td>别再说</td>
+                            <td></td>
+                            <td>eeeeeeee</td>
+                            <td>未通过</td>
+                            <td>2017/8/7</td>
+                        </tr>
+                        <thead>
+                            <tr>
+                                <th>微信公众号挂号（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td><input type="checkbox">微信公众号挂号</td>
+                            <td>a折磨a</td>
+                            <td></td>
+                            <td>娃娃娃娃女</td>
+                            <td>未通过</td>
+                            <td>2017/8/7</td>
+                        </tr>*@
+                </table>
+            </div>
+            <!-- 已完成的-->
+            <div class="tabb ss3" style="display: none">
+                <table id="carryout" class="table table-hover" style=" color: #ccc; ">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox"><span></span>标题</th>
+                            <th><span></span>优先级</th>
+                            <th></th>
+                            <th><span></span>发布人</th>
+                            <th><span></span>审核状态</th>
+                            <th><span></span>发布时间</th>
+
+                        </tr>
+                    </thead>
+                    <thead>
                         <tr>
                             <th>微信公众号（20条）</th>
                             <th></th>
@@ -388,731 +767,414 @@
                         <td>娃娃娃娃女</td>
                         <td>未通过</td>
                         <td>2017/8/7</td>
-                    </tr>*@
-            </table>
+                    </tr>
+                </table>
+            </div>
+            <!--只看产品-->
+            <div class="tabb ss4" style="display:none">
+                <table id="tablezkcp" class="table table-hover" style="color: #ccc">
+                    @*<thead>
+                            <tr>
+                                <th><input type="checkbox"><span></span>标题</th>
+                                <!--<th><span></span>优先级</th>-->
+                                <!--<th></th>-->
+                                <th><span></span>发布人</th>
+                                <!--<th><span></span>审核状态</th>-->
+                                <th><span></span>发布时间</th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" style="margin-right: 8px;">微信公众号（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <!--<th></th>-->
+                                <!--<th></th>-->
+                                <!--<th></th>-->
+                            </tr>
+
+                        </thead>
+                        <!--<tr>-->
+                        <!--<td><input type="checkbox">微信公众号收费</td>-->
+                        <!--<td>地球求</td>-->
+                        <!--<td>未通过</td>-->
+                        <!--<td>2017/8/7</td>-->
+                        <!--</tr>-->
+                        <thead>
+                            <tr>
+                                <th> <input type="checkbox" style="margin-right: 8px;">门诊挂号&nbsp;&nbsp;&nbsp;（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <!--<th></th>-->
+                                <!--<th></th>-->
+                                <!--<th></th>-->
+                            </tr>
+                        </thead>
+                        <!--<tr>-->
+                        <!--<td><input type="checkbox">门诊挂号</td>-->
+                        <!--<td>你是谁</td>-->
+                        <!--<td>未通过</td>-->
+                        <!--<td>2017/8/7</td>-->
+                        <!--</tr>-->
+                        <thead>
+                            <tr>
+                                <th> <input type="checkbox" style="margin-right: 8px;">预约挂号&nbsp;&nbsp;&nbsp;（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <!--<th></th>-->
+                                <!--<th></th>-->
+                                <!--<th></th>-->
+                            </tr>
+                        </thead>
+                        <!--<tr>-->
+                        <!--<td><input type="checkbox">预约挂号挂号</td>-->
+                        <!--<td>走开</td>-->
+                        <!--<td>未通过</td>-->
+                        <!--<td>2017/8/7</td>-->
+                        <!--</tr>-->
+                        <thead>
+                            <tr>
+                                <th>  <input type="checkbox" style="margin-right: 8px;">药物挂号&nbsp;&nbsp;&nbsp;（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <!--<th></th>-->
+                                <!--<th></th>-->
+                                <!--<th></th>-->
+                            </tr>
+                        </thead>
+                        <!--<tr>-->
+                        <!--<td><input type="checkbox">药物挂号</td>-->
+                        <!--<td>你该吃药了兄弟</td>-->
+                        <!--<td>未通过</td>-->
+                        <!--<td>2017/8/7</td>-->
+                        <!--</tr>-->
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" style="margin-right: 8px;">服务号&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <!--<th></th>-->
+                                <!--<th></th>-->
+                                <!--<th></th>-->
+                            </tr>
+                        </thead>
+                        <!--<tr>-->
+                        <!--<td><input type="checkbox">呜呜挂号</td>-->
+                        <!--<td>挂你妹</td>-->
+                        <!--<td>未通过</td>-->
+                        <!--<td>2017/8/7</td>-->
+                        <!--</tr>-->
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" style="margin-right: 8px;">眼科挂号 &nbsp;&nbsp;（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <!--<th></th>-->
+                                <!--<th></th>-->
+                                <!--<th></th>-->
+                            </tr>
+                        </thead>
+                        <!--<tr>-->
+                        <!--<td><input type="checkbox">眼科挂号</td>-->
+                        <!--<td>验验验验验验验</td>-->
+                        <!--<td>未通过</td>-->
+                        <!--<td>2017/8/7</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td><input type="checkbox">眼科挂号</td>-->
+                        <!--<td>啊啊啊啊啊啊啊啊</td>-->
+                        <!--<td>未通过</td>-->
+                        <!--<td>2017/8/7</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td><input type="checkbox">眼科挂号</td>-->
+                        <!--<td>eeeeeeee</td>-->
+                        <!--<td>未通过</td>-->
+                        <!--<td>2017/8/7</td>-->
+                        <!--</tr>-->
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" style="margin-right: 8px;">微信公众号挂号&nbsp;（20条）</th>
+                                <th></th>
+                                <th></th>
+                                <!--<th></th>-->
+                                <!--<th></th>-->
+                                <!--<th></th>-->
+                            </tr>
+                        </thead>*@
+                    <!--<tr>-->
+                    <!--<td><input type="checkbox">微信公众号挂号</td>-->
+                    <!--<td>娃娃娃娃女</td>-->
+                    <!--<td>未通过</td>-->
+                    <!--<td>2017/8/7</td>-->
+                    <!--</tr>-->
+                </table>
+            </div>
+            <!--草稿箱-->
+            <div class="tabb ss5" style="display: none">
+                <table class="table table-hover" style="color: #ccc">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox"><span></span>标题</th>
+
+                            <th><span></span>发布时间</th>
+
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr>
+                            <th>微信公众号（20条）</th>
+                            <th></th>
+
+                        </tr>
+
+                    </thead>
+                    <tr>
+                        <td><input type="checkbox">微信公众号收费</td>
+                        <td>aaaa</td>
+                    </tr>
+                    <thead>
+                        <tr>
+                            <th>门诊挂号（20条）</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td><input type="checkbox">门诊挂号</td>
+                        <td>sssss</td>
+                    </tr>
+                    <thead>
+                        <tr>
+                            <th>预约挂号（20条）</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td><input type="checkbox">预约挂号挂号</td>
+                        <td>dddddd</td>
+                    </tr>
+                    <thead>
+                        <tr>
+                            <th>药物挂号（20条）</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td><input type="checkbox">药物挂号</td>
+                        <td>ffffff</td>
+                    </tr>
+                    <thead>
+                        <tr>
+                            <th>服务号（20条）</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td><input type="checkbox">呜呜挂号</td>
+                        <td>ggga</td>
+                    </tr>
+                    <thead>
+                        <tr>
+                            <th>眼科挂号（20条）</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td><input type="checkbox">眼科挂号</td>
+                        <td>jiangj</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox">眼科挂号</td>
+                        <td>aaaadddd</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox">眼科挂号</td>
+                        <td>别再说</td>
+                    </tr>
+                    <thead>
+                        <tr>
+                            <th>微信公众号挂号（20条）</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td><input type="checkbox">微信公众号挂号</td>
+                        <td>a折磨a</td>
+                    </tr>
+                </table>
+            </div>
+            <!--垃圾箱-->
+            <div class="tabb ss6" style="display:none">
+                <table id="ljxtable" class="table table-hover" style="color: #ccc">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox"><span></span>标题</th>
+                            <th><span></span>优先级</th>
+                            <th></th>
+                            <th><span></span>发布人</th>
+                            <th><span></span>审核状态</th>
+                            <th><span></span>发布时间</th>
+
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr>
+                            <th>微信公众号（20条）</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+
+                    </thead>
+                    <tr>
+                        <td><input type="checkbox">微信公众号收费</td>
+                        <td>aaaa</td>
+                        <td></td>
+                        <td>地球求</td>
+                        <td>未通过</td>
+                        <td>2017/8/7</td>
+                    </tr>
+                    <thead>
+                        <tr>
+                            <th>门诊挂号（20条）</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td><input type="checkbox">门诊挂号</td>
+                        <td>sssss</td>
+                        <td></td>
+                        <td>你是谁</td>
+                        <td>未通过</td>
+                        <td>2017/8/7</td>
+                    </tr>
+                    <thead>
+                        <tr>
+                            <th>预约挂号（20条）</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td><input type="checkbox">预约挂号挂号</td>
+                        <td>dddddd</td>
+                        <td></td>
+                        <td>走开</td>
+                        <td>未通过</td>
+                        <td>2017/8/7</td>
+                    </tr>
+                    <thead>
+                        <tr>
+                            <th>药物挂号（20条）</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td><input type="checkbox">药物挂号</td>
+                        <td>ffffff</td>
+                        <td></td>
+                        <td>你该吃药了兄弟</td>
+                        <td>未通过</td>
+                        <td>2017/8/7</td>
+                    </tr>
+                    <thead>
+                        <tr>
+                            <th>服务号（20条）</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td><input type="checkbox">呜呜挂号</td>
+                        <td>ggga</td>
+                        <td></td>
+                        <td>挂你妹</td>
+                        <td>未通过</td>
+                        <td>2017/8/7</td>
+                    </tr>
+                    <thead>
+                        <tr>
+                            <th>眼科挂号（20条）</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td><input type="checkbox">眼科挂号</td>
+                        <td>jiangj</td>
+                        <td></td>
+                        <td>验验验验验验验</td>
+                        <td>未通过</td>
+                        <td>2017/8/7</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox">眼科挂号</td>
+                        <td>aaaadddd</td>
+                        <td></td>
+                        <td>啊啊啊啊啊啊啊啊</td>
+                        <td>未通过</td>
+                        <td>2017/8/7</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox">眼科挂号</td>
+                        <td>别再说</td>
+                        <td></td>
+                        <td>eeeeeeee</td>
+                        <td>未通过</td>
+                        <td>2017/8/7</td>
+                    </tr>
+                    <thead>
+                        <tr>
+                            <th>微信公众号挂号（20条）</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td><input type="checkbox">微信公众号挂号</td>
+                        <td>a折磨a</td>
+                        <td></td>
+                        <td>娃娃娃娃女</td>
+                        <td>未通过</td>
+                        <td>2017/8/7</td>
+                    </tr>
+                </table>
+            </div>
         </div>
-        <!-- 我发布的-->
-        <div class="tabb ss2" style="display: none">
-            <table id="tablefb" class="table table-hover" style=" color: #ccc; ">
-                @*<thead>
-                    <tr>
-                        <th><input type="checkbox"><span></span>标题</th>
-                        <th><span></span>优先级</th>
-                        <th></th>
-                        <th><span></span>发布人</th>
-                        <th><span></span>审核状态</th>
-                        <th><span></span>发布时间</th>
-
-                    </tr>
-                </thead>
-                <thead>
-                    <tr>
-                        <th>微信公众号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-
-                </thead>
-                <tr>
-                    <td><input type="checkbox">微信公众号收费</td>
-                    <td>aaaa</td>
-                    <td></td>
-                    <td>地球求</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>门诊挂号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">门诊挂号</td>
-                    <td>sssss</td>
-                    <td></td>
-                    <td>你是谁</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>预约挂号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">预约挂号挂号</td>
-                    <td>dddddd</td>
-                    <td></td>
-                    <td>走开</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>药物挂号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">药物挂号</td>
-                    <td>ffffff</td>
-                    <td></td>
-                    <td>你该吃药了兄弟</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>服务号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">呜呜挂号</td>
-                    <td>ggga</td>
-                    <td></td>
-                    <td>挂你妹</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>眼科挂号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">眼科挂号</td>
-                    <td>jiangj</td>
-                    <td></td>
-                    <td>验验验验验验验</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox">眼科挂号</td>
-                    <td>aaaadddd</td>
-                    <td></td>
-                    <td>啊啊啊啊啊啊啊啊</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox">眼科挂号</td>
-                    <td>别再说</td>
-                    <td></td>
-                    <td>eeeeeeee</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>微信公众号挂号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">微信公众号挂号</td>
-                    <td>a折磨a</td>
-                    <td></td>
-                    <td>娃娃娃娃女</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>*@
-            </table>
-        </div>
-        <!-- 已完成的-->
-        <div class="tabb ss3" style="display: none">
-            <table id="carryout" class="table table-hover" style=" color: #ccc; ">
-                <thead>
-                    <tr>
-                        <th><input type="checkbox"><span></span>标题</th>
-                        <th><span></span>优先级</th>
-                        <th></th>
-                        <th><span></span>发布人</th>
-                        <th><span></span>审核状态</th>
-                        <th><span></span>发布时间</th>
-
-                    </tr>
-                </thead>
-                <thead>
-                    <tr>
-                        <th>微信公众号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-
-                </thead>
-                <tr>
-                    <td><input type="checkbox">微信公众号收费</td>
-                    <td>aaaa</td>
-                    <td></td>
-                    <td>地球求</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>门诊挂号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">门诊挂号</td>
-                    <td>sssss</td>
-                    <td></td>
-                    <td>你是谁</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>预约挂号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">预约挂号挂号</td>
-                    <td>dddddd</td>
-                    <td></td>
-                    <td>走开</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>药物挂号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">药物挂号</td>
-                    <td>ffffff</td>
-                    <td></td>
-                    <td>你该吃药了兄弟</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>服务号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">呜呜挂号</td>
-                    <td>ggga</td>
-                    <td></td>
-                    <td>挂你妹</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>眼科挂号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">眼科挂号</td>
-                    <td>jiangj</td>
-                    <td></td>
-                    <td>验验验验验验验</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox">眼科挂号</td>
-                    <td>aaaadddd</td>
-                    <td></td>
-                    <td>啊啊啊啊啊啊啊啊</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox">眼科挂号</td>
-                    <td>别再说</td>
-                    <td></td>
-                    <td>eeeeeeee</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>微信公众号挂号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">微信公众号挂号</td>
-                    <td>a折磨a</td>
-                    <td></td>
-                    <td>娃娃娃娃女</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-            </table>
-        </div>
-        <!--只看产品-->
-        <div class="tabb ss4" style="display:none">
-            <table id="tablezkcp" class="table table-hover" style="color: #ccc">
-                @*<thead>
-                    <tr>
-                        <th><input type="checkbox"><span></span>标题</th>
-                        <!--<th><span></span>优先级</th>-->
-                        <!--<th></th>-->
-                        <th><span></span>发布人</th>
-                        <!--<th><span></span>审核状态</th>-->
-                        <th><span></span>发布时间</th>
-                    </tr>
-                </thead>
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" style="margin-right: 8px;">微信公众号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <!--<th></th>-->
-                        <!--<th></th>-->
-                        <!--<th></th>-->
-                    </tr>
-
-                </thead>
-                <!--<tr>-->
-                <!--<td><input type="checkbox">微信公众号收费</td>-->
-                <!--<td>地球求</td>-->
-                <!--<td>未通过</td>-->
-                <!--<td>2017/8/7</td>-->
-                <!--</tr>-->
-                <thead>
-                    <tr>
-                        <th> <input type="checkbox" style="margin-right: 8px;">门诊挂号&nbsp;&nbsp;&nbsp;（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <!--<th></th>-->
-                        <!--<th></th>-->
-                        <!--<th></th>-->
-                    </tr>
-                </thead>
-                <!--<tr>-->
-                <!--<td><input type="checkbox">门诊挂号</td>-->
-                <!--<td>你是谁</td>-->
-                <!--<td>未通过</td>-->
-                <!--<td>2017/8/7</td>-->
-                <!--</tr>-->
-                <thead>
-                    <tr>
-                        <th> <input type="checkbox" style="margin-right: 8px;">预约挂号&nbsp;&nbsp;&nbsp;（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <!--<th></th>-->
-                        <!--<th></th>-->
-                        <!--<th></th>-->
-                    </tr>
-                </thead>
-                <!--<tr>-->
-                <!--<td><input type="checkbox">预约挂号挂号</td>-->
-                <!--<td>走开</td>-->
-                <!--<td>未通过</td>-->
-                <!--<td>2017/8/7</td>-->
-                <!--</tr>-->
-                <thead>
-                    <tr>
-                        <th>  <input type="checkbox" style="margin-right: 8px;">药物挂号&nbsp;&nbsp;&nbsp;（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <!--<th></th>-->
-                        <!--<th></th>-->
-                        <!--<th></th>-->
-                    </tr>
-                </thead>
-                <!--<tr>-->
-                <!--<td><input type="checkbox">药物挂号</td>-->
-                <!--<td>你该吃药了兄弟</td>-->
-                <!--<td>未通过</td>-->
-                <!--<td>2017/8/7</td>-->
-                <!--</tr>-->
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" style="margin-right: 8px;">服务号&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <!--<th></th>-->
-                        <!--<th></th>-->
-                        <!--<th></th>-->
-                    </tr>
-                </thead>
-                <!--<tr>-->
-                <!--<td><input type="checkbox">呜呜挂号</td>-->
-                <!--<td>挂你妹</td>-->
-                <!--<td>未通过</td>-->
-                <!--<td>2017/8/7</td>-->
-                <!--</tr>-->
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" style="margin-right: 8px;">眼科挂号 &nbsp;&nbsp;（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <!--<th></th>-->
-                        <!--<th></th>-->
-                        <!--<th></th>-->
-                    </tr>
-                </thead>
-                <!--<tr>-->
-                <!--<td><input type="checkbox">眼科挂号</td>-->
-                <!--<td>验验验验验验验</td>-->
-                <!--<td>未通过</td>-->
-                <!--<td>2017/8/7</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                <!--<td><input type="checkbox">眼科挂号</td>-->
-                <!--<td>啊啊啊啊啊啊啊啊</td>-->
-                <!--<td>未通过</td>-->
-                <!--<td>2017/8/7</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                <!--<td><input type="checkbox">眼科挂号</td>-->
-                <!--<td>eeeeeeee</td>-->
-                <!--<td>未通过</td>-->
-                <!--<td>2017/8/7</td>-->
-                <!--</tr>-->
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" style="margin-right: 8px;">微信公众号挂号&nbsp;（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <!--<th></th>-->
-                        <!--<th></th>-->
-                        <!--<th></th>-->
-                    </tr>
-                </thead>*@
-                <!--<tr>-->
-                <!--<td><input type="checkbox">微信公众号挂号</td>-->
-                <!--<td>娃娃娃娃女</td>-->
-                <!--<td>未通过</td>-->
-                <!--<td>2017/8/7</td>-->
-                <!--</tr>-->
-            </table>
-        </div>
-        <!--草稿箱-->
-        <div class="tabb ss5" style="display: none">
-            <table class="table table-hover" style="color: #ccc">
-                <thead>
-                    <tr>
-                        <th><input type="checkbox"><span></span>标题</th>
-
-                        <th><span></span>发布时间</th>
-
-                    </tr>
-                </thead>
-                <thead>
-                    <tr>
-                        <th>微信公众号（20条）</th>
-                        <th></th>
-
-                    </tr>
-
-                </thead>
-                <tr>
-                    <td><input type="checkbox">微信公众号收费</td>
-                    <td>aaaa</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>门诊挂号（20条）</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">门诊挂号</td>
-                    <td>sssss</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>预约挂号（20条）</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">预约挂号挂号</td>
-                    <td>dddddd</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>药物挂号（20条）</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">药物挂号</td>
-                    <td>ffffff</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>服务号（20条）</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">呜呜挂号</td>
-                    <td>ggga</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>眼科挂号（20条）</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">眼科挂号</td>
-                    <td>jiangj</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox">眼科挂号</td>
-                    <td>aaaadddd</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox">眼科挂号</td>
-                    <td>别再说</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>微信公众号挂号（20条）</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">微信公众号挂号</td>
-                    <td>a折磨a</td>
-                </tr>
-            </table>
-        </div>
-        <!--垃圾箱-->
-        <div class="tabb ss6" style="display:none">
-            <table id="ljxtable"class="table table-hover" style="color: #ccc">
-                <thead>
-                    <tr>
-                        <th><input type="checkbox"><span></span>标题</th>
-                        <th><span></span>优先级</th>
-                        <th></th>
-                        <th><span></span>发布人</th>
-                        <th><span></span>审核状态</th>
-                        <th><span></span>发布时间</th>
-
-                    </tr>
-                </thead>
-                <thead>
-                    <tr>
-                        <th>微信公众号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-
-                </thead>
-                <tr>
-                    <td><input type="checkbox">微信公众号收费</td>
-                    <td>aaaa</td>
-                    <td></td>
-                    <td>地球求</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>门诊挂号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">门诊挂号</td>
-                    <td>sssss</td>
-                    <td></td>
-                    <td>你是谁</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>预约挂号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">预约挂号挂号</td>
-                    <td>dddddd</td>
-                    <td></td>
-                    <td>走开</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>药物挂号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">药物挂号</td>
-                    <td>ffffff</td>
-                    <td></td>
-                    <td>你该吃药了兄弟</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>服务号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">呜呜挂号</td>
-                    <td>ggga</td>
-                    <td></td>
-                    <td>挂你妹</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>眼科挂号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">眼科挂号</td>
-                    <td>jiangj</td>
-                    <td></td>
-                    <td>验验验验验验验</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox">眼科挂号</td>
-                    <td>aaaadddd</td>
-                    <td></td>
-                    <td>啊啊啊啊啊啊啊啊</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox">眼科挂号</td>
-                    <td>别再说</td>
-                    <td></td>
-                    <td>eeeeeeee</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-                <thead>
-                    <tr>
-                        <th>微信公众号挂号（20条）</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td><input type="checkbox">微信公众号挂号</td>
-                    <td>a折磨a</td>
-                    <td></td>
-                    <td>娃娃娃娃女</td>
-                    <td>未通过</td>
-                    <td>2017/8/7</td>
-                </tr>
-            </table>
-        </div>
-    </div>
+    @*<button onclick="check()">lalalall</button>*@
     <!--最下-->
     <div id="sos" style="text-align:center">
         <div class="whyy">
-            <div class="rt">
+            @*<div class="rt">
                 <ul class="uis">
                     <li class="lt"><a href="#">1/8页</a></li>
                     <li class="lt"><a href="#">下一页</a></li>
                     <li class="lt"><input type="text"></li>
                     <li class="lt"><a href="#">跳 转</a></li>
                 </ul>
-            </div>
+            </div>*@
         </div>
         <ul class="uubb">
             <li style="line-height:50px;display:inline-block"><a href="#">帮助中心</a></li>
@@ -1123,11 +1185,11 @@
         <p class="pp_1 pp_2"> Copyright 2017-08-01 大连医卫 New technology research center</p>
 
     </div>
-    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script language="javascript" src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/js/productdemand.js"></script>
     <script src="~/layer/layer.js"></script>
-    <script>
+    <script language="javascript">
         $(function () {
             $(".nav_ui li").click(function (event) {
                 $(".nav_ui li").css({ 'background': '', 'color': '' });
@@ -1136,6 +1198,17 @@
             datetime();
             QueryProducts();
         });
+        //$("#CheckAll").click(function () {
+        //    alert(123123);
+        //    $('input[name="check"]').prop('checked', 'true');
+        //});
+        //function check() {
+        //    alert(123);
+        //    var checkbox = document.getElementById("CheckAll");
+        //    $('input[name="check"]').prop('checked', 'true');
+        //    alert(checkbox);
+        //}
+
         //#region 获取当前时间
         var date = (new Date()).getTime();
         function datetime() {
@@ -1155,7 +1228,7 @@
         var ID;
         var Character;
         function InsertUser() {
-           
+
             $.ajax({
                 type: "POST",
                 url: "/selectchaxun",
@@ -1164,7 +1237,7 @@
                     $(dataBack.data).each(function (index, item) {
                         ID = item.id;
                     });
-                        SelectDemand(ID);
+                    SelectDemand(ID);
                 },
                 error: function (error) {
                     alert(error.status + error.statusText)
@@ -1172,8 +1245,6 @@
             });
         }
         //#endregion
-
-        
 
         //#region  添加产品
         function QueryProducts() {
@@ -1226,7 +1297,7 @@
                     var str = '';
                     $(dataBack.data).each(function (index, item) {
                         str += '<tr value="' + item["Id"] + '">';
-                        str += '<td><input type="checkbox" value="' + item["Id"]+'">' + item["DemandNname"] + '</td>';
+                        str += '<td><input type="checkbox" value="' + item["Id"] + '">' + item["DemandNname"] + '</td>';
                         str += ' <td>' + item["Priority"] + '</td>';
                         str += ' <td></td>';
                         str += '<td>' + item["Name"] + '</td>';
@@ -1235,7 +1306,6 @@
                         str += " </tr>";
                     });
                     $("#" + id + "").append(str);
-                    str = '';
                 },
                 error: function (error) {
                     alert(error.status + error.statusText)
@@ -1243,7 +1313,7 @@
             });
         }
         //#endregion
-        
+
         //#region  通过产品ID查询需求条数
         function QueryRequestCount(id) {
             $.ajax({
@@ -1315,7 +1385,7 @@
                     var str = '';
                     $(dataBack.data).each(function (index, item) {
                         str += '<tr value="' + item["Id"] + '">';
-                        str += '<td><input type="checkbox">' + item["DemandNname"] + '</td>';
+                        str += '<td><input type="checkbox" value="' + item["Id"] + '">' + item["DemandNname"] + '</td>';
                         str += ' <td>' + item["Priority"] + '</td>';
                         str += ' <td></td>';
                         str += '<td>' + item["Name"] + '</td>';
@@ -1324,7 +1394,6 @@
                         str += " </tr>";
                     });
                     $("#fb" + id + "").append(str);
-                    str = '';
                 },
                 error: function (error) {
                     alert(error.status + error.statusText)
@@ -1334,7 +1403,7 @@
         //#endregion
 
         //#region  通过产品ID查询需求条数(我发布的)
-        function QueryfbCount(id,ID) {
+        function QueryfbCount(id, ID) {
             $.ajax({
                 type: "POST",
                 url: '/queryfbcount',
@@ -1497,31 +1566,32 @@
         function DeleteStatus() {
             $.each($('input:checkbox:checked'), function () {
                 num = $(this).val();
-                alert(num);
+                $.ajax({
+                    type: "POST",
+                    url: "/deletestatus",
+                    data: {
+                        deletestatus: 3,
+                        ID: num
+                    },
+                    success: function (dataBack) {
+                        if (dataBack.result == 1) {
+                            layer.msg(dataBack.message, { icon: 1 });
+                        }
+                    },
+                    error: function (error) {
+                        layer.msg(dataBack.message, { icon: 2 });
+                    }
+                });
             });
             if (num == 0) {
                 layer.msg("请选择删除的需求！", { icon: 3 });
                 return false;
-            } else { 
-            $.ajax({
-                type: "POST",
-                url: "/deletestatus",
-                data: {
-                    deletestatus: 3,
-                    ID: num
-                },
-                success: function (dataBack) {
-                    if (dataBack.result == 1) {
-                        layer.msg(dataBack.message, { icon: 1 });
-                        QueryProducts();
-                    }
-                },
-                error: function (error) {
-                    layer.msg(dataBack.message, { icon: 2});
-                }
-            });
-
             }
+
+
+
+            QueryProducts();
+            SelectDemand(ID);
         }
         //#endregion
 
@@ -1535,7 +1605,7 @@
                     var str = '';
                     str += '<thead>';
                     str += '<tr>';
-                    str += '<th><input type="checkbox"><span></span>标题</th>';
+                    str += '<th><input name="one"  type="checkbox" id="CheckAll"><span></span>标题</th>';
                     str += ' <th><span></span>优先级</th>';
                     str += ' <th></th>';
                     str += '<th><span></span>发布人</th>';
@@ -1576,7 +1646,7 @@
                     var str = '';
                     $(dataBack.data).each(function (index, item) {
                         str += '<tr value="' + item["Id"] + '">';
-                        str += '<td><input type="checkbox" value="' + item["Id"] + '">' + item["DemandNname"] + '</td>';
+                        str += '<td><input name="check" type="checkbox" value="' + item["Id"] + '">' + item["DemandNname"] + '</td>';
                         str += ' <td>' + item["Priority"] + '</td>';
                         str += ' <td></td>';
                         str += '<td>' + item["Name"] + '</td>';
@@ -1614,10 +1684,7 @@
         function Reduction() {
             $.each($('input:checkbox:checked'), function () {
                 huo = $(this).val();
-            });
-            if (huo == 0) {
-                layer.msg("请选择还原的需求！", { icon: 3 });
-            } else {
+                alert(huo);
                 $.ajax({
                     type: "POST",
                     url: "/reduction",
@@ -1628,7 +1695,39 @@
                     success: function (dataBack) {
                         if (dataBack.result == 1) {
                             layer.msg(dataBack.message, { icon: 1 });
-                            DeleteQueryProducts();
+                        }
+                    },
+                    error: function (error) {
+                        layer.msg(dataBack.message, { icon: 2 });
+                    }
+                });
+
+            });
+            if (huo == 0) {
+                layer.msg("请选择还原的需求！", { icon: 3 });
+            }
+            DeleteQueryProducts();
+        }
+        //#endregion
+
+        var sum = 0;
+        //#region  删除需求信息
+        function DeleteData() {
+            $.each($('input:checkbox:checked'), function () {
+                sum = $(this).val();
+            });
+            if (sum == 0) {
+                layer.msg("请选择删除的需求！", { icon: 3 });
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/deletedata",
+                    data: {
+                        ID: sum
+                    },
+                    success: function (dataBack) {
+                        if (dataBack.result == 1) {
+                            layer.msg(dataBack.message, { icon: 1 });
                         }
                     },
                     error: function (error) {
@@ -1636,6 +1735,37 @@
                     }
                 });
             }
+            DeleteQueryProducts();
+        }
+        //#endregion
+
+        var reviewid = 0;
+        //#region  审核通过需求信息
+        function Review() {
+            $.each($('input:checkbox:checked'), function () {
+                reviewid = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "/review",
+                    data: {
+                        Status: "已通过",
+                        ID: reviewid
+                    },
+                    success: function (dataBack) {
+                        if (dataBack.result == 1) {
+                            layer.msg(dataBack.message, { icon: 1 });
+                        }
+                    },
+                    error: function (error) {
+                        layer.msg(dataBack.message, { icon: 2 });
+                    }
+                });
+
+            });
+            if (reviewid == 0) {
+                layer.msg("请选择需审核的需求！", { icon: 3 });
+            }
+            QueryProducts();
         }
         //#endregion
 
