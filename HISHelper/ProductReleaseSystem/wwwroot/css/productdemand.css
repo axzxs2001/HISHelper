@@ -1572,6 +1572,7 @@ body{
     width: calc(100% - 250px);
     background: #293335;
      height:660px;
+     overflow-y:auto;
 }
 
 .tabb{

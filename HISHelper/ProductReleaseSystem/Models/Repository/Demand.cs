@@ -291,7 +291,7 @@ WHERE ID=@id";
         {
             var sql = @"select distinct  a.ID AS Id,a.ProductName AS ProductName from Products a 
 JOIN RequestForm b 
-ON a.ID=b.ProductID and DeleteStatus=1";
+ON a.ID=b.ProductID and DeleteStatus=1 and Status!='已完成'";
             return _dbHelper.GetList(sql);
         }
         #endregion
@@ -415,7 +415,7 @@ RequestForm a inner join Developers b on a.ImplementerID=b.ID inner join Departm
             var sql = @"select distinct  a.ID,a.ProductName from Products a 
 JOIN RequestForm b 
 ON a.ID=b.ProductID
-where b.ImplementerID=@ID and DeleteStatus=1";
+where b.ImplementerID=@ID and DeleteStatus=1  and Status!='已完成'";
             var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.GetList(sql, par);
         }
@@ -543,7 +543,7 @@ WHERE ID=@id";
         {
             var sql = @"select distinct  a.ID AS Id,a.ProductName AS ProductName from Products a 
 JOIN RequestForm b 
-ON a.ID=b.ProductID and DeleteStatus=3";
+ON a.ID=b.ProductID and DeleteStatus=3 and Status!='已完成'";
             return _dbHelper.GetList(sql);
         }
         #endregion
