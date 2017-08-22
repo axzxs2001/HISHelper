@@ -3,6 +3,7 @@
 
 //每个分页组的页数
 //var pagePerGroup = 15;
+var currentPageIndex = 1;
 function LoadMessage(currentPageIndex) {
     //每页表格的行数
     var RecordPerPage = 10;
@@ -24,7 +25,6 @@ function LoadMessage(currentPageIndex) {
 
 //生成分页控件
 function GetPagination(CurrentPageIndex, TotalPage, functionName, RecordCount, pagePerGroup) {
-    alert(CurrentPageIndex);
     if (CurrentPageIndex > TotalPage || CurrentPageIndex <= 0) {
         return;
     }
@@ -119,7 +119,6 @@ function QueryzkcpCount(id) {
 
 //加载分页条
 function SetPagination(CurrentPageIndex, obj, functionName, recordPerPage, pagePerGroup) {
-    alert(CurrentPageIndex);
     //得到记录数
     var RecordCount = obj.RecordCount;
     //得到总页数
@@ -132,9 +131,18 @@ function SetPagination(CurrentPageIndex, obj, functionName, recordPerPage, pageP
         $(".tablezkcp").append(paging);
         $("#it1").html(CurrentPageIndex + "/" + TotalPage + "页");
         $("#it2").click(function () {
-            alert(123);
-            SetPagination(CurrentPageIndex + 1);
-            GetPagination(CurrentPageIndex + 1);
+            LoadMessage(currentPageIndex+1);
+        });
+        $("#it4").click(function () {
+            if (!$("#it3").val().match(/^[0-9]*$/)) {
+
+                layer.msg("请输入数字！", { icon: 2 });
+                return false;
+            }
+
+            var number = $("#it3").val();
+            LoadMessage(currentPageIndex + (number - 1));
+            $("#it3").val("");
         });
     }
     else {
