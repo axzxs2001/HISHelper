@@ -25,6 +25,7 @@ namespace ProductReleaseSystem.ProductRelease
         public virtual DbSet<BuganswerSheet> BuganswerSheet { get; set; }
 
         public virtual DbSet<Opinion> Opinion { get; set; }
+        public virtual DbSet<BeingStudied> BeingStudied { get; set; }
 
         public ProductReleaseContext(DbContextOptions<ProductReleaseContext> options) : base(options)
         {

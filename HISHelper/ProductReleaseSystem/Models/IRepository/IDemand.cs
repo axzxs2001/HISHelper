@@ -150,18 +150,18 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <returns></returns>
         bool DeleteStatus(int deletestatus, int ID);
         /// <summary>
-        /// 查询所有产品
+        /// 垃圾箱查询所有产品
         /// </summary>
         /// <returns></returns>
         List<Dictionary<string, dynamic>> DeleteQueryProducts();
         /// <summary>
-        /// 根据产品ID查询需求信息
+        /// 垃圾箱根据产品ID查询需求信息
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         List<Dictionary<string, dynamic>> DeleteQueryRequestByProductId(int id);
         /// <summary>
-        /// 根据产品ID查询需求条数
+        /// 垃圾箱根据产品ID查询需求条数
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -190,5 +190,43 @@ namespace ProductReleaseSystem.Models.IRepository
         /// </summary>
         /// <returns></returns>
         object GetCount( int currentPageIndex, int RecordPerPage, int pagePerGroup);
-    }
+
+        /// <summary>
+        /// 草稿箱查询所有产品
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> DraftSelectProducts();
+        /// <summary>
+        /// 草稿箱根据产品ID查询需求信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> RequestBySelectProductId(int id);
+        /// <summary>
+        /// 草稿箱根据产品ID查询需求条数
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        object QuerySelectRequestCount(int id);
+        /// <summary>
+        /// 添加产品信息
+        /// </summary>
+        /// <param name="name">产品名称</param>
+        /// <param name="leixing">类型</param>
+        /// <returns></returns>
+        bool PordcutInsert(string ProductName, string Description);
+
+        /// <summary>
+        /// 删除产品对应需求
+        /// </summary>
+        /// <param name="ID">产品ID</param>
+        /// <returns></returns>
+        bool DeleteRequestForm(int ID);
+        /// <summary>
+        /// 删除产品
+        /// </summary>
+        /// <param name="ID">产品ID</param>
+        /// <returns></returns>
+        bool DeleteProducts(int ID);
+    } 
 }
