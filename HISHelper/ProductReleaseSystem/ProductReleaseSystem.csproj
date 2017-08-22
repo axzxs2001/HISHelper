@@ -81,6 +81,7 @@
     <Content Include="wwwroot\images\Demand\informationMaintenance.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="wwwroot\images\Demand\lccc.png" />
     <Content Include="wwwroot\images\Images1.jpg" />
     <Content Include="wwwroot\images\Images2.jpg" />
     <Content Include="wwwroot\images\Images3.jpg" />
