@@ -65,6 +65,8 @@ namespace ProductReleaseSystem
             //在研项目
             services.AddTransient<IResearch, Research>();
             services.AddTransient<IDemand, Demand>();
+            services.AddTransient<IDemandHome, DemandHome>();
+
 
             services.AddUEditorService()
                 .Add("test", context =>
