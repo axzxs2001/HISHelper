@@ -150,6 +150,7 @@
                 <!--button-->
                 <div class="buttt rt">
                     <img src="~/images/Demand/a_67.png" style="cursor:pointer" title="清空按钮" onclick="qingkong()" />
+                    <button style="font-size:18px;height:34px; padding-top:-30px; cursor:pointer" onclick="Insertdraft()">存草稿</button>
                     <img src="~/images/Demand/a_69.png" style="cursor:pointer" onclick="InsertUser()" id="tianjia" />
                 </div>
             </div>
@@ -303,6 +304,62 @@
                         ProductID: $("#productname").find("option:selected").val(),
                         Address: $("#address").val(),
                         DeleteStatus: 1
+                    },
+                    success: function (dataBack) {
+                        if (dataBack.result == 1) {
+                            layer.msg(dataBack.message, { icon: 1 });
+                        }
+                    },
+                    error: function (error) {
+                        layer.msg(dataBack.message, { icon: 2 });
+                    }
+                });
+            }
+        }
+        //#endregion
+
+        //#region  通过名称查询ID
+        var draftID;
+        var draftCharacter;
+        function Insertdraft() {
+            $.ajax({
+                type: "POST",
+                url: "/chaxunid",
+                data: { name: $("#implementerid").text() },
+                success: function (dataBack) {
+                    $(dataBack.data).each(function (index, item) {
+                        draftID = item.id;
+                        savadraftDemand(draftID);
+                    });
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+        //#endregion
+
+        //#region 添加实施需求
+        function savadraftDemand(ID) {
+            if (panduan()) {
+                $.ajax({
+                    type: "POST",
+                    url: '/adddemand',
+                    data: {
+                        DemandNname: $('#demandname').val(),
+                        RequirementsDescription: UE.getEditor('editor').getContent(),
+                        Priority: $('#priority').find("option:selected").text(),
+                        UserName: $('#username').val(),
+                        Producer: $('#producer').val(),
+                        ContactInformation: $('#information').val(),
+                        ImplementerID: ID,
+                        MakeTime: $('#shijiandata').text(),
+                        VersionNumber: '1.0.0.0',
+                        DeliveryDepartment: $("#bumen").find("option:selected").val(),
+                        Status: '未通过',
+                        ProductID: $("#productname").find("option:selected").val(),
+                        Address: $("#address").val(),
+                        DeleteStatus: 2
                     },
                     success: function (dataBack) {
                         if (dataBack.result == 1) {

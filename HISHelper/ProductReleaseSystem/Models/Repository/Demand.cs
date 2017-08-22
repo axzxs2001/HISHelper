@@ -536,7 +536,7 @@ WHERE ID=@id";
 
         #region 垃圾箱查询所有产品
         /// <summary>
-        /// 查询所有产品
+        /// 垃圾箱查询所有产品
         /// </summary>
         /// <returns></returns>
         public List<Dictionary<string, dynamic>> DeleteQueryProducts()
@@ -587,7 +587,7 @@ a.MakeTime from RequestForm a
 
         #region  还原垃圾箱需求
         /// <summary>
-        /// 删除修改需求编号
+        /// 还原垃圾箱需求
         /// </summary>
         /// <param name="requestform"></param>
         /// <returns></returns>
@@ -604,6 +604,8 @@ WHERE ID=@id";
         }
         #endregion
         #endregion
+
+        #region 审核状态修改
         /// <summary>
         /// 审核状态修改
         /// </summary>
@@ -618,9 +620,14 @@ WHERE ID=@id";
 
             return _dbHelper.SavaData(sql, par1, par) > 0 ? true : false;
         }
+        #endregion
+        #region 分页
         /// <summary>
-        /// 只看产品查询所有产品
+        /// 只看产品页面分页
         /// </summary>
+        /// <param name="currentPageIndex">当前显示第几页</param>
+        /// <param name="recordPerPage">每页表格的行数</param>
+        /// <param name="pagePerGroup">每个分页组的页数</param>
         /// <returns></returns>
         public List<Dictionary<string, dynamic>> QueryzkcpProducts(int currentPageIndex, int recordPerPage, int pagePerGroup)
         {
@@ -637,7 +644,14 @@ ON a.ID=b.ProductID and DeleteStatus=1 and Status!='已完成'
 where 行号>({currentPageIndex}-1)*{recordPerPage};";
             return _dbHelper.GetList(sql);
         }
-        public object GetCount(int currentPageIndex, int recordPerPage, int pagePerGroup)
+        /// <summary>
+        /// 分页查询总数
+        /// </summary>
+        /// <param name="currentPageIndex">当前显示第几页</param>
+        /// <param name="recordPerPage">每页表格的行数</param>
+        /// <param name="pagePerGroup">每个分页组的页数</param>
+        /// <returns></returns>
+        public object GetCount(int currentPageIndex, int RecordPerPage, int pagePerGroup)
         {
             var sql = $@"select COUNT(*) AS CountRow
 from(
@@ -648,9 +662,108 @@ JOIN RequestForm b
 ON a.ID=b.ProductID and DeleteStatus=1 and Status!='已完成'
 
 )liu
-)qwe
-where 行号>({currentPageIndex}-1)*{recordPerPage};";
+)qwe";
             return _dbHelper.GetValue(sql);
         }
+        #endregion
+        #region 草稿箱页面
+
+        #region 草稿箱查询所有产品
+        /// <summary>
+        /// 草稿箱查询所有产品
+        /// </summary>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> DraftSelectProducts()
+        {
+            var sql = @"select distinct  a.ID AS Id,a.ProductName AS ProductName from Products a 
+JOIN RequestForm b 
+ON a.ID=b.ProductID and DeleteStatus=2 and Status!='已完成'";
+            return _dbHelper.GetList(sql);
+        }
+        #endregion
+
+        #region 草稿箱根据产品ID查询所有审核中以及审核通过的需求
+        /// <summary>
+        /// 根据根据产品ID查询所有审核中以及审核通过的需求
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> RequestBySelectProductId(int id)
+        {
+            var sql = @"select 
+a.Id,
+a.DemandNname,
+a.MakeTime from RequestForm a 
+ join Products b on a.ProductID=b.ID 
+ JOIN Developers c on a.ImplementerID=c.ID
+ where ProductID=1 and Status!='已完成'and DeleteStatus=2";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.GetList(sql, par);
+        }
+        #endregion
+
+        #region 草稿箱查询产品共有多少条审核中及审核通过的需求
+        /// <summary>
+        /// 查询产品共有多少条审核中及审核通过的需求
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        public object QuerySelectRequestCount(int id)
+        {
+            var sql = @" select count(*) AS COUNT from RequestForm 
+ where ProductID=1 and Status!='已完成'and DeleteStatus=2";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.GetValue(sql, par);
+        }
+        #endregion
+        #endregion
+
+        #region 添加产品
+        /// <summary>
+        /// 添加产品
+        /// </summary>
+        /// <param name="Status">状态</param>
+        /// <param name="ID">ID</param>
+        /// <returns></returns>
+        public bool PordcutInsert(string ProductName, string Description)
+        {
+            var sql = @" insert into Products(ProductName,Description)values(@ProductName,@Description)";
+            var par1 = new SqlParameter() { ParameterName = "@ProductName", SqlDbType = System.Data.SqlDbType.VarChar, Value = ProductName };
+            var par = new SqlParameter() { ParameterName = "@Description", SqlDbType = System.Data.SqlDbType.VarChar, Value = Description };
+
+            return _dbHelper.SavaData(sql, par1, par) > 0 ? true : false;
+        }
+        #endregion
+
+        #region 删除产品对应需求
+        /// <summary>
+        /// 删除产品对应需求
+        /// </summary>
+        /// <param name="ID">ID</param>
+        /// <returns></returns>
+        public bool DeleteRequestForm(int ID)
+        {
+            var sql = @"delete RequestForm where ProductID=@ID";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = ID };
+
+            return _dbHelper.SavaData(sql, par) > 0 ? true : false;
+        }
+        #endregion
+        #region 删除产品
+        /// <summary>
+        /// 删除产品
+        /// </summary>
+        /// <param name="ID">ID</param>
+        /// <returns></returns>
+        public bool DeleteProducts(int ID)
+        {
+            var sql = @"delete Products where ProductID=@ID";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = ID };
+
+            return _dbHelper.SavaData(sql, par) > 0 ? true : false;
+        }
+        #endregion
+
+
     }
 }

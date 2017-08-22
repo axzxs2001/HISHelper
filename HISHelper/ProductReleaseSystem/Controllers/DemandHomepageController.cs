@@ -139,7 +139,7 @@ namespace ProductReleaseSystem.Controllers
                 var list = _idemand.QueryOpinion(id);
                 return new JsonResult(new { result = 1, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}" });
             }
@@ -460,11 +460,11 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="ID">ID</param>
         /// <returns></returns>
         [HttpPost("review")]
-        public IActionResult ExaminationPassed(string Status,int ID)
+        public IActionResult ExaminationPassed(string Status, int ID)
         {
             try
             {
-                var list = _idemand.Review(Status,ID);
+                var list = _idemand.Review(Status, ID);
                 return new JsonResult(new { result = 1, data = list, message = "审核通过成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
             }
             catch (Exception exc)
@@ -480,13 +480,37 @@ namespace ProductReleaseSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("queryzkcpproducts")]
-        public IActionResult QueryzkcpProducts(int? currentPageIndex = 1, int? recordPerPage = 10, int? pagePerGroup = 10)
+        public IActionResult QueryzkcpProducts(int? currentPageIndex = 1, int? RecordPerPage = 10, int? pagePerGroup = 10)
+        {
+            //try
+            //{
+            //    var list = _idemand.QueryzkcpProducts(currentPageIndex.Value, recordPerPage.Value, pagePerGroup.Value);
+            //    var Count = _idemand.GetCount(currentPageIndex.Value, recordPerPage.Value, pagePerGroup.Value);
+            //    return new JsonResult(new { result = 1, RecordCount = Count, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            //}
+            //catch (Exception exc)
+            //{
+            //    return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}" });
+            //}
+            var info = _idemand.QueryzkcpProducts(currentPageIndex.Value, RecordPerPage.Value, pagePerGroup.Value);
+            var Count = _idemand.GetCount(currentPageIndex.Value, RecordPerPage.Value, pagePerGroup.Value);
+           return new JsonResult(new { RecordCount = Count, List = info }, new Newtonsoft.Json.JsonSerializerSettings()
+            { DateFormatString = "yyyy-MM-dd" });
+        }
+        #endregion
+
+        #region 草稿箱查询所有产品
+        /// <summary>
+        /// 草稿箱查询所有产品
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("draftselectproducts")]
+        public IActionResult DraftSelectProducts()
         {
             try
             {
-                var list = _idemand.QueryzkcpProducts(currentPageIndex.Value, recordPerPage.Value, pagePerGroup.Value);
-                var Count = _idemand.GetCount(currentPageIndex.Value, recordPerPage.Value, pagePerGroup.Value);
-                return new JsonResult(new { result = 1, RecordCount = Count, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+                var list = _idemand.DraftSelectProducts();
+                return new JsonResult(new { result = 1, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
             }
             catch (Exception exc)
             {
@@ -494,5 +518,109 @@ namespace ProductReleaseSystem.Controllers
             }
         }
         #endregion
+
+        #region 草稿箱根据产品ID查询需求信息
+        /// <summary>
+        /// 草稿箱根据产品ID查询需求信息
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        [HttpPost("requestbyselectproductid")]
+        public IActionResult RequestBySelectProductId(int id)
+        {
+            try
+            {
+                var list = _idemand.RequestBySelectProductId(id);
+                return new JsonResult(new { result = 1, message = "查询成功", data = list }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
+            }
+        }
+        #endregion
+
+        #region 草稿箱根据产品ID查询需求条数
+        /// <summary>
+        /// 草稿箱根据产品ID查询需求条数
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        [HttpPost("queryselectrequestcount")]
+        public IActionResult QuerySelectRequestCount(int id)
+        {
+            try
+            {
+                var count = _idemand.QuerySelectRequestCount(id);
+                return new JsonResult(new { result = 1, message = "查询成功", data = count });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
+            }
+        }
+        #endregion
+
+        #region 添加产品信息
+        /// <summary>
+        /// 添加产品信息
+        /// </summary>
+        /// <param name="ProductName"></param>
+        /// <param name="Description"></param>
+        /// <returns></returns>
+        [HttpPost("porductinsert")]
+        public IActionResult PorductInsert(string ProductName, string Description)
+        {
+            try
+            {
+                var list = _idemand.PordcutInsert(ProductName, Description);
+                return new JsonResult(new { result = 1, data = list, message = "添加成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"添加失败:{exc.Message}" });
+            }
+        }
+        #endregion
+
+        #region 删除产品对应需求
+        /// <summary>
+        /// 删除产品对应需求
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        [HttpPost("deleterequestform")]
+        public IActionResult DeleteRequestForm(int ID)
+        {
+            try
+            {
+                var list = _idemand.DeleteRequestForm(ID);
+                return new JsonResult(new { result = 1, data = list, message = "删除需求成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"删除需求失败:{exc.Message}" });
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// 删除产品
+        /// </summary>
+        /// <param name="ID">ID</param>
+        /// <returns></returns>
+        [HttpPost("deleteproducts")]
+        public IActionResult DeleteProducts(int ID)
+        {
+            try
+            {
+                var list = _idemand.DeleteProducts(ID);
+                return new JsonResult(new { result = 1, data = list, message = "删除成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"删除失败:{exc.Message}" });
+            }
+        }
     }
 }

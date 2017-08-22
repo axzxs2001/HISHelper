@@ -1633,6 +1633,17 @@ body{
      display: inline-block;
      padding:0 10px !important;
     }
+.right_content .table .hh {
+    padding-left: 20px;
+}
+
+.table tr td {
+    padding-left: 19px !important;
+}
+
+.momo-js.bg-color {
+    background-color: #293335 !important;
+}
  /*新增 的 样式*/
  @media (min-width: 768px){
      .modal-dialog {
