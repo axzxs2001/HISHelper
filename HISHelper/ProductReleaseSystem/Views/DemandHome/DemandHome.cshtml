@@ -252,8 +252,8 @@
     <div class="right_content">
         <!-- 所有需求-->
         <div class="tabb ss1" style="display: none">
-            <table class="table table-hover" style=" color: #ccc; ">
-                <thead>
+            <table id="table1" class="table table-hover" style=" color: #ccc; ">
+                @*<thead>
                     <tr>
                         <th><span></span>标题</th>
                         <th><span></span>优先级</th>
@@ -261,7 +261,6 @@
                         <th><span></span>发布人</th>
                         <th><span></span>状态</th>
                         <th><span></span>发布时间</th>
-
                     </tr>
                 </thead>
                 <thead>
@@ -406,13 +405,13 @@
                     <td>娃娃娃娃女</td>
                     <td>测试中</td>
                     <td>2017/8/7</td>
-                </tr>
+                </tr>*@
             </table>
         </div>
         <!-- 与我相关-->
         <div class="tabb ss2" style="display: none">
-            <table class="table table-hover" style=" color: #ccc; ">
-                <thead>
+            <table id="table2" class="table table-hover" style=" color: #ccc; ">
+                @*<thead>
                     <tr>
                         <th><span></span>标题</th>
                         <th><span></span>状态</th>
@@ -530,7 +529,7 @@
                     <td>未通过</td>
                     <td></td>
                     <td>2017/8/7</td>
-                </tr>
+                </tr>*@
             </table>
         </div>
         <!-- 在研项目-->
@@ -676,8 +675,8 @@
         </div>
         <!--已完成的-->
         <div class="tabb ss4" style="display:none">
-            <table class="table table-hover" style="color: #ccc">
-                <thead>
+            <table id="table4" class="table table-hover" style="color: #ccc">
+                @*<thead>
                     <tr>
                         <th><span></span>标题</th>
                         <!--<th></th>-->
@@ -819,13 +818,13 @@
                     <td>测试中</td>
                     <td>2019/8/7</td>
                     <td>15/8/8</td>
-                </tr>
+                </tr>*@
             </table>
         </div>
         <!--未开始的-->
         <div class="tabb ss5" style="display: none">
-            <table class="table table-hover" style="color: #ccc">
-                <thead>
+            <table id="table5" class="table table-hover" style="color: #ccc">
+                @*<thead>
                     <tr>
                         <th><span></span>标题</th>
                         <!--<th></th>-->
@@ -977,7 +976,7 @@
                     <td>2015/8/8</td>
                     <td>高</td>
                     <td>膏药</td>
-                </tr>
+                </tr>*@
             </table>
         </div>
         <!--我的收藏-->
@@ -1143,6 +1142,315 @@
         <p class="pp_1 pp_2"> Copyright 2017-08-01 大连医卫 New technology research center</p>
 
     </div>
+    <script>
+        $(function () {
+            QueryAllProducts();
+            QueryAndMeProduct();
+            QueryFinishProduct();
+            QueryNoProduct();
+        })
+        //查询产品(查询全部)
+        function QueryAllProducts() {
+            $.ajax({
+                type: "GET",
+                url: '/queryallproducts',
+                data: {},
+                success: function (dataBack) {
+                    var str = '';
+                    str += '<thead>';
+                    str += '<tr>';
+                    str += '<th><span></span>标题</th>';
+                    str += ' <th><span></span>发布人</th>';
+                    str += '<th><span></span>状态</th>';
+                    str += '<th><span></span>结束时间</th>';
+                    str += '<th><span></span>版本号</th>';
+                    str += '</tr>';
+                    str += '</thead>';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<thead id="' + item.ID + '" value="' + item.ID + '">';
+                        str += '<tr>';
+                        str += '<th id="a' + item.ID + '">' + item.产品名 + '</th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '</tr>';
+                        str += '</thead>';
+                        QueryRequestByProductId(item.ID);   //获得产品ID查询需求信息
+                        QueryRequestsCount(item.ID);   //获得产品ID查询需求条数
+                    });
+                    $("#table1").html(str);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+        //通过产品ID查询需求信息(查询全部)
+        function QueryRequestByProductId(id) {
+            $.ajax({
+                type: "POST",
+                url: '/queryallrequestforms',
+                data: { id: id },
+                success: function (dataBack) {
+                    var str = '';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<tr value="' + item.ID + '">';
+                        str += '<td>' + item.标题 + '</td>';
+                        str += ' <td>' + item.优先级 + '</td>';
+                        str += ' <td></td>';
+                        str += '<td>' + item.发布人 + '</td>';
+                        str += '<td>' + item.状态 + '</td>';
+                        str += '<td>' + item.发布时间 + '</td>';
+                        str += " </tr>";
+                    });
+                    $("#" + id + "").append(str);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+        //通过产品ID查询需求条数(查询全部)
+        function QueryRequestsCount(id) {
+            $.ajax({
+                type: "POST",
+                url: '/queryrequestscount',
+                data: { id: id },
+                success: function (dataBack) {
+                    $("#a" + id + "").append("（" + dataBack.data + "条）");
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
 
+        //查询产品(与我相关)
+        function QueryAndMeProduct() {
+            $.ajax({
+                type: "POST",
+                url: "/queryandmeproduct",
+                data: { id: 8 },
+                success: function (dataBack) {
+                    var str = '';
+                    str += '<thead>';
+                    str += '<tr>';
+                    str += '<th><span></span>标题</th>';
+                    str += '<th><span></span>状态</th >';
+                    str += '<th></th>';
+                    str += '<th><span></span>发布人</th>';
+                    str += '</tr>';
+                    str += '</thead>';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<thead class="hh" id="x'+item.ID+'" value="' + item.ID + '">';
+                        str += '<tr>';
+                        str += '<th id="q'+item.ID+'">' + item.产品名 + '</th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '</tr>';
+                        str += '</thead>';
+                        QueryAndMeRequest(item.ID);   //获得产品ID查询需求信息
+                        QueryAndMeCount(item.ID);   //获得产品ID查询需求条数
+                    });
+                    $("#table2").html(str);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            })
+        }
+        //查询需求(与我相关)
+        function QueryAndMeRequest(pid) {
+            $.ajax({
+                type: "POST",
+                url: '/queryandmerequest',
+                data: { pid:pid,id:8 },
+                success: function (dataBack) {
+                    var str = '';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<tr value="'+item.ID+'">';
+                        str += '<td>' +item.标题+ '</td>';
+                        str += '<td>'+item.状态+'</td>';
+                        str += '<td></td>';
+                        str += '<td>'+item.发布人+'</td>';
+                        str += " </tr>";
+                    });
+                    $("#x"+pid+"").append(str);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+        //查询产品的需求条数(与我相关)
+        function QueryAndMeCount(pid) {
+            $.ajax({
+                type: "POST",
+                url: '/queryandmecount',
+                data: { pid: pid,id:8 },
+                success: function (dataBack) {
+                    $("#q"+pid+"").append("（"+dataBack.data+"条）");
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+
+        //查询产品(已完成的)
+        function QueryFinishProduct(){
+            $.ajax({
+                type: "GET",
+                url: '/queryfinishproduct',
+                data: {},
+                success: function (dataBack) {
+                    var str = '';
+                    str += '<thead>';
+                    str += '<tr>';
+                    str += '<th><span></span>标题</th>';
+                    str += '<th><span></span>优先级</th>';
+                    str += '<th><span></span>发布人</th>';
+                    str += '<th><span></span>状态</th>';
+                    str += '<th><span></span>发布时间</th>';
+                    str += '</tr>';
+                    str += '</thead>';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<thead id="y' + item.ID + '" value="' + item.ID + '">';
+                        str += '<tr>';
+                        str += '<th id="w' + item.ID + '">' + item.产品名 + '</th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '</tr>';
+                        str += '</thead>';
+                        QueryFinishRequestForm(item.ID);   //获得产品ID查询需求信息
+                        QueryCountFinish(item.ID);   //获得产品ID查询需求条数
+                    });
+                    $("#table4").html(str);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+        //通过产品ID查询需求信息(已完成的)
+        function QueryFinishRequestForm(id) {
+            $.ajax({
+                type: "POST",
+                url: '/queryfinishrequestform',
+                data: { id: id },
+                success: function (dataBack) {
+                    var str = '';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<tr value="' + item.ID + '">';
+                        str += '<td>' + item.标题 + '</td>';
+                        str += ' <td>' + item.发布人 + '</td>';
+                        str += '<td>' + item.状态 + '</td>';
+                        str += '<td>' + item.发布时间 + '</td>';
+                        str += '<td>' + item.版本号 + '</td>';
+                        str += " </tr>";
+                    });
+                    $("#y" + id + "").append(str);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+        //通过产品ID查询需求条数(已完成的)
+        function QueryCountFinish(id) {
+            $.ajax({
+                type: "POST",
+                url: '/querycountfinish',
+                data: { id: id },
+                success: function (dataBack) {
+                    $("#w"+id+"").append("（"+dataBack.data+"条）");
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+
+        //查询产品(未开始的)
+        function QueryNoProduct() {
+            $.ajax({
+                type: "GET",
+                url: '/querynoproduct',
+                data: {},
+                success: function (dataBack) {
+                    var str = '';
+                    str += '<thead>';
+                    str += '<tr>';
+                    str += '<th><span></span>标题</th>';
+                    str += '<th><span></span>状态</th>';
+                    str += '<th><span></span>通过时间</th>';
+                    str += '<th><span></span>优先级</th>';
+                    str += '<th><span></span>发布人</th>';
+                    str += '</tr>';
+                    str += '</thead>';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<thead id="k' + item.ID + '" value="' + item.ID + '">';
+                        str += '<tr>';
+                        str += '<th id="o' + item.ID + '">' + item.产品名 + '</th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '</tr>';
+                        str += '</thead>';
+                        QueryNoRequestForm(item.ID);   //获得产品ID查询需求信息
+                        QueryCountNo(item.ID);   //获得产品ID查询需求条数
+                    });
+                    $("#table5").html(str);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+        //通过产品ID查询需求信息(未开始的)
+        function QueryNoRequestForm(id) {
+            $.ajax({
+                type: "POST",
+                url: '/querynorequestform',
+                data: { id: id },
+                success: function (dataBack) {
+                    var str = '';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<tr value="' + item.ID + '">';
+                        str += '<td>' + item.标题 + '</td>';
+                        str += ' <td>' + item.状态 + '</td>';
+                        str += '<td>' + item.通过时间 + '</td>';
+                        str += '<td>' + item.优先级 + '</td>';
+                        str += '<td>' + item.发布人 + '</td>';
+                        str += " </tr>";
+                    });
+                    $("#k" + id + "").append(str);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+        //通过产品ID查询需求条数(未开始的)
+        function QueryCountNo(id) {
+            $.ajax({
+                type: "POST",
+                url: '/querycountno',
+                data: { id: id },
+                success: function (dataBack) {
+                    $("#o"+id+"").append("（" + dataBack.data + "条）");
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+    </script>
 </body>
 </html>
