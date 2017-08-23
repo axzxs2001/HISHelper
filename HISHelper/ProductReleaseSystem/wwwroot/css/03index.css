@@ -1,0 +1,106 @@
+.msn .pc_top .nal{
+    width: 100%;
+    min-height: 170px;
+    margin-bottom: 40px;
+    background: #4f5d60;
+}
+.msn .pc_top .news ul li {
+    color: #fff;
+    font-size: 16px;
+    padding-right:40px;
+    text-align: left;
+}
+.msn .pc_top .news ul li.asdf{
+    font-size: 16px;
+}
+.msn .pc_top .news ul{
+    overflow: hidden;
+    margin-left:115px;
+    margin-bottom: 20px;
+}
+.name p img{
+    position: relative;
+    top: -7px;
+    left: 0;
+}
+ .msn .sobsd{
+     /*margin-top: -200px;*/
+ }
+.msn .pc_top{
+    height: 150px;
+}
+/*.msn .pig_inp{*/
+    /*text-align: center;*/
+    /*background: #f3f2f2;*/
+    /*width: 60%;*/
+/*}*/
+.msn .pig_inp li{
+    width: 570px;
+    height: 44px;
+    background: #f3f2f2;
+    margin: 0 auto;
+    /*margin-top: 30px;*/
+}
+.msn .pig_inp li span{
+    color: #000;
+}
+.msn .pig_inp li img{
+    margin-left: 10px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.msn .pig_inp li span a{
+    display: inline-block;
+    border-right: 1px solid #ddd;
+    width: 1px;
+    height:25px;
+    vertical-align: middle;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.msn .pig_inp li input{
+    width: 60%;
+    border: none;
+    height: 43px;
+    color: #adadad;
+    background: #f3f2f2;
+    outline: none;}
+.foot p{
+    margin-top:-80px;
+    padding:0;
+}
+
+.form-control{
+    width: 90%;
+}
+textarea.form-control{
+    margin: 0 auto;
+    max-width: 90%;
+}
+/*#content{
+	/*ppadding-bottom:0 ! !important;*/
+/*background: #293335;
+    /*margin: 0 auto;
+    width: 1244px;
+    margin-top: 40px;
+    overflow: auto;*/
+   /* padding-bottom: 0px;*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

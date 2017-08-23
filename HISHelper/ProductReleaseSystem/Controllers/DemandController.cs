@@ -36,6 +36,16 @@ namespace ProductReleaseSystem.Controllers
             return View();
         }
         #endregion
+        /// <summary>
+        /// 在研项目页
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("researchneeds")]
+        public IActionResult ResearchNeeds()
+        {
+            return View();
+        }
+        #region 需求添加页面方法
         #region 实施添加需求
         /// <summary>
         /// 实施添加需求
@@ -167,6 +177,9 @@ namespace ProductReleaseSystem.Controllers
                 return new JsonResult(new { result = 0, message = $"查询部门失败！：{exc.Message}" });
             }
         }
+        #endregion
+
+
         #endregion
     }
 }

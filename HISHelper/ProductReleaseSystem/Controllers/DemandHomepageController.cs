@@ -604,6 +604,7 @@ namespace ProductReleaseSystem.Controllers
         }
         #endregion
 
+        #region 删除产品
         /// <summary>
         /// 删除产品
         /// </summary>
@@ -622,5 +623,27 @@ namespace ProductReleaseSystem.Controllers
                 return new JsonResult(new { result = 0, message = $"删除失败!" });
             }
         }
+        #endregion
+
+        #region 模糊查询产品
+        /// <summary>
+        /// 模糊查询产品
+        /// </summary>
+        /// <param name="ProductName"></param>
+        /// <returns></returns>
+       [HttpPost("selectblurry")]
+        public IActionResult SelectBlurry(string ProductName)
+        {
+            try
+            {
+                var list = _idemand.SelectBlurry(ProductName);
+                return new JsonResult(new { result = 1, data = list, message = "模糊查询成功！" }, new JsonSerializerSettings());
+            }
+            catch (Exception)
+            {
+                return new JsonResult(new { result=0,message="模糊查询失败！"});
+            }
+        }
+        #endregion
     }
 }

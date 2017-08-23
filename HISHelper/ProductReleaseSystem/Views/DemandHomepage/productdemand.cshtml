@@ -41,11 +41,11 @@
                 <ul class="uly lt" style="width:70%">
                     <li style="color:#fff;float:left;margin-top:35px;margin-left:20px"><p>Publisher：<span id="demandname">@User.Identity.Name</span></p><p>date：<span id="shijiandata">2017/7/31</span></p></li>
                     <li class="shd rt">
-                        <span style="cursor:pointer">
+                        <span style="cursor:pointer" onclick="SelectBlurry()">
                             <img src="~/images/Demand/fd_03.png" alt="" class="fdj" />
                             搜&nbsp;&nbsp;索
                         </span>
-                        <input type="text" class="texxx" placeholder="请输入要搜索的内容">
+                        <input type="text" class="texxx" id="blurry" placeholder="请输入要搜索的内容">
 
                     </li>
                 </ul>
@@ -312,10 +312,10 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="quanxuan()">
                         是
                     </button>
-                    <button type="button" class="btn btn-primary">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
                         否
                     </button>
                 </div>
@@ -327,7 +327,7 @@
         <ul class="nav_ui">
             <li style="background:#293335"><a href="#" class="momo-js" id="quanbu" onclick="QueryProducts()">查看全部</a></li>
             <li><a href="#" class="momo-js" id="fabu" onclick="InsertUser()">我发布的</a></li>
-            <li><a href="#" class="momo-js" id="wanchegn" onclick="CarryOutProducts()">已完成的</a></li>
+            <li><a href="#" class="momo-js" id="wancheng" onclick="CarryOutProducts()">已完成的</a></li>
             <!--<li><a href="#">添加产品</a></li>-->
             <li><a href="#" class="momo-js" id="zhikan" onclick="LoadMessage(1)">只看产品</a></li>
             <li><a href="#" class="momo-js" id="caogao" onclick="DraftSelectProducts()">草稿箱</a></li>
@@ -1215,7 +1215,8 @@
             <div class="rt">
                 <ul class="uis">
                     <li class="lt" id="it1" style="color:#fff; font-size:16px"><a href="#">1/8页</a></li>
-                    <li class="lt" id="it2"><a href="#">下一页</a></li>
+                    <li class="lt" id="itit2"><a href="#">上一页</a></li>
+                    <li class="lt" ><a href="#" id="it2">下一页</a></li>
                     <li class="lt"><input type="text" id="it3"></li>
                     <li class="lt" id="it4"><a href="#">跳 转</a></li>
                 </ul>
@@ -1253,16 +1254,18 @@
             datetime();
             QueryProducts();
         });
-        //$("#CheckAll").click(function () {
-        //    alert(123123);
-        //    $('input[name="check"]').prop('checked', 'true');
-        //});
+        
         //function check() {
         //    alert(123);
         //    var checkbox = document.getElementById("CheckAll");
         //    $('input[name="check"]').prop('checked', 'true');
         //    alert(checkbox);
         //}
+
+        function quanxuan() { 
+            $('input[name="check"]').prop('checked', 'true');
+            DeleteData();
+        }
 
         //#region 获取当前时间
         var date = (new Date()).getTime();
@@ -1893,7 +1896,7 @@
         }
         //#endregion
 
-        //#region  草稿箱通过产品ID查询需求条数
+        //#region 添加产品
         function PorductInsert() {
             $.ajax({
                 type: "POST",
@@ -1961,6 +1964,50 @@
                 },
                 error: function (error) {
                     layer.msg(dataBack.message, { icon: 2 });
+                }
+            });
+        }
+        //#endregion
+
+
+        //#region  模糊查询绑定查询全部页面
+        function SelectBlurry() {
+            $.ajax({
+                type: "POST",
+                url: '/selectblurry',
+                data: {
+                    ProductName: $("#blurry").val()
+                },
+                success: function (dataBack) {
+                    var str = '';
+                    str += '<thead>';
+                    str += '<tr>';
+                    str += '<th><input type="checkbox"><span></span>标题</th>';
+                    str += ' <th><span></span>优先级</th>';
+                    str += ' <th></th>';
+                    str += '<th><span></span>发布人</th>';
+                    str += '<th><span></span>审核状态</th>';
+                    str += '<th><span></span>发布时间</th>';
+                    str += '</tr>';
+                    str += '</thead>';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<thead id="' + item["Id"] + '" value="' + item["Id"] + '">';
+                        str += '<tr>';
+                        str += '<th id="a' + item["Id"] + '">' + item["ProductName"] + '</th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '</tr>';
+                        str += '</thead>';
+                        QueryRequestByProductId(item["Id"]);   //获得产品ID查询需求信息
+                        QueryRequestCount(item["Id"]);   //获得产品ID查询需求条数
+                    });
+                    $("#table1").html(str);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
                 }
             });
         }

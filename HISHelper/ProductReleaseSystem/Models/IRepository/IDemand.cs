@@ -228,5 +228,11 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="ID">产品ID</param>
         /// <returns></returns>
         bool DeleteProducts(int ID);
+        /// <summary>
+        /// 模糊查询
+        /// </summary>
+        /// <param name="ProductName">模糊查询</param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> SelectBlurry(string ProductName);
     } 
 }

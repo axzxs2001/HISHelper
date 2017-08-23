@@ -33,6 +33,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\css\03index.css" />
+    <Content Include="wwwroot\css\05index.css" />
+    <Content Include="wwwroot\css\06index.css" />
+    <Content Include="wwwroot\css\08index.css" />
+    <Content Include="wwwroot\css\prodemand.css" />
     <Content Include="wwwroot\css\04index.css" />
     <Content Include="wwwroot\css\bootstrap.min.css" />
     <Content Include="wwwroot\css\DemandHomepage2.css" />
@@ -82,6 +87,12 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\images\Demand\lccc.png" />
+    <Content Include="wwwroot\images\Demand\q_03.png" />
+    <Content Include="wwwroot\images\Demand\sd_03.png" />
+    <Content Include="wwwroot\images\Demand\sd_06.png" />
+    <Content Include="wwwroot\images\Demand\sd_09.png" />
+    <Content Include="wwwroot\images\Demand\sd_13.png" />
+    <Content Include="wwwroot\images\Demand\s_03.png" />
     <Content Include="wwwroot\images\Images1.jpg" />
     <Content Include="wwwroot\images\Images2.jpg" />
     <Content Include="wwwroot\images\Images3.jpg" />

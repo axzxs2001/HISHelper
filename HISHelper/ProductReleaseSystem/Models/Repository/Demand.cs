@@ -696,7 +696,7 @@ a.DemandNname,
 a.MakeTime from RequestForm a 
  join Products b on a.ProductID=b.ID 
  JOIN Developers c on a.ImplementerID=c.ID
- where ProductID=1 and Status!='已完成'and DeleteStatus=2";
+ where ProductID=@ID and Status!='已完成'and DeleteStatus=2";
             var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.GetList(sql, par);
         }
@@ -711,7 +711,7 @@ a.MakeTime from RequestForm a
         public object QuerySelectRequestCount(int id)
         {
             var sql = @" select count(*) AS COUNT from RequestForm 
- where ProductID=1 and Status!='已完成'and DeleteStatus=2";
+ where ProductID=@ID and Status!='已完成'and DeleteStatus=2";
             var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.GetValue(sql, par);
         }
@@ -764,6 +764,13 @@ a.MakeTime from RequestForm a
         }
         #endregion
 
-
+        public List<Dictionary<string, dynamic>> SelectBlurry(string ProductName)
+        {
+            var sql = $@"select distinct  a.ID AS Id,a.ProductName AS ProductName from Products a 
+JOIN RequestForm b 
+ON a.ID=b.ProductID and DeleteStatus=1 and Status!='已完成'
+where a.ProductName like '%{ProductName}%'";
+            return _dbHelper.GetList(sql);
+        }
     }
 }
