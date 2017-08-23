@@ -534,7 +534,7 @@
         </div>
         <!-- 在研项目-->
         <div class="tabb ss3" style="display: none">
-            <table class="table table-hover" style=" color: #ccc; ">
+            <table id="table6" class="table table-hover" style=" color: #ccc; ">
                 <thead>
                     <tr>
                         <th><span></span>标题</th>
@@ -1124,14 +1124,14 @@
     <!--最下-->
     <div id="sos" style="text-align:center">
         <div class="whyy">
-            <div class="rt">
+            @*<div class="rt">
                 <ul class="uis">
                     <li class="lt"><a href="#">1/8页</a></li>
                     <li class="lt"><a href="#">下一页</a></li>
                     <li class="lt"><input type="text"></li>
                     <li class="lt"><a href="#">跳 转</a></li>
                 </ul>
-            </div>
+            </div>*@
         </div>
         <ul class="uubb">
             <li style="line-height:50px;display:inline-block"><a href="#">帮助中心</a></li>
@@ -1146,6 +1146,7 @@
         $(function () {
             QueryAllProducts();
             QueryAndMeProduct();
+            QueryZyProduct();
             QueryFinishProduct();
             QueryNoProduct();
         })
@@ -1160,10 +1161,11 @@
                     str += '<thead>';
                     str += '<tr>';
                     str += '<th><span></span>标题</th>';
-                    str += ' <th><span></span>发布人</th>';
+                    str += ' <th><span></span>优先级</th>';
+                    str += '<th></th>';
+                    str += '<th><span></span>发布人</th>';
                     str += '<th><span></span>状态</th>';
-                    str += '<th><span></span>结束时间</th>';
-                    str += '<th><span></span>版本号</th>';
+                    str += '<th><span></span>发布时间</th>';
                     str += '</tr>';
                     str += '</thead>';
                     $(dataBack.data).each(function (index, item) {
@@ -1311,10 +1313,10 @@
                     str += '<thead>';
                     str += '<tr>';
                     str += '<th><span></span>标题</th>';
-                    str += '<th><span></span>优先级</th>';
                     str += '<th><span></span>发布人</th>';
                     str += '<th><span></span>状态</th>';
-                    str += '<th><span></span>发布时间</th>';
+                    str += '<th><span></span>结束时间</th>';
+                    str += '<th><span></span>版本号</th>';
                     str += '</tr>';
                     str += '</thead>';
                     $(dataBack.data).each(function (index, item) {
@@ -1445,6 +1447,82 @@
                 data: { id: id },
                 success: function (dataBack) {
                     $("#o"+id+"").append("（" + dataBack.data + "条）");
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+
+        //查询产品(在研项目)
+        function QueryZyProduct() {
+            $.ajax({
+                type: "GET",
+                url: '/queryzyproduct',
+                data: {},
+                success: function (dataBack) {
+                    var str = '';
+                    str += '<thead>';
+                    str += '<tr>';
+                    str += '<th><span></span>标题</th>';
+                    str += '<th><span></span>开始时间</th>';
+                    str += '<th></th>';
+                    str += '<th><span></span>预计结束时间</th>';
+                    str += '<th><span></span>接受人</th>';
+                    str += '</tr>';
+                    str += '</thead>';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<thead id="v' + item.ID + '" value="' + item.ID + '">';
+                        str += '<tr>';
+                        str += '<th id="f' + item.ID + '">' + item.产品名 + '</th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '<th></th>';
+                        str += '</tr>';
+                        str += '</thead>';
+                        QueryZyRequestForm(item.ID);   //获得产品ID查询需求信息
+                        QueryZyCount(item.ID);   //获得产品ID查询需求条数
+                    });
+                    $("#table6").html(str);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+        //通过产品ID查询需求信息(在研项目)
+        function QueryZyRequestForm(id) {
+            $.ajax({
+                type: "POST",
+                url: '/queryzyrequestform',
+                data: { id: id },
+                success: function (dataBack) {
+                    var str = '';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<tr value="' + item.ID + '">';
+                        str += '<td>' + item.标题 + '</td>';
+                        str += ' <td>' + item.开始时间 + '</td>';
+                        str += '<td></td>';
+                        str += '<td>' + item.结束时间 + '</td>';
+                        str += '<td>' + item.接受人 + '</td>';
+                        str += " </tr>";
+                    });
+                    $("#v" + id + "").append(str);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+        //通过产品ID查询需求条数(在研项目)
+        function QueryZyCount(id) {
+            $.ajax({
+                type: "POST",
+                url: '/queryzycount',
+                data: { id: id },
+                success: function (dataBack) {
+                    $("#f" + id + "").append("（" + dataBack.data + "条）");
                 },
                 error: function (error) {
                     alert(error.status + error.statusText)
