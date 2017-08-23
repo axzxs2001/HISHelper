@@ -124,7 +124,7 @@ namespace ProductReleaseSystem.Controllers
             try
             {
                 var list = _demandHome.QueryAndMeRequest(id, pid);
-                return new JsonResult(new { result = 1, data = list, message = "查询成功" });
+                return new JsonResult(new { result = 1, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
             }
             catch(Exception exc)
             {
@@ -156,7 +156,65 @@ namespace ProductReleaseSystem.Controllers
         #endregion
 
         #region 在研项目
-
+        #region 查询在研产品
+        /// <summary>
+        /// 查询在研产品
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("queryzyproduct")]
+        public IActionResult QueryZyProduct()
+        {
+            try
+            {
+                var list = _demandHome.QueryZyProduct();
+                return new JsonResult(new { result = 1, data = list, message = "查询成功" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
+            }
+        }
+        #endregion
+        #region 根据产品ID查询在研需求
+        /// <summary>
+        /// 根据产品ID查询在研需求
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        [HttpPost("queryzyrequestform")]
+        public IActionResult QueryZyRequestForm(int id)
+        {
+            try
+            {
+                var list = _demandHome.QueryZyRequestForm(id);
+                return new JsonResult(new { result = 1, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
+            }
+        }
+        #endregion
+        #region 根据产品ID查询在研项目需求条数
+        /// <summary>
+        /// 根据产品ID查询在研项目需求条数
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        [HttpPost("queryzycount")]
+        public IActionResult QueryZyCount(int id)
+        {
+            try
+            {
+                var count = _demandHome.QueryZyCount(id);
+                return new JsonResult(new { result = 1, data = count, message = "查询成功" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
+            }
+        }
+        #endregion
         #endregion
 
         #region 已完成的
@@ -191,7 +249,7 @@ namespace ProductReleaseSystem.Controllers
             try
             {
                 var list = _demandHome.QueryFinishRequestForm(id);
-                return new JsonResult(new { result = 1, data = list, message = "查询成功" });
+                return new JsonResult(new { result = 1, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
             }
             catch (Exception exc)
             {
@@ -253,7 +311,7 @@ namespace ProductReleaseSystem.Controllers
             try
             {
                 var list = _demandHome.QueryNoRequestForm(id);
-                return new JsonResult(new { result = 1, data = list, message = "查询成功" });
+                return new JsonResult(new { result = 1, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
             }
             catch (Exception exc)
             {

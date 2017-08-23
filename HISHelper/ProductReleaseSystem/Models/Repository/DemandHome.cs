@@ -139,10 +139,34 @@ a.ProductName AS 产品名 from Products a join RequestForm b on a.ID=b.ProductI
         }
         #endregion
         #region 根据产品ID查询在研需求
-        public List<Dictionary<string,dynamic>> QueryZyRequestForm()
+        /// <summary>
+        /// 根据产品ID查询在研需求
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        public List<Dictionary<string,dynamic>> QueryZyRequestForm(int id)
         {
-            var sql = @"";
-            return _dbHelper.GetList(sql);
+            var sql = @"select 
+a.ID AS ID,
+a.DemandNname AS 标题,
+b.StartTime AS 开始时间,
+b.ExpectedTime AS 结束时间,
+c.Name as 接受人 from RequestForm a join BeingStudied b on a.ID=b.DemandID join Developers c on b.DeveloperID=c.ID join Products d on a.ProductID=d.ID and Status!='未通过' and Status!='已确认' and Status!='审核通过' and Status!='已完成' and DeleteStatus=1 and a.ProductID=@ID";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.GetList(sql,par);
+        }
+        #endregion
+        #region 根据产品ID查询在研项目需求条数
+        /// <summary>
+        /// 根据产品ID查询在研项目需求条数
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        public object QueryZyCount(int id)
+        {
+            var sql= @"select count(*) AS COUNT from RequestForm where ProductID=@ID and Status!='未通过' and Status!='已确认' and Status!='审核通过' and Status!='已完成' and DeleteStatus=1";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
+            return _dbHelper.GetValue(sql, par);
         }
         #endregion
         #endregion

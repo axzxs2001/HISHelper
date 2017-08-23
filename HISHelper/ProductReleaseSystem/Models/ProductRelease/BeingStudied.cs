@@ -12,5 +12,6 @@ namespace ProductReleaseSystem.ProductRelease
         public int DepartmentID { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime ExpectedTime { get; set; }
+        public int DeveloperID { get; set; }
     }
 }

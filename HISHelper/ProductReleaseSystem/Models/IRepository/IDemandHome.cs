@@ -52,7 +52,23 @@ namespace ProductReleaseSystem.Models.IRepository
         #endregion
 
         #region 在研项目
-
+        /// <summary>
+        /// 查询在研产品
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> QueryZyProduct();
+        /// <summary>
+        /// 根据产品ID查询在研需求
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> QueryZyRequestForm(int id);
+        /// <summary>
+        /// 根据产品ID查询在研项目需求条数
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        object QueryZyCount(int id);
         #endregion
 
         #region 已完成的
