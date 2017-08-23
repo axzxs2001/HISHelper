@@ -1214,9 +1214,9 @@
             <span id="btn2" class="ion-chevron-down" style="display: inline-block; color: #fff;font-size:26px; cursor:pointer"></span>
             <div class="rt">
                 <ul class="uis">
-                    <li class="lt" id="it1"><a href="#">1/8页</a></li>
+                    <li class="lt" id="it1" style="color:#fff; font-size:16px"><a href="#">1/8页</a></li>
                     <li class="lt" id="it2"><a href="#">下一页</a></li>
-                    <li class="lt" id="it3"><input type="text"></li>
+                    <li class="lt"><input type="text" id="it3"></li>
                     <li class="lt" id="it4"><a href="#">跳 转</a></li>
                 </ul>
             </div>
@@ -1916,21 +1916,22 @@
         //#endregion
 
 
-        var numsum = 0;
+        var digital = 0;
         //#region  删除需求信息
         function DeleteRequestFormProducts() {
             $.each($('input:checkbox:checked'), function () {
-                numsum = $(this).val();
-                alert(numsum);
+                alert(123);
+                digital = $(this).val();
+                alert(digital);
                 $.ajax({
                     type: "POST",
                     url: "/deleteproducts",
                     data: {
-                        ID: numsum
+                        ID: digital
                     },
                     success: function (dataBack) {
                         if (dataBack.result == 1) {
-                            DeleteRequestForm(numsum);
+                            DeleteRequestForm(digital);
                             layer.msg(dataBack.message, { icon: 1 });
                         }
                     },
@@ -1939,10 +1940,10 @@
                     }
                 });
             });
-            if (numsum == 0) {
+            if (digital == 0) {
                 layer.msg("请选择删除的需求！", { icon: 3 });
             }
-            LoadMessage(currentPageIndex);
+            LoadMessage(1);
         }
         //#endregion
         //#region 删除产品对应需求

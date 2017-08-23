@@ -619,7 +619,7 @@ namespace ProductReleaseSystem.Controllers
             }
             catch (Exception exc)
             {
-                return new JsonResult(new { result = 0, message = $"删除失败:{exc.Message}" });
+                return new JsonResult(new { result = 0, message = $"删除失败!" });
             }
         }
     }
