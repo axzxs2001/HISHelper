@@ -26,12 +26,12 @@ body {
 }
 
 #logo {
-    background: url('../images/login/logo.jpg')no-repeat left;
-    width: 100px;
-    height: 100px;
-    background-size: cover;
+    background: url('../images/Demand/logo.png')no-repeat left;
+    width: 217px;
+    height: 130px;
+    /*background-size: cover;*/
     margin: 0 auto;
-    margin-top: 40px;
+    margin-top:20px;
 }
 
 #border {
@@ -149,10 +149,10 @@ body {
     }
 
 #border .button {
-    background: #07b7e6;
+    background: #293335;
     width: 240px;
     height: 60px;
-    -webkit-box-shadow: 0 3px 20px #07b7e6;
+    -webkit-box-shadow: 0 3px 10px #293335;
     border-radius: 25px;
     margin-top: 35px;
     position: relative;

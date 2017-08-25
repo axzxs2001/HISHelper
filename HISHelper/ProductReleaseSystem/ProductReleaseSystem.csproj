@@ -50,6 +50,7 @@
     <Content Include="wwwroot\css\productdemand.css" />
     <Content Include="wwwroot\css\register_index.css" />
     <Content Include="wwwroot\css\researchprojects.css" />
+    <Content Include="wwwroot\css\UserProtocol.css" />
     <Content Include="wwwroot\css\viewrequirements.css" />
     <Content Include="wwwroot\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="wwwroot\fonts\glyphicons-halflings-regular.svg" />
@@ -79,14 +80,18 @@
     <Content Include="wwwroot\images\Demand\a_63.png" />
     <Content Include="wwwroot\images\Demand\a_67.png" />
     <Content Include="wwwroot\images\Demand\a_69.png" />
+    <Content Include="wwwroot\images\Demand\bg.png" />
     <Content Include="wwwroot\images\Demand\chanpin.png" />
     <Content Include="wwwroot\images\Demand\dizhi.png" />
+    <Content Include="wwwroot\images\Demand\facebook_active.png" />
+    <Content Include="wwwroot\images\Demand\facebook_dark.png" />
     <Content Include="wwwroot\images\Demand\fb_03.png" />
     <Content Include="wwwroot\images\Demand\fd_03.png" />
     <Content Include="wwwroot\images\Demand\informationMaintenance.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\images\Demand\lccc.png" />
+    <Content Include="wwwroot\images\Demand\logo.png" />
     <Content Include="wwwroot\images\Demand\q_03.png" />
     <Content Include="wwwroot\images\Demand\sd_03.png" />
     <Content Include="wwwroot\images\Demand\sd_06.png" />

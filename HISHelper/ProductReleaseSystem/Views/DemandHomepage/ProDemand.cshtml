@@ -17,10 +17,32 @@
     <!--自己的css-->
     <link href="~/css/register_index.css" rel="stylesheet" />
     <link href="~/css/03index.css" rel="stylesheet" />
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <style type="text/css">
+        #fbb6 {
+            color: #ffffff;
+            word-wrap: break-word;
+            margin-left: 110px;
+            max-width: 80%;
+        }
+
+            #fbb6 span img {
+                max-width: 99%;
+            }
+
+            #fbb6 p img {
+                max-width: 99%;
+            }
+
+            #fbb6 p span {
+                color: #fff !important;
+            }
+    </style>
+
 </head>
 <!--jquery+boot+ie9以下适配html5的js-->
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
 <!--[if lte IE 9]>
 <script type="text/javascript" src="js/html5shiv.min.js"></script>
 <script type="text/javascript" src="js/respond.min.js"></script>
@@ -62,16 +84,20 @@
                         <p><img src="~/images/Demand/1.png" alt="" style="margin-top: -13px;" /></p>
                     </div>
                     <div class="news">
-                        <ul class=" fbb">
-                            <li class="lt">发布人：刘先生</li>
+                        <ul class=" fbb"  id="fbb1">
+                            @*<li class="lt">发布人：刘先生</li>
                             <li class="lt" style="width:26%;">发布时间：2014-5-8</li>
-                            <li class="lt">邮箱：12345678@123.com</li>
+                            <li class="lt">邮箱：12345678@123.com</li>*@
                         </ul>
 
-                        <ul class="bbf">
-                            <li class="lt">QQ：13456789</li>
+                        <ul class="bbf"  id="fbb2">
+                            @*<li class="lt">QQ：13456789</li>
                             <li class="lt">交付部门：新技术研究中心</li>
-                            <li class="lt">优先级：A</li>
+                            <li class="lt">优先级：A</li>*@
+                        </ul>
+                        <ul class="bbf" id="fbb3">
+                            @*<li class="lt">交付部门：新技术研究中心</li>
+                                <li class="lt">优先级：A</li>*@
                         </ul>
                     </div>
                 </div>
@@ -84,13 +110,13 @@
                         <p><img src="~/images/Demand/1.png" alt="" style="margin-top: -13px;" /></p>
                     </div>
                     <div class="news">
-                        <ul class=" fbb">
-                            <li class="lt">医院名称：眼科医院</li>
+                        <ul class=" fbb" id="fbb4">
+                            @*<li class="lt">医院名称：眼科医院</li>
                             <li class="lt">院方联系人名称：安不上</li>
-                            <li class="lt">联系电话：13212121212</li>
+                            <li class="lt">联系电话：13212121212</li>*@
                         </ul>
-                        <ul class="bbf">
-                            <li class="lt">所在地：大连大连</li>
+                        <ul class="bbf" id="fbb5">
+                            @*<li class="lt">所在地：大连大连</li>*@
                         </ul>
                     </div>
                 </div>
@@ -102,8 +128,8 @@
                         <span>详细需求</span>
                         <p><img src="~/images/Demand/1.png" alt="" style="margin-top: -13px;" /></p>
                     </div>
-                    <div class="news">
-                        <ul class=" fbb">
+                    <div class="news" id="fbb6">
+                        @*<ul class=" fbb"  id="fbb6">
                             <li class="lt asdf">医院名称：眼科医院</li>
                             <li class="lt asdf">院方联系人名称：安不上</li>
                             <li class="lt asdf">联系电话：13212121212</li>
@@ -119,19 +145,19 @@
                                 2016年斩获第二届bilibili人气大赏活动日漫区萌王(女子组第一名)
                             </li>
                             <li class="lt asdf"><img src="~/images/Demand/q_03.png" /></li>
-                        </ul>
+                        </ul>*@
 
                     </div>
                 </div>
 
             </div>
-            <div class="pc_top sobsd three">
+            <div class="pc_top sobsd three" id="fbbb1" style="display:none">
                 <div class="lt nal">
                     <div class="black">
                         <span>人员意见</span>
                         <p><img src="~/images/Demand/1.png" alt="" style="margin-top: -13px;" /></p>
                     </div>
-                    <div class="news">
+                    <div class="news"  id="fbbb2">
                         <ul class=" fbb">
                             <li class="lt asdf">医院名称：眼科医院</li>
                             <li class="lt asdf">院方联系人名称：安不上</li>
@@ -190,7 +216,6 @@
 
     </div>
 
-    </div>
     <div class="haha">
         <ul>
             <li class="def"><a href="#"> <img src="~/images/Demand/a_60.png" /></a></li>
@@ -208,5 +233,92 @@
         <p class="pp_1 pp_2"> Copyright 2017-08-01 大连医卫 New technology research center</p>
 
     </div>
+    <script type="text/javascript">
+        $(function () {
+            QueryDetailedRequirements();
+            QueryOpinion();
+        })
+
+        //查询需求详细信息
+        function QueryDetailedRequirements() {
+            $.ajax({
+                type: "POST",
+                url: "/querydetailedrequirements",
+                data: { id: 24 },
+                success: function (dataBack) {
+                    var str = "";
+                    var str1 = "";
+                    var str2 = "";
+                    var str4 = "";
+                    var str5 = "";
+                    var str6 = "";
+                    $(dataBack.data).each(function (index, item) {
+                        str += " <li class='lt' style='width:30%;'>标题：" + item.标题 + "</li>";
+                        str += "<li class='lt' style='width:30%;'> 电话：" + item.电话 + "</li >";
+                        str += " <li class='lt' > 发布人：" + item.发布人姓名 + "</li >";
+
+                        str1 += "<li class='lt' style='width:30%;'>发布时间：" + item.发布时间 + "</li>";
+                        str1 += "<li class='lt' style='width:30%;'>邮箱：" + item.Email + "</li >";
+                        str1 += "<li class='lt'>QQ：" + item.QQ + "</li>";
+
+                        str2 += "<li class='lt' style='width:30%;'> 优先级：" + item.优先级 + "</li >";
+                        str2 += "<li class='lt' style='width:30%;'>交付部门：" + item.交付部门 + "</li>";
+
+
+                        str4 += "<li class='lt' style='width:30%;'>医院名称：" + item.医院名称 + "</li>";
+                        str4 += "<li class='lt' style='width:30%;'>院方联系人名称：" + item.提出者姓名 + "</li >";
+                        str4 += "<li class='lt'>联系电话：" + item.医院联系方式 + "</li>";
+
+                        str5 += "<li class='lt'>所在地：" + item.医院地址 + "</li>";
+
+                        str6 += item.详细需求;
+                    })
+                    $("#fbb1").html(str);
+                    $("#fbb2").html(str1);
+                    $("#fbb3").html(str2);
+                    $("#fbb4").html(str4);
+                    $("#fbb5").html(str5);
+                    $("#fbb6").html(str6);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            })
+        }
+
+        //查询人员意见
+        function QueryOpinion() {
+            $.ajax({
+                type: "POST",
+                url: "/queryopinion",
+                data: { id: 24 },
+                success: function (dataBack) {
+                    if (dataBack.data != "") {
+                        $("#fbbb1").css("display", "block");
+                        var str = "";
+                        $(dataBack.data).each(function (index, item) {
+                            str += "<ul class='fbb'>";
+                            str += "<li class='lt asdf' style='font- size:18px; padding - top:20px; width:30%'>目的：" + item.目的 + "</li>";
+                            str += "<li class='lt asdf' style='font- size:18px; padding - top:20px; width:30%'>发起人姓名：" + item.发起人姓名 + "</li>";
+                            str += "<li class='lt asdf' style='font- size:18px; padding - top:20px;'>电话：" + item.电话 + "</li>";
+                            str += "</ul>";
+                            str += "<ul class='fbb' style='last-style:none'>";
+                            str += "<li class='lt asdf' style='font- size:18px; padding - top:20px;width:30%'>QQ：" + item.QQ + "</li>";
+                            str += "<li class='lt asdf' style='font- size:18px; padding - top:20px;width:52%'>发起时间：" + item.发起时间 + "</li>";
+                            str += "<li class='lt asdf' style='font- size:18px; padding - top:20px;margin-top:20px;max-width:94%;width:100%;word-wrap: break-word;'>内容：" + item.详细 + "</li>";
+                            if (index < dataBack.data.length - 1) {
+                                str += "<li class='lt asdf' style='border:1px dashed #c3c3c3;width:70%;height:1px;margin-top:20px;margin-bottom:10px;margin-left:90px'></li>";
+                            }
+                            str += "</ul>";
+                        })
+                        $("#fbbb2").html(str);
+                    }
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            })
+        }
+    </script>
 </body>
 </html>
