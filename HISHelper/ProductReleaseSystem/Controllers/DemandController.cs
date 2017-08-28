@@ -52,7 +52,7 @@ namespace ProductReleaseSystem.Controllers
         /// </summary>
         /// <param name="requestform"></param>
         /// <returns></returns>
-        [HttpPost("adddemand")]
+        [HttpPut("adddemand")]
         public IActionResult AddDemand(RequestForm requestform)
         {
 
@@ -179,7 +179,29 @@ namespace ProductReleaseSystem.Controllers
         }
         #endregion
 
-
+        #region 根据需求ID查询需求信息
+        /// <summary>
+        /// 根据需求ID查询需求信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost("selectdem")]
+        public IActionResult SelectDem(int id) {
+            try
+            {
+                var list = _demand.SelectDem(id);
+                return new JsonResult(new { result = 1, message = $"查询需求信息成功！", data = list }, new JsonSerializerSettings()
+                {
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
+                return new JsonResult(new { result = 0, message = $"查询需求信息失败！：{exc.Message}" });
+            }
+        }
+        #endregion
         #endregion
     }
 }

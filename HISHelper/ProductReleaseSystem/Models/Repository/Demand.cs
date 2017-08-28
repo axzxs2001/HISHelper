@@ -757,13 +757,19 @@ a.MakeTime from RequestForm a
         /// <returns></returns>
         public bool DeleteProducts(int ID)
         {
-            var sql = @"delete Products where ProductID=@ID";
+            var sql = @"delete Products where ID=@ID";
             var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = ID };
 
             return _dbHelper.SavaData(sql, par) > 0 ? true : false;
         }
         #endregion
 
+        #region 模糊查询产品
+        /// <summary>
+        /// 模糊查询产品
+        /// </summary>
+        /// <param name="ProductName">产品名称</param>
+        /// <returns></returns>
         public List<Dictionary<string, dynamic>> SelectBlurry(string ProductName)
         {
             var sql = $@"select distinct  a.ID AS Id,a.ProductName AS ProductName from Products a 
@@ -772,5 +778,36 @@ ON a.ID=b.ProductID and DeleteStatus=1 and Status!='已完成'
 where a.ProductName like '%{ProductName}%'";
             return _dbHelper.GetList(sql);
         }
+        #endregion
+
+        #region 通过需求ID查询需求信息
+        /// <summary>
+        /// 模糊查询产品
+        /// </summary>
+        /// <param name="ProductName">产品名称</param>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> SelectDem(int id)
+        {
+            var sql = $@"select 
+UserName,
+Producer,
+ContactInformation,
+Address,
+DemandNname,
+P.ProductName AS productname,
+Priority AS priority,
+d.DepartmentName AS departmentname,
+RequirementsDescription
+from RequestForm R
+JOIN Products P
+ON R.ProductID=P.ID
+JOIN Departments D
+ON R.DeliveryDepartment=D.ID
+where R.ID=@id";
+            var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.VarChar, Value = id };
+            return _dbHelper.GetList(sql, par);
+        }
+        #endregion
+
     }
 }

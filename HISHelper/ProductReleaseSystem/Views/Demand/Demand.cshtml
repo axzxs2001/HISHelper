@@ -11,11 +11,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
     <title>需求发布</title>
-    <style> 
-       .bd{
-            width:102%;
+    <style>
+        .bd {
+            width: 102%;
         }
-</style>
+    </style>
 </head>
 
 <body>
@@ -104,7 +104,7 @@
                             <li>
                                 <img src="~/images/Demand/chanpin.png" class="im" alt="" /><span class="span_1">产品名称<a></a></span>
                                 <select name="" id="productname" class="inpps">
-                                    <option value="" style="color:#999">请选择产品名称</option>
+                                    <option value="0" style="color:#999">请选择产品名称</option>
 
                                 </select>
                             </li>
@@ -112,7 +112,7 @@
                                 <img src="~/images/Demand/a_43.png" class="im" alt="" /><span class="span_1"> 优  先 级 <a></a></span>
                                 <!--<input type="text" name="" class="inpp" value="必填：请选择需求优先级">-->
                                 <select name="" id="priority" class="inpps">
-                                    <option value="" style="color:#999">请选择优先级</option>
+                                    <option value="0" style="color:#999">请选择优先级</option>
                                     <option value="">A</option>
                                     <option value="">B</option>
                                     <option value="">C</option>
@@ -123,7 +123,7 @@
                                 <img src="~/images/Demand/a_46.png" class="im" alt="" /><span class="span_1">交付部门<a></a></span>
                                 <!--<input type="text" name="" class="inpp" value="必填：请选择交付的部门">-->
                                 <select name="" id="bumen" class="inpps">
-                                    <option value="" style="color:#666">请选择交付的部门</option>
+                                    <option value="0" style="color:#666">请选择交付的部门</option>
                                     @*<option value="">必填：请选择交付的部门</option>
                                         <option value="">必填：请选择交付的部门</option>*@
                                 </select>
@@ -156,7 +156,7 @@
                 <!--button-->
                 <div class="buttt rt">
                     <img src="~/images/Demand/a_67.png" style="cursor:pointer" title="清空按钮" onclick="qingkong()" />
-                    <img src="~/images/Demand/lccc.png"  onclick="Insertdraft()"/>
+                    <img src="~/images/Demand/lccc.png" onclick="Insertdraft()" />
                     <img src="~/images/Demand/a_69.png" style="cursor:pointer" onclick="InsertUser()" id="tianjia" />
                 </div>
             </div>
@@ -186,11 +186,19 @@
     <script type="text/javascript" charset="utf-8" src="~/lib/ueditor/ueditor.all.js"></script>
     <script type="text/javascript" charset="utf-8" src="~/lib/ueditor/lang/zh-cn/zh-cn.js"></script>
     <script type="text/javascript">
+        var thisURL = document.URL;
+        var getdemval = thisURL.split('?')[1];
+        var showdemval = getdemval.split("=")[1];
         $(function () {
-            createEditor();
-            datetime();
             SelectBumen();
             PostProducts();
+            if (showdemval > 0) {
+                SelectDem();
+            }
+            else {
+                createEditor();
+                datetime();
+            }
         });
         //#region 上传图片
         function upload() {
@@ -293,7 +301,7 @@
         function savaDemand(ID) {
             if (panduan()) {
                 $.ajax({
-                    type: "POST",
+                    type: "PUT",
                     url: '/adddemand',
                     data: {
                         DemandNname: $('#demandname').val(),
@@ -349,7 +357,7 @@
         function savadraftDemand(ID) {
             if (panduan()) {
                 $.ajax({
-                    type: "POST",
+                    type: "PUT",
                     url: '/adddemand',
                     data: {
                         DemandNname: $('#demandname').val(),
@@ -429,15 +437,22 @@
                 layer.msg(str, { icon: 2 });
                 return false;
             }
+            else if ($("#bumen").val == 0) { 
+                layer.msg("添加失败！", { icon: 2 });
+                return false;
+            }
             if (UE.getEditor('editor').getContent() == '') {
                 str += "详细信息不能为空！";
 
                 layer.msg(str, { icon: 2 });
                 return false;
             }
-            if ($('#productname').find("option:selected").text() == '' || $('#productname').find("option:selected").text() == '请选择产品名称') {
+            if ($('#productname').find("option:selected").text() == '' || $('#productname').find("option:selected").text() == '请选择产品名称' || $('#productname').val==0) {
                 str += "请选择产品名称！";
                 layer.msg(str, { icon: 2 });
+                return false;
+            } else if ($("#productname").val == 0) {
+                layer.msg("添加失败！", { icon: 2 });
                 return false;
             }
             return true;
@@ -453,6 +468,39 @@
             $("#bumen").find("option:selected").text("请选择交付的部门");
             UE.getEditor('editor').setContent("");
             $('#username').focus();
+        }
+        //#endregion
+
+        //#region 查询需求信息
+        function SelectDem() {
+            $.ajax({
+                type: "POST",
+                url: '/selectdem',
+                data: {
+                    id: showdemval
+                },
+                success: function (dataBack) {
+                    $(dataBack.data).each(function (index, item) {
+                        $('#username').val(item.username);
+                        $('#producer').val(item.producer);
+                        $('#information').val(item.contactinformation);
+                        $('#address').val(item.address);
+                        $('#demandname').val(item.demandnname);
+                        $('#productname option[value="0"]').text(item.productname);
+                        $('#priority option[value="0"]').text(item.priority);
+                        $('#bumen option[value="0"]').text(item.departmentname);
+                        var cont = item.requirementsdescription;
+                        var ue = UE.getEditor('editor');//初始化对象
+                        ue.ready(function () {   //编辑器初始化完成再赋值
+                            ue.setContent(cont); //赋值给UEditor
+                        });
+                    });
+                    console.log(dataBack.data);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
         }
         //#endregion
     </script>

@@ -234,5 +234,10 @@ namespace ProductReleaseSystem.Models.IRepository
         /// <param name="ProductName">模糊查询</param>
         /// <returns></returns>
         List<Dictionary<string, dynamic>> SelectBlurry(string ProductName);
+        /// <summary>
+        /// 通过需求ID查询需求信息
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> SelectDem(int id);
     } 
 }

@@ -437,7 +437,7 @@ namespace ProductReleaseSystem.Controllers
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
-        [HttpPost("deletedata")]
+        [HttpDelete("deletedata")]
         public IActionResult DeleteData(int ID)
         {
             try
@@ -589,7 +589,7 @@ namespace ProductReleaseSystem.Controllers
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
-        [HttpPost("deleterequestform")]
+        [HttpDelete("deleterequestform")]
         public IActionResult DeleteRequestForm(int ID)
         {
             try
@@ -610,7 +610,7 @@ namespace ProductReleaseSystem.Controllers
         /// </summary>
         /// <param name="ID">ID</param>
         /// <returns></returns>
-        [HttpPost("deleteproducts")]
+        [HttpDelete("deleteproducts")]
         public IActionResult DeleteProducts(int ID)
         {
             try
@@ -620,7 +620,7 @@ namespace ProductReleaseSystem.Controllers
             }
             catch (Exception exc)
             {
-                return new JsonResult(new { result = 0, message = $"删除失败!" });
+                return new JsonResult(new { result = 0, message = $"删除失败:{exc.Message}" });
             }
         }
         #endregion

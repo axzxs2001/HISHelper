@@ -9,14 +9,11 @@ function LoadMessage(currentPageIndex) {
     var RecordPerPage = 5;
     //每个分页组的页数
     var pagePerGroup = 10;
-    layer.load();
-    $('.model-backdrop').css('opacity', '0');
     $.post('queryzkcpproducts', {
         currentPageIndex: currentPageIndex,
         recordPerPage: RecordPerPage,
         pagePerGroup: pagePerGroup
     }, function (result) {
-        layer.closeAll('loading');
         var obj = result;
         SetPagination(currentPageIndex, obj, 'LoadMessage', RecordPerPage, pagePerGroup);
     });
@@ -50,7 +47,6 @@ function GetPagination(CurrentPageIndex, TotalPage, functionName, RecordCount, p
                 htmlContent = htmlContent + ' <li class="active"><a href="javascript:void(0);">' + i + '</a></li>'
 
             } else {
-
                 htmlContent = htmlContent + '<li><a  href="javascript:void(0);"  onclick="' + functionName + '(' + i + ')">' + i + '</a></li>'
             }
         }
@@ -64,6 +60,15 @@ function GetPagination(CurrentPageIndex, TotalPage, functionName, RecordCount, p
         htmlContent = htmlContent + '<span class="col-md-4" style="text-align:right ;height:79px;line-height:79px;font-weight:700">';
         htmlContent = htmlContent + "查询到" + RecordCount + "条记录，共" + TotalPage + "页";
         htmlContent = htmlContent + '</span></div>'
+
+        //htmlContent = htmlContent + '<ul class="uis">';
+        //htmlContent = htmlContent +'<li class="lt" id="it1"; style= "color:#fff; font-size:16px" >' + CurrentPageIndex + '/' + TotalPage + '页</li>';
+        //htmlContent = htmlContent +'<li class="lt"><a href="javascript:void(0);" id="itit2" onclick="' + functionName - '(' + i + ')">上一页</a></li>';
+        //htmlContent = htmlContent +'<li class="lt" ><a href="javascript:void(0);" id="it2;"  onclick="' + functionName + '(' + i + ')">下一页</a></li>';
+        //htmlContent = htmlContent +'<li class="lt"><input type="text" id="it3"></li>';
+        //var number = $("#it3").val();
+        //htmlContent = htmlContent +' <li class="lt" id="it4"><a href="javascript:void(0);"  onclick="' + functionName + '(' + number + ')">跳 转</a></li>';
+        //htmlContent = htmlContent + '</ul>';
         return htmlContent;
     }
 }
@@ -84,8 +89,8 @@ function Dynamically(obj) {
         str += '</thead>';
         $(obj.List).each(function (index, item) {
             str += '<thead id="' + item["Id"] + '" value="' + item["Id"] + '">';
-            str += '<tr>';
-            str += '<th id="zkcp' + item["Id"] + '"><input type="checkbox" style="margin-right: 8px;">' + item["ProductName"] + '</th>';
+            str += '<tr  value="' + item["Id"] + '">';
+            str += '<th id="zkcp' + item["Id"] + '"><input type="checkbox" value="' + item["Id"] + '" style="margin-right: 8px;">' + item["ProductName"] + '</th>';
             str += '<th>' + item["行号"] + '</th>';
             str += '<th></th>';
             str += '<th></th>';
@@ -128,46 +133,14 @@ function SetPagination(CurrentPageIndex, obj, functionName, recordPerPage, pageP
     if (RecordCount > 0) {
         var paging = GetPagination(CurrentPageIndex, TotalPage, functionName, RecordCount, pagePerGroup);;
         //显示页脚分页信息
-        //$(".tablezkcp").append(paging);
-        //$("#it1").html(CurrentPageIndex + "/" + TotalPage + "页");
-        
-        //$("#itit2").click(function () {
-        //    alert(currentPageIndex)
-        //    LoadMessage(currentPageIndex-1);
-        //});
-        //$("#it2").click(function () {
-        //    alert(currentPageIndex)
-        //    LoadMessage(currentPageIndex+1);
-        //});
-        //$("#it4").click(function () {
-        //    if (!$("#it3").val().match(/^[0-9]*$/)) {
-
-        //        layer.msg("请输入数字！", { icon: 2 });
-        //        return false;
-        //    }
-
-        //    var number = $("#it3").val();
-        //    LoadMessage(currentPageIndex + (number - 1));
-        //    $("#it3").val("");
-        //});
+        $(".tablezkcp").append(paging);
     }
     else {
-        //var pageStr = '<div class="row"><nav aria-label = "Page navigation" class="col-md-8"><ul class="pagination"></ul></nav><span class="col-md-4" style="text-align:right ;height:79px;line-height:79px;font-weight:700">';
-        //pageStr = pageStr + "查询到" + RecordCount + "条记录，共" + TotalPage + "页";
-        //pageStr = pageStr + '</span>';
-        var pagrStr = ' <ul class="uis">';
-        pagrStr += '< li class="lt" id= "it1" style= "color:#fff; font-size:16px" > <a href="#">' + CurrentPageIndex+'/' + TotalPage+'页</a></li >';
-        pagrStr += ' < <li class="lt" id="itit2"><a href="#">上一页</a></li>>';
-        pagrStr += ' < <li class="lt" ><a href="#" id="it2">下一页</a></li>>';
-        pagrStr += ' <<li class="lt"><input type="text" id="it3"></li>>';
-        pagrStr += ' <ul class=" <li class="lt" id="it4"><a href="#">跳 转</a></li>">';
-        pagrStr += '</ul>';
-           
-               
-               
-                
-                   
-              
+        var pageStr = '<div class="row"><nav aria-label = "Page navigation" class="col-md-8"><ul class="pagination"></ul></nav><span class="col-md-4" style="text-align:right ;height:79px;line-height:79px;font-weight:700">';
+        pageStr = pageStr + "查询到" + RecordCount + "条记录，共" + TotalPage + "页";
+        pageStr = pageStr + '</span>';
+
+
         //$("#it1").html(CurrentPageIndex + "/" + TotalPage + "页");
         //$("#itit2").click(function () {
         //    alert(currentPageIndex.val() - 1);

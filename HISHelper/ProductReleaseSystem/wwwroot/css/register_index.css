@@ -366,7 +366,7 @@ body {
                 vertical-align: super;
                 border: none;
                 outline: none;
-                color: #bfbebe;
+                color: #000;
                 /*margin-left: 120px;*/
             }
 
@@ -444,7 +444,7 @@ body {
             vertical-align: super;
             border: none;
             outline: none;
-            color: #bfbebe;
+            color: #000;
             /*margin-left: 120px;*/
         }
 
@@ -490,7 +490,7 @@ body {
     vertical-align: super;
     border: none;
     outline: none;
-    color: #bfbebe;
+    color: #000;
 }
 
 
@@ -1764,7 +1764,7 @@ body {
         height: 40px;
         border: none;
         outline: none;
-        color: #b6b6b6;
+        color: #000;
     }
 
     .green .uly .shd .fdj {
@@ -1869,7 +1869,7 @@ body {
 
 .table tr td input {
     vertical-align: sub;
-    margin: 0 20px 0 -18px;
+    margin: 0 20px 0 -10px;
 }
 
 .table tr td {

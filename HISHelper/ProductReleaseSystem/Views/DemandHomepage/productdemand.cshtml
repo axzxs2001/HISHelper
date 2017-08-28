@@ -17,6 +17,7 @@
     <!--自己的css-->
     <link href="~/css/jquery.datetimepicker.css" rel="stylesheet" />
     <link href="~/css/productdemand.css" rel="stylesheet" />
+    <link href="~/css/register_index.css" rel="stylesheet" />
     <link rel="stylesheet" href="http://ionicons.com/css/ionicons.min.css?v=2.0.1">
     <style>
         .tabb {
@@ -28,6 +29,10 @@
             .tabb::-webkit-scrollbar {
                 display: none;
             }
+
+        table tr:hover {
+            background-color: #55f;
+        }
     </style>
 </head>
 <body>
@@ -45,7 +50,8 @@
                             <img src="~/images/Demand/fd_03.png" alt="" class="fdj" />
                             搜&nbsp;&nbsp;索
                         </span>
-                        <input type="text" class="texxx" id="blurry" placeholder="请输入要搜索的内容">
+                        <input class="form-control texxx" id="blurry" aria-describedby="basic-addon1" list="category">
+                        <datalist id="category"></datalist>
 
                     </li>
                 </ul>
@@ -74,7 +80,7 @@
                 <!--<li><button class="btn btn-primary lt">审核通过</button></li>-->
             </ul>
             <ul class="momo-4" style="display:none ;">
-                <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myMsso">删除</button></li>
+                <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myMssoDelete">删除</button></li>
             </ul>
             <ul class="momo-5" style="display:none ;">
                 <li><button class="lt btn btn-primary btn-lg" data-toggle="modal" data-target="#myYuan">还原</button></li>
@@ -232,6 +238,7 @@
         </div><!-- /.modal -->
     </div>
 
+    <!--产品删除-->
     <div class="modal fade" id="DeleteRP" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -1210,16 +1217,16 @@
     <!--最下-->
     <div id="sos" style="text-align:center">
         <div class="whyy">
-            <span id="btn1" class="ion-chevron-up " style="display: inline-block; padding: 0 60px; color: #fff; font-size:26px; margin-left: 335px;  cursor:pointer"></span>
+            <span id="btn1" class="ion-chevron-up " style="display: inline-block; padding: 0 60px; color: #fff; font-size:26px;  cursor:pointer"></span>
             <span id="btn2" class="ion-chevron-down" style="display: inline-block; color: #fff;font-size:26px; cursor:pointer"></span>
             <div class="rt">
-                <ul class="uis">
-                    <li class="lt" id="it1" style="color:#fff; font-size:16px"><a href="#">1/8页</a></li>
-                    <li class="lt" id="itit2"><a href="#">上一页</a></li>
-                    <li class="lt" ><a href="#" id="it2">下一页</a></li>
-                    <li class="lt"><input type="text" id="it3"></li>
-                    <li class="lt" id="it4"><a href="#">跳 转</a></li>
-                </ul>
+                @*<ul class="uis">
+                        <li class="lt" id="it1" style="color:#fff; font-size:16px"><a href="#">1/8页</a></li>
+                        <li class="lt" id="itit2"><a href="#">上一页</a></li>
+                        <li class="lt" ><a href="#" id="it2">下一页</a></li>
+                        <li class="lt"><input type="text" id="it3"></li>
+                        <li class="lt" id="it4"><a href="#">跳 转</a></li>
+                    </ul>*@
             </div>
         </div>
         <ul class="uubb">
@@ -1238,6 +1245,8 @@
     <script src="~/js/Paging.js"></script>
     <script src="~/layer/layer.js"></script>
     <script>
+
+        
         $("#btn1").click(function () {
             var t = $(".tabb").scrollTop();
             $('.tabb').animate({ 'scrollTop': t - 100 }, 100);
@@ -1246,6 +1255,7 @@
             var t = $(".tabb").scrollTop();
             $('.tabb').animate({ 'scrollTop': t + 100 }, 100);
         })
+        //页面加载方法
         $(function () {
             $(".nav_ui li").click(function (event) {
                 $(".nav_ui li").css({ 'background': '', 'color': '' });
@@ -1253,19 +1263,30 @@
             });
             datetime();
             QueryProducts();
+            datalist();
         });
-        
-        //function check() {
-        //    alert(123);
-        //    var checkbox = document.getElementById("CheckAll");
-        //    $('input[name="check"]').prop('checked', 'true');
-        //    alert(checkbox);
-        //}
 
-        function quanxuan() { 
+        function quanxuan() {
             $('input[name="check"]').prop('checked', 'true');
             DeleteData();
         }
+        //#region  点击需求跳转页面
+        //获取查看全部页面需求ID跳转ViewRequirements页面传值
+        function GetID(id) {
+            var getval = id;
+            window.location.href = "viewrequirements?ID=" + getval+"";
+        }
+        //获取我发布的页面需求ID跳转ViewRequirements页面传值
+        function GetDemID(id) {
+            var getdemval = id;
+            window.location.href = "demand?ID=" + getdemval + "";
+        }
+        //获取已完成的页面和只看产品需求ID跳转ViewRequirements页面传值
+        function GetljxID(id) {
+            var getljxval = id;
+            window.location.href = "prodemand?ID=" + getljxval + "";
+        }
+        //#endregion
 
         //#region 获取当前时间
         var date = (new Date()).getTime();
@@ -1304,6 +1325,27 @@
         }
         //#endregion
 
+        //#region  搜索框搜索文字
+        function datalist() {
+            $.ajax({
+                type: "GET",
+                url: '/queryselectproducts',
+                data: {},
+                success: function (dataBack) {
+                    var str = '';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<option value="' + item["ProductName"] + '">';
+                    });
+                    $("#category").html(str);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+        //#endregion
+
+
         //#region  添加产品
         function QueryProducts() {
             $.ajax({
@@ -1311,6 +1353,7 @@
                 url: '/queryselectproducts',
                 data: {},
                 success: function (dataBack) {
+
                     var str = '';
                     str += '<thead>';
                     str += '<tr>';
@@ -1337,11 +1380,13 @@
                         QueryRequestCount(item["Id"]);   //获得产品ID查询需求条数
                     });
                     $("#table1").html(str);
+
                 },
                 error: function (error) {
                     alert(error.status + error.statusText)
                 }
             });
+
         }
         //#endregion
 
@@ -1354,7 +1399,7 @@
                 success: function (dataBack) {
                     var str = '';
                     $(dataBack.data).each(function (index, item) {
-                        str += '<tr value="' + item["Id"] + '">';
+                        str += '<tr style="cursor: pointer;"  ondblclick=GetID(' + item["Id"] + ');>';
                         str += '<td><input type="checkbox" value="' + item["Id"] + '">' + item["DemandNname"] + '</td>';
                         str += ' <td>' + item["Priority"] + '</td>';
                         str += ' <td></td>';
@@ -1442,7 +1487,7 @@
                 success: function (dataBack) {
                     var str = '';
                     $(dataBack.data).each(function (index, item) {
-                        str += '<tr value="' + item["Id"] + '">';
+                        str += '<tr style="cursor: pointer;"  ondblclick=GetDemID(' + item["Id"] + ');>';
                         str += '<td><input type="checkbox" value="' + item["Id"] + '">' + item["DemandNname"] + '</td>';
                         str += ' <td>' + item["Priority"] + '</td>';
                         str += ' <td></td>';
@@ -1535,7 +1580,7 @@
         ////#endregion
 
 
-        //#region  添加产品
+        //#region  已完成的页面
         function CarryOutProducts() {
             $.ajax({
                 type: "GET",
@@ -1584,7 +1629,7 @@
                 success: function (dataBack) {
                     var str = '';
                     $(dataBack.data).each(function (index, item) {
-                        str += '<tr value="' + item["Id"] + '">';
+                        str += '<tr style="cursor: pointer;"  ondblclick=GetljxID(' + item["Id"] + ');>';
                         str += '<td><input type="checkbox">' + item["DemandNname"] + '</td>';
                         str += ' <td>' + item["Priority"] + '</td>';
                         str += ' <td></td>';
@@ -1702,7 +1747,7 @@
                 success: function (dataBack) {
                     var str = '';
                     $(dataBack.data).each(function (index, item) {
-                        str += '<tr value="' + item["Id"] + '">';
+                        str += '<tr style="cursor: pointer;"  ondblclick=GetljxID(' + item["Id"] + ');>';
                         str += '<td><input name="check" type="checkbox" value="' + item["Id"] + '">' + item["DemandNname"] + '</td>';
                         str += ' <td>' + item["Priority"] + '</td>';
                         str += ' <td></td>';
@@ -1772,7 +1817,7 @@
             $.each($('input:checkbox:checked'), function () {
                 sum = $(this).val();
                 $.ajax({
-                    type: "POST",
+                    type: "DELETE",
                     url: "/deletedata",
                     data: {
                         ID: sum
@@ -1923,11 +1968,9 @@
         //#region  删除需求信息
         function DeleteRequestFormProducts() {
             $.each($('input:checkbox:checked'), function () {
-                alert(123);
                 digital = $(this).val();
-                alert(digital);
                 $.ajax({
-                    type: "POST",
+                    type: "DELETE",
                     url: "/deleteproducts",
                     data: {
                         ID: digital
@@ -1949,10 +1992,11 @@
             LoadMessage(1);
         }
         //#endregion
+
         //#region 删除产品对应需求
         function DeleteRequestForm(numsum) {
             $.ajax({
-                type: "POST",
+                type: "DELETE",
                 url: '/deleterequestform',
                 data: {
                     ID: numsum
@@ -1968,7 +2012,6 @@
             });
         }
         //#endregion
-
 
         //#region  模糊查询绑定查询全部页面
         function SelectBlurry() {
@@ -2004,7 +2047,17 @@
                         QueryRequestByProductId(item["Id"]);   //获得产品ID查询需求信息
                         QueryRequestCount(item["Id"]);   //获得产品ID查询需求条数
                     });
+                    console.log(str);
                     $("#table1").html(str);
+                    $(".nav_ui li").css({ 'background': '', 'color': '' });
+
+                    $('.ss1').show();
+                    $('.ss2').hide();
+                    $('.ss3').hide();
+                    $('.ss4').hide();
+                    $('.ss5').hide();
+                    $('.ss6').hide();
+
                 },
                 error: function (error) {
                     alert(error.status + error.statusText)

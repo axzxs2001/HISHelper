@@ -59,7 +59,7 @@
                 </ul>
                 <ul class="uly rt">
                     <!--<li class="tp rt"><img src="img/a_03.png" alt=""></li>-->
-                    <li class="sub rt"><p>subject:pc</p><p> Publisher：刘靖凯</p><p>date：2017/7/31</p></li>
+                    <li class="sub rt"><p>subject:pc</p><p> Publisher：<span id="viewname">@User.Identity.Name</span></p><p>date：<span id="viewdate">2017/7/31</span></p></li>
                     <li class="x rt"><span></span></li>
                     <li class="wx rt">微信公众号 <p>version:1.0.0.0</p> </li>
                 </ul>
@@ -262,17 +262,54 @@
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/layer/layer.js"></script>
     <script>
+        var thisURL = document.URL;
+        var getval = thisURL.split('?')[1];
+        var showval = getval.split("=")[1];
         $(function () {
+            datetime();
             QueryDetailedRequirements();
             QueryOpinion();
         })
+        //#region 获取当前时间
+        var date = (new Date()).getTime();
+        function datetime() {
+            var now = new Date();
+            var year = now.getFullYear();
+            var month = now.getMonth();
+            var day = now.getDate();
+            var hour = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            var tolocalestring = now.toLocaleTimeString();
+            $("#viewdate").html("" + year + "/" + (month + 1) + "/" + day + "");
+        }
+        //#endregion
+        //#region  通过名称查询ID
+        var ID;
+        var Character;
+        function InsertUser() {
 
+            $.ajax({
+                type: "POST",
+                url: "/selectchaxun",
+                data: { name: $("#viewname").text() },
+                success: function (dataBack) {
+                    $(dataBack.data).each(function (index, item) {
+                        ID = item.id;
+                    });
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+        //#endregion
         //查询需求详细信息
         function QueryDetailedRequirements() {
             $.ajax({
                 type: "POST",
                 url: "/querydetailedrequirements",
-                data: { id: 24 },
+                data: { id: showval },
                 success: function (dataBack) {
                     var str = "";
                     var str1 = "";
@@ -319,7 +356,7 @@
             $.ajax({
                 type: "POST",
                 url: "/queryopinion",
-                data: { id: 24 }, 
+                data: { id: showval }, 
                 success: function (dataBack) {
                     if (dataBack.data != "") {
                         $("#fbbb1").css("display", "block");
@@ -354,7 +391,7 @@
                 $.ajax({
                     type: "POST",
                     url: "/addopinion",
-                    data: { DemandID: 24, proposerID: 8, purpose: $("#purpose1").val(), detailed: $("#text1").val() },
+                    data: { DemandID: showval, proposerID: ID, purpose: $("#purpose1").val(), detailed: $("#text1").val() },
                     success: function (dataBack) {
                         if (dataBack.result==1) {
                             layer.msg(dataBack.message, { icon: 1 });
