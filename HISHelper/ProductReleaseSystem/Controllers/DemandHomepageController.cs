@@ -43,6 +43,16 @@ namespace ProductReleaseSystem.Controllers
         {
             return View();
         }
+        [HttpGet("prodemand")]
+        public IActionResult ProDemand()
+        {
+            return View();
+        }
+        [HttpGet("endproduct")]
+        public IActionResult EndProduct()
+        {
+            return View();
+        }
         #region 查询所有产品
         /// <summary>
         /// 查询所有产品

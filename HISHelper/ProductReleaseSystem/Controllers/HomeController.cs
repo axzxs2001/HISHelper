@@ -162,6 +162,17 @@ namespace ProductReleaseSystem.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// 用户协议
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("userprotocol")]
+        public IActionResult UserProtocol()
+        {
+            return View();
+        }
+
        public static string verification = "";
 
         /// <summary>
