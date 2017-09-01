@@ -329,7 +329,7 @@
             $.ajax({
                 type: "POST",
                 url: "/querydetailedrequirements",
-                data: { id: 24 },
+                data: { id: showendval },
                 success: function (dataBack) {
                     var str = "";
                     var str1 = "";
@@ -376,7 +376,7 @@
             $.ajax({
                 type: "POST",
                 url: "/queryopinion",
-                data: { id: 24 },
+                data: { id: showendval },
                 success: function (dataBack) {
                     if (dataBack.data != "") {
                         $("#fbbb1").css("display", "block");

@@ -52,6 +52,7 @@ namespace ProductReleaseSystem.Controllers
         /// </summary>
         /// <param name="requestform"></param>
         /// <returns></returns>
+        [Authorize(Roles = "管理员,实施负责人,产品负责人")]
         [HttpPut("adddemand")]
         public IActionResult AddDemand(RequestForm requestform)
         {
@@ -202,6 +203,107 @@ namespace ProductReleaseSystem.Controllers
             }
         }
         #endregion
+
+        #region 查询产品ID
+        /// <summary>
+        /// 查询产品ID
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("selproductname")]
+        public IActionResult SelProductname(string productname)
+        {
+            try
+            {
+                var list = _demand.SelProductname(productname);
+                return new JsonResult(new { result = 1, message = $"查询产品ID成功！", data = list }, new JsonSerializerSettings()
+                {
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
+                return new JsonResult(new { result = 0, message = $"查询产品ID失败！：{exc.Message}" });
+            }
+        }
+        #endregion
+
+        #region 查询部门ID
+        /// <summary>
+        /// 查询部门ID
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("seldepartmentname")]
+        public IActionResult SelDepartmentName(string departmentname)
+        {
+            try
+            {
+                var list = _demand.SelDepartmentName(departmentname);
+                return new JsonResult(new { result = 1, message = $"查询产品ID成功！", data = list }, new JsonSerializerSettings()
+                {
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
+                return new JsonResult(new { result = 0, message = $"查询产品ID失败！：{exc.Message}" });
+            }
+        }
+        #endregion
+
+        #region 实施修改需求
+        /// <summary>
+        /// 实施修改需求
+        /// </summary>
+        /// <param name="requestform"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "管理员,实施负责人,产品负责人")]
+        [HttpPut("updatedemand")]
+        public IActionResult UpdateDemand(RequestForm requestform)
+        {
+
+            try
+            {
+                var list = _demand.UpdateDemand(requestform);
+                return new JsonResult(new { result = 1, message = $"修改成功！", data = list }, new JsonSerializerSettings()
+                {
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
+                return new JsonResult(new { result = 0, message = $"修改失败：{exc.Message}" });
+            }
+        }
+        #endregion
+        #endregion
+
+        #region  在研项目查询
+        #region 通过需求ID查询需求信息
+        /// <summary>
+        /// 通过需求ID查询需求信息
+        /// </summary>
+        /// <param name="requestform"></param>
+        /// <returns></returns>
+        [HttpPost("insertrndemand")]
+        public IActionResult InsertRNDemand(int ID)
+        {
+
+            try
+            {
+                var list = _demand.InsertRNDemand(ID);
+                return new JsonResult(new { result = 1, message = "查询成功", data = list }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
+                return new JsonResult(new { result = 0, message = $"修改失败：{exc.Message}" });
+            }
+        }
+        #endregion
+
         #endregion
     }
 }

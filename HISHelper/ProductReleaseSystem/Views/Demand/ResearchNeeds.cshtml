@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -17,7 +17,7 @@
     <!--自己的css-->
     <link href="~/css/register_index.css" rel="stylesheet" />
     <link href="~/css/05index.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/demo.css">
+    @*<link rel="stylesheet" href="css/demo.css">*@
 </head>
 
 
@@ -42,8 +42,8 @@
     <div class="hahaha">
         <ul>
             <li class="a_p"><a href="#"><img src="~/images/Demand/a_07.png" /></a></li>
-            <li class="b_p"><a href="#"><img src="~/images/Demand/a_13.png" /></a></li>
-            <li class="c_p"><a href="#"><img src="~/images/Demand/a_15.png" /></a></li>
+            <li class="b_p"><a href="javascript:history.go(-1)"><img src="~/images/Demand/a_13.png" /></a></li>
+            <li class="c_p"><a onclick="shaxun()"><img src="~/images/Demand/a_15.png" /></a></li>
             <li class="d_p"><a href="#"><img src="~/images/Demand/a_21.png" /></a></li>
         </ul>
     </div>
@@ -56,9 +56,9 @@
                         <span>基本信息</span>
                     </div>
                     <p><img src="~/images/Demand/1.png" /></p>
-                    
+
                     <form action="" class="f_one">
-                        <ul>
+                        <ul id="demandid">
                             <li class="mm">需求名称：贝加尔湖畔</li>
                             <li class="mm">版本号：1.0.0.0</li>
                             <li class="mm">优先级: A</li>
@@ -72,7 +72,7 @@
                     </form>
                 </div>
                 <div class="rt " style="width: 64%;">
-                    <img src="~/images/Demand/s_03.png" alt=""/>
+                    <img src="~/images/Demand/s_03.png" alt="" />
                 </div>
             </div>
             <!--总进度条-->
@@ -170,22 +170,29 @@
     <script type="text/javascript" src="js/respond.min.js"></script>
     <![endif]-->
     <script src="~/js/index.js"></script>
-    <script type="javascript" src="js/ichart.js"></script>
+    @*<script type="javascript" src="js/ichart.js"></script>*@
     <script>
+        //获取已完成的页面和只看产品需求ID跳转Prodemand页面传值
+        function GetProID(id) {
+            var getljxval = id;
+            window.location.href = "prodemand?ID=" + getljxval + "";
+        }
+        //#endregion
         $(function () {
+            var num = "100%";
+            $('#xingle').css('width', num + '%');
+            var height = $('.nusbb_lt').height() - 50;
+            $('.nusbb_rt').css('min-height', height + 'px');
+            $('.nusbb_rt').css('margin-top', 30 + 'px');
+            $('.nusbb_rt').hide()
+            $('.progress.prossd').mouseover(function () {
+                $('.nusbb_rt').show()
+            }).mouseout(function () {
+                $('.nusbb_rt').hide()
+            })
             ResearchNeedstime();
+            Researchdemand();
         });
-        var num = "100%";
-        $('#xingle').css('width', num + '%');
-	var height = $('.nusbb_lt').height()-50;
-	$('.nusbb_rt').css('min-height',height+'px');
-    $('.nusbb_rt').css('margin-top',30+'px');
-	$('.nusbb_rt').hide()
-	$('.progress.prossd').mouseover(function(){
-		$('.nusbb_rt').show()
-	}).mouseout(function(){
-		$('.nusbb_rt').hide()
-	})
 
         //#region 获取当前时间
         var date = (new Date()).getTime();
@@ -199,6 +206,38 @@
             var seconds = now.getSeconds();
             var tolocalestring = now.toLocaleTimeString();
             $("#researchneedsdata").html("" + year + "/" + (month + 1) + "/" + day + "");
+        }
+        //#endregion
+
+        function shaxun() { 
+            location.reload();
+        }
+
+        //#region  通过需求ID查询需求信息
+        function Researchdemand() {
+            $.ajax({
+                type: "POST",
+                url: '/insertrndemand',
+                data: { ID: 1057 },
+                success: function (dataBack) {
+                    var str = '';
+                    $(dataBack.data).each(function (index, item) {
+                        str += '<li class="mm">需求名称：' + item.DemandNname + '</li>';
+                        str += '<li class="mm">版本号：' + item.VersionNumber + '</li>';
+                        str += '<li class="mm">优先级: ' + item.Priority + '</li>';
+                        str += '<li class="mm">发布人：' + item.Name + '</li>';
+                        str += '<li class="mm">开发团队：' + item.DepartmentName + '</li>';
+                        str += '<li class="mm">详细需求：<a onclick="GetProID(' + item.ID + ')">点击查看</a></li>';
+                        str += '<li class="mm">状态：' + item.Status + '</li>';
+                        str += '<li class="mm">开始时间：' + item.MakeTime + '</li>';
+                        str += ' <li class="mm">预计结束时间：2018-8-31</li>';
+                    });
+                    $("#demandid").html(str);
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
         }
         //#endregion
     </script>

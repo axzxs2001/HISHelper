@@ -31,7 +31,8 @@
             }
 
         table tr:hover {
-            background-color: #55f;
+            background-color: #e8dfdf;
+            color:#000;
         }
     </style>
 </head>
@@ -1217,16 +1218,18 @@
     <!--最下-->
     <div id="sos" style="text-align:center">
         <div class="whyy">
-            <span id="btn1" class="ion-chevron-up " style="display: inline-block; padding: 0 60px; color: #fff; font-size:26px;  cursor:pointer"></span>
+            <div id="arrows">
+            <span id="btn1" class="ion-chevron-up " style="display: inline-block; padding: 0 80px; color: #fff; font-size:26px;  cursor:pointer"></span>
             <span id="btn2" class="ion-chevron-down" style="display: inline-block; color: #fff;font-size:26px; cursor:pointer"></span>
+            </div>
             <div class="rt">
-                @*<ul class="uis">
+                <ul id="listcontrol"style="text-align:center">
                         <li class="lt" id="it1" style="color:#fff; font-size:16px"><a href="#">1/8页</a></li>
                         <li class="lt" id="itit2"><a href="#">上一页</a></li>
                         <li class="lt" ><a href="#" id="it2">下一页</a></li>
                         <li class="lt"><input type="text" id="it3"></li>
                         <li class="lt" id="it4"><a href="#">跳 转</a></li>
-                    </ul>*@
+                    </ul>
             </div>
         </div>
         <ul class="uubb">
@@ -1241,12 +1244,10 @@
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/js/jquery.datetimepicker.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/layer/layer.js"></script>
     <script src="~/js/productdemand.js"></script>
     <script src="~/js/Paging.js"></script>
-    <script src="~/layer/layer.js"></script>
-    <script>
-
-        
+    <script type="text/javascript">
         $("#btn1").click(function () {
             var t = $(".tabb").scrollTop();
             $('.tabb').animate({ 'scrollTop': t - 100 }, 100);
@@ -1276,12 +1277,17 @@
             var getval = id;
             window.location.href = "viewrequirements?ID=" + getval+"";
         }
-        //获取我发布的页面需求ID跳转ViewRequirements页面传值
+        //获取我发布的页面需求ID跳转demand页面传值
         function GetDemID(id) {
             var getdemval = id;
             window.location.href = "demand?ID=" + getdemval + "";
         }
-        //获取已完成的页面和只看产品需求ID跳转ViewRequirements页面传值
+        //获取已完成的页面和只看产品需求ID跳转Prodemand页面传值
+        function GetljxID(id) {
+            var getljxval = id;
+            window.location.href = "prodemand?ID=" + getljxval + "";
+        }
+        //获取已完成的页面和只看产品需求ID跳转prodemand页面传值
         function GetljxID(id) {
             var getljxval = id;
             window.location.href = "prodemand?ID=" + getljxval + "";
@@ -1307,7 +1313,8 @@
         var ID;
         var Character;
         function InsertUser() {
-
+            $("#arrows").show();
+            $("#listcontrol").hide();
             $.ajax({
                 type: "POST",
                 url: "/selectchaxun",
@@ -1348,6 +1355,8 @@
 
         //#region  添加产品
         function QueryProducts() {
+            $("#arrows").show();
+            $("#listcontrol").hide();
             $.ajax({
                 type: "GET",
                 url: '/queryselectproducts',
@@ -1399,6 +1408,16 @@
                 success: function (dataBack) {
                     var str = '';
                     $(dataBack.data).each(function (index, item) {
+                        if (item["status"] == "审核通过") {
+                            str += '<tr style="cursor: pointer;"  ondblclick=GetljxID(' + item["Id"] + ');>';
+                            str += '<td><input type="checkbox" value="' + item["Id"] + '">' + item["DemandNname"] + '</td>';
+                            str += ' <td>' + item["Priority"] + '</td>';
+                            str += ' <td></td>';
+                            str += '<td>' + item["Name"] + '</td>';
+                            str += '<td>' + item["status"] + '</td>';
+                            str += '<td>' + item["MakeTime"] + '</td>';
+                            str += " </tr>";
+                        } else { 
                         str += '<tr style="cursor: pointer;"  ondblclick=GetID(' + item["Id"] + ');>';
                         str += '<td><input type="checkbox" value="' + item["Id"] + '">' + item["DemandNname"] + '</td>';
                         str += ' <td>' + item["Priority"] + '</td>';
@@ -1407,6 +1426,8 @@
                         str += '<td>' + item["status"] + '</td>';
                         str += '<td>' + item["MakeTime"] + '</td>';
                         str += " </tr>";
+
+                        }
                     });
                     $("#" + id + "").append(str);
                 },
@@ -1432,9 +1453,7 @@
             });
         }
         //#endregion
-
-
-
+        
         //#region 查询我发布的
         function SelectDemand(ID) {
             $.ajax({
@@ -1487,6 +1506,16 @@
                 success: function (dataBack) {
                     var str = '';
                     $(dataBack.data).each(function (index, item) {
+                        if (item["status"] == "审核通过") {
+                            str += '<tr style="cursor: pointer;" ondblclick=GetljxID(' + item["Id"] + ');>';
+                            str += '<td><input type="checkbox" value="' + item["Id"] + '">' + item["DemandNname"] + '</td>';
+                            str += ' <td>' + item["Priority"] + '</td>';
+                            str += ' <td></td>';
+                            str += '<td>' + item["Name"] + '</td>';
+                            str += '<td>' + item["status"] + '</td>';
+                            str += '<td>' + item["MakeTime"] + '</td>';
+                            str += " </tr>";
+                        } else { 
                         str += '<tr style="cursor: pointer;"  ondblclick=GetDemID(' + item["Id"] + ');>';
                         str += '<td><input type="checkbox" value="' + item["Id"] + '">' + item["DemandNname"] + '</td>';
                         str += ' <td>' + item["Priority"] + '</td>';
@@ -1495,6 +1524,8 @@
                         str += '<td>' + item["status"] + '</td>';
                         str += '<td>' + item["MakeTime"] + '</td>';
                         str += " </tr>";
+                        }
+
                     });
                     $("#fb" + id + "").append(str);
                 },
@@ -1520,9 +1551,7 @@
             });
         }
         //#endregion
-
-
-
+        
         //#region  只看产品页面查询产品
         //function JustlookProducts() {
         //    $.ajax({
@@ -1562,8 +1591,7 @@
         //    });
         //}
         ////#endregion
-
-        ////#region  只看产品页面查询需求条数
+        //#region  只看产品页面查询需求条数
         //function QueryzkcpCount(id) {
         //    $.ajax({
         //        type: "POST",
@@ -1578,10 +1606,11 @@
         //    });
         //}
         ////#endregion
-
-
+        
         //#region  已完成的页面
         function CarryOutProducts() {
+             $("#arrows").show();
+            $("#listcontrol").hide();
             $.ajax({
                 type: "GET",
                 url: '/carryoutproducts',
@@ -1663,7 +1692,6 @@
         }
         //#endregion
 
-
         var num = 0;
         //#region  查看全部页面选中多选框得到ID
         function DeleteStatus() {
@@ -1699,6 +1727,8 @@
 
         //#region  垃圾箱查询产品
         function DeleteQueryProducts() {
+            $("#arrows").show();
+            $("#listcontrol").hide();
             $.ajax({
                 type: "GET",
                 url: '/deletequeryselectproducts',
@@ -1812,7 +1842,7 @@
         //#endregion
 
         var sum = 0;
-        //#region  删除需求信息
+        //#region  垃圾箱删除需求信息
         function DeleteData() {
             $.each($('input:checkbox:checked'), function () {
                 sum = $(this).val();
@@ -1860,7 +1890,6 @@
                         layer.msg(dataBack.message, { icon: 2 });
                     }
                 });
-
             });
             if (reviewid == 0) {
                 layer.msg("请选择需审核的需求！", { icon: 3 });
@@ -1871,6 +1900,8 @@
 
         //#region  草稿箱查询产品
         function DraftSelectProducts() {
+            $("#arrows").show();
+            $("#listcontrol").hide();
             $.ajax({
                 type: "GET",
                 url: '/draftselectproducts',
@@ -1911,7 +1942,7 @@
                 success: function (dataBack) {
                     var str = '';
                     $(dataBack.data).each(function (index, item) {
-                        str += '<tr value="' + item["Id"] + '">';
+                        str += '<tr style="cursor: pointer;"  ondblclick=GetDemID(' + item["Id"] + ');>';
                         str += '<td><input name="check" type="checkbox" value="' + item["Id"] + '">' + item["DemandNname"] + '</td>';
                         str += '<td>' + item["MakeTime"] + '</td>';
                         str += " </tr>";
@@ -1962,8 +1993,7 @@
             });
         }
         //#endregion
-
-
+        
         var digital = 0;
         //#region  删除需求信息
         function DeleteRequestFormProducts() {

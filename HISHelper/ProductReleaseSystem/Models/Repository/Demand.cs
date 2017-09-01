@@ -635,9 +635,7 @@ WHERE ID=@id";
 from(
 select ROW_NUMBER() over(ORDER BY ID) as 行号,*
 from(
-select distinct  a.ID AS Id,a.ProductName AS ProductName from Products a 
-JOIN RequestForm b 
-ON a.ID=b.ProductID and DeleteStatus=1 and Status!='已完成'
+select  ID AS Id,ProductName AS ProductName from Products 
 
 )liu
 )qwe
@@ -657,10 +655,7 @@ where 行号>({currentPageIndex}-1)*{recordPerPage};";
 from(
 select ROW_NUMBER() over(ORDER BY ID) as 行号,*
 from(
-select distinct  a.ID AS Id,a.ProductName AS ProductName from Products a 
-JOIN RequestForm b 
-ON a.ID=b.ProductID and DeleteStatus=1 and Status!='已完成'
-
+select  ID AS Id,ProductName AS ProductName from Products 
 )liu
 )qwe";
             return _dbHelper.GetValue(sql);
@@ -782,7 +777,7 @@ where a.ProductName like '%{ProductName}%'";
 
         #region 通过需求ID查询需求信息
         /// <summary>
-        /// 模糊查询产品
+        /// 通过需求ID查询需求信息
         /// </summary>
         /// <param name="ProductName">产品名称</param>
         /// <returns></returns>
@@ -805,6 +800,62 @@ JOIN Departments D
 ON R.DeliveryDepartment=D.ID
 where R.ID=@id";
             var par = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.VarChar, Value = id };
+            return _dbHelper.GetList(sql, par);
+        }
+        #endregion   
+
+        #region 通过产品名称查询产品ID
+        /// <summary>
+        /// 通过产品名称查询产品ID
+        /// </summary>
+        /// <param name="ProductName">产品名称</param>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> SelProductname(string productname)
+        {
+            var sql = $@"select ID from Products where ProductName= @ProductName";
+            var par = new SqlParameter() { ParameterName = "@ProductName", SqlDbType = System.Data.SqlDbType.VarChar, Value = productname };
+            return _dbHelper.GetList(sql,par);
+        }
+        #endregion
+
+        #region 通过部门名称查询部门ID
+        /// <summary>
+        /// 模糊查询产品
+        /// </summary>
+        /// <param name="DepartmentsName">部门名称</param>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> SelDepartmentName(string departmentsname)
+        {
+            var sql = $@"select ID from Departments where departmentname= @departmentsname";
+            var par = new SqlParameter() { ParameterName = "@departmentsname", SqlDbType = System.Data.SqlDbType.VarChar, Value = departmentsname };
+            return _dbHelper.GetList(sql, par);
+        }
+        #endregion
+
+        #region 通过需求ID查询需求信息
+        /// <summary>
+        /// 模糊查询产品
+        /// </summary>
+        /// <param name="DepartmentsName">部门名称</param>
+        /// <returns></returns>
+        public List<Dictionary<string, dynamic>> InsertRNDemand(int ID)
+        {
+            var sql = $@"select 
+DemandNname,
+VersionNumber,
+Priority,
+b.Name,
+c.DepartmentName,
+a.ID,
+a.MakeTime,
+a.Status
+from RequestForm a
+JOIN Developers b
+ON a.ImplementerID=b.ID
+JOIN Departments c
+ON a.DeliveryDepartment=c.ID
+ where a.ID=@ID";
+            var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.VarChar, Value = ID };
             return _dbHelper.GetList(sql, par);
         }
         #endregion

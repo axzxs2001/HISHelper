@@ -69,8 +69,8 @@
     <div class="hahaha">
         <ul>
             <li class="a_p"><a href="#"><img src="~/images/Demand/a_07.png" /></a></li>
-            <li class="b_p"><a href="#"><img src="~/images/Demand/a_13.png" /></a></li>
-            <li class="c_p"><a href="#"><img src="~/images/Demand/a_15.png" /></a></li>
+            <li class="b_p"><a href="javascript:history.go(-1)"><img src="~/images/Demand/a_13.png" /></a></li>
+            <li class="c_p"><a href="javascript:void(0);"><img src="~/images/Demand/a_15.png"/></a></li>
             <li class="d_p"><a href="#"><img src="~/images/Demand/a_21.png" /></a></li>
         </ul>
     </div>
@@ -234,6 +234,11 @@
 
     </div>
     <script type="text/javascript">
+        var thisURL = document.URL;
+        var getljxval = thisURL.split('?')[1];
+        if (getljxval != null) { 
+        var showljxval = getljxval.split("=")[1];
+        }
         $(function () {
             QueryDetailedRequirements();
             QueryOpinion();
@@ -244,7 +249,7 @@
             $.ajax({
                 type: "POST",
                 url: "/querydetailedrequirements",
-                data: { id: 24 },
+                data: { id: showljxval },
                 success: function (dataBack) {
                     var str = "";
                     var str1 = "";
@@ -285,13 +290,13 @@
                 }
             })
         }
-
+        
         //查询人员意见
         function QueryOpinion() {
             $.ajax({
                 type: "POST",
                 url: "/queryopinion",
-                data: { id: 24 },
+                data: { id: showljxval },
                 success: function (dataBack) {
                     if (dataBack.data != "") {
                         $("#fbbb1").css("display", "block");
@@ -318,6 +323,10 @@
                     alert(error.status + error.statusText)
                 }
             })
+        }
+        function Refresh() {
+            QueryDetailedRequirements();
+            QueryOpinion();
         }
     </script>
 </body>

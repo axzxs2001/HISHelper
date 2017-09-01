@@ -180,7 +180,6 @@ namespace ProductReleaseSystem.Controllers
         /// </summary>
         /// <param name="_vierificationCodeServices"></param>
         /// <returns></returns>
-        [AllowAnonymous]
         [HttpGet("validatecode")]
         public IActionResult ValidateCode([FromServices]VierificationCodeServices _vierificationCodeServices)
         {

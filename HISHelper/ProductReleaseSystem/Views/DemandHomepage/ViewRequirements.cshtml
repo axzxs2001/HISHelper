@@ -71,8 +71,8 @@
     <div class="hahaha">
         <ul>
             <li class="a_p"><a href="#"><img src="~/images/Demand/a_07.png" /></a></li>
-            <li class="b_p"><a href="#"><img src="~/images/Demand/a_13.png" /></a></li>
-            <li class="c_p"><a href="#"><img src="~/images/Demand/a_15.png" /></a></li>
+            <li class="b_p"><a href="javascript:history.go(-1)"><img src="~/images/Demand/a_13.png" /></a></li>
+            <li class="c_p"><a href="javascript:void(0);"><img src="~/images/Demand/a_15.png"/></a></li>
             <li class="d_p"><a href="#"><img src="~/images/Demand/a_21.png" /></a></li>
         </ul>
     </div>
@@ -232,15 +232,12 @@
                         <!--button-->
                         <div class="buttt rt">
                             <img src="~/images/Demand/a_67.png" style="cursor:pointer" title="清空"  onclick=" qk()"/>
-                            <img src="~/images/Demand/fb_03.png" style="cursor:pointer" onclick="AddOpinion()"/>
+                            <img src="~/images/Demand/fb_03.png" style="cursor:pointer" onclick="InsertOpinion()"/>
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
-
     </div>
     <div class="haha">
         <ul>
@@ -264,7 +261,9 @@
     <script>
         var thisURL = document.URL;
         var getval = thisURL.split('?')[1];
+        if (getval != null) { 
         var showval = getval.split("=")[1];
+        }
         $(function () {
             datetime();
             QueryDetailedRequirements();
@@ -287,7 +286,7 @@
         //#region  通过名称查询ID
         var ID;
         var Character;
-        function InsertUser() {
+        function InsertOpinion() {
 
             $.ajax({
                 type: "POST",
@@ -296,6 +295,7 @@
                 success: function (dataBack) {
                     $(dataBack.data).each(function (index, item) {
                         ID = item.id;
+                        AddOpinion();
                     });
                 },
                 error: function (error) {

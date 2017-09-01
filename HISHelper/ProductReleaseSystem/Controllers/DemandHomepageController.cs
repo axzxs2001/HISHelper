@@ -27,7 +27,6 @@ namespace ProductReleaseSystem.Controllers
         /// 产品需求主页
         /// </summary>
         /// <returns></returns>
-        [AllowAnonymous]
         [HttpGet("productdemand")]
         public IActionResult ProductDemand()
         {
@@ -72,6 +71,7 @@ namespace ProductReleaseSystem.Controllers
             }
         }
         #endregion
+
         #region 根据产品ID查询需求信息
         /// <summary>
         /// 根据产品ID查询需求信息
@@ -341,6 +341,7 @@ namespace ProductReleaseSystem.Controllers
         /// 删除需求改变需求的状态放在垃圾箱里
         /// </summary>
         /// <returns></returns>
+        [Authorize(Roles = "管理员,实施负责人,产品负责人")]
         [HttpPost("deletestatus")]
         public IActionResult DeleteStatus(int deletestatus, int ID)
         {
@@ -425,6 +426,7 @@ namespace ProductReleaseSystem.Controllers
         /// 垃圾箱还原需求
         /// </summary>
         /// <returns></returns>
+        [Authorize(Roles = "管理员,实施负责人,产品负责人")]
         [HttpPost("reduction")]
         public IActionResult Reduction(int deletestatus, int ID)
         {
@@ -447,6 +449,7 @@ namespace ProductReleaseSystem.Controllers
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
+        [Authorize(Roles = "管理员,实施负责人,产品负责人")]
         [HttpDelete("deletedata")]
         public IActionResult DeleteData(int ID)
         {
@@ -469,6 +472,7 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="Status">状态</param>
         /// <param name="ID">ID</param>
         /// <returns></returns>
+        [Authorize(Roles="管理员,产品负责人")]
         [HttpPost("review")]
         public IActionResult ExaminationPassed(string Status, int ID)
         {
@@ -578,6 +582,7 @@ namespace ProductReleaseSystem.Controllers
         /// <param name="ProductName"></param>
         /// <param name="Description"></param>
         /// <returns></returns>
+        [Authorize(Roles = "管理员,实施负责人,产品负责人,开发负责人")]
         [HttpPost("porductinsert")]
         public IActionResult PorductInsert(string ProductName, string Description)
         {
@@ -599,6 +604,7 @@ namespace ProductReleaseSystem.Controllers
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
+        [Authorize(Roles = "管理员,实施负责人,产品负责人")]
         [HttpDelete("deleterequestform")]
         public IActionResult DeleteRequestForm(int ID)
         {
@@ -620,6 +626,7 @@ namespace ProductReleaseSystem.Controllers
         /// </summary>
         /// <param name="ID">ID</param>
         /// <returns></returns>
+        [Authorize(Roles = "管理员,实施负责人,产品负责人")]
         [HttpDelete("deleteproducts")]
         public IActionResult DeleteProducts(int ID)
         {

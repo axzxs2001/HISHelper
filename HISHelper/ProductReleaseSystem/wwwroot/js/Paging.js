@@ -5,8 +5,11 @@
 //var pagePerGroup = 15;
 var currentPageIndex = 1;
 function LoadMessage(currentPageIndex) {
+    $("#arrows").hide();
+    $("#listcontrol").show();
+
     //每页表格的行数
-    var RecordPerPage = 5;
+    var RecordPerPage = 15;
     //每个分页组的页数
     var pagePerGroup = 10;
     $.post('queryzkcpproducts', {
@@ -32,10 +35,10 @@ function GetPagination(CurrentPageIndex, TotalPage, functionName, RecordCount, p
         var baseIndex = parseInt((CurrentPageIndex - 1) / pagePerGroup) * pagePerGroup + 1;
         //处理当前页是第一页情况
         if (CurrentPageIndex <= pagePerGroup) {
-            htmlContent = htmlContent + '<div class="row"><nav aria-label = "Page navigation" class="col-md-8"><ul class="pagination">';
+            htmlContent = htmlContent + '<div class="row"><div class="col-md-6"><ul class="pagination" style="float: right;margin-top: 7px;">';
             htmlContent = htmlContent + '<li class="disabled"><a  href="javascript:void(0);" >&laquo;</a></li>';
         } else {
-            htmlContent = htmlContent + '<div class="row"><nav aria-label = "Page navigation" class="col-md-8"><ul class="pagination">';
+            htmlContent = htmlContent + '<div class="row"><div class="col-md-6"><ul class="pagination" style="float: right;margin-top: 7px;">';
             htmlContent = htmlContent + '<li><a  href="javascript:void(0);" onclick="' + functionName + '(' + (baseIndex - 1) + ') ">&laquo;</a></li>';
         }
         //加载其他页
@@ -56,8 +59,8 @@ function GetPagination(CurrentPageIndex, TotalPage, functionName, RecordCount, p
         } else {
             htmlContent = htmlContent + '<li><a  href="javascript:void(0);" onclick="' + functionName + '(' + (baseIndex + pagePerGroup) + ')">&raquo;</a></li>';
         }
-        htmlContent = htmlContent + '</ul></nav>';
-        htmlContent = htmlContent + '<span class="col-md-4" style="text-align:right ;height:79px;line-height:79px;font-weight:700">';
+        htmlContent = htmlContent + '</ul></div>';
+        htmlContent = htmlContent + '<span class="col-md-6" style="text-align: left; color:#fff;font-size: 16px;line-height:40px;">';
         htmlContent = htmlContent + "查询到" + RecordCount + "条记录，共" + TotalPage + "页";
         htmlContent = htmlContent + '</span></div>'
 
@@ -133,10 +136,10 @@ function SetPagination(CurrentPageIndex, obj, functionName, recordPerPage, pageP
     if (RecordCount > 0) {
         var paging = GetPagination(CurrentPageIndex, TotalPage, functionName, RecordCount, pagePerGroup);;
         //显示页脚分页信息
-        $(".tablezkcp").append(paging);
+        $(".whyy").html(paging);
     }
     else {
-        var pageStr = '<div class="row"><nav aria-label = "Page navigation" class="col-md-8"><ul class="pagination"></ul></nav><span class="col-md-4" style="text-align:right ;height:79px;line-height:79px;font-weight:700">';
+        var pageStr = '<div class="row"><div class="col-md-6"><ul class="pagination" style="float: right;margin-top: 7px;"></ul></div><span class="col-md-6" style="text-align: left; color: #fff;font-size: 16px;line-height:40px;">';
         pageStr = pageStr + "查询到" + RecordCount + "条记录，共" + TotalPage + "页";
         pageStr = pageStr + '</span>';
 

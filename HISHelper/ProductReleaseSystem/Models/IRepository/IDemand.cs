@@ -239,5 +239,20 @@ namespace ProductReleaseSystem.Models.IRepository
         /// </summary>
         /// <returns></returns>
         List<Dictionary<string, dynamic>> SelectDem(int id);
+        /// <summary>
+        /// 通过产品名称查询产品ID
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> SelProductname(string productname);
+        /// <summary>
+        /// 通过部门名称查询部门ID
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> SelDepartmentName(string departmentname);
+        /// <summary>
+        /// 通过需求ID查询需求信息
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, dynamic>> InsertRNDemand(int ID);
     } 
 }

@@ -488,8 +488,8 @@ body{
      margin:  0 auto;
      text-align: center;
      display: inline-block;
-     color: #cacaca;
-     font-size: 16px;
+     color: #666;
+     font-size: 18px;
      padding: 0 15px;
      text-decoration: none;
  }
@@ -1615,11 +1615,10 @@ body{
      border-top: 1px solid transparent;
  }
 
-.whyy{
+.whyy {
     height: 40px;
     background: #4f5d60;
     line-height: 35px;
-
 }
 .whyy .uis{
     margin-right: 212px;
@@ -1632,7 +1631,7 @@ body{
  }
  .whyy ul li a{
      display: inline-block;
-     padding:0 10px !important;
+     padding:0 10px !important
     }
 .right_content .table .hh {
     padding-left: 20px;
@@ -1645,9 +1644,9 @@ body{
 .momo-js.bg-color {
     background-color: #293335 !important;
 }
- /*新增 的 样式*/
- @media (min-width: 768px){
-     .modal-dialog {
+/*新增 的 样式*/
+@media (min-width: 768px) {
+    .modal-dialog {
          width: 600px;
          margin: 322px auto;
      }

@@ -8,7 +8,6 @@
     <title>需求发布</title>
     <link href="~/css/bootstrap.css" rel="stylesheet" />
     <link href="~/css/register_index.css" rel="stylesheet" />
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
     <title>需求发布</title>
     <style>
@@ -40,7 +39,7 @@
     <div class="hahaha">
         <ul>
             <li class="a_p"><a href="#"><img src="~/images/Demand/a_07.png" /></a></li>
-            <li class="b_p"><a href="http://localhost:61110/productdemand"><img src="~/images/Demand/a_13.png" /></a></li>
+            <li class="b_p"><a href="javascript:history.go(-1)"><img src="~/images/Demand/a_13.png" /></a></li>
             <li class="c_p"><a href="http://localhost:61110/demand"><img src="~/images/Demand/a_15.png" /></a></li>
             <li class="d_p"><a href="#"><img src="~/images/Demand/a_21.png" /></a></li>
         </ul>
@@ -188,14 +187,15 @@
     <script type="text/javascript">
         var thisURL = document.URL;
         var getdemval = thisURL.split('?')[1];
-        var showdemval = getdemval.split("=")[1];
+        if (getdemval != null) { 
+        var showdemval = getdemval.split('=')[1];
+        }
         $(function () {
             SelectBumen();
             PostProducts();
             if (showdemval > 0) {
                 SelectDem();
-            }
-            else {
+            }else {
                 createEditor();
                 datetime();
             }
@@ -287,13 +287,23 @@
                 success: function (dataBack) {
                     $(dataBack.data).each(function (index, item) {
                         ID = item.id;
-                        savaDemand(ID);
+                        InsUpd(ID);
                     });
                 },
                 error: function (error) {
                     alert(error.status + error.statusText)
                 }
             });
+        }
+        //#endregion
+
+        //#region 判断我发布的是添加开始修改
+        function InsUpd(ID) {
+            if (showdemval > 0) {
+                UpdateDemand(ID);
+            } else {
+                savaDemand(ID);
+            }
         }
         //#endregion
 
@@ -332,7 +342,7 @@
         }
         //#endregion
 
-        //#region  通过名称查询ID
+        //#region  通过名称查询ID添加草稿箱
         var draftID;
         var draftCharacter;
         function Insertdraft() {
@@ -343,7 +353,8 @@
                 success: function (dataBack) {
                     $(dataBack.data).each(function (index, item) {
                         draftID = item.id;
-                        savadraftDemand(draftID);
+                        Inscg(draftID);
+                       
                     });
                 },
                 error: function (error) {
@@ -353,7 +364,17 @@
         }
         //#endregion
 
-        //#region 添加实施需求
+        //#region 判断草稿是添加开始修改
+        function Inscg(ID) {
+            if (showdemval > 0) {
+                InsdraftDemand(ID);
+            } else {
+                savadraftDemand(draftID);
+            }
+        }
+        //#endregion
+
+        //#region 添加实施需求草稿箱
         function savadraftDemand(ID) {
             if (panduan()) {
                 $.ajax({
@@ -374,6 +395,42 @@
                         ProductID: $("#productname").find("option:selected").val(),
                         Address: $("#address").val(),
                         DeleteStatus: 2
+                    },
+                    success: function (dataBack) {
+                        if (dataBack.result == 1) {
+                            layer.msg(dataBack.message, { icon: 1 });
+                        }
+                    },
+                    error: function (error) {
+                        layer.msg(dataBack.message, { icon: 2 });
+                    }
+                });
+            }
+        }
+        //#endregion
+
+        //#region 修改实施需求草稿箱
+        function InsdraftDemand(ID) {
+            if (panduan()) {
+                $.ajax({
+                    type: "PUT",
+                    url: '/updatedemand',
+                    data: {
+                        DemandNname: $('#demandname').val(),
+                        RequirementsDescription: UE.getEditor('editor').getContent(),
+                        Priority: $('#priority').find("option:selected").text(),
+                        UserName: $('#username').val(),
+                        Producer: $('#producer').val(),
+                        ContactInformation: $('#information').val(),
+                        ImplementerID: ID,
+                        MakeTime: $('#shijiandata').text(),
+                        VersionNumber: '1.0.0.0',
+                        DeliveryDepartment: $("#bumen").find("option:selected").val(),
+                        Status: '未通过',
+                        ProductID: $("#productname").find("option:selected").val(),
+                        Address: $("#address").val(),
+                        DeleteStatus: 2,
+                        ID: showdemval
                     },
                     success: function (dataBack) {
                         if (dataBack.result == 1) {
@@ -437,7 +494,7 @@
                 layer.msg(str, { icon: 2 });
                 return false;
             }
-            else if ($("#bumen").val == 0) { 
+            else if ($("#bumen").val == 0) {
                 layer.msg("添加失败！", { icon: 2 });
                 return false;
             }
@@ -447,7 +504,7 @@
                 layer.msg(str, { icon: 2 });
                 return false;
             }
-            if ($('#productname').find("option:selected").text() == '' || $('#productname').find("option:selected").text() == '请选择产品名称' || $('#productname').val==0) {
+            if ($('#productname').find("option:selected").text() == '' || $('#productname').find("option:selected").text() == '请选择产品名称') {
                 str += "请选择产品名称！";
                 layer.msg(str, { icon: 2 });
                 return false;
@@ -458,6 +515,7 @@
             return true;
         }
         function qingkong() {
+            window.location.href = "demand";
             $('#username').val("");
             $('#producer').val("");
             $('#information').val("");
@@ -468,6 +526,7 @@
             $("#bumen").find("option:selected").text("请选择交付的部门");
             UE.getEditor('editor').setContent("");
             $('#username').focus();
+            
         }
         //#endregion
 
@@ -494,13 +553,88 @@
                         ue.ready(function () {   //编辑器初始化完成再赋值
                             ue.setContent(cont); //赋值给UEditor
                         });
+                        SelProductname();
+                        SelDepartmentName();
                     });
-                    console.log(dataBack.data);
                 },
                 error: function (error) {
                     alert(error.status + error.statusText)
                 }
             });
+        }
+        //#endregion
+
+       
+        //#region  通过产品名称查询ID
+        function SelProductname() {
+
+            $.ajax({
+                type: "POST",
+                url: "/selproductname",
+                data: { productname: $('#productname option[value="0"]').text() },
+                success: function (dataBack) {
+                    $(dataBack.data).each(function (index, item) {
+                        $('#productname option[value="0"]').val(item.id);
+                    });
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+        //#endregion
+        
+        //#region  通过部门名称查询ID
+        function SelDepartmentName() {
+            $.ajax({
+                type: "POST",
+                url: "/seldepartmentname",
+                data: { departmentname: $('#bumen option[value="0"]').text() },
+                success: function (dataBack) {
+                    $(dataBack.data).each(function (index, item) {
+                        $('#bumen option[value="0"]').val(item.id);
+                    });
+                },
+                error: function (error) {
+                    alert(error.status + error.statusText)
+                }
+            });
+        }
+        //#endregion
+
+        //#region 修改实施需求
+        function UpdateDemand(ID) {
+            if (panduan()) {
+                $.ajax({
+                    type: "PUT",
+                    url: '/updatedemand',
+                    data: {
+                        DemandNname: $('#demandname').val(),
+                        RequirementsDescription: UE.getEditor('editor').getContent(),
+                        Priority: $('#priority').find("option:selected").text(),
+                        UserName: $('#username').val(),
+                        Producer: $('#producer').val(),
+                        ContactInformation: $('#information').val(),
+                        ImplementerID: ID,
+                        MakeTime: $('#shijiandata').text(),
+                        VersionNumber: '1.0.0.0',
+                        DeliveryDepartment: $("#bumen").find("option:selected").val(),
+                        Status: '未通过',
+                        ProductID: $("#productname").find("option:selected").val(),
+                        Address: $("#address").val(),
+                        DeleteStatus: 1,
+                        ID: showdemval
+                    },
+                    success: function (dataBack) {
+                        if (dataBack.result == 1) {
+                            layer.msg(dataBack.message, { icon: 1 });
+                        }
+                    },
+                    error: function (error) {
+                        layer.msg(dataBack.message, { icon: 2 });
+                    }
+                });
+            }
         }
         //#endregion
     </script>

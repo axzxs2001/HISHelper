@@ -174,7 +174,8 @@ b.ID as departmentid,
         Email,
         Phone,
         Remarks,
-Authority
+Authority,
+c.ID AS CID
 FROM    dbo.Developers a JOIN dbo.Departments b
 ON a.DepartmentID=b.ID 
 JOIN AuthorityTable c 
@@ -245,7 +246,7 @@ VALUES  ( @username,@password,@character
           )";
             var par1 = new SqlParameter() { ParameterName = "@username", SqlDbType = System.Data.SqlDbType.VarChar, Value = user.UserName };
             var par2 = new SqlParameter() { ParameterName = "@password", SqlDbType = System.Data.SqlDbType.VarChar, Value = user.PassWord };
-            var par3 = new SqlParameter() { ParameterName = "@character", SqlDbType = System.Data.SqlDbType.VarChar, Value = user.Character };
+            var par3 = new SqlParameter() { ParameterName = "@character", SqlDbType = System.Data.SqlDbType.Int, Value = user.Character };
             return _dbHelper.SavaData(sql, par1, par2, par3) > 0 ? true : false;
         }
         /// <summary>
@@ -262,7 +263,7 @@ SET     UserName = @username ,
 WHERE   ID = @id";
             var par1 = new SqlParameter() { ParameterName = "@username", SqlDbType = System.Data.SqlDbType.VarChar, Value = user.UserName };
             var par2 = new SqlParameter() { ParameterName = "@password", SqlDbType = System.Data.SqlDbType.VarChar, Value = user.PassWord };
-            var par3 = new SqlParameter() { ParameterName = "@character", SqlDbType = System.Data.SqlDbType.VarChar, Value = user.Character };
+            var par3 = new SqlParameter() { ParameterName = "@character", SqlDbType = System.Data.SqlDbType.Int, Value = user.Character };
             var par4 = new SqlParameter() { ParameterName = "@id", SqlDbType = System.Data.SqlDbType.Int, Value = user.Id };
             return _dbHelper.SavaData(sql, par1, par2, par3, par4) > 0 ? true : false;
         }
@@ -287,6 +288,7 @@ WHERE   ID = @id";
             var sql = @"SELECT  a.ID ,
         UserName ,
         PassWord ,
+		b.ID AS BID,
         Authority
 FROM    dbo.Users a
 JOIN AuthorityTable b

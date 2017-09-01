@@ -46,7 +46,7 @@
                     <label for="i1"></label>
                     <span>记住我的登录信息</span>
                     <a href="#" class="wj rt">忘记密码</a><br>
-                    <input type="checkbox" value="" name="" id="i2">
+                    <input type="checkbox" value="" name="chk" id="i2">
                     <label for="i2"></label>
                     <span>我已阅读并接受<a href="~/UserProtocol">《用户协议》</a></span>
                 </div>
@@ -82,25 +82,29 @@
         });
     })
     function ValueCheck() {
-        $.ajax({
-            type: 'POST',
-            url: '/login',
-            data: {
-                username: $('#username').val(),
-                password: $('#userpassword').val(),
-                verificationcode: $('#verificationcode').val()
-            },
-            success: function (dataBack) {
-                if (dataBack.result == 1) {
-                    window.location.href = "http://localhost:61110/";
-                } else {
+        if ($('input[name="chk"]').prop("checked")) {
+            $.ajax({
+                type: 'POST',
+                url: '/login',
+                data: {
+                    username: $('#username').val(),
+                    password: $('#userpassword').val(),
+                    verificationcode: $('#verificationcode').val()
+                },
+                success: function (dataBack) {
+                    if (dataBack.result == 1) {
+                        window.location.href = "http://localhost:61110/";
+                    } else {
+                        layer.msg(dataBack.message, { icon: 2 });
+                    }
+                },
+                error: function (error) {
                     layer.msg(dataBack.message, { icon: 2 });
                 }
-            },
-            error: function (error) {
-                layer.msg(dataBack.message, { icon: 2 });
-            }
-        });
+            });
+        } else { 
+            layer.msg("您是否阅读用户协议！", { icon: 2 });
+        }
     }
     //$("#checkbox-id").is(':checked').click(function () { 
     //    $ajax({

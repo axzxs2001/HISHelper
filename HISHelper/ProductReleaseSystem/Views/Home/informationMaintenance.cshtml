@@ -82,7 +82,7 @@
                                     <div class="form-group col-md-4">
                                         <label for="Authority-name">权限：</label>
                                         <select class="form-control "id="authoritytable-add-name">
-                                            <option v-bind:value="userMenu.authority">{{userMenu.authority}}</option>
+                                            <option v-bind:value="userMenu.bid">{{userMenu.authority}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -192,7 +192,7 @@
                                         <label for="authority-person-name">权限：</label>
                                         <input style="display:none" v-model="developerMenu.authority" />
                                         <select class="form-control" id="authority-person-name">
-                                            <option v-bind:value="developerMenu.authority">{{developerMenu.authority}}</option>
+                                            <option v-bind:value="developerMenu.cid">{{developerMenu.authority}}</option>
                                         </select>
                                     </div>
                                     <div class="sex2 form-group col-md-4 developer-news" id="sex2">
