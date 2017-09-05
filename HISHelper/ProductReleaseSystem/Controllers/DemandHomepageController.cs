@@ -33,25 +33,124 @@ namespace ProductReleaseSystem.Controllers
             return View();
         }
         /// <summary>
-        /// 产品需求查看主页
+        /// 产品需求查看主页添加小需求
         /// </summary>
         /// <returns></returns>
-        [AllowAnonymous]
+        //[Authorize(Roles = "管理员,产品负责人,实施负责人,产品人员")]
         [HttpGet("viewrequirements")]
         public IActionResult ViewRequirements()
         {
             return View();
         }
+        /// <summary>
+        /// 查看需求
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("prodemand")]
         public IActionResult ProDemand()
         {
             return View();
         }
+        /// <summary>
+        /// 开发接受需求页面
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("endproduct")]
         public IActionResult EndProduct()
         {
             return View();
         }
+        #region 实施添加需求
+        /// <summary>
+        /// 实施添加需求
+        /// </summary>
+        /// <param name="requestform"></param>
+        /// <returns></returns>
+        [HttpPut("adddemand")]
+        public IActionResult AddDemand(RequestForm requestform)
+        {
+
+            try
+            {
+                var list = _idemand.InsertDemand(requestform);
+                return new JsonResult(new { result = 1, message = $"添加成功！", data = list }, new JsonSerializerSettings()
+                {
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                // _log.Log(NLog.LogLevel.Error, $"查询全部部门：{exc.Message}");
+                return new JsonResult(new { result = 0, message = $"添加失败：{exc.Message}" });
+            }
+        }
+        #endregion
+        #region 查看详细需求
+        /// <summary>
+        /// 查看详细需求
+        /// </summary>
+        /// <param name="id">需求ID</param>
+        /// <returns></returns>
+        [HttpPost("querydetailedrequirements")]
+        public IActionResult QueryDetailedRequirements(int id)
+        {
+            try
+            {
+                var list = _idemand.QueryDetailedRequirements(id);
+                return new JsonResult(new { result = 1, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}" });
+            }
+        }
+        #endregion
+
+        #region 根据需求ID查询人员意见
+        /// <summary>
+        /// 根据需求ID查询人员意见
+        /// </summary>
+        /// <param name="id">需求ID</param>
+        /// <returns></returns>
+        [HttpPost("queryopinion")]
+        public IActionResult QueryOpinion(int id)
+        {
+            try
+            {
+                var list = _idemand.QueryOpinion(id);
+                return new JsonResult(new { result = 1, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}" });
+            }
+        }
+        #endregion
+
+        #region 添加人员意见
+        /// <summary>
+        /// 添加人员意见
+        /// </summary>
+        /// <param name="option">人员意见实体类</param>
+        /// <returns></returns>
+        [Authorize(Roles = "管理员,产品负责人,实施负责人,产品人员")]
+        [HttpPost("addopinion")]
+        public IActionResult AddOpinion(Opinion option)
+        {
+            if (_idemand.AddOpinion(option))
+            {
+                return new JsonResult(new { result = 1, message = "添加成功" });
+            }
+            else
+            {
+                return new JsonResult(new { result = 0, message = "添加失败" });
+            }
+        }
+        #endregion
+
+        #region productdemand产品需求页面
+
+        #region 查询全部需求方法
         #region 查询所有产品
         /// <summary>
         /// 查询所有产品
@@ -114,69 +213,9 @@ namespace ProductReleaseSystem.Controllers
         }
         #endregion
 
-        #region 查看详细需求
-        /// <summary>
-        /// 查看详细需求
-        /// </summary>
-        /// <param name="id">需求ID</param>
-        /// <returns></returns>
-        [HttpPost("querydetailedrequirements")]
-        public IActionResult QueryDetailedRequirements(int id)
-        {
-            try
-            {
-                var list = _idemand.QueryDetailedRequirements(id);
-                return new JsonResult(new { result = 1, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
-            }
-            catch (Exception exc)
-            {
-                return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}" });
-            }
-        }
         #endregion
 
-        #region 根据需求ID查询人员意见
-        /// <summary>
-        /// 根据需求ID查询人员意见
-        /// </summary>
-        /// <param name="id">需求ID</param>
-        /// <returns></returns>
-        [HttpPost("queryopinion")]
-        public IActionResult QueryOpinion(int id)
-        {
-            try
-            {
-                var list = _idemand.QueryOpinion(id);
-                return new JsonResult(new { result = 1, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
-            }
-            catch (Exception exc)
-            {
-                return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}" });
-            }
-        }
-        #endregion
-
-        #region 添加人员意见
-        /// <summary>
-        /// 添加人员意见
-        /// </summary>
-        /// <param name="option">人员意见实体类</param>
-        /// <returns></returns>
-        [HttpPost("addopinion")]
-        public IActionResult AddOpinion(Opinion option)
-        {
-            if (_idemand.AddOpinion(option))
-            {
-                return new JsonResult(new { result = 1, message = "添加成功" });
-            }
-            else
-            {
-                return new JsonResult(new { result = 0, message = "添加失败" });
-            }
-        }
-        #endregion
-
-        #region 我发布的页面
+        #region 我发布的页面方法
 
         #region 通过姓名用户查询ID
         /// <summary>
@@ -273,8 +312,7 @@ namespace ProductReleaseSystem.Controllers
         #endregion
         #endregion
 
-
-        #region  已完成的页面
+        #region  已完成的页面方法
         #region 查询已完成的所有产品
         /// <summary>
         /// 查询已完成的所有产品
@@ -336,25 +374,93 @@ namespace ProductReleaseSystem.Controllers
         #endregion
         #endregion
 
-        #region 删除需求改变需求的状态放在垃圾箱里
+        #region 只看产品分页查询所有产品
         /// <summary>
-        /// 删除需求改变需求的状态放在垃圾箱里
+        /// 只看产品查询所有产品
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles = "管理员,实施负责人,产品负责人")]
-        [HttpPost("deletestatus")]
-        public IActionResult DeleteStatus(int deletestatus, int ID)
+        [HttpPost("queryzkcpproducts")]
+        public IActionResult QueryzkcpProducts(int? currentPageIndex = 1, int? RecordPerPage = 10, int? pagePerGroup = 10)
+        {
+            //try
+            //{
+            //    var list = _idemand.QueryzkcpProducts(currentPageIndex.Value, recordPerPage.Value, pagePerGroup.Value);
+            //    var Count = _idemand.GetCount(currentPageIndex.Value, recordPerPage.Value, pagePerGroup.Value);
+            //    return new JsonResult(new { result = 1, RecordCount = Count, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            //}
+            //catch (Exception exc)
+            //{
+            //    return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}" });
+            //}
+            var info = _idemand.QueryzkcpProducts(currentPageIndex.Value, RecordPerPage.Value, pagePerGroup.Value);
+            var Count = _idemand.GetCount(currentPageIndex.Value, RecordPerPage.Value, pagePerGroup.Value);
+           return new JsonResult(new { RecordCount = Count, List = info }, new Newtonsoft.Json.JsonSerializerSettings()
+            { DateFormatString = "yyyy-MM-dd" });
+        }
+        #endregion
+
+        #region 草稿箱页面方法
+        #region 草稿箱查询所有产品
+        /// <summary>
+        /// 草稿箱查询所有产品
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("draftselectproducts")]
+        public IActionResult DraftSelectProducts()
         {
             try
             {
-                var list = _idemand.DeleteStatus(deletestatus, ID);
-                return new JsonResult(new { result = 1, data = list, message = "删除成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+                var list = _idemand.DraftSelectProducts();
+                return new JsonResult(new { result = 1, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
             }
             catch (Exception exc)
             {
-                return new JsonResult(new { result = 0, message = $"删除失败:{exc.Message}" });
+                return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}" });
             }
         }
+        #endregion
+
+        #region 草稿箱根据产品ID查询需求信息
+        /// <summary>
+        /// 草稿箱根据产品ID查询需求信息
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        [HttpPost("requestbyselectproductid")]
+        public IActionResult RequestBySelectProductId(int id)
+        {
+            try
+            {
+                var list = _idemand.RequestBySelectProductId(id);
+                return new JsonResult(new { result = 1, message = "查询成功", data = list }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
+            }
+        }
+        #endregion
+
+        #region 草稿箱根据产品ID查询需求条数
+        /// <summary>
+        /// 草稿箱根据产品ID查询需求条数
+        /// </summary>
+        /// <param name="id">产品ID</param>
+        /// <returns></returns>
+        [HttpPost("queryselectrequestcount")]
+        public IActionResult QuerySelectRequestCount(int id)
+        {
+            try
+            {
+                var count = _idemand.QuerySelectRequestCount(id);
+                return new JsonResult(new { result = 1, message = "查询成功", data = count });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
+            }
+        }
+        #endregion
         #endregion
 
         #region 垃圾箱页面方法
@@ -443,6 +549,27 @@ namespace ProductReleaseSystem.Controllers
         #endregion
         #endregion
 
+        #region 删除需求改变需求的状态放在垃圾箱里
+        /// <summary>
+        /// 删除需求改变需求的状态放在垃圾箱里
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "管理员,实施负责人,产品负责人")]
+        [HttpPost("deletestatus")]
+        public IActionResult DeleteStatus(int deletestatus, int ID)
+        {
+            try
+            {
+                var list = _idemand.DeleteStatus(deletestatus, ID);
+                return new JsonResult(new { result = 1, data = list, message = "删除成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"删除失败:{exc.Message}" });
+            }
+        }
+        #endregion
+
         #region 删除需求信息
         /// <summary>
         /// 删除需求信息
@@ -484,93 +611,6 @@ namespace ProductReleaseSystem.Controllers
             catch (Exception exc)
             {
                 return new JsonResult(new { result = 0, message = $"审核通过失败:{exc.Message}" });
-            }
-        }
-        #endregion
-
-        #region 只看产品查询所有产品
-        /// <summary>
-        /// 只看产品查询所有产品
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost("queryzkcpproducts")]
-        public IActionResult QueryzkcpProducts(int? currentPageIndex = 1, int? RecordPerPage = 10, int? pagePerGroup = 10)
-        {
-            //try
-            //{
-            //    var list = _idemand.QueryzkcpProducts(currentPageIndex.Value, recordPerPage.Value, pagePerGroup.Value);
-            //    var Count = _idemand.GetCount(currentPageIndex.Value, recordPerPage.Value, pagePerGroup.Value);
-            //    return new JsonResult(new { result = 1, RecordCount = Count, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
-            //}
-            //catch (Exception exc)
-            //{
-            //    return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}" });
-            //}
-            var info = _idemand.QueryzkcpProducts(currentPageIndex.Value, RecordPerPage.Value, pagePerGroup.Value);
-            var Count = _idemand.GetCount(currentPageIndex.Value, RecordPerPage.Value, pagePerGroup.Value);
-           return new JsonResult(new { RecordCount = Count, List = info }, new Newtonsoft.Json.JsonSerializerSettings()
-            { DateFormatString = "yyyy-MM-dd" });
-        }
-        #endregion
-
-        #region 草稿箱查询所有产品
-        /// <summary>
-        /// 草稿箱查询所有产品
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("draftselectproducts")]
-        public IActionResult DraftSelectProducts()
-        {
-            try
-            {
-                var list = _idemand.DraftSelectProducts();
-                return new JsonResult(new { result = 1, data = list, message = "查询成功" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
-            }
-            catch (Exception exc)
-            {
-                return new JsonResult(new { result = 0, message = $"查询失败:{exc.Message}" });
-            }
-        }
-        #endregion
-
-        #region 草稿箱根据产品ID查询需求信息
-        /// <summary>
-        /// 草稿箱根据产品ID查询需求信息
-        /// </summary>
-        /// <param name="id">产品ID</param>
-        /// <returns></returns>
-        [HttpPost("requestbyselectproductid")]
-        public IActionResult RequestBySelectProductId(int id)
-        {
-            try
-            {
-                var list = _idemand.RequestBySelectProductId(id);
-                return new JsonResult(new { result = 1, message = "查询成功", data = list }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
-            }
-            catch (Exception exc)
-            {
-                return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
-            }
-        }
-        #endregion
-
-        #region 草稿箱根据产品ID查询需求条数
-        /// <summary>
-        /// 草稿箱根据产品ID查询需求条数
-        /// </summary>
-        /// <param name="id">产品ID</param>
-        /// <returns></returns>
-        [HttpPost("queryselectrequestcount")]
-        public IActionResult QuerySelectRequestCount(int id)
-        {
-            try
-            {
-                var count = _idemand.QuerySelectRequestCount(id);
-                return new JsonResult(new { result = 1, message = "查询成功", data = count });
-            }
-            catch (Exception exc)
-            {
-                return new JsonResult(new { result = 0, message = $"查询失败：{exc.Message}" });
             }
         }
         #endregion
@@ -659,6 +699,29 @@ namespace ProductReleaseSystem.Controllers
             catch (Exception)
             {
                 return new JsonResult(new { result=0,message="模糊查询失败！"});
+            }
+        }
+        #endregion
+        #endregion
+        
+        #region  审核通过需改状态
+        /// <summary>
+        /// 审核通过需改状态
+        /// </summary>
+        /// <param name="Status">状态</param>
+        /// <param name="ID">ID</param>
+        /// <returns></returns>
+        [HttpPost("confirmed")]
+        public IActionResult Confirmed(string Status, int ID)
+        {
+            try
+            {
+                var list = _idemand.Review(Status, ID);
+                return new JsonResult(new { result = 1, data = list, message = "接受需求成功！" }, new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd" });
+            }
+            catch (Exception exc)
+            {
+                return new JsonResult(new { result = 0, message = $"接受需求失败！:{exc.Message}" });
             }
         }
         #endregion

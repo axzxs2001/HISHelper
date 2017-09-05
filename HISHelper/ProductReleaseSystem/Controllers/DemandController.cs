@@ -28,7 +28,7 @@ namespace ProductReleaseSystem.Controllers
         /// 需求提交页面
         /// </summary>
         /// <returns></returns>
-        [AllowAnonymous]
+        [Authorize(Roles = "管理员,开发负责人,开发人员,实施负责人")]
         [HttpGet("demand")]
 
         public IActionResult Demand()
@@ -52,7 +52,6 @@ namespace ProductReleaseSystem.Controllers
         /// </summary>
         /// <param name="requestform"></param>
         /// <returns></returns>
-        [Authorize(Roles = "管理员,实施负责人,产品负责人")]
         [HttpPut("adddemand")]
         public IActionResult AddDemand(RequestForm requestform)
         {

@@ -82,7 +82,6 @@
         });
     })
     function ValueCheck() {
-        if ($('input[name="chk"]').prop("checked")) {
             $.ajax({
                 type: 'POST',
                 url: '/login',
@@ -102,9 +101,6 @@
                     layer.msg(dataBack.message, { icon: 2 });
                 }
             });
-        } else { 
-            layer.msg("您是否阅读用户协议！", { icon: 2 });
-        }
     }
     //$("#checkbox-id").is(':checked').click(function () { 
     //    $ajax({

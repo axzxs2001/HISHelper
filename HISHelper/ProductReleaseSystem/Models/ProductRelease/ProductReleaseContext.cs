@@ -7,25 +7,70 @@ namespace ProductReleaseSystem.ProductRelease
 {
     public partial class ProductReleaseContext : DbContext
     {
+        /// <summary>
+        /// 部门表
+        /// </summary>
         public virtual DbSet<Departments> Departments { get; set; }
+        /// <summary>
+        /// 人员表
+        /// </summary>
         public virtual DbSet<Developers> Developers { get; set; }
+        /// <summary>
+        /// 文件表
+        /// </summary>
         public virtual DbSet<Files> Files { get; set; }
+        /// <summary>
+        /// 产品表
+        /// </summary>
         public virtual DbSet<Products> Products { get; set; }
+        /// <summary>
+        /// 在研项目
+        /// </summary>
         public virtual DbSet<RelatedPersonnels> RelatedPersonnels { get; set; }
+        /// <summary>
+        /// 文件表
+        /// </summary>
         public virtual DbSet<Users> Users { get; set; }
+        /// <summary>
+        /// 版本表
+        /// </summary>
         public virtual DbSet<Versions> Versions { get; set; }
+        /// <summary>
+        /// 在研项目表
+        /// </summary>
         public virtual DbSet<ResearchProjects> ResearchProjects { get; set; }
+        /// <summary>
+        /// 在研开发表
+        /// </summary>
         public virtual DbSet<Researchers> Researchers { get; set; }
+        /// <summary>
+        /// 权限表
+        /// </summary>
         public virtual DbSet<AuthorityTable> AuthorityTable { get; set; }
+        /// <summary>
+        /// 需求表
+        /// </summary>
         public virtual DbSet<RequestForm> RequestForm { get; set; }
+        /// <summary>
+        /// 产品需求表
+        /// </summary>
         public virtual DbSet<ProductDemandTable> ProductDemandTable { get; set; }
-        public virtual DbSet<SubDemandTable> SubDemandTable { get; set; }
+        /// <summary>
+        /// 开发分配子需求表
+        /// </summary>
         public virtual DbSet<DevelopmentRequirementsTable> DevelopmentRequirementsTable { get; set; }
+        /// <summary>
+        /// Bug问题表
+        /// </summary>
         public virtual DbSet<BugQuestionTable> BugQuestionTable { get; set; }
+        /// <summary>
+        /// Bug回答表
+        /// </summary>
         public virtual DbSet<BuganswerSheet> BuganswerSheet { get; set; }
-
+        /// <summary>
+        /// 人员意见表
+        /// </summary>
         public virtual DbSet<Opinion> Opinion { get; set; }
-        public virtual DbSet<BeingStudied> BeingStudied { get; set; }
 
         public ProductReleaseContext(DbContextOptions<ProductReleaseContext> options) : base(options)
         {

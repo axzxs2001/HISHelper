@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@{
+    ViewData["Title"] = "权限认证";
+}
 <html>
 <head>
     <meta charset="utf-8" />
@@ -8,15 +10,21 @@
 <body>
     <style>
         .hong {
-           color:red;
+            color: red;
         }
     </style>
-    <h2 class="hong">无权限</h2>
-    <h3 class="hong">你没有权限访问该功能！</h3>
-    <h3>No permission</h3>
+    <h2 class="hong" style="height:50px">无权限</h2>
+    <h3 class="hong"  style="height:50px">你没有权限访问该功能！</h3>
+    <h3 style="height:50px">No permission</h3>
     <h4>You do not have access to other functions, each page corresponds to the different permissions, find your right page to operate.</h4>
+    <p style="height:400px;">
+    </p>
+
     <script>
-        window.history.back;
+        function reloadyemian() { 
+            javascript: history.go(-1);
+        }
+        window.setTimeout("reloadyemian();", 3000);
     </script>
 </body>
 </html>

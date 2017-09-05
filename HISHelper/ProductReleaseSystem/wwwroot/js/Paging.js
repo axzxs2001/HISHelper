@@ -5,9 +5,8 @@
 //var pagePerGroup = 15;
 var currentPageIndex = 1;
 function LoadMessage(currentPageIndex) {
-    $("#arrows").hide();
     $("#listcontrol").show();
-
+    $("#arrows").hide();
     //每页表格的行数
     var RecordPerPage = 15;
     //每个分页组的页数
@@ -136,7 +135,7 @@ function SetPagination(CurrentPageIndex, obj, functionName, recordPerPage, pageP
     if (RecordCount > 0) {
         var paging = GetPagination(CurrentPageIndex, TotalPage, functionName, RecordCount, pagePerGroup);;
         //显示页脚分页信息
-        $(".whyy").html(paging);
+        $("#listcontrol").html(paging);
     }
     else {
         var pageStr = '<div class="row"><div class="col-md-6"><ul class="pagination" style="float: right;margin-top: 7px;"></ul></div><span class="col-md-6" style="text-align: left; color: #fff;font-size: 16px;line-height:40px;">';

@@ -104,7 +104,7 @@ namespace ProductReleaseSystem.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("login")]
-        public IActionResult Login(string username, string password, string returnUrl, string verificationcode)
+        public IActionResult Login(string username, string password, string returnUrl)
         {
             //从数据库验证用户，关取出用户所需要信息
 
@@ -113,10 +113,6 @@ namespace ProductReleaseSystem.Controllers
                 if (username == null || password == null)
                 {
                     return new JsonResult(new { result = 0, message = $"账号或密码错误！" });
-                }
-                else if (verificationcode != verification)
-                {
-                    return new JsonResult(new { result = 0, message = $"验证码错误！" });
                 }
                 else
                 {
@@ -173,23 +169,23 @@ namespace ProductReleaseSystem.Controllers
             return View();
         }
 
-       public static string verification = "";
+       //public static string verification = "";
 
-        /// <summary>
-        /// 图形验证码
-        /// </summary>
-        /// <param name="_vierificationCodeServices"></param>
-        /// <returns></returns>
-        [HttpGet("validatecode")]
-        public IActionResult ValidateCode([FromServices]VierificationCodeServices _vierificationCodeServices)
-        {
-            string code = "";
-            MemoryStream ms = _vierificationCodeServices.Create(out code);
-            HttpContext.Session.SetString("LoginValidateCode", code);
-            Response.Body.Dispose();
-            verification = code.ToLower();
-            return File(ms.ToArray(), @"images/png");
-        }
+        ///// <summary>
+        ///// 图形验证码
+        ///// </summary>
+        ///// <param name="_vierificationCodeServices"></param>
+        ///// <returns></returns>
+        //[HttpGet("validatecode")]
+        //public IActionResult ValidateCode([FromServices]VierificationCodeServices _vierificationCodeServices)
+        //{
+        //    string code = "";
+        //    MemoryStream ms = _vierificationCodeServices.Create(out code);
+        //    HttpContext.Session.SetString("LoginValidateCode", code);
+        //    Response.Body.Dispose();
+        //    verification = code.ToLower();
+        //    return File(ms.ToArray(), @"images/png");
+        //}
 
         #region 人员维护
         /// <summary>

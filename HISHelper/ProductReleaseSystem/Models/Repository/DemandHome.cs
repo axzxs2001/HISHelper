@@ -229,7 +229,8 @@ a.VersionNumber AS 版本号 from RequestForm a join Developers b on a.Implement
         {
             var sql = @"select distinct 
 a.ID AS ID,
-a.ProductName AS 产品名 from Products a join RequestForm b on a.ID=b.ProductID and DeleteStatus=1 and Status!='已完成' and Status!='未通过' and Status!='开发中' and Status!='测试中'";
+a.ProductName AS 产品名 from Products a join RequestForm b on a.ID=b.ProductID and DeleteStatus=1
+ and Status='已确认'";
             return _dbHelper.GetList(sql);
         }
         #endregion
@@ -246,7 +247,7 @@ a.DemandNname AS 标题,
 a.Status AS 状态,
 a.MakeTime AS 通过时间,
 a.Priority AS 优先级,
-b.name AS 发布人 from RequestForm a join Developers b on a.ImplementerID=b.ID join Products c on a.ProductID=c.ID where DeleteStatus=1 and ProductID=@ID and Status!='已完成' and Status!='未通过' and Status!='开发中' and Status!='测试中'";
+b.name AS 发布人 from RequestForm a join Developers b on a.ImplementerID=b.ID join Products c on a.ProductID=c.ID where DeleteStatus=1 and ProductID=@ID and Status='已确认'";
             var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.GetList(sql,par);
         }
@@ -259,7 +260,7 @@ b.name AS 发布人 from RequestForm a join Developers b on a.ImplementerID=b.ID
         /// <returns></returns>
         public object QueryCountNo(int id)
         {
-            var sql = @"select count(*) AS COUNT from RequestForm where ProductID=@ID and Status!='已完成' and Status!='未通过' and Status!='开发中' and Status!='测试中' and DeleteStatus=1";
+            var sql = @"select count(*) AS COUNT from RequestForm where ProductID=@ID and Status='已确认' and DeleteStatus=1";
             var par = new SqlParameter() { ParameterName = "@ID", SqlDbType = System.Data.SqlDbType.Int, Value = id };
             return _dbHelper.GetValue(sql, par);
         }

@@ -83,10 +83,10 @@ namespace ProductReleaseSystem
 
 
         }
-
+        
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)   //添加中间件到Request请求管道中
         {
-
+            
             // 验证权限 为权限添加中间件
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {

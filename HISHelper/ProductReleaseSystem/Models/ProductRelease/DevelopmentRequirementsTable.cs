@@ -9,7 +9,7 @@ namespace ProductReleaseSystem.ProductRelease
     {
         public int ID { get; set; }
         public int PersonID { get; set; }
-        public int SubDemandID { get; set; }
+        public string SubDemand { get; set; }
         public string State { get; set; }
         public int WorkingHours { get; set; }
         public DateTime AddTime { get; set; }

@@ -32,7 +32,7 @@
 
         table tr:hover {
             background-color: #e8dfdf;
-            color:#000;
+            color: #000;
         }
     </style>
 </head>
@@ -114,11 +114,8 @@
                             <label for="inputEmail3" class=" control-label col-xs-2">适配环境</label>
                             <div class="col-xs-10">
                                 <select class="form-control" id="leixing">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                    <option>PC端</option>
+                                    <option>移动端</option>
                                 </select>
                             </div>
                         </div>
@@ -1214,22 +1211,92 @@
             </table>
         </div>
     </div>
-    @*<button onclick="check()">lalalall</button>*@
+    <!--新增需求的模态层-->
+    <div class="modal fade" id="ModiyDemand" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+                    <h4 class="modal-title" id="modeltitle">修改用户信息</h4>
+                </div>
+                <div class="modal-body" id="modeluserbody">
+                    <div class="row" style="margin-top:10px;">
+
+                        <div class="col-md-4">
+                            <label>院方名称</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="请输入医院名称">
+                        </div>
+                        <div class="col-md-4">
+                            <label>姓名</label>
+                            <input type="text" class="form-control" id="producer" name="producer" placeholder="请输入负责人姓名">
+                        </div>
+                        <div class="col-md-4">
+                            <label>联系方式</label>
+                            <input type="text" class="form-control" id="information" name="information" placeholder="请输入负责人联系方式">
+                        </div>
+                        <div class="col-md-4">
+                            <label>院方地址</label>
+                            <input type="text" class="form-control" id="address" name="address" placeholder="请输入院方地址">
+                        </div>
+                        <div class="col-md-4">
+                            <label>需求名称</label>
+                            <input type="text" class="form-control" id="demandname" name="demandname" placeholder="请输入需求名称">
+                        </div>
+                        <div class="col-md-4">
+                            <label>产品名称</label>
+                            <select name="" id="productname" class="inpps">
+                                <option value="0" style="color:#999">请选择产品名称</option>
+
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>优先级</label>
+                            <select name="" id="priority" class="inpps">
+                                <option value="0" style="color:#999">请选择优先级</option>
+                                <option value="">A</option>
+                                <option value="">B</option>
+                                <option value="">C</option>
+                                <option value="">S</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>交付部门</label>
+                            <select name="" id="bumen" class="inpps">
+                                <option value="0" style="color:#666">请选择交付的部门</option>
+                            </select>
+                        </div>
+                        <p>请在下方输入需求详细信息（ 慎重！）</p>
+                        <!--百度编辑器-->
+                        <div class="bd">
+                            <script id="editor" type="text/plain" style="width:100%; height:350px;overflow:auto">
+                            </script>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" onclick="savaUserModify()">
+                        保存
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--最下-->
     <div id="sos" style="text-align:center">
         <div class="whyy">
             <div id="arrows">
-            <span id="btn1" class="ion-chevron-up " style="display: inline-block; padding: 0 80px; color: #fff; font-size:26px;  cursor:pointer"></span>
-            <span id="btn2" class="ion-chevron-down" style="display: inline-block; color: #fff;font-size:26px; cursor:pointer"></span>
+                <span id="btn1" class="ion-chevron-up " style="display: inline-block; padding: 0 80px; color: #fff; font-size:26px;  cursor:pointer"></span>
+                <span id="btn2" class="ion-chevron-down" style="display: inline-block; color: #fff;font-size:26px; cursor:pointer"></span>
             </div>
-            <div class="rt">
-                <ul id="listcontrol"style="text-align:center">
-                        <li class="lt" id="it1" style="color:#fff; font-size:16px"><a href="#">1/8页</a></li>
-                        <li class="lt" id="itit2"><a href="#">上一页</a></li>
-                        <li class="lt" ><a href="#" id="it2">下一页</a></li>
-                        <li class="lt"><input type="text" id="it3"></li>
-                        <li class="lt" id="it4"><a href="#">跳 转</a></li>
-                    </ul>
+            <div id="listcontrol">
+                @*<ul id="listcontrol" style="text-align:center">
+                    <li class="lt" id="it1" style="color:#fff; font-size:16px"><a href="#">1/8页</a></li>
+                    <li class="lt" id="itit2"><a href="#">上一页</a></li>
+                    <li class="lt"><a href="#" id="it2">下一页</a></li>
+                    <li class="lt"><input type="text" id="it3"></li>
+                    <li class="lt" id="it4"><a href="#">跳 转</a></li>
+                </ul>*@
             </div>
         </div>
         <ul class="uubb">
@@ -1275,7 +1342,7 @@
         //获取查看全部页面需求ID跳转ViewRequirements页面传值
         function GetID(id) {
             var getval = id;
-            window.location.href = "viewrequirements?ID=" + getval+"";
+            window.location.href = "viewrequirements?ID=" + getval + "";
         }
         //获取我发布的页面需求ID跳转demand页面传值
         function GetDemID(id) {
@@ -1287,11 +1354,7 @@
             var getljxval = id;
             window.location.href = "prodemand?ID=" + getljxval + "";
         }
-        //获取已完成的页面和只看产品需求ID跳转prodemand页面传值
-        function GetljxID(id) {
-            var getljxval = id;
-            window.location.href = "prodemand?ID=" + getljxval + "";
-        }
+        
         //#endregion
 
         //#region 获取当前时间
@@ -1355,8 +1418,9 @@
 
         //#region  添加产品
         function QueryProducts() {
-            $("#arrows").show();
             $("#listcontrol").hide();
+            $("#arrows").show();
+            
             $.ajax({
                 type: "GET",
                 url: '/queryselectproducts',
@@ -1417,15 +1481,15 @@
                             str += '<td>' + item["status"] + '</td>';
                             str += '<td>' + item["MakeTime"] + '</td>';
                             str += " </tr>";
-                        } else { 
-                        str += '<tr style="cursor: pointer;"  ondblclick=GetID(' + item["Id"] + ');>';
-                        str += '<td><input type="checkbox" value="' + item["Id"] + '">' + item["DemandNname"] + '</td>';
-                        str += ' <td>' + item["Priority"] + '</td>';
-                        str += ' <td></td>';
-                        str += '<td>' + item["Name"] + '</td>';
-                        str += '<td>' + item["status"] + '</td>';
-                        str += '<td>' + item["MakeTime"] + '</td>';
-                        str += " </tr>";
+                        } else {
+                            str += '<tr style="cursor: pointer;"  ondblclick=GetID(' + item["Id"] + ');>';
+                            str += '<td><input type="checkbox" value="' + item["Id"] + '">' + item["DemandNname"] + '</td>';
+                            str += ' <td>' + item["Priority"] + '</td>';
+                            str += ' <td></td>';
+                            str += '<td>' + item["Name"] + '</td>';
+                            str += '<td>' + item["status"] + '</td>';
+                            str += '<td>' + item["MakeTime"] + '</td>';
+                            str += " </tr>";
 
                         }
                     });
@@ -1453,7 +1517,7 @@
             });
         }
         //#endregion
-        
+
         //#region 查询我发布的
         function SelectDemand(ID) {
             $.ajax({
@@ -1515,15 +1579,15 @@
                             str += '<td>' + item["status"] + '</td>';
                             str += '<td>' + item["MakeTime"] + '</td>';
                             str += " </tr>";
-                        } else { 
-                        str += '<tr style="cursor: pointer;"  ondblclick=GetDemID(' + item["Id"] + ');>';
-                        str += '<td><input type="checkbox" value="' + item["Id"] + '">' + item["DemandNname"] + '</td>';
-                        str += ' <td>' + item["Priority"] + '</td>';
-                        str += ' <td></td>';
-                        str += '<td>' + item["Name"] + '</td>';
-                        str += '<td>' + item["status"] + '</td>';
-                        str += '<td>' + item["MakeTime"] + '</td>';
-                        str += " </tr>";
+                        } else {
+                            str += '<tr style="cursor: pointer;"  ondblclick=GetDemID(' + item["Id"] + ');>';
+                            str += '<td><input type="checkbox" value="' + item["Id"] + '">' + item["DemandNname"] + '</td>';
+                            str += ' <td>' + item["Priority"] + '</td>';
+                            str += ' <td></td>';
+                            str += '<td>' + item["Name"] + '</td>';
+                            str += '<td>' + item["status"] + '</td>';
+                            str += '<td>' + item["MakeTime"] + '</td>';
+                            str += " </tr>";
                         }
 
                     });
@@ -1551,7 +1615,7 @@
             });
         }
         //#endregion
-        
+
         //#region  只看产品页面查询产品
         //function JustlookProducts() {
         //    $.ajax({
@@ -1606,10 +1670,10 @@
         //    });
         //}
         ////#endregion
-        
+
         //#region  已完成的页面
         function CarryOutProducts() {
-             $("#arrows").show();
+            $("#arrows").show();
             $("#listcontrol").hide();
             $.ajax({
                 type: "GET",
@@ -1706,6 +1770,7 @@
                     },
                     success: function (dataBack) {
                         if (dataBack.result == 1) {
+                            QueryProducts();
                             layer.msg(dataBack.message, { icon: 1 });
                         }
                     },
@@ -1718,17 +1783,13 @@
                 layer.msg("请选择删除的需求！", { icon: 3 });
                 return false;
             }
-
-            QueryProducts();
-            SelectDemand(ID);
-            DraftSelectProducts();
         }
         //#endregion
 
         //#region  垃圾箱查询产品
         function DeleteQueryProducts() {
-            $("#arrows").show();
             $("#listcontrol").hide();
+            $("#arrows").show();
             $.ajax({
                 type: "GET",
                 url: '/deletequeryselectproducts',
@@ -1825,6 +1886,7 @@
                     },
                     success: function (dataBack) {
                         if (dataBack.result == 1) {
+                            DeleteQueryProducts();
                             layer.msg(dataBack.message, { icon: 1 });
                         }
                     },
@@ -1837,7 +1899,7 @@
             if (huo == 0) {
                 layer.msg("请选择还原的需求！", { icon: 3 });
             }
-            DeleteQueryProducts();
+
         }
         //#endregion
 
@@ -1854,6 +1916,7 @@
                     },
                     success: function (dataBack) {
                         if (dataBack.result == 1) {
+                            DeleteQueryProducts();
                             layer.msg(dataBack.message, { icon: 1 });
                         }
                     },
@@ -1865,7 +1928,7 @@
             if (sum == 0) {
                 layer.msg("请选择删除的需求！", { icon: 3 });
             }
-            DeleteQueryProducts();
+
         }
         //#endregion
 
@@ -1883,6 +1946,7 @@
                     },
                     success: function (dataBack) {
                         if (dataBack.result == 1) {
+                            QueryProducts();
                             layer.msg(dataBack.message, { icon: 1 });
                         }
                     },
@@ -1894,14 +1958,13 @@
             if (reviewid == 0) {
                 layer.msg("请选择需审核的需求！", { icon: 3 });
             }
-            QueryProducts();
         }
         //#endregion
 
         //#region  草稿箱查询产品
         function DraftSelectProducts() {
-            $("#arrows").show();
             $("#listcontrol").hide();
+            $("#arrows").show();
             $.ajax({
                 type: "GET",
                 url: '/draftselectproducts',
@@ -1983,6 +2046,7 @@
                 },
                 success: function (dataBack) {
                     if (dataBack.result == 1) {
+                        LoadMessage(1);
                         layer.msg(dataBack.message, { icon: 1 });
                         $("#myModal").modal('hide');
                     }
@@ -1993,7 +2057,7 @@
             });
         }
         //#endregion
-        
+
         var digital = 0;
         //#region  删除需求信息
         function DeleteRequestFormProducts() {
@@ -2008,6 +2072,7 @@
                     success: function (dataBack) {
                         if (dataBack.result == 1) {
                             DeleteRequestForm(digital);
+                            LoadMessage(1);
                             layer.msg(dataBack.message, { icon: 1 });
                         }
                     },
@@ -2019,7 +2084,7 @@
             if (digital == 0) {
                 layer.msg("请选择删除的需求！", { icon: 3 });
             }
-            LoadMessage(1);
+
         }
         //#endregion
 
@@ -2033,7 +2098,7 @@
                 },
                 success: function (dataBack) {
                     if (dataBack.result == 1) {
-                        layer.msg(dataBack.message, { icon: 1 });
+                        //layer.msg(dataBack.message, { icon: 1 });
                     }
                 },
                 error: function (error) {
