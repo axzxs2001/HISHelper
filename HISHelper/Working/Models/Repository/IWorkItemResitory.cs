@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Working.Models.DataModel;
 
-namespace Asp.NetCore_WebPage.Model.Repository
+namespace Working.Model.Repository
 {
     /// <summary>
     /// 活动管理仓储接口

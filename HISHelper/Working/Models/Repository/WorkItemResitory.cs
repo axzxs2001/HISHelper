@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Working.Models.DataModel;
 
-namespace Asp.NetCore_WebPage.Model.Repository
+namespace Working.Model.Repository
 {
     /// <summary>
     /// 活动仓储类
     /// </summary>
-    public class WorkItemResitory : WorkItemResitory
+    public class WorkItemResitory : IWorkItemResitory
     {
         /// <summary>
         /// 数据库对象
