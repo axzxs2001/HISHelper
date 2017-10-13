@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Working.Models.DataModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace Working
 {
@@ -18,13 +20,17 @@ namespace Working
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+  
         public void ConfigureServices(IServiceCollection services)
-        {
+        {  
+            //添加数据操作
+            var connection = string.Format(Configuration.GetConnectionString("DefaultConnection"), System.IO.Directory.GetCurrentDirectory());
+            Console.WriteLine($"Connecting{connection}");
+            //添加数据实体
+            services.AddDbContext<WorkingDbContext>(options => options.UseSqlite(connection));
             services.AddMvc();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())

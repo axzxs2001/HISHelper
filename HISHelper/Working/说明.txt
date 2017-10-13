@@ -1,0 +1,2 @@
+﻿1、创建完数据层实体类后调用：Add-Migration InitialCreate，创建数据库生成代码
+2、调用Update-Database，来生成sqlite数据库
