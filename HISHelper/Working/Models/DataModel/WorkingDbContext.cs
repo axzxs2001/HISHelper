@@ -14,7 +14,7 @@ namespace Working.Models.DataModel
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<WorkItem> WorkItem { get; set; }
+        public DbSet<WorkItem> WorkItems { get; set; }
 
      
 
