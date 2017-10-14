@@ -131,7 +131,15 @@ namespace Working.Controllers
                     month = DateTime.Now.Month;
                 }
                 var workItems = _workItemResitory.GetWorkItemsByUserID(UserID,year.Value,month.Value);
-                return Json(new { result = 1, message = "查询成功", data = workItems }, new JsonSerializerSettings());
+                return Json(new {
+                    result = 1,
+                    message = "查询成功",
+                    data = workItems
+                }, new JsonSerializerSettings()                   
+                {
+                    DateFormatString = "yyyy年MM月dd日",
+                    ContractResolver = new LowercaseContractResolver()
+                });
             }
             catch (Exception exc)
             {

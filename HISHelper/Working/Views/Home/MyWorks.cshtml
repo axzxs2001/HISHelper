@@ -5,17 +5,17 @@
 <h2>我的工作记录</h2>
 <div class="row">
     <div class="col-md-3">
-        <select id="yearselect" class="form-control">
+        <select id="yearselect" class="form-control" v-model="selected" v-on:change="ChangeYear">
             <option v-for="item in items" v-bind:value="item.value">{{item.year}}</option>
         </select>
     </div>
     <div class="col-md-3">
-        <select id="monthselect" class="form-control">
+        <select id="monthselect" class="form-control" v-model="selected" v-on:change="ChangeMonth">
             <option v-for="item in items" v-bind:value="item.value">{{item.month}}</option>
         </select>
     </div>
     <div class="col-md-6">
-        <button class="btn btn-primary">添加记录</button>
+        <button class="btn btn-success">添加记录</button>
     </div>
 </div>
 <div class="row">
@@ -23,49 +23,137 @@
         <thead>
             <tr>
                 <th>日期</th>
-                
+                <th>工作记录</th>
+                <th>备注</th>
             </tr>
         </thead>
+        <tbody id="workitemtr">
+         
+        </tbody>
     </table>
 </div>
 @section Scripts{
+    <script type="text/x-template" id="mywork-tr">
+        <tr>
+            <td>{{workitem.recorddate}}</td>
+            <td>{{workitem.workcontent}}</td>
+            <td>{{workitem.memos}}</td>
+            <td>
+                <button class="btn btn-primary btn-xs" v-on:click="modifyWork">修改</button>&nbsp;
+                <button class="btn btn-danger btn-xs" v-on:click="deleteWork">删除</button>
+            </td>
+        </tr>
+    </script>
     <script>
-        new Vue({
-            el: '#yearselect',
-            data: {
-                items: [
-                    { year: '2017年', value:'2017' },
-                    { year: '2018年', value:'2018' },
-                    { year: '2019年', value:'2019' },
-                    { year: '2020年', value:'2020' },
-                    { year: '2021年', value:'2021' },
-                    { year: '2022年', value:'2022' },
-                    { year: '2023年', value:'2023' },
-                    { year: '2024年', value:'2024' },
-                    { year: '2025年', value:'2025' },
-                    { year: '2026年', value:'2026' },
-                    { year: '2027年', value:'2027' }
-                ]
+
+
+        var yearVue, monthVue;
+        //加载年
+        function LoadYear(year) {
+            yearVue = new Vue({
+                el: '#yearselect',
+                data: {
+                    selected: year,
+                    items: [
+                        { year: '2017年', value: '2017' },
+                        { year: '2018年', value: '2018' },
+                        { year: '2019年', value: '2019' },
+                        { year: '2020年', value: '2020' },
+                        { year: '2021年', value: '2021' },
+                        { year: '2022年', value: '2022' },
+                        { year: '2023年', value: '2023' },
+                        { year: '2024年', value: '2024' },
+                        { year: '2025年', value: '2025' },
+                        { year: '2026年', value: '2026' },
+                        { year: '2027年', value: '2027' }
+                    ]
+                },
+                methods: {
+                    ChangeYear: function () {
+                        console.log(this.selected);
+                        QueryWorkItems(this.selected, monthVue.selected)
+                    }
+                }
+            })
+        }
+        //加载月
+        function LoadMonth(month) {
+            monthVue = new Vue({
+                el: '#monthselect',
+                data: {
+                    selected: month,
+                    items: [
+                        { month: '01月', value: '01' },
+                        { month: '02月', value: '02' },
+                        { month: '03月', value: '03' },
+                        { month: '04月', value: '04' },
+                        { month: '05月', value: '05' },
+                        { month: '06月', value: '06' },
+                        { month: '07月', value: '07' },
+                        { month: '08月', value: '08' },
+                        { month: '09月', value: '09' },
+                        { month: '10月', value: '10' },
+                        { month: '11月', value: '11' },
+                        { month: '12月', value: '12' }
+                    ]
+                },
+                methods: {
+                    ChangeMonth: function () {
+                        console.log(this.selected);
+                        QueryWorkItems(yearVue.selected, this.selected)
+                    }
+                }
+            })
+        }
+        //工作记录组件
+        Vue.component("mywork-row", {
+            props: ["workitem"],
+            template: '#mywork-tr',
+            methods: {
+                deleteWork: function () {
+                    window.location.href = "/removeworkitem/" + this.workitem.id;
+                },
+                modifyWork: function () {
+                    window.location.href = "/modifyworkitem/" + this.workitem.id;
+                }
             }
         })
-        new Vue({
-            el: '#monthselect',
-            data: {
-                items: [
-                    { month: '01月', value:'01' },
-                    { month: '02月', value:'02' },
-                    { month: '03月', value:'03' },
-                    { month: '04月', value:'04' },
-                    { month: '05月', value:'05' },
-                    { month: '06月', value:'06' },
-                    { month: '07月', value:'07' },
-                    { month: '08月', value:'08' },
-                    { month: '09月', value:'09' },
-                    { month: '10月', value:'10' },
-                    { month: '11月', value:'11' },
-                    { month: '12月', value:'12' }
-                ]
-            }
+        $(function () {
+            var today = new Date();
+            var year = today.getFullYear();
+            var month = today.getMonth() + 1;
+            LoadYear(year);
+            LoadMonth(month);
+            QueryWorkItems(year, month);
         })
+
+
+        function QueryWorkItems(year, month) {
+            $("#workitemtr").html('<tr is="mywork-row" v-for="workitem in workitems" v-bind:workitem="workitem"></tr>');
+            $.ajax({
+                type: 'GET',
+                url: '/monthworks',
+                data: {
+                    year: year,
+                    month: month
+                },
+                success: function (dataBack) {
+                    if (dataBack.result == 1) {
+
+                        new Vue({
+                            el: "#workitemtr",
+                            data: {
+                                workitems: dataBack.data
+                            },
+                            methods: {
+                            }
+                        });
+                    }
+                },
+                error: function (error) {
+                    alert(error.statusText);
+                }
+            })
+        }
     </script>
 }

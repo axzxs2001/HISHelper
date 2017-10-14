@@ -60,18 +60,5 @@ namespace Working
         }
     }
 
-    //public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<WorkingDbContext>
-    //{
-    //    public WorkingDbContext CreateDbContext(string[] args)
-    //    {
-    //        IConfigurationRoot configuration = new ConfigurationBuilder()
-    //            .SetBasePath(Directory.GetCurrentDirectory())
-    //            .AddJsonFile("appsettings.json")
-    //            .Build();
-    //        var builder = new DbContextOptionsBuilder<WorkingDbContext>();
-    //        var connectionString = configuration.GetConnectionString("DefaultConnection");
-    //        builder.UseSqlite(connectionString);
-    //        return new WorkingDbContext(builder.Options);
-    //    }
-    //}
+ 
 }
