@@ -45,8 +45,6 @@
         </tr>
     </script>
     <script>
-
-
         var yearVue, monthVue;
         //加载年
         function LoadYear(year) {
@@ -69,8 +67,7 @@
                     ]
                 },
                 methods: {
-                    ChangeYear: function () {
-                        console.log(this.selected);
+                    ChangeYear: function () {                    
                         QueryWorkItems(this.selected, monthVue.selected)
                     }
                 }
@@ -98,8 +95,7 @@
                     ]
                 },
                 methods: {
-                    ChangeMonth: function () {
-                        console.log(this.selected);
+                    ChangeMonth: function () {                     
                         QueryWorkItems(yearVue.selected, this.selected)
                     }
                 }
@@ -139,7 +135,7 @@
                 },
                 success: function (dataBack) {
                     if (dataBack.result == 1) {
-
+                        console.log(dataBack.message);
                         new Vue({
                             el: "#workitemtr",
                             data: {
