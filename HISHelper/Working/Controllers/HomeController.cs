@@ -113,16 +113,29 @@ namespace Working.Controllers
 
         #endregion
         [HttpGet("myworks")]
-        public IActionResult MyWorks()
+        public IActionResult MyWorks( )
+        {
+            return View();
+        }
+        [HttpGet("monthworks")]
+        public IActionResult GetWorksByMonth(int? year,int? month)
         {
             try
             {
-                var workItems = _workItemResitory.GetAWorkItemsByUserID(UserID);
+                if(!year.HasValue)
+                {
+                    year = DateTime.Now.Year;
+                }
+                if(!month.HasValue)
+                {
+                    month = DateTime.Now.Month;
+                }
+                var workItems = _workItemResitory.GetWorkItemsByUserID(UserID,year.Value,month.Value);
                 return Json(new { result = 1, message = "查询成功", data = workItems }, new JsonSerializerSettings());
             }
             catch (Exception exc)
             {
-                return Json(new { result = 0, message = $"查询失败:{exc.Message}"}, new JsonSerializerSettings());
+                return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
         [HttpPost("addwork")]

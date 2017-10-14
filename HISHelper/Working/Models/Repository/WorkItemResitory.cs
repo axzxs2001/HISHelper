@@ -43,15 +43,28 @@ namespace Working.Model.Repository
             return _dbContext.WorkItems.SingleOrDefault(s => s.ID == id);
         }
         /// <summary>
-        /// 按用户ID获取活动
+        /// 按用户ID获取实体
         /// </summary>
         /// <param name="userID">用户ID</param>
         /// <returns></returns>
-        public List<WorkItem> GetAWorkItemsByUserID(int userID)
+        public List<WorkItem> GetWorkItemsByUserID(int userID)
         {
             return _dbContext.WorkItems.Where(w => w.CreateUserID == userID).OrderByDescending(o => o.CreateTime).ToList();
         }
+        /// <summary>
+        /// 按用户，年，月获取用户工作记录
+        /// </summary>
+        /// <param name="userID">用户ID</param>
+        /// <param name="year">年</param>
+        /// <param name="month">月</param>
+        /// <returns></returns>
+        public List<WorkItem> GetWorkItemsByUserID(int userID,int year,int month)
+        {
+            var beginTime = DateTime.Parse($"{year}-{month}-01 00:00:00");
+            var endTime = DateTime.Parse($"{year}-{month}-{DateTime.DaysInMonth(year,month)} 23:59:59");
 
+            return _dbContext.WorkItems.Where(w => w.CreateUserID == userID&&w.RecordDate>=beginTime&&w.RecordDate<= endTime).OrderByDescending(o => o.CreateTime).ToList();
+        }
         /// <summary>
         /// 修改实体
         /// </summary>
@@ -68,7 +81,8 @@ namespace Working.Model.Repository
             {
                 oldWorkItem.WorkContent = newWorkItem.WorkContent;
                 oldWorkItem.CreateUserID = newWorkItem.CreateUserID;
-                oldWorkItem.CreateTime = newWorkItem.CreateTime;
+                oldWorkItem.RecordDate = newWorkItem.RecordDate;
+                oldWorkItem.CreateTime = DateTime .Now;
                 var result = _dbContext.SaveChanges();
                 return result > 0;
             }

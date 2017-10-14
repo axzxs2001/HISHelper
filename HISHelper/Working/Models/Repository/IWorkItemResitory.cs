@@ -25,8 +25,15 @@ namespace Working.Model.Repository
         /// </summary>
         /// <param name="userID">用户ID</param>
         /// <returns></returns>
-        List<WorkItem> GetAWorkItemsByUserID(int userID);
-
+        List<WorkItem> GetWorkItemsByUserID(int userID);
+        /// <summary>
+        /// 按用户，年，月获取用户工作记录
+        /// </summary>
+        /// <param name="userID">用户ID</param>
+        /// <param name="year">年</param>
+        /// <param name="month">月</param>
+        /// <returns></returns>
+        List<WorkItem> GetWorkItemsByUserID(int userID, int year, int month);
         /// <summary>
         /// 修改实体
         /// </summary>

@@ -21,8 +21,20 @@ namespace Working.Models.DataModel
         /// </summary>
         public string WorkContent
         {
-            get;set;
+            get; set;
         }
+        /// <summary>
+        /// 工作日期
+        /// </summary>
+        public DateTime RecordDate
+        {
+            get; set;
+        }
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Memos
+        { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>

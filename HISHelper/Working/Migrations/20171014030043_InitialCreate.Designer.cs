@@ -11,7 +11,7 @@ using Working.Models.DataModel;
 namespace Working.Migrations
 {
     [DbContext(typeof(WorkingDbContext))]
-    [Migration("20171013004815_InitialCreate")]
+    [Migration("20171014030043_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,13 +45,17 @@ namespace Working.Migrations
 
                     b.Property<int>("CreateUserID");
 
+                    b.Property<string>("Memos");
+
+                    b.Property<DateTime>("RecordDate");
+
                     b.Property<string>("WorkContent");
 
                     b.HasKey("ID");
 
                     b.HasIndex("CreateUserID");
 
-                    b.ToTable("WorkItem");
+                    b.ToTable("WorkItems");
                 });
 
             modelBuilder.Entity("Working.Models.DataModel.WorkItem", b =>

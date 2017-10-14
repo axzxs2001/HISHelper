@@ -44,13 +44,17 @@ namespace Working.Migrations
 
                     b.Property<int>("CreateUserID");
 
+                    b.Property<string>("Memos");
+
+                    b.Property<DateTime>("RecordDate");
+
                     b.Property<string>("WorkContent");
 
                     b.HasKey("ID");
 
                     b.HasIndex("CreateUserID");
 
-                    b.ToTable("WorkItem");
+                    b.ToTable("WorkItems");
                 });
 
             modelBuilder.Entity("Working.Models.DataModel.WorkItem", b =>

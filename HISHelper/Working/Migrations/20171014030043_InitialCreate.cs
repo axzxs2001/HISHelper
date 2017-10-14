@@ -24,20 +24,22 @@ namespace Working.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "WorkItem",
+                name: "WorkItems",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     CreateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CreateUserID = table.Column<int>(type: "INTEGER", nullable: false),
+                    Memos = table.Column<string>(type: "TEXT", nullable: true),
+                    RecordDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     WorkContent = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkItem", x => x.ID);
+                    table.PrimaryKey("PK_WorkItems", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_WorkItem_Users_CreateUserID",
+                        name: "FK_WorkItems_Users_CreateUserID",
                         column: x => x.CreateUserID,
                         principalTable: "Users",
                         principalColumn: "ID",
@@ -45,15 +47,15 @@ namespace Working.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkItem_CreateUserID",
-                table: "WorkItem",
+                name: "IX_WorkItems_CreateUserID",
+                table: "WorkItems",
                 column: "CreateUserID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "WorkItem");
+                name: "WorkItems");
 
             migrationBuilder.DropTable(
                 name: "Users");
