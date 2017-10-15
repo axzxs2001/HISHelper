@@ -60,10 +60,27 @@ namespace Working.Model.Repository
         /// <returns></returns>
         public List<WorkItem> GetWorkItemsByUserID(int userID,int year,int month)
         {
+            var dayCount = DateTime.DaysInMonth(year, month);
             var beginTime = DateTime.Parse($"{year}-{month}-01 00:00:00");
-            var endTime = DateTime.Parse($"{year}-{month}-{DateTime.DaysInMonth(year,month)} 23:59:59");
+            var endTime = DateTime.Parse($"{year}-{month}-{dayCount} 23:59:59");
 
-            return _dbContext.WorkItems.Where(w => w.CreateUserID == userID&&w.RecordDate>=beginTime&&w.RecordDate<= endTime).OrderByDescending(o => o.CreateTime).ToList();
+            var workItems= _dbContext.WorkItems.Where(w => w.CreateUserID == userID&&w.RecordDate>=beginTime&&w.RecordDate<= endTime).OrderByDescending(o => o.CreateTime).OrderBy(o=>o.RecordDate).ToList();
+            //处理成一月全天
+            var newWorkItems = new List<WorkItem>();
+            for(int i=1;i<= dayCount;i++)
+            {
+                var oneBeiginTime= DateTime.Parse($"{year}-{month}-{i} 00:00:00");
+                var oneEndTime = DateTime.Parse($"{year}-{month}-{i} 23:59:59");
+                var oneDay = workItems.SingleOrDefault(s => s.RecordDate >= oneBeiginTime && s.RecordDate <= oneEndTime);
+                if (oneDay!=null)
+                {
+                    newWorkItems.Add(oneDay);
+                }else
+                {
+                    newWorkItems.Add(new WorkItem { RecordDate= oneBeiginTime });
+                }
+            }
+            return newWorkItems;
         }
         /// <summary>
         /// 修改实体
