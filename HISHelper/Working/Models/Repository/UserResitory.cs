@@ -18,7 +18,7 @@ namespace Working.Model.Repository
         WorkingDbContext _dbContext;
         public UserResitory(WorkingDbContext dbContext)
         {
-           _dbContext=dbContext;
+            _dbContext = dbContext;
         }
 
         /// <summary>
@@ -29,7 +29,25 @@ namespace Working.Model.Repository
         /// <returns></returns>
         public User Login(string userName, string password)
         {
-            return  _dbContext.Users.SingleOrDefault(s=>s.UserName==userName&&s.Password==password);
+            return _dbContext.Users.SingleOrDefault(s => s.UserName == userName && s.Password == password);
         }
+        /// <summary>
+        /// 获取本部门用户
+        /// </summary>
+        /// <param name="departmentID">部门编号</param>
+        /// <returns></returns>
+        public List<User> GetGetDepartmentUsers(int departmentID)
+        {
+            return _dbContext.Users.Where(s => s.DepartmentID == departmentID).OrderBy(o => o.ID).ToList(); 
+        }
+        /// <summary>
+        /// 按照ID获取用户
+        /// </summary>
+        /// <param name="userID">用户ID</param>
+        /// <returns></returns>
+        public User GetUser(int userID)
+        {
+            return _dbContext.Users.SingleOrDefault(s => s.ID == userID);
+        }    
     }
 }

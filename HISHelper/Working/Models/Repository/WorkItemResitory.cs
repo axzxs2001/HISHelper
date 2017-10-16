@@ -61,10 +61,10 @@ namespace Working.Model.Repository
         public List<WorkItem> GetWorkItemsByUserID(int userID,int year,int month)
         {
             var dayCount = DateTime.DaysInMonth(year, month);
-            var beginTime = DateTime.Parse($"{year}-{month}-01 00:00:00");
-            var endTime = DateTime.Parse($"{year}-{month}-{dayCount} 23:59:59");
+            var beginTime = DateTime.Parse($"{year}-{month}-01 00:00:00").AddSeconds(-1);
+            var endTime = DateTime.Parse($"{year}-{month}-{dayCount} 23:59:59").AddSeconds(1);
 
-            var workItems= _dbContext.WorkItems.Where(w => w.CreateUserID == userID&&w.RecordDate>=beginTime&&w.RecordDate<= endTime).OrderByDescending(o => o.CreateTime).OrderBy(o=>o.RecordDate).ToList();
+            var workItems= _dbContext.WorkItems.Where(w => w.CreateUserID == userID&&w.RecordDate>beginTime&&w.RecordDate<endTime).OrderByDescending(o => o.CreateTime).OrderBy(o=>o.RecordDate).ToList();
             //处理成一月全天
             var newWorkItems = new List<WorkItem>();
             for(int i=1;i<= dayCount;i++)
@@ -99,6 +99,7 @@ namespace Working.Model.Repository
                 oldWorkItem.WorkContent = newWorkItem.WorkContent;
                 oldWorkItem.CreateUserID = newWorkItem.CreateUserID;
                 oldWorkItem.RecordDate = newWorkItem.RecordDate;
+                oldWorkItem.Memos = newWorkItem.Memos;
                 oldWorkItem.CreateTime = DateTime .Now;
                 var result = _dbContext.SaveChanges();
                 return result > 0;

@@ -19,10 +19,26 @@ namespace Working.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.0-rtm-26452");
 
+            modelBuilder.Entity("Working.Models.DataModel.Department", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("DepartMentName");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Departments");
+                });
+
             modelBuilder.Entity("Working.Models.DataModel.User", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("DepartmentID");
+
+                    b.Property<bool>("IsDeparmentLeader");
 
                     b.Property<string>("Name");
 
@@ -31,6 +47,8 @@ namespace Working.Migrations
                     b.Property<string>("UserName");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("DepartmentID");
 
                     b.ToTable("Users");
                 });
@@ -55,6 +73,14 @@ namespace Working.Migrations
                     b.HasIndex("CreateUserID");
 
                     b.ToTable("WorkItems");
+                });
+
+            modelBuilder.Entity("Working.Models.DataModel.User", b =>
+                {
+                    b.HasOne("Working.Models.DataModel.Department", "Department")
+                        .WithMany("Users")
+                        .HasForeignKey("DepartmentID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Working.Models.DataModel.WorkItem", b =>

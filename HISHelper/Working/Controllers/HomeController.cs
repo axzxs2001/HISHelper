@@ -113,29 +113,30 @@ namespace Working.Controllers
 
         #endregion
         [HttpGet("myworks")]
-        public IActionResult MyWorks( )
+        public IActionResult MyWorks()
         {
             return View();
         }
         [HttpGet("monthworks")]
-        public IActionResult GetWorksByMonth(int? year,int? month)
+        public IActionResult GetWorksByMonth(int? year, int? month)
         {
             try
             {
-                if(!year.HasValue)
+                if (!year.HasValue)
                 {
                     year = DateTime.Now.Year;
                 }
-                if(!month.HasValue)
+                if (!month.HasValue)
                 {
                     month = DateTime.Now.Month;
                 }
-                var workItems = _workItemResitory.GetWorkItemsByUserID(UserID,year.Value,month.Value);
-                return Json(new {
+                var workItems = _workItemResitory.GetWorkItemsByUserID(UserID, year.Value, month.Value);
+                return Json(new
+                {
                     result = 1,
                     message = "查询成功",
                     data = workItems
-                }, new JsonSerializerSettings()                   
+                }, new JsonSerializerSettings()
                 {
                     DateFormatString = "yyyy年MM月dd日",
                     ContractResolver = new LowercaseContractResolver()
@@ -151,13 +152,99 @@ namespace Working.Controllers
         {
             try
             {
-                var result = _workItemResitory.AddWorkItem(workItem);
-                return Json(new { result = 1, message = "查询成功", data = result }, new JsonSerializerSettings());
+                if (workItem.ID == 0)
+                {
+                    workItem.CreateTime = DateTime.Now;
+                    workItem.CreateUserID = UserID;
+                    var result = _workItemResitory.AddWorkItem(workItem);
+                    return Json(new { result = 1, message = "编辑成功", data = result }, new JsonSerializerSettings());
+
+                }
+                else
+                {
+
+                    var result = _workItemResitory.ModifyWorkItem(workItem);
+                    return Json(new { result = 1, message = "编辑成功", data = result });
+                }
+            }
+            catch (Exception exc)
+            {
+                return Json(new { result = 0, message = $"编辑失败:{exc.Message}" }, new JsonSerializerSettings());
+            }
+        }
+        [HttpGet("queryworks")]
+        public IActionResult QueryWorks()
+        {
+
+            return View();
+        }
+        /// <summary>
+        /// 查询部门用户
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("getdepartmentusers")]
+        public IActionResult DepartmentUsers()
+        {
+            try
+            {
+                var user = _userResitory.GetUser(UserID);
+                if (user != null)
+                {
+                    if (user.IsDeparmentLeader)
+                    {
+                        var users = _userResitory.GetGetDepartmentUsers(user.DepartmentID);
+                        return Json(new { result = 1, data = users, message = $"查询成功！" }, new JsonSerializerSettings()
+                        {
+                            DateFormatString = "yyyy年MM月dd日",
+                            ContractResolver = new LowercaseContractResolver()
+                        });
+                    }
+                    else
+                    {
+                        return Json(new { result = 0, message = $"你不是当前部分的负责人，没有权限查询其他人工作记录！" }, new JsonSerializerSettings());
+                    }
+                }else
+                {
+                    return Json(new { result = 0, message = $"查询失败:按{UserID}查询不到用户" }, new JsonSerializerSettings());
+                }
             }
             catch (Exception exc)
             {
                 return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
-            }          
+            }
+        }
+
+
+
+        [HttpGet("queryuserworks")]
+        public IActionResult QueryUserWorks(int? year, int? month, int userID = 0)
+        {
+            try
+            {
+                if (!year.HasValue)
+                {
+                    year = DateTime.Now.Year;
+                }
+                if (!month.HasValue)
+                {
+                    month = DateTime.Now.Month;
+                }
+                var workItems = _workItemResitory.GetWorkItemsByUserID(userID, year.Value, month.Value);
+                return Json(new
+                {
+                    result = 1,
+                    message = "查询成功",
+                    data = workItems
+                }, new JsonSerializerSettings()
+                {
+                    DateFormatString = "yyyy年MM月dd日",
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
+            }
         }
     }
 }

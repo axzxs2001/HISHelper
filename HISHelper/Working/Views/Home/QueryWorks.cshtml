@@ -2,9 +2,13 @@
 @{
     ViewData["Title"] = "我的工作记录";
 }
-<h2>查询工作记录</h2>
+<h2>我的工作记录</h2>
 <div class="row">
-
+    <div class="col-md-3">
+        <select id="userselect" class="form-control" v-model="selected" v-on:change="ChangeUser">
+            <option v-for="item in items" v-bind:value="item.id">{{item.name}}</option>
+        </select>
+    </div>
     <div class="col-md-3">
         <select id="yearselect" class="form-control" v-model="selected" v-on:change="ChangeYear">
             <option v-for="item in items" v-bind:value="item.value">{{item.year}}</option>
@@ -15,8 +19,8 @@
             <option v-for="item in items" v-bind:value="item.value">{{item.month}}</option>
         </select>
     </div>
-    <div class="col-md-6">
-      
+    <div class="col-md-3">
+
     </div>
 </div>
 <hr style="border-color:#cccccc;" />
@@ -27,48 +31,13 @@
                 <th style="width:125px;">日期</th>
                 <th>工作记录</th>
                 <th>备注</th>
-                <th style="width:50px">操作</th>
+                <th style="width:125px">创建日期</th>
             </tr>
         </thead>
         <tbody id="workitemtr"></tbody>
     </table>
 </div>
 
-<!--编辑工作记录弹出框-->
-<div class="modal fade" id="editworkitem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content" id="newworkitem">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title" id="myMod">
-                    编号工作记录
-                </h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <textarea rows="6" class="form-control" placeholder="工作记录内容" v-model="workitem.workcontent"></textarea>
-                    </div>
-                </div>
-                <div class="row" style="margin-top:5px;">
-                    <div class="col-md-12">
-                        <textarea rows="4" class="form-control" placeholder="备注" v-model="workitem.memos"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" v-on:click="savaWorkItem">
-                    保存
-                </button>
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">
-                    取消
-                </button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
 @section Scripts{
     <!--tr模版-->
     <script type="text/x-template" id="mywork-tr">
@@ -76,15 +45,13 @@
             <td>{{workitem.recorddate}}</td>
             <td>{{workitem.workcontent}}</td>
             <td>{{workitem.memos}}</td>
-            <td>
-                <button class="btn btn-primary btn-xs" v-on:click="editWorkItem">编辑</button>
-            </td>
+            <td>{{workitem.createtime}}</td>
         </tr>
     </script>
 
     <script>
         //年和月的Vue
-        var yearVue, monthVue, editVue = null;
+        var yearVue, monthVue, userVue = null;
         //加载年下拉列表
         function LoadYear(year) {
             yearVue = new Vue({
@@ -140,7 +107,48 @@
                 }
             })
         }
+        //加载用户
+        function LoadUser() {
+            $.ajax({
+                method: "GET",
+                url: 'getdepartmentusers',
+                data: {
+                },
+                success: function (backData) {
+                    if (backData.result == 1) {
+                        if (userVue == null) {
 
+                            userVue = new Vue({
+                                el: '#userselect',
+                                data: {
+                                    selected: (backData.data.length > 0? backData.data[0].id:0),
+                                    items: backData.data
+                                },
+                                methods: {
+                                    ChangeUser: function () {
+                                        QueryWorkItems(yearVue.selected, monthVue.selected, this.selected)
+                                    }
+                                }
+                            })
+
+                            //加载完用户后查询
+                            QueryWorkItems(yearVue.selected, monthVue.selected, userVue.selected)
+                        }
+                        else {
+                            if (backData.data.length > 0) {
+                                userVue.selected = backData.data[0]
+                            }
+                            userVue.items = backData.data;
+                        }
+                    } else {
+                        alert(backData.message);
+                    }
+                },
+                error: function (error) {
+                    alert(error.statusText)
+                }
+            })
+        }
         //工作记录组件
         Vue.component("mywork-row", {
             props: ["workitem"],
@@ -151,50 +159,7 @@
                 }
             }
         })
-        //绑定新工作记录编辑
-        function WorkItemEdite(workitem) {
-            console.log(editVue)
-            if (editVue == null) {
-                editVue = new Vue({
-                    el: "#newworkitem",
-                    data: {
-                        workitem: workitem
-                    },
-                    methods: {
-                        savaWorkItem: function () {
-                            console.log(workitem)
-                            $.ajax({
-                                method: "POST",
-                                url: 'addwork',
-                                data: {
-                                    workItem:workitem
 
-                                },
-                                success: function (backData) {
-                                    if (backData.result === 1) {
-                                        alert("添加成功！")
-
-                                    } else {
-                                        alert(backData.message)
-
-                                    }
-
-                                },
-                                error: function (error) {
-                                    alert(error.statusText)
-
-                                }
-                            })
-                        }
-                    }
-                });
-            }
-            else {
-                editVue.workitem =workitem;
-            }
-            $("#editworkitem").modal('show');
-        }
-      
         //初始化
         $(function () {
             //获取当前年和月
@@ -205,16 +170,20 @@
             LoadYear(year);
             //加载月下拉列表
             LoadMonth(month);
-            QueryWorkItems(year, month);
+            //加载用户
+            LoadUser();
+
+
         })
 
         //按年月查询工作记录
-        function QueryWorkItems(year, month) {
+        function QueryWorkItems(year, month,userid) {
             $("#workitemtr").html('<tr is="mywork-row" v-for="workitem in workitems" v-bind:workitem="workitem"></tr>');
             $.ajax({
                 type: 'GET',
-                url: '/monthworks',
+                url: '/queryuserworks',
                 data: {
+                    userid: userid,
                     year: year,
                     month: month
                 },

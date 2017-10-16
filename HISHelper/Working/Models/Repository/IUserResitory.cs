@@ -11,6 +11,26 @@ namespace Working.Model.Repository
     /// </summary>
     public interface IUserResitory
     {
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="userName">用户名</param>
+        /// <param name="password">密码</param>
+        /// <returns></returns>
         User Login(string userName, string password);
+
+        /// <summary>
+        /// 获取本部门用户
+        /// </summary>
+        /// <param name="departmentID">部门编号</param>
+        /// <returns></returns>
+        List<User> GetGetDepartmentUsers(int departmentID);
+
+        /// <summary>
+        /// 按照ID获取用户
+        /// </summary>
+        /// <param name="userID">用户ID</param>
+        /// <returns></returns>
+        User GetUser(int userID);
     }
 }

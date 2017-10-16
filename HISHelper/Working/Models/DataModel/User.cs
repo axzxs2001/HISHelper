@@ -38,6 +38,21 @@ namespace Working.Models.DataModel
         { get; set; }
 
         /// <summary>
+        /// 是否部门负责人
+        /// </summary>
+        public bool IsDeparmentLeader
+        { get; set; }
+        /// <summary>
+        /// 部门编号
+        /// </summary>
+        public int DepartmentID
+        { get; set; }
+        /// <summary>
+        /// 所属部门
+        /// </summary>
+        public Department Department
+        { get; set; }
+        /// <summary>
         /// 活动集合
         /// </summary>
 
