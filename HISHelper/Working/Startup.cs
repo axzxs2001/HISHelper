@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Working.Model.Repository;
 using Microsoft.EntityFrameworkCore.Design;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace Working
 {
@@ -31,9 +32,25 @@ namespace Working
             //添加数据实体
             services.AddDbContext<WorkingDbContext>(options => options.UseSqlite(connection));
 
-
             services.AddTransient<IUserResitory, UserResitory>();
             services.AddTransient<IWorkItemResitory, WorkItemResitory>();
+
+
+            //注入验证 2.0
+            services.AddAuthentication(options =>
+            {
+                options.DefaultChallengeScheme = "loginvalidate";
+                options.DefaultSignInScheme = "loginvalidate";
+                options.DefaultAuthenticateScheme = "loginvalidate";
+            })
+            .AddCookie("loginvalidate", m =>
+            {
+                m.LoginPath = new PathString("/login");
+                m.AccessDeniedPath = new PathString("/home/error");
+                m.LogoutPath = new PathString("/logout");
+                m.Cookie.Path = "/";
+            });
+
             services.AddMvc();
         }
 
@@ -48,9 +65,8 @@ namespace Working
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
             app.UseStaticFiles();
-
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

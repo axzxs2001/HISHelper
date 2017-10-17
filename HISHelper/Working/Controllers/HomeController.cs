@@ -14,6 +14,7 @@ using Working.Models.DataModel;
 
 namespace Working.Controllers
 {
+  
     public class HomeController : BaseController
     {
         /// <summary>
@@ -34,89 +35,28 @@ namespace Working.Controllers
             _workItemResitory = workItemResitory;
             _userResitory = userResitory;
         }
+        [Authorize(Roles = "user")]
         public IActionResult Index()
         {
             return View();
         }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
+        [AllowAnonymous]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        #region 登录页
-        /// <summary>
-        /// 登录页
-        /// </summary>
-        /// <param name="returnUrl"></param>
-        /// <returns></returns> 
-        [AllowAnonymous]
-        [Route("login")]
-        public IActionResult Login(string returnUrl)
-        {
-            //判断是否验证
-            if (!HttpContext.User.Identity.IsAuthenticated)
-            {
-                //把返回地址保存在前台的hide表单中
-                ViewBag.returnUrl = returnUrl;
-            }
-            ViewBag.error = null;
-            HttpContext.SignOutAsync("loginvalidate");
-            return View();
-        }
-        /// <summary>
-        /// 实现登录
-        /// </summary>
-        /// <param name="fname"></param>
-        /// <param name="password"></param>
-        /// <param name="returnUrl"></param>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [HttpPost("login")]
-        public IActionResult Login(string userName, string password, string returnUrl)
-        {
-            //查询users
-            var user = _userResitory.Login(userName, password);
-            if (user != null)
-            {
-                var claims = new Claim[]
-                {
-                    new Claim(ClaimTypes.UserData,user.UserName),
-                    new Claim(ClaimTypes.Role,"admin"),
-                    new Claim(ClaimTypes.Name,user.Name),
-                    new Claim(ClaimTypes.Sid,user.ID.ToString())
-                 };
-                HttpContext.SignOutAsync("loginvalidate");
-                HttpContext.SignInAsync("loginvalidate", new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookie")));
-                HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
-                return new RedirectResult(returnUrl == null ? "/myactives" : returnUrl);
-            }
-            else
-            {
-                ViewBag.error = "用户名或密码错误！";
-                return View();
-            }
-        }
-
-        #endregion
+        #region 工作记录操作
         [HttpGet("myworks")]
         public IActionResult MyWorks()
         {
             return View();
         }
+        /// <summary>
+        /// 按年，月查询自己的工作记录
+        /// </summary>
+        /// <param name="year">年</param>
+        /// <param name="month">月</param>
+        /// <returns></returns>
         [HttpGet("monthworks")]
         public IActionResult GetWorksByMonth(int? year, int? month)
         {
@@ -203,7 +143,8 @@ namespace Working.Controllers
                     {
                         return Json(new { result = 0, message = $"你不是当前部分的负责人，没有权限查询其他人工作记录！" }, new JsonSerializerSettings());
                     }
-                }else
+                }
+                else
                 {
                     return Json(new { result = 0, message = $"查询失败:按{UserID}查询不到用户" }, new JsonSerializerSettings());
                 }
@@ -212,10 +153,14 @@ namespace Working.Controllers
             {
                 return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
             }
-        }
-
-
-
+        }     
+        /// <summary>
+        /// 按年，月，用户查询工作记录
+        /// </summary>
+        /// <param name="year">年</param>
+        /// <param name="month">月</param>
+        /// <param name="userID">用户</param>
+        /// <returns></returns>
         [HttpGet("queryuserworks")]
         public IActionResult QueryUserWorks(int? year, int? month, int userID = 0)
         {
@@ -246,5 +191,72 @@ namespace Working.Controllers
                 return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
+        #endregion
+
+        #region 登录页
+        /// <summary>
+        /// 登录页
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns> 
+        [AllowAnonymous]
+        [HttpGet("login")]
+        public IActionResult Login(string returnUrl)
+        {
+            //判断是否验证
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                //把返回地址保存在前台的hide表单中
+                ViewBag.returnUrl = returnUrl;
+            }
+            ViewBag.error = null;
+            HttpContext.SignOutAsync("loginvalidate");
+            return View();
+        }
+        /// <summary>
+        /// 实现登录
+        /// </summary>
+        /// <param name="fname"></param>
+        /// <param name="password"></param>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public IActionResult Login(string userName, string password, string returnUrl)
+        {
+            //查询users
+            var user = _userResitory.Login(userName, password);
+            if (user != null)
+            {
+                var claims = new Claim[]
+                {
+                    new Claim(ClaimTypes.UserData,user.UserName),
+                    new Claim(ClaimTypes.Role,"user"),
+                    new Claim(ClaimTypes.Name,user.Name),
+                    new Claim(ClaimTypes.PrimarySid,user.ID.ToString())
+                 };
+                HttpContext.SignOutAsync("loginvalidate");
+                HttpContext.SignInAsync("loginvalidate", new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookie")));
+                HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
+                return new RedirectResult(returnUrl == null ? "/myworks" : returnUrl);
+            }
+            else
+            {
+                ViewBag.error = "用户名或密码错误！";
+                return View();
+            }
+        }
+        /// <summary>
+        /// 登出
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync("loginvalidate");
+            return RedirectToAction("Index", "Home");
+        }
+
+        #endregion
     }
 }
