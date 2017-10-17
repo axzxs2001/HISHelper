@@ -16,7 +16,7 @@
         </select>
     </div>
     <div class="col-md-6">
-      
+
     </div>
 </div>
 <hr style="border-color:#cccccc;" />
@@ -72,12 +72,12 @@
 @section Scripts{
     <!--tr模版-->
     <script type="text/x-template" id="mywork-tr">
-        <tr>
+        <tr v-bind:id="workitem.recorddate">
             <td>{{workitem.recorddate}}</td>
             <td>{{workitem.workcontent}}</td>
             <td>{{workitem.memos}}</td>
             <td>
-                <button class="btn btn-primary btn-xs" v-on:click="editWorkItem">编辑</button>
+                <button class="btn btn-success btn-xs" v-on:click="editClick">编辑</button>
             </td>
         </tr>
     </script>
@@ -146,14 +146,14 @@
             props: ["workitem"],
             template: '#mywork-tr',
             methods: {
-                editWorkItem: function () {
-                    WorkItemEdite(this.workitem);
+                editClick: function () {
+                    this.$emit('editworkitem', this.workitem)
                 }
             }
         })
         //绑定新工作记录编辑
         function WorkItemEdite(workitem) {
-            console.log(editVue)
+
             if (editVue == null) {
                 editVue = new Vue({
                     el: "#newworkitem",
@@ -162,39 +162,38 @@
                     },
                     methods: {
                         savaWorkItem: function () {
-                            console.log(workitem)
-                            $.ajax({
-                                method: "POST",
-                                url: 'addwork',
-                                data: {
-                                    workItem:workitem
-
-                                },
-                                success: function (backData) {
-                                    if (backData.result === 1) {
-                                        alert("添加成功！")
-
-                                    } else {
-                                        alert(backData.message)
-
-                                    }
-
-                                },
-                                error: function (error) {
-                                    alert(error.statusText)
-
-                                }
-                            })
+                            EditSavaWorkItme(this.workitem);
                         }
                     }
                 });
             }
             else {
-                editVue.workitem =workitem;
+                editVue.workitem = workitem;
             }
             $("#editworkitem").modal('show');
         }
-      
+
+        function EditSavaWorkItme(workitem) {
+            $.ajax({
+                method: "POST",
+                url: 'addwork',
+                data: {
+                    workItem: workitem
+                },
+                success: function (backData) {
+                    if (backData.result === 1) {
+                        alert(backData.message)
+
+                    } else {
+                        alert(backData.message)
+                    }
+                },
+                error: function (error) {
+                    alert(error.statusText)
+                }
+            })
+
+        }
         //初始化
         $(function () {
             //获取当前年和月
@@ -210,7 +209,7 @@
 
         //按年月查询工作记录
         function QueryWorkItems(year, month) {
-            $("#workitemtr").html('<tr is="mywork-row" v-for="workitem in workitems" v-bind:workitem="workitem"></tr>');
+            $("#workitemtr").html('<tr is="mywork-row" v-for="workitem in workitems" v-on:editworkitem="editWorkItem" v-bind:workitem="workitem"></tr>');
             $.ajax({
                 type: 'GET',
                 url: '/monthworks',
@@ -227,14 +226,33 @@
                                 workitems: dataBack.data
                             },
                             methods: {
+                                editWorkItem: function (workitem) {
+                                    WorkItemEdite(workitem);
+                                }
                             }
                         });
+
+                        SetTodayColor();
                     }
                 },
                 error: function (error) {
                     alert(error.statusText);
                 }
             })
+
+            function SetTodayColor() {
+                var date = new Date();
+                var month = date.getMonth() + 1;
+                var strDate = date.getDate();
+                if (month >= 1 && month <= 9) {
+                    month = "0" + month;
+                }
+                if (strDate >= 0 && strDate <= 9) {
+                    strDate = "0" + strDate;
+                }
+                var currentdate = date.getFullYear() + "年" + month + "月" + strDate + "日"
+                $("#" + currentdate).attr("style","background-color:lightgreen");
+            }
         }
     </script>
 }
