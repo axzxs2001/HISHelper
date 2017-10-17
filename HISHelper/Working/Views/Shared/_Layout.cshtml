@@ -30,8 +30,19 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="home" asp-action="myworks">我的记录</a></li>
-                    <li><a asp-area="" asp-controller="home" asp-action="queryworks">查询工作记录</a></li>            
+                    @if (User.Claims.SingleOrDefault(s => s.Type == System.Security.Claims.ClaimTypes.IsPersistent) != null && Convert.ToBoolean(User.Claims.SingleOrDefault(s => s.Type == System.Security.Claims.ClaimTypes.IsPersistent).Value))
+                    {
+                        <li><a asp-area="" asp-controller="home" asp-action="queryworks">查询工作记录</a></li>
+
+                    }
                 </ul>
+                @if (!string.IsNullOrEmpty(User.Identity.Name))
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li role="presentation"><a href="#">当前用户：@User.Identity.Name</a></li>
+                        <li role="presentation"><a href="/login">注销</a></li>
+                    </ul>
+                }
             </div>
         </div>
     </nav>

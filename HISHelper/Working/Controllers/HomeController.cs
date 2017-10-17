@@ -233,8 +233,9 @@ namespace Working.Controllers
                     new Claim(ClaimTypes.UserData,user.UserName),
                     new Claim(ClaimTypes.Role,"user"),
                     new Claim(ClaimTypes.Name,user.Name),
+                    new Claim(ClaimTypes.IsPersistent,user.IsDeparmentLeader.ToString()),
                     new Claim(ClaimTypes.PrimarySid,user.ID.ToString())
-                 };
+                 }; 
                 HttpContext.SignOutAsync("loginvalidate");
                 HttpContext.SignInAsync("loginvalidate", new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookie")));
                 HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
