@@ -36,7 +36,6 @@ namespace Working.Models.DataModel
         /// </summary>
         public string Name
         { get; set; }
-
         /// <summary>
         /// 是否部门负责人
         /// </summary>

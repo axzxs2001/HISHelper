@@ -31,6 +31,12 @@ namespace Working.Models.DataModel
 
         public List<User> Users
         { get; set; }
+
+        /// <summary>
+        /// 父部门ID
+        /// </summary>
+        public int PID
+        { get; set; }
         
     }
 }

@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "部门查询工作记录";
+    ViewData["Title"] = "查询工作记录";
 }
 
 @section css{
@@ -10,8 +10,13 @@
         }
     </style>
 }
-<h2>部门查询工作记录</h2>
+<h2>查询部门工作记录</h2>
 <div class="row"  >
+    <div class="col-md-3">
+        <select id="userselect" class="form-control" v-cloak v-model="selected" v-on:change="ChangeDepartment">
+            <option v-for="item in items" v-bind:value="item.id">{{item.name}}</option>
+        </select>
+    </div>
     <div class="col-md-3">
         <select id="userselect" class="form-control" v-cloak  v-model="selected" v-on:change="ChangeUser">
             <option v-for="item in items"v-bind:value="item.id">{{item.name}}</option>
@@ -27,9 +32,7 @@
             <option v-for="item in items" v-bind:value="item.value">{{item.month}}</option>
         </select>
     </div>
-    <div class="col-md-3">
-
-    </div>
+  
 </div>
 <hr style="border-color:#cccccc;" />
 <div class="row">
