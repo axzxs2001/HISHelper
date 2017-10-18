@@ -14,7 +14,7 @@ using Working.Models.DataModel;
 
 namespace Working.Controllers
 {
-  
+
     public class HomeController : BaseController
     {
         /// <summary>
@@ -92,20 +92,8 @@ namespace Working.Controllers
         {
             try
             {
-                if (workItem.ID == 0)
-                {
-                    workItem.CreateTime = DateTime.Now;
-                    workItem.CreateUserID = UserID;
-                    var result = _workItemResitory.AddWorkItem(workItem);
-                    return Json(new { result = 1, message = "编辑成功", data = result }, new JsonSerializerSettings());
-
-                }
-                else
-                {
-
-                    var result = _workItemResitory.ModifyWorkItem(workItem);
-                    return Json(new { result = 1, message = "编辑成功", data = result });
-                }
+                var result = _workItemResitory.AddWorkItem(workItem, UserID);
+                return Json(new { result = 1, message = "编辑成功", data = result }, new JsonSerializerSettings());
             }
             catch (Exception exc)
             {
@@ -153,7 +141,7 @@ namespace Working.Controllers
             {
                 return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
             }
-        }     
+        }
         /// <summary>
         /// 按年，月，用户查询工作记录
         /// </summary>
@@ -235,7 +223,7 @@ namespace Working.Controllers
                     new Claim(ClaimTypes.Name,user.Name),
                     new Claim(ClaimTypes.IsPersistent,user.IsDeparmentLeader.ToString()),
                     new Claim(ClaimTypes.PrimarySid,user.ID.ToString())
-                 }; 
+                 };
                 HttpContext.SignOutAsync("loginvalidate");
                 HttpContext.SignInAsync("loginvalidate", new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookie")));
                 HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));

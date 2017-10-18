@@ -27,12 +27,35 @@ namespace Working.Model.Repository
         /// </summary>
         /// <param name="workItem">工作记录</param>
         /// <returns></returns>
-        public bool AddWorkItem(WorkItem workItem)
+        public bool AddWorkItem(WorkItem workItem, int UserID)
         {
-            _dbContext.WorkItems.Add(workItem);
-            var result = _dbContext.SaveChanges();
-            return result > 0;
+            if (IsExit(workItem.RecordDate,UserID) && workItem.ID > 0)
+            {
+                return ModifyWorkItem(workItem);
+            }
+            else
+            {
+                workItem.CreateTime = DateTime.Now;
+                workItem.CreateUserID = UserID;
+                _dbContext.WorkItems.Add(workItem);
+                var result = _dbContext.SaveChanges();
+                return result > 0;
+            }
         }
+        /// <summary>
+        /// 某用户是否存在某一天的数据
+        /// </summary>
+        /// <param name="recordDate">日期</param>
+        /// <param name="userID">用户ID</param>
+        /// <returns></returns>
+        bool IsExit(DateTime recordDate,int userID)
+        {           
+            var beginTime = DateTime.Parse(recordDate.ToString("yyyy-MM-dd 00:00:00")).AddSeconds(-1);
+            var endTime = DateTime.Parse(recordDate.ToString("yyyy-MM-dd 23:59:59")).AddSeconds(1);
+            var workItems = _dbContext.WorkItems.Where(w => w.CreateUserID == userID && w.RecordDate > beginTime && w.RecordDate < endTime).OrderByDescending(o => o.CreateTime).OrderBy(o => o.RecordDate).ToList();
+            return workItems.Count>0;
+        }
+
         /// <summary>
         /// 获取单个实体
         /// </summary>
@@ -58,26 +81,27 @@ namespace Working.Model.Repository
         /// <param name="year">年</param>
         /// <param name="month">月</param>
         /// <returns></returns>
-        public List<WorkItem> GetWorkItemsByUserID(int userID,int year,int month)
+        public List<WorkItem> GetWorkItemsByUserID(int userID, int year, int month)
         {
             var dayCount = DateTime.DaysInMonth(year, month);
             var beginTime = DateTime.Parse($"{year}-{month}-01 00:00:00").AddSeconds(-1);
             var endTime = DateTime.Parse($"{year}-{month}-{dayCount} 23:59:59").AddSeconds(1);
 
-            var workItems= _dbContext.WorkItems.Where(w => w.CreateUserID == userID&&w.RecordDate>beginTime&&w.RecordDate<endTime).OrderByDescending(o => o.CreateTime).OrderBy(o=>o.RecordDate).ToList();
+            var workItems = _dbContext.WorkItems.Where(w => w.CreateUserID == userID && w.RecordDate > beginTime && w.RecordDate < endTime).OrderByDescending(o => o.CreateTime).OrderBy(o => o.RecordDate).ToList();
             //处理成一月全天
             var newWorkItems = new List<WorkItem>();
-            for(int i=1;i<= dayCount;i++)
+            for (int i = 1; i <= dayCount; i++)
             {
-                var oneBeiginTime= DateTime.Parse($"{year}-{month}-{i} 00:00:00");
+                var oneBeiginTime = DateTime.Parse($"{year}-{month}-{i} 00:00:00");
                 var oneEndTime = DateTime.Parse($"{year}-{month}-{i} 23:59:59");
                 var oneDay = workItems.SingleOrDefault(s => s.RecordDate >= oneBeiginTime && s.RecordDate <= oneEndTime);
-                if (oneDay!=null)
+                if (oneDay != null)
                 {
                     newWorkItems.Add(oneDay);
-                }else
+                }
+                else
                 {
-                    newWorkItems.Add(new WorkItem { RecordDate= oneBeiginTime });
+                    newWorkItems.Add(new WorkItem { RecordDate = oneBeiginTime });
                 }
             }
             return newWorkItems;
@@ -100,7 +124,7 @@ namespace Working.Model.Repository
                 oldWorkItem.CreateUserID = newWorkItem.CreateUserID;
                 oldWorkItem.RecordDate = newWorkItem.RecordDate;
                 oldWorkItem.Memos = newWorkItem.Memos;
-                oldWorkItem.CreateTime = DateTime .Now;
+                oldWorkItem.CreateTime = DateTime.Now;
                 var result = _dbContext.SaveChanges();
                 return result > 0;
             }
@@ -112,7 +136,7 @@ namespace Working.Model.Repository
         /// <returns></returns>
         public bool RemoveWorkItem(int ID)
         {
-            var oldWorkItem = _dbContext.WorkItems.SingleOrDefault(s => s.ID ==ID);
+            var oldWorkItem = _dbContext.WorkItems.SingleOrDefault(s => s.ID == ID);
             if (oldWorkItem == null)
             {
                 return false;
@@ -120,7 +144,7 @@ namespace Working.Model.Repository
             else
             {
                 _dbContext.WorkItems.Remove(oldWorkItem);
-                 var result = _dbContext.SaveChanges();
+                var result = _dbContext.SaveChanges();
                 return result > 0;
             }
         }

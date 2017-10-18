@@ -13,7 +13,7 @@ namespace Working.Model.Repository
         /// </summary>
         /// <param name="workItem">工作记录</param>
         /// <returns></returns>
-        bool AddWorkItem(WorkItem workItem);
+        bool AddWorkItem(WorkItem workItem,int userID);
         /// <summary>
         /// 获取单个实体
         /// </summary>
