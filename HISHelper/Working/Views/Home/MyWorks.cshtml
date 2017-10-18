@@ -2,7 +2,16 @@
 @{
     ViewData["Title"] = "我的工作记录";
 }
-<h2>查询工作记录</h2>
+
+@section css{
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+}
+
+<h2>我的工作记录</h2>
 <div class="row">
 
     <div class="col-md-3">
@@ -30,12 +39,12 @@
                 <th style="width:50px">操作</th>
             </tr>
         </thead>
-        <tbody id="workitemtr"></tbody>
+        <tbody id="workitemtr" v-cloak></tbody>
     </table>
 </div>
 
 <!--编辑工作记录弹出框-->
-<div class="modal fade" id="editworkitem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" v-cloak id="editworkitem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" id="newworkitem">
             <div class="modal-header">
@@ -251,7 +260,7 @@
                     strDate = "0" + strDate;
                 }
                 var currentdate = date.getFullYear() + "年" + month + "月" + strDate + "日"
-                $("#" + currentdate).attr("style","background-color:lightgreen");
+                $("#" + currentdate).attr("style", "background-color:lightgreen");
             }
         }
     </script>
