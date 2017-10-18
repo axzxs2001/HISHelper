@@ -15,12 +15,12 @@
 <div class="row">
 
     <div class="col-md-3">
-        <select id="yearselect" class="form-control" v-model="selected" v-on:change="ChangeYear">
+        <select id="yearselect" v-cloak class="form-control" v-model="selected" v-on:change="ChangeYear">
             <option v-for="item in items" v-bind:value="item.value">{{item.year}}</option>
         </select>
     </div>
     <div class="col-md-3">
-        <select id="monthselect" class="form-control" v-model="selected" v-on:change="ChangeMonth">
+        <select id="monthselect" class="form-control" v-cloak v-model="selected" v-on:change="ChangeMonth">
             <option v-for="item in items" v-bind:value="item.value">{{item.month}}</option>
         </select>
     </div>
@@ -39,7 +39,7 @@
                 <th style="width:50px">操作</th>
             </tr>
         </thead>
-        <tbody id="workitemtr" v-cloak></tbody>
+        <tbody id="workitemtr"></tbody>
     </table>
 </div>
 
