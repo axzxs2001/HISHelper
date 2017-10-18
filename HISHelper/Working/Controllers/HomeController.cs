@@ -103,9 +103,14 @@ namespace Working.Controllers
         [HttpGet("queryworks")]
         public IActionResult QueryWorks()
         {
-
             return View();
         }
+        [HttpGet("querydptworks")]
+        public IActionResult QueryDepartmentWorks()
+        {
+            return View();
+        }
+        
         /// <summary>
         /// 查询部门用户
         /// </summary>
@@ -180,6 +185,9 @@ namespace Working.Controllers
             }
         }
         #endregion
+
+
+
 
         #region 登录页
         /// <summary>
