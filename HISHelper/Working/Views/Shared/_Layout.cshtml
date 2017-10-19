@@ -36,6 +36,11 @@
                         <li><a asp-area="" asp-controller="home" asp-action="queryworks">查询工作记录</a></li>
 
                     }
+                    @if (User.Claims.SingleOrDefault(s => s.Type == System.Security.Claims.ClaimTypes.IsPersistent) != null && Convert.ToBoolean(User.Claims.SingleOrDefault(s => s.Type == System.Security.Claims.ClaimTypes.IsPersistent).Value)&& User.Claims.SingleOrDefault(s => s.Type == System.Security.Claims.ClaimTypes.Sid) != null && Convert.ToBoolean(User.Claims.SingleOrDefault(s => s.Type == System.Security.Claims.ClaimTypes.Sid).Value))
+                    {
+                        <li><a asp-area="" asp-controller="home" asp-action="querydepartmentworks">查询部门工作记录</a></li>
+                    }
+
                 </ul>
                 @if (!string.IsNullOrEmpty(User.Identity.Name))
                 {

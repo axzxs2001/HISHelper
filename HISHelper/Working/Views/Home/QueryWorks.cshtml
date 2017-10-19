@@ -125,7 +125,6 @@
                 success: function (backData) {
                     if (backData.result == 1) {
                         if (userVue == null) {
-
                             userVue = new Vue({
                                 el: '#userselect',
                                 data: {
@@ -138,13 +137,12 @@
                                     }
                                 }
                             })
-
                             //加载完用户后查询
                             QueryWorkItems(yearVue.selected, monthVue.selected, userVue.selected)
                         }
                         else {
                             if (backData.data.length > 0) {
-                                userVue.selected = backData.data[0]
+                                userVue.selected = backData.data[0].id
                             }
                             userVue.items = backData.data;
                         }
@@ -196,8 +194,7 @@
                     month: month
                 },
                 success: function (dataBack) {
-                    if (dataBack.result == 1) {
-                        console.log(dataBack.message);
+                    if (dataBack.result == 1) {                    
                         new Vue({
                             el: "#workitemtr",
                             data: {

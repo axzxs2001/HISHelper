@@ -34,7 +34,7 @@ namespace Working
 
             services.AddTransient<IUserResitory, UserResitory>();
             services.AddTransient<IWorkItemResitory, WorkItemResitory>();
-
+            services.AddTransient<IDepartmentResitory, DepartmentResitory>();
 
             //注入验证 2.0
             services.AddAuthentication(options =>

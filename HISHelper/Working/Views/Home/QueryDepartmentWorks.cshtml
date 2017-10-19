@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "查询工作记录";
+    ViewData["Title"] = "查询部门工作记录";
 }
 
 @section css{
@@ -13,8 +13,8 @@
 <h2>查询部门工作记录</h2>
 <div class="row"  >
     <div class="col-md-3">
-        <select id="userselect" class="form-control" v-cloak v-model="selected" v-on:change="ChangeDepartment">
-            <option v-for="item in items" v-bind:value="item.id">{{item.name}}</option>
+        <select id="departmentselect" class="form-control" v-cloak v-model="selected" v-on:change="ChangeDepartment">
+            <option v-for="item in items" v-bind:value="item.id">{{item.departmentname}}</option>
         </select>
     </div>
     <div class="col-md-3">
@@ -63,6 +63,7 @@
     <script>
         //年和月的Vue
         var yearVue, monthVue, userVue = null;
+        var departmentVue = null;
         //加载年下拉列表
         function LoadYear(year) {
             yearVue = new Vue({
@@ -118,17 +119,58 @@
                 }
             })
         }
-        //加载用户
-        function LoadUser() {
+        //加载部门
+        function LoadDepartment()
+        {            
             $.ajax({
                 method: "GET",
-                url: 'getdepartmentusers',
+                url: 'mydepartments',
                 data: {
                 },
                 success: function (backData) {
-                    if (backData.result == 1) {
-                        if (userVue == null) {
+                    if (backData.result == 1) {            
+                        if (departmentVue == null) {
+                            departmentVue = new Vue({
+                                el: '#departmentselect',
+                                data: {
+                                    selected: (backData.data.length > 0 ? backData.data[0].id : 0),
+                                    items: backData.data
+                                },
+                                methods: {
+                                    ChangeDepartment: function () {
+                                        LoadUser(this.selected);                                       
+                                    }
+                                }
+                            })                         
+                        }
+                        else {
+                            if (backData.data.length > 0) {
+                                departmentVue.selected = backData.data[0].id
+                            }
+                            departmentVue.items = backData.data;
+                        }
+                        LoadUser(departmentVue.selected);     
+                    } else {
+                        alert(backData.message);
+                    }
+                },
+                error: function (error) {
+                    alert(error.statusText)
+                }
+            })
+        }
 
+        //加载用户
+        function LoadUser(departmentID) {        
+            $.ajax({
+                method: "GET",
+                url: 'departmentusers',
+                data: {
+                    departmentID: departmentID
+                },
+                success: function (backData) {                  
+                    if (backData.result == 1) {
+                        if (userVue == null) {                      
                             userVue = new Vue({
                                 el: '#userselect',
                                 data: {
@@ -140,17 +182,17 @@
                                         QueryWorkItems(yearVue.selected, monthVue.selected, this.selected)
                                     }
                                 }
-                            })
-
-                            //加载完用户后查询
-                            QueryWorkItems(yearVue.selected, monthVue.selected, userVue.selected)
+                            })                     
                         }
                         else {
+                          
                             if (backData.data.length > 0) {
-                                userVue.selected = backData.data[0]
-                            }
+                                userVue.selected = backData.data[0].id;
+                            }                     
                             userVue.items = backData.data;
                         }
+                        //加载完用户后查询
+                        QueryWorkItems(yearVue.selected, monthVue.selected, userVue.selected)
                     } else {
                         alert(backData.message);
                     }
@@ -181,8 +223,8 @@
             LoadYear(year);
             //加载月下拉列表
             LoadMonth(month);
-            //加载用户
-            LoadUser();
+            //加载部门
+            LoadDepartment();
 
 
         })
@@ -199,8 +241,7 @@
                     month: month
                 },
                 success: function (dataBack) {
-                    if (dataBack.result == 1) {
-                        console.log(dataBack.message);
+                    if (dataBack.result == 1) {                    
                         new Vue({
                             el: "#workitemtr",
                             data: {

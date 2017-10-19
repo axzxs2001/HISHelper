@@ -14,7 +14,7 @@ using Working.Models.DataModel;
 
 namespace Working.Controllers
 {
-
+    [Authorize(Roles = "user")]
     public class HomeController : BaseController
     {
         /// <summary>
@@ -26,14 +26,19 @@ namespace Working.Controllers
         /// </summary>
         IUserResitory _userResitory;
         /// <summary>
+        /// 部门仓储
+        /// </summary>
+        IDepartmentResitory _departmentResitory;
+        /// <summary>
         /// 构造
         /// </summary>
         /// <param name="workItemResitory">工作记录仓储</param>
         /// <param name="userResitory">用户仓储</param>
-        public HomeController(IWorkItemResitory workItemResitory, IUserResitory userResitory)
+        public HomeController(IWorkItemResitory workItemResitory, IDepartmentResitory departmentResitory, IUserResitory userResitory)
         {
             _workItemResitory = workItemResitory;
             _userResitory = userResitory;
+            _departmentResitory = departmentResitory;
         }
         [Authorize(Roles = "user")]
         public IActionResult Index()
@@ -87,6 +92,12 @@ namespace Working.Controllers
                 return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
+
+        /// <summary>
+        /// 添加工作记录
+        /// </summary>
+        /// <param name="workItem">工作记录</param>
+        /// <returns></returns>
         [HttpPost("addwork")]
         public IActionResult AddWork(WorkItem workItem)
         {
@@ -100,17 +111,19 @@ namespace Working.Controllers
                 return Json(new { result = 0, message = $"编辑失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
+
         [HttpGet("queryworks")]
         public IActionResult QueryWorks()
         {
             return View();
         }
-        [HttpGet("querydptworks")]
+
+        [HttpGet("querydepartmentworks")]
         public IActionResult QueryDepartmentWorks()
         {
             return View();
         }
-        
+
         /// <summary>
         /// 查询部门用户
         /// </summary>
@@ -184,9 +197,58 @@ namespace Working.Controllers
                 return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
+
+        /// <summary>
+        /// 按照部门ID查本部门用户
+        /// </summary>
+        /// <param name="departmentID"></param>
+        /// <returns></returns>
+        [HttpGet("departmentusers")]
+        public IActionResult DepartmentUsers(int departmentID)
+        {
+            try
+            {
+                var users = _userResitory.GetGetDepartmentUsers(departmentID);
+                return Json(new { result = 1, data = users, message = $"查询成功！" }, new JsonSerializerSettings()
+                {
+                    DateFormatString = "yyyy年MM月dd日",
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
+            }
+        }
+
+        /// <summary>
+        /// 查询用户部门的所有下属部门
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("mydepartments")]
+        public IActionResult GetMyDepartments()
+        {
+            try
+            {
+                var departments = _departmentResitory.GetDeparments(UserID);
+                return Json(new
+                {
+                    result = 1,
+                    message = "查询成功",
+                    data = departments
+                }, new JsonSerializerSettings()
+                {
+                    DateFormatString = "yyyy年MM月dd日",
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
+            }
+        }
+
         #endregion
-
-
 
 
         #region 登录页
@@ -224,12 +286,15 @@ namespace Working.Controllers
             var user = _userResitory.Login(userName, password);
             if (user != null)
             {
+                //查看是否有下级部门
+                var departments = _departmentResitory.GetDeparments(user.ID);
                 var claims = new Claim[]
                 {
                     new Claim(ClaimTypes.UserData,user.UserName),
                     new Claim(ClaimTypes.Role,"user"),
                     new Claim(ClaimTypes.Name,user.Name),
                     new Claim(ClaimTypes.IsPersistent,user.IsDeparmentLeader.ToString()),
+                    new Claim(ClaimTypes.Sid,(departments.Count>0).ToString()),
                     new Claim(ClaimTypes.PrimarySid,user.ID.ToString())
                  };
                 HttpContext.SignOutAsync("loginvalidate");
