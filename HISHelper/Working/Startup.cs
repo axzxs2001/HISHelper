@@ -30,7 +30,7 @@ namespace Working
             //添加数据操作
             var connection = string.Format(Configuration.GetConnectionString("DefaultConnection"), System.IO.Directory.GetCurrentDirectory());         
             //添加数据实体
-            services.AddDbContext<WorkingDbContext>(options => options.UseSqlite(connection));
+            services.AddDbContextPool<WorkingDbContext>(options => options.UseSqlite(connection));
 
             services.AddTransient<IUserResitory, UserResitory>();
             services.AddTransient<IWorkItemResitory, WorkItemResitory>();
