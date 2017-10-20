@@ -168,7 +168,8 @@
                 data: {
                     departmentID: departmentID
                 },
-                success: function (backData) {                  
+                success: function (backData) {   
+                    
                     if (backData.result == 1) {
                         if (userVue == null) {                      
                             userVue = new Vue({
@@ -188,7 +189,10 @@
                           
                             if (backData.data.length > 0) {
                                 userVue.selected = backData.data[0].id;
-                            }                     
+                            } else
+                            {
+                                userVue.selected =0;
+                            }
                             userVue.items = backData.data;
                         }
                         //加载完用户后查询
@@ -230,7 +234,7 @@
         })
 
         //按年月查询工作记录
-        function QueryWorkItems(year, month,userid) {
+        function QueryWorkItems(year, month, userid) {    
             $("#workitemtr").html('<tr is="mywork-row" v-for="workitem in workitems" v-bind:workitem="workitem"></tr>');
             $.ajax({
                 type: 'GET',
@@ -241,13 +245,11 @@
                     month: month
                 },
                 success: function (dataBack) {
-                    if (dataBack.result == 1) {                    
+                    if (dataBack.result == 1) {                       
                         new Vue({
                             el: "#workitemtr",
                             data: {
                                 workitems: dataBack.data
-                            },
-                            methods: {
                             }
                         });
                     }

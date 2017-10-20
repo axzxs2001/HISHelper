@@ -11,7 +11,7 @@ using Working.Models.DataModel;
 namespace Working.Migrations
 {
     [DbContext(typeof(WorkingDbContext))]
-    [Migration("20171018063556_InitialCreate")]
+    [Migration("20171020012454_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

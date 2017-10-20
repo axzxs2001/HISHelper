@@ -29,7 +29,7 @@ namespace Working.Model.Repository
         /// <returns></returns>
         public bool AddWorkItem(WorkItem workItem, int UserID)
         {
-            if (IsExit(workItem.RecordDate,UserID) && workItem.ID > 0)
+            if (IsExit(workItem.RecordDate, UserID) && workItem.ID > 0)
             {
                 return ModifyWorkItem(workItem);
             }
@@ -48,12 +48,12 @@ namespace Working.Model.Repository
         /// <param name="recordDate">日期</param>
         /// <param name="userID">用户ID</param>
         /// <returns></returns>
-        bool IsExit(DateTime recordDate,int userID)
-        {           
+        bool IsExit(DateTime recordDate, int userID)
+        {
             var beginTime = DateTime.Parse(recordDate.ToString("yyyy-MM-dd 00:00:00")).AddSeconds(-1);
             var endTime = DateTime.Parse(recordDate.ToString("yyyy-MM-dd 23:59:59")).AddSeconds(1);
             var workItems = _dbContext.WorkItems.Where(w => w.CreateUserID == userID && w.RecordDate > beginTime && w.RecordDate < endTime).OrderByDescending(o => o.CreateTime).OrderBy(o => o.RecordDate).ToList();
-            return workItems.Count>0;
+            return workItems.Count > 0;
         }
 
         /// <summary>
@@ -113,13 +113,12 @@ namespace Working.Model.Repository
         /// <returns></returns>
         public bool ModifyWorkItem(WorkItem newWorkItem)
         {
-            var oldWorkItem = _dbContext.WorkItems.SingleOrDefault(s => s.ID == newWorkItem.ID);
-            if (oldWorkItem == null)
-            {
-                return false;
-            }
-            else
-            {
+            var beginTime = DateTime.Parse(newWorkItem.RecordDate.ToString("yyyy-MM-dd 00:00:00")).AddSeconds(-1);
+            var endTime = DateTime.Parse(newWorkItem.RecordDate.ToString("yyyy-MM-dd 23:59:59")).AddSeconds(1);
+            //记录日期和用户ID为唯一键
+            var oldWorkItem = _dbContext.WorkItems.SingleOrDefault(w => w.CreateUserID == newWorkItem.CreateUserID && w.RecordDate > beginTime && w.RecordDate < endTime);
+            if (oldWorkItem!=null)
+            {              
                 oldWorkItem.WorkContent = newWorkItem.WorkContent;
                 oldWorkItem.CreateUserID = newWorkItem.CreateUserID;
                 oldWorkItem.RecordDate = newWorkItem.RecordDate;
@@ -127,6 +126,10 @@ namespace Working.Model.Repository
                 oldWorkItem.CreateTime = DateTime.Now;
                 var result = _dbContext.SaveChanges();
                 return result > 0;
+            }
+            else
+            {
+                return false;
             }
         }
         /// <summary>
