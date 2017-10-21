@@ -31,12 +31,12 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="home" asp-action="myworks">我的记录</a></li>
-                    @if (User.Claims.SingleOrDefault(s => s.Type == System.Security.Claims.ClaimTypes.IsPersistent) != null && Convert.ToBoolean(User.Claims.SingleOrDefault(s => s.Type == System.Security.Claims.ClaimTypes.IsPersistent).Value))
+                    @if ("Leader,Manager".Contains(User.Claims.SingleOrDefault(s => s.Type == System.Security.Claims.ClaimTypes.Role).Value))
                     {
                         <li><a asp-area="" asp-controller="home" asp-action="queryworks">查询工作记录</a></li>
 
                     }
-                    @if (User.Claims.SingleOrDefault(s => s.Type == System.Security.Claims.ClaimTypes.IsPersistent) != null && Convert.ToBoolean(User.Claims.SingleOrDefault(s => s.Type == System.Security.Claims.ClaimTypes.IsPersistent).Value)&& User.Claims.SingleOrDefault(s => s.Type == System.Security.Claims.ClaimTypes.Sid) != null && Convert.ToBoolean(User.Claims.SingleOrDefault(s => s.Type == System.Security.Claims.ClaimTypes.Sid).Value))
+                    @if ("Manager".Contains(User.Claims.SingleOrDefault(s => s.Type == System.Security.Claims.ClaimTypes.Role).Value))
                     {
                         <li><a asp-area="" asp-controller="home" asp-action="querydepartmentworks">查询部门工作记录</a></li>
                     }

@@ -53,6 +53,14 @@ namespace Working.Model.Repository
             }
             return departments;
         }
+        /// <summary>
+        /// 获取全部部门
+        /// </summary>
+        /// <returns></returns>
+        public List<Department> GetAllDeparments()
+        {
+            return _dbContext.Departments.ToList();
+        }
 
     }
 }

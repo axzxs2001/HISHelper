@@ -23,11 +23,17 @@ namespace Working.Models.DataModel
         /// </summary>
         public DbSet<Department> Departments { get; set; }
 
+        /// <summary>
+        /// 角色
+        /// </summary>
+        public DbSet<Role> Roles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<User>().HasKey(m => m.ID);
             builder.Entity<WorkItem>().HasKey(m => m.ID);
             builder.Entity<Department>().HasKey(m => m.ID);
+            builder.Entity<Role>().HasKey(m => m.ID);
             base.OnModelCreating(builder);
         }
     }

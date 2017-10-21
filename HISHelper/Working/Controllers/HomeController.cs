@@ -14,7 +14,7 @@ using Working.Models.DataModel;
 
 namespace Working.Controllers
 {
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "Manager, Leader,Employee")]
     public class HomeController : BaseController
     {
         /// <summary>
@@ -30,15 +30,20 @@ namespace Working.Controllers
         /// </summary>
         IDepartmentResitory _departmentResitory;
         /// <summary>
+        /// 角色仓储
+        /// </summary>
+        IRoleResitory _roleResitory;
+        /// <summary>
         /// 构造
         /// </summary>
         /// <param name="workItemResitory">工作记录仓储</param>
         /// <param name="userResitory">用户仓储</param>
-        public HomeController(IWorkItemResitory workItemResitory, IDepartmentResitory departmentResitory, IUserResitory userResitory)
+        public HomeController(IWorkItemResitory workItemResitory, IDepartmentResitory departmentResitory, IUserResitory userResitory,IRoleResitory roleResitory)
         {
             _workItemResitory = workItemResitory;
             _userResitory = userResitory;
             _departmentResitory = departmentResitory;
+            _roleResitory = roleResitory;
         }
         [Authorize(Roles = "user")]
         public IActionResult Index()
@@ -138,19 +143,12 @@ namespace Working.Controllers
                 var user = _userResitory.GetUser(UserID);
                 if (user != null)
                 {
-                    if (user.IsDeparmentLeader)
+                    var users = _userResitory.GetGetDepartmentUsers(user.DepartmentID);
+                    return Json(new { result = 1, data = users, message = $"查询成功！" }, new JsonSerializerSettings()
                     {
-                        var users = _userResitory.GetGetDepartmentUsers(user.DepartmentID);
-                        return Json(new { result = 1, data = users, message = $"查询成功！" }, new JsonSerializerSettings()
-                        {
-                            DateFormatString = "yyyy年MM月dd日",
-                            ContractResolver = new LowercaseContractResolver()
-                        });
-                    }
-                    else
-                    {
-                        return Json(new { result = 0, message = $"你不是当前部分的负责人，没有权限查询其他人工作记录！" }, new JsonSerializerSettings());
-                    }
+                        DateFormatString = "yyyy年MM月dd日",
+                        ContractResolver = new LowercaseContractResolver()
+                    });
                 }
                 else
                 {
@@ -205,6 +203,7 @@ namespace Working.Controllers
         /// </summary>
         /// <param name="departmentID"></param>
         /// <returns></returns>
+        [Authorize(Roles = "Manager,Leader")]
         [HttpGet("departmentusers")]
         public IActionResult DepartmentUsers(int departmentID)
         {
@@ -227,6 +226,7 @@ namespace Working.Controllers
         /// 查询用户部门的所有下属部门
         /// </summary>
         /// <returns></returns>
+        [Authorize(Roles = "Manager,Leader")]
         [HttpGet("mydepartments")]
         public IActionResult GetMyDepartments()
         {
@@ -253,6 +253,37 @@ namespace Working.Controllers
         #endregion
 
         #region 用户操作
+
+        [HttpGet("users")]
+        public IActionResult UserIndex()
+        {
+            return View();
+        }
+
+        [Authorize(Roles="Manager")]
+        [HttpGet("alldepartment")]
+        public IActionResult GetAllDepartment()
+        {
+            try
+            {
+                var departments = _departmentResitory.GetAllDeparments();
+                return Json(new
+                {
+                    result = 1,
+                    message = "查询成功",
+                    data = departments
+                }, new JsonSerializerSettings()
+                {
+                    DateFormatString = "yyyy年MM月dd日",
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
+            }
+        }
+
         #endregion
 
 
@@ -291,14 +322,15 @@ namespace Working.Controllers
             var user = _userResitory.Login(userName, password);
             if (user != null)
             {
+                //查询角色名称
+                var roleName = _roleResitory.GetRole(user.RoleID).RoleName;
                 //查看是否有下级部门
                 var departments = _departmentResitory.GetDeparments(user.ID);
                 var claims = new Claim[]
                 {
                     new Claim(ClaimTypes.UserData,user.UserName),
-                    new Claim(ClaimTypes.Role,"user"),
+                    new Claim(ClaimTypes.Role,roleName),
                     new Claim(ClaimTypes.Name,user.Name),
-                    new Claim(ClaimTypes.IsPersistent,user.IsDeparmentLeader.ToString()),
                     new Claim(ClaimTypes.Sid,(departments.Count>0).ToString()),
                     new Claim(ClaimTypes.PrimarySid,user.ID.ToString())
                  };

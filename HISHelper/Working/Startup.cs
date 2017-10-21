@@ -32,9 +32,10 @@ namespace Working
             //添加数据实体
             services.AddDbContextPool<WorkingDbContext>(options => options.UseSqlite(connection));
 
-            services.AddTransient<IUserResitory, UserResitory>();
-            services.AddTransient<IWorkItemResitory, WorkItemResitory>();
-            services.AddTransient<IDepartmentResitory, DepartmentResitory>();
+            services.AddScoped<IUserResitory, UserResitory>();
+            services.AddScoped<IWorkItemResitory, WorkItemResitory>();
+            services.AddScoped<IDepartmentResitory, DepartmentResitory>();
+            services.AddScoped<IRoleResitory, RoleResitory>();
 
             //注入验证 2.0
             services.AddAuthentication(options =>

@@ -8,7 +8,7 @@ using Working.Models.DataModel;
 namespace Working.Model.Repository
 {
     /// <summary>
-    /// 用户管理接口
+    /// 用户管理
     /// </summary>
     public class UserResitory : IUserResitory
     {
@@ -70,7 +70,7 @@ namespace Working.Model.Repository
             if (oldUser != null)
             {
                 oldUser.DepartmentID = user.DepartmentID;
-                oldUser.IsDeparmentLeader = user.IsDeparmentLeader;
+                oldUser.RoleID = user.RoleID;
                 oldUser.Name = user.Name;
                 oldUser.Password = user.Password;
                 oldUser.UserName = user.UserName;

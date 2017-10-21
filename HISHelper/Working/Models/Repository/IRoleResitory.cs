@@ -2,26 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Working.Model;
 using Working.Models.DataModel;
 
 namespace Working.Model.Repository
 {
     /// <summary>
-    /// 部门管理接口
+    /// 角色管理接口
     /// </summary>
-    public interface IDepartmentResitory
+    public interface IRoleResitory
     {
         /// <summary>
-        /// 按用户ID获取此人所在部门的所有下级部门
+        /// 查询全部角色
         /// </summary>
-        /// <param name="userID">用户ID</param>
         /// <returns></returns>
-        List<Department> GetDeparments(int userID);
-
+        List<Role> GetAllRole();
         /// <summary>
-        /// 获取全部部门
+        /// 查询角色
         /// </summary>
+        /// <param name="roleID">角色ID</param>
         /// <returns></returns>
-        List<Department> GetAllDeparments();
+        Role GetRole(int roleID);
     }
 }

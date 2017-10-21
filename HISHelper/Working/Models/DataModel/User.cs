@@ -37,10 +37,12 @@ namespace Working.Models.DataModel
         public string Name
         { get; set; }
         /// <summary>
-        /// 是否部门负责人
+        /// 角色ID
         /// </summary>
-        public bool IsDeparmentLeader
+        public int RoleID
         { get; set; }
+
+
         /// <summary>
         /// 部门编号
         /// </summary>
