@@ -32,5 +32,25 @@ namespace Working.Model.Repository
         /// <param name="userID">用户ID</param>
         /// <returns></returns>
         User GetUser(int userID);
+
+
+        /// <summary>
+        /// 添加用户
+        /// </summary>
+        /// <param name="user">用户</param>
+        /// <returns></returns>
+        bool AddUser(User user);
+        /// <summary>
+        /// 修改用户
+        /// </summary>
+        /// <param name="user">用户</param>
+        /// <returns></returns>
+        bool ModifyUser(User user);
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        /// <param name="user">用户</param>
+        /// <returns></returns>
+        bool RemoveUser(int userID);
     }
 }

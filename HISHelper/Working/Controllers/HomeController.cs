@@ -50,6 +50,8 @@ namespace Working.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
         #region 工作记录操作
         [HttpGet("myworks")]
         public IActionResult MyWorks()
@@ -248,6 +250,9 @@ namespace Working.Controllers
             }
         }
 
+        #endregion
+
+        #region 用户操作
         #endregion
 
 

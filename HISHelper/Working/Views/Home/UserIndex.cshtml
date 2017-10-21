@@ -1,0 +1,385 @@
+﻿@model System.Collections.Generic.List<System.Collections.Generic.Dictionary<string, dynamic>>
+
+@{
+    ViewData["Title"] = "用户管理";
+}
+
+<div class="row">
+    <div class="panel panel-default" style="margin-bottom:-10px;">
+        <div class="panel-heading">
+
+            <h3 class="panel-title">用户管理</h3>
+        </div>
+        <div class="panel-body">
+
+            <div class="row" style="margin-bottom:10px;">
+                <div class="col-md-9">
+                </div>
+                <div class="col-md-3" style="text-align:right">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AddModal">
+                        添加
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="row" style="margin-bottom:-10px;">
+                <div class="col-md-12">
+                    <table class="table table-bordered table-hover  table-condensed table-striped">
+                        <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>用户名</th>
+                                <th>密码</th>
+                                <th>单位名称</th>
+                                <th>姓名</th>
+                                <th>角色名称</th>
+                                <th>标志</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr id='tr_@(item["ID"])'>
+                                    <td>@item["ID"]</td>
+                                    <td>@item["UserName"]</td>
+                                    <td>******</td>
+                                    <td>@item["dwmch"]</td>
+                                    <td>@item["CustomerName"]</td>
+                                    <td>
+                                        @{
+                                            string roleType = item["RoleType"].ToString();
+                                            string roleTypeName = "";
+                                            switch (roleType)
+                                            {
+                                                case "1":
+                                                    roleTypeName = "管理员";
+                                                    break;
+                                                case "2":
+                                                    roleTypeName = "供应商";
+                                                    break;
+                                                case "3":
+                                                    roleTypeName = "生产企业";
+                                                    break;
+                                                case "4":
+                                                    roleTypeName = "业务员";
+                                                    break;
+                                                case "5":
+                                                    roleTypeName = "本企业";
+                                                    break;
+
+                                            }
+                                        }
+                                        @roleTypeName
+                                    </td>
+                                    <td>
+                                        @{
+                                            string bz = item["is_lzh"].ToString().Trim();
+                                            string bzsm = "";
+                                            switch (bz)
+                                            {
+                                                case "0":
+                                                    bzsm = "管理员";
+                                                    break;
+                                                case "1":
+                                                    bzsm = "本公司";
+                                                    break;
+                                                case "2":
+                                                    bzsm = "供应商";
+                                                    break;
+                                                case "3":
+                                                    bzsm = "货位";
+                                                    break;
+                                                case "4":
+                                                    bzsm = "合同号";
+                                                    break;
+                                                case "5":
+                                                    bzsm = "生产企业";
+                                                    break;
+                                            }
+
+                                        }
+                                        @bzsm
+                                    </td>
+
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" style="margin-bottom:-5px;margin-top:-5px;" data-toggle="modal" data-target="#ModiyModal" onclick="Modify('@item["ID"]','@item["UserName"]','@item["Password"]','@item["CustomerName"]','@item["RoleType"]','@item["DWBH"]','@item["is_lzh"].Trim()','@item["QYXZ"]')">
+                                            修改
+                                        </button>
+                                        <button class="btn btn-sm btn-danger" style="margin-bottom:-5px;margin-top:-5px;" onclick="Delete('@item["ID"]')">
+                                            删除
+                                        </button>
+                                    </td>
+                                </tr>
+                                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModiyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        bzsm
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title" id="modeltitle">修改子类型</h4>
+            </div>
+            <div class="modal-body" id="modelbody">
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-6">
+                        <input type="text" readonly class="form-control" id="oldid" name="oldid" placeholder="编号">
+                    </div>
+
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="oldusername" name="oldusername" placeholder="用户名">
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="oldpassword" name="oldpassword" placeholder="密码">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="供货商（支持助记码查询）" id="oldautocomplete" />
+                        <input type="hidden" name="olddwbh" id="olddwbh" />
+
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="oldcustomername" name="oldcustomername" placeholder="姓名">
+                    </div>
+                    <div class="col-md-6">
+                        <select class="form-control" id="oldtype" name="oldtype">
+                            <option value="1">管理员</option>
+                            <option value="2">供应商</option>
+                            <option value="3">生产企业</option>
+                            <option value="4">业务员</option>
+                            <option value="5" selected>本企业</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-6">
+                        <input type="checkbox" id="oldqyxz" name="oldqyxz" style="width:18px;height:18px;" />批发企业选中，连锁企业不先中
+                    </div>
+                    <div class="col-md-6">
+                        <select class="form-control" id="oldbz" name="oldbz">
+                            <option value="0" selected>管理员</option>
+                            <option value="1">本公司</option>
+                            <option value="2">供应商</option>
+                            <option value="3">货位</option>
+                            <option value="4">合同号</option>
+                            <option value="5">生产企业</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" onclick="SavaModify()">
+                    保存
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title" id="modeltitle">添加用户</h4>
+            </div>
+            <div class="modal-body" id="modelbody">
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="用户名">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="密码">
+                    </div>
+
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="供货商（支持助记码查询）" id="autocomplete" />
+                        <input type="hidden" name="dwbh" id="dwbh" />
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="customername" name="customername" placeholder="姓名">
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-6">
+                        <select class="form-control" id="type" name="type">
+                            <option value="1">管理员</option>
+                            <option value="2">供应商</option>
+                            <option value="3">生产企业</option>
+                            <option value="4" selected>业务员</option>
+                            <option value="5">本企业</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="checkbox" id="qyxz" name="qyxz" style="width:18px;height:18px;" />批发企业选中，连锁企业不先中
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+
+                    <div class="col-md-6">
+                        <select class="form-control" id="bz" name="bz">
+                            <option value="0" selected>管理员</option>
+                            <option value="1">本公司</option>
+                            <option value="2">供应商</option>
+                            <option value="3">货位</option>
+                            <option value="4">合同号</option>
+                            <option value="5">生产企业</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button class="btn btn-success" onclick="SavaAdd()">
+                    保存
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+
+    <script>
+        $(function () {
+            $('#autocomplete').autocomplete({
+                serviceUrl: '/userdealers',
+                onSearchStart: function (query) {
+                    query.zjm = $("#autocomplete").val();
+                    query.roletype = $("#type").find("option:selected").val();
+                },
+                onSelect: function (suggestion) {
+                    $("#dwbh").val(suggestion.data);
+
+                }
+            });
+
+            $('#oldautocomplete').autocomplete({
+                serviceUrl: '/userdealers',
+                onSearchStart: function (query) {
+                    query.zjm = $("#oldautocomplete").val();
+                    query.roletype = $("#oldtype").find("option:selected").val();
+                },
+                onSelect: function (suggestion) {
+                    $("#olddwbh").val(suggestion.data);
+
+                }
+            });
+
+        });
+
+        //查询销售数据
+        function Query(CurrentPageIndex) {
+            $.post("merchandisequery", {
+                spbh: $("#spbh").val(),
+                spmc: $("#spmc").val(),
+                currentPageIndex: CurrentPageIndex
+            }, function (result) {
+
+                var obj = eval("(" + result + ")");
+                SetPagination(CurrentPageIndex, obj, 'Query');
+                SetTable(obj);
+            });
+        }
+
+
+        function Delete(id) {
+            if (confirm("你确定要删除ID为：" + id + "的记录吗？")) {
+                $.post("/deleteuser", {
+                    id: id
+                }, function (result) {
+
+                    if (result) {
+                        $("#tr_" + id).remove();
+                    }
+                    else {
+                        alert("删除失败！");
+                    }
+                });
+            }
+        }
+
+        function Modify(id, username, password, customername, type, dwbh, bz, qyxz) {
+            $("#oldid").val(id);
+            $("#oldusername").val(username);
+            $("#oldpassword").val(password);
+            $("#oldcustomername").val(customername);
+            $("#olddwbh").val(dwbh);
+            $("#oldtype").val(type);
+            $("#oldbz").val(bz);
+            if (qyxz == "1") {
+                $("#oldqyxz").prop('checked', true)
+            } else {
+                $("#oldqyxz").prop('checked', false)
+            }
+        }
+
+        function SavaModify() {
+            if ($("#oldtype").val() != '1' && $("#oldtype").val() != '5' && $("#olddwbh").val() == '') {
+                alert("请填写供货商!");
+                return false;
+            }
+            $.post("/modifyuser", {
+                ID: $("#oldid").val(),
+                UserName: $("#oldusername").val(),
+                Password: $("#oldpassword").val(),
+                CustomerName: $("#oldcustomername").val(),
+                RoleType: $("#oldtype").val(),
+                DWBH: $("#olddwbh").val(),
+                BZ: $("#oldbz").val(),
+                QYXZ: $("#oldqyxz").prop('checked') ? 1 : 0
+            }, function (result) {
+                if (!result) {
+                    alert("修改失败，请确认与服务器连接！");
+                }
+                var str = "/Users";
+                window.location.href = str;
+            });
+        }
+
+        function SavaAdd() {
+            if ($("#type").val() != '1' && $("#type").val() != '5' && $("#dwbh").val() == '') {
+                alert("请填写供货商!");
+                return false;
+            }
+            $.post("/adduser", {
+                UserName: $("#username").val(),
+                Password: $("#password").val(),
+                CustomerName: $("#customername").val(),
+                RoleType: $("#type").val(),
+                DWBH: $("#dwbh").val(),
+                BZ: $("#bz").val(),
+                QYXZ: $("#qyxz").prop('checked') ? 1 : 0
+            }, function (result) {
+                if (!result) {
+                    alert("添加失败，请确认与服务器连接！");
+                }
+                var str = "/Users";
+                window.location.href = str;
+            });
+        }
+
+
+    </script>
+}

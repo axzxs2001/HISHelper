@@ -38,7 +38,7 @@ namespace Working.Model.Repository
         /// <returns></returns>
         public List<User> GetGetDepartmentUsers(int departmentID)
         {
-            return _dbContext.Users.Where(s => s.DepartmentID == departmentID).OrderBy(o => o.ID).ToList(); 
+            return _dbContext.Users.Where(s => s.DepartmentID == departmentID).OrderBy(o => o.ID).ToList();
         }
         /// <summary>
         /// 按照ID获取用户
@@ -48,6 +48,50 @@ namespace Working.Model.Repository
         public User GetUser(int userID)
         {
             return _dbContext.Users.SingleOrDefault(s => s.ID == userID);
-        }    
+        }
+        /// <summary>
+        /// 添加用户
+        /// </summary>
+        /// <param name="user">用户</param>
+        /// <returns></returns>
+        public bool AddUser(User user)
+        {
+            _dbContext.Users.Add(user);
+            return _dbContext.SaveChanges() > 0;
+        }
+        /// <summary>
+        /// 修改用户
+        /// </summary>
+        /// <param name="user">用户</param>
+        /// <returns></returns>
+        public bool ModifyUser(User user)
+        {
+            var oldUser = _dbContext.Users.SingleOrDefault(s => s.ID == user.ID);
+            if (oldUser != null)
+            {
+                oldUser.DepartmentID = user.DepartmentID;
+                oldUser.IsDeparmentLeader = user.IsDeparmentLeader;
+                oldUser.Name = user.Name;
+                oldUser.Password = user.Password;
+                oldUser.UserName = user.UserName;
+                return _dbContext.SaveChanges() > 0;
+            }
+            return false;
+        }
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        /// <param name="user">用户</param>
+        /// <returns></returns>
+        public bool RemoveUser(int userID)
+        {
+            var oldUser = _dbContext.Users.SingleOrDefault(s => s.ID == userID);
+            if (oldUser != null)
+            {
+                _dbContext.Users.Remove(oldUser);
+                return _dbContext.SaveChanges() > 0;
+            }
+            return false;
+        }
     }
 }
