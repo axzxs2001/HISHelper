@@ -7,7 +7,6 @@
 <div class="row">
     <div class="panel panel-default" style="margin-bottom:-10px;">
         <div class="panel-heading">
-
             <h3 class="panel-title">用户管理</h3>
         </div>
         <div class="panel-body">
@@ -25,7 +24,6 @@
                     </button>
                 </div>
             </div>
-
             <div class="row" style="margin-bottom:-10px;margin-top:10px;">
                 <div class="col-md-12">
                     <table class="table table-bordered table-hover  table-condensed table-striped">
@@ -155,6 +153,7 @@
         }
         //加载部门
         function LoadRole() {
+         
             $.ajax({
                 method: "GET",
                 url: 'roles',
@@ -162,9 +161,9 @@
                 },
                 success: function (backData) {
                     if (backData.result == 1) {
-                        roleVue=new Vue({
+                        roleVue = new Vue({
                             el: '#roleselect',
-                            data: {                                
+                            data: {
                                 selected: (backData.data.length > 0 ? backData.data[0].id : 0),
                                 items: backData.data
                             }
@@ -195,6 +194,7 @@
                             },
                             methods: {
                                 edituser: function (user) {
+
                                     UserEdit(user);
                                 }
                             }
@@ -211,9 +211,7 @@
 
         }
         //绑定新工作记录编辑
-        function UserEdit(user) {
-            console.log(user.roleid)
-            
+        function UserEdit(user) {         
             if (editVue == null) {
                 editVue = new Vue({
                     el: "#edituser",
@@ -230,14 +228,14 @@
             else {
                 editVue.user = user;
             }
-            roleVue.selected = user.roleid;
             $("#ModiyModal").modal('show');
+            //显示用户默认的角色
+            roleVue.selected = user.roleid;
+            $("#roleselect").val(user.roleid);
         }
         $(function () {
-            LoadDepartment();
             LoadRole();
+            LoadDepartment();
         })
-
-
     </script>
 }
