@@ -41,8 +41,11 @@ namespace Working.Models.DataModel
         /// </summary>
         public int RoleID
         { get; set; }
-
-
+        /// <summary>
+        /// 角色
+        /// </summary>
+        public Role Role
+        { get; set; }
         /// <summary>
         /// 部门编号
         /// </summary>

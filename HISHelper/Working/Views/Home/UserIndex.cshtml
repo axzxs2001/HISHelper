@@ -200,8 +200,7 @@
                 url: 'alldepartment',
                 data: {
                 },
-                success: function (backData) {
-                    console.log(backData)
+                success: function (backData) {              
                     if (backData.result == 1) {
                         if (departmentVue == null) {
                             departmentVue = new Vue({
@@ -212,7 +211,7 @@
                                 },
                                 methods: {
                                     ChangeDepartment: function () {
-                                        //LoadUser(this.selected);
+                                        LoadUser(this.selected);
                                     }
                                 }
                             })
@@ -223,7 +222,7 @@
                             }
                             departmentVue.items = backData.data;
                         }
-                     
+                        LoadUser(departmentVue.selected);
                     } else {
                         alert(backData.message);
                     }
@@ -234,6 +233,30 @@
             })
         }
 
+        function LoadUser(departmentID)
+        {
+            
+            $.ajax({
+                method: "GET",
+                url: 'userroles',
+                data: {
+                    departmentID: departmentID
+                },
+                success: function (backData) {
+                    console.log(backData)
+                    if (backData.result == 1) {
+                   
+
+                    } else {
+                        alert(backData.message);
+                    }
+                },
+                error: function (error) {
+                    alert(error.statusText)
+                }
+            })
+
+        }
         $(function () {
             LoadDepartment();
 

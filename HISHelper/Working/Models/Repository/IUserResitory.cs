@@ -24,8 +24,13 @@ namespace Working.Model.Repository
         /// </summary>
         /// <param name="departmentID">部门编号</param>
         /// <returns></returns>
-        List<User> GetGetDepartmentUsers(int departmentID);
-
+        List<User> GetDepartmentUsers(int departmentID);
+        /// <summary>
+        /// 查询部门下的用户
+        /// </summary>
+        /// <param name="departmentID">部门编号</param>
+        /// <returns></returns>
+        dynamic QueryDepartmentUsers(int departmentID);
         /// <summary>
         /// 按照ID获取用户
         /// </summary>
@@ -52,5 +57,6 @@ namespace Working.Model.Repository
         /// <param name="user">用户</param>
         /// <returns></returns>
         bool RemoveUser(int userID);
+
     }
 }

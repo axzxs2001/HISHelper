@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,9 +37,18 @@ namespace Working.Model.Repository
         /// </summary>
         /// <param name="departmentID">部门编号</param>
         /// <returns></returns>
-        public List<User> GetGetDepartmentUsers(int departmentID)
+        public List<User> GetDepartmentUsers(int departmentID)
         {
             return _dbContext.Users.Where(s => s.DepartmentID == departmentID).OrderBy(o => o.ID).ToList();
+        }
+        /// <summary>
+        /// 查询部门下的用户
+        /// </summary>
+        /// <param name="departmentID">部门编号</param>
+        /// <returns></returns>
+        public dynamic QueryDepartmentUsers(int departmentID)
+        {
+            return _dbContext.Users.Where(s => s.DepartmentID == departmentID).Include(user => user.Role).Select(user => new { user.ID, user.Name,user.UserName,user.Role.RoleName, user.RoleID}).OrderBy(o => o.ID).ToList();
         }
         /// <summary>
         /// 按照ID获取用户
@@ -93,5 +103,8 @@ namespace Working.Model.Repository
             }
             return false;
         }
+        
     }
+
+ 
 }

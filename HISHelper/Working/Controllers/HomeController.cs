@@ -38,16 +38,17 @@ namespace Working.Controllers
         /// </summary>
         /// <param name="workItemResitory">工作记录仓储</param>
         /// <param name="userResitory">用户仓储</param>
-        public HomeController(IWorkItemResitory workItemResitory, IDepartmentResitory departmentResitory, IUserResitory userResitory,IRoleResitory roleResitory)
+        public HomeController(IWorkItemResitory workItemResitory, IDepartmentResitory departmentResitory, IUserResitory userResitory, IRoleResitory roleResitory)
         {
             _workItemResitory = workItemResitory;
             _userResitory = userResitory;
             _departmentResitory = departmentResitory;
             _roleResitory = roleResitory;
         }
-        [Authorize(Roles = "user")]
+
         public IActionResult Index()
         {
+
             return View();
         }
         [AllowAnonymous]
@@ -143,7 +144,7 @@ namespace Working.Controllers
                 var user = _userResitory.GetUser(UserID);
                 if (user != null)
                 {
-                    var users = _userResitory.GetGetDepartmentUsers(user.DepartmentID);
+                    var users = _userResitory.GetDepartmentUsers(user.DepartmentID);
                     return Json(new { result = 1, data = users, message = $"查询成功！" }, new JsonSerializerSettings()
                     {
                         DateFormatString = "yyyy年MM月dd日",
@@ -209,7 +210,7 @@ namespace Working.Controllers
         {
             try
             {
-                var users = _userResitory.GetGetDepartmentUsers(departmentID);
+                var users = _userResitory.GetDepartmentUsers(departmentID);
                 return Json(new { result = 1, data = users, message = $"查询成功！" }, new JsonSerializerSettings()
                 {
                     DateFormatString = "yyyy年MM月dd日",
@@ -250,6 +251,7 @@ namespace Working.Controllers
             }
         }
 
+
         #endregion
 
         #region 用户操作
@@ -260,7 +262,7 @@ namespace Working.Controllers
             return View();
         }
 
-        [Authorize(Roles="Manager")]
+        [Authorize(Roles = "Manager")]
         [HttpGet("alldepartment")]
         public IActionResult GetAllDepartment()
         {
@@ -283,7 +285,29 @@ namespace Working.Controllers
                 return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
-
+        [HttpGet("userroles")]
+        public IActionResult GetRoleUserByDepartmentID(int departmentID)
+        {
+            try
+            {
+                var departments = _userResitory.QueryDepartmentUsers(departmentID);
+                return Json(new
+                {
+                    result = 1,
+                    message = "查询成功",
+                    data = departments
+                }, new JsonSerializerSettings()
+                {
+                    DateFormatString = "yyyy年MM月dd日",
+                    ContractResolver = new LowercaseContractResolver(),
+                    NullValueHandling = NullValueHandling.Ignore
+                });
+            }
+            catch (Exception exc)
+            {
+                return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
+            }
+        }
         #endregion
 
 
