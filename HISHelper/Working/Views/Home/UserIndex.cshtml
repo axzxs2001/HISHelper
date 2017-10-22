@@ -31,18 +31,14 @@
                     <table class="table table-bordered table-hover  table-condensed table-striped">
                         <thead>
                             <tr>
-                                <th>编号</th>
+                                <th style="width:50px;">编号</th>
                                 <th>用户名</th>
-                                <th>密码</th>
                                 <th>姓名</th>
                                 <th>角色</th>
-                                <th>标志</th>
-                                <th></th>
+                                <th style="width:90px;"></th>
                             </tr>
                         </thead>
-                        <tbody>
-                      
-                        </tbody>
+                        <tbody id="usertr"></tbody>
                     </table>
                 </div>
             </div>
@@ -53,65 +49,33 @@
 
 <div class="modal fade" id="ModiyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        bzsm
-        <div class="modal-content">
+        <div class="modal-content" id="edituser">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
-                <h4 class="modal-title" id="modeltitle">修改子类型</h4>
+                <h4 class="modal-title" id="modeltitle">修改用户</h4>
             </div>
-            <div class="modal-body" id="modelbody">
+            <div class="modal-body">
                 <div class="row" style="margin-top:10px;">
                     <div class="col-md-6">
-                        <input type="text" readonly class="form-control" id="oldid" name="oldid" placeholder="编号">
+                        <input type="text" class="form-control" v-model="user.name" placeholder="姓名">
                     </div>
-
                     <div class="col-md-6">
-                        <input type="text" class="form-control" id="oldusername" name="oldusername" placeholder="用户名">
+                        <input type="text" class="form-control" v-model="user.username" placeholder="用户名">
                     </div>
                 </div>
                 <div class="row" style="margin-top:10px;">
                     <div class="col-md-6">
-                        <input type="text" class="form-control" id="oldpassword" name="oldpassword" placeholder="密码">
-                    </div>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" placeholder="供货商（支持助记码查询）" id="oldautocomplete" />
-                        <input type="hidden" name="olddwbh" id="olddwbh" />
-
-                    </div>
-                </div>
-
-                <div class="row" style="margin-top:10px;">
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" id="oldcustomername" name="oldcustomername" placeholder="姓名">
-                    </div>
-                    <div class="col-md-6">
-                        <select class="form-control" id="oldtype" name="oldtype">
-                            <option value="1">管理员</option>
-                            <option value="2">供应商</option>
-                            <option value="3">生产企业</option>
-                            <option value="4">业务员</option>
-                            <option value="5" selected>本企业</option>
+                        <select id="roleselect" class="form-control" v-cloak v-model="selected">
+                            <option v-for="item in items" v-bind:value="item.id">{{item.rolename}}</option>
                         </select>
                     </div>
-                </div>
-                <div class="row" style="margin-top:10px;">
                     <div class="col-md-6">
-                        <input type="checkbox" id="oldqyxz" name="oldqyxz" style="width:18px;height:18px;" />批发企业选中，连锁企业不先中
-                    </div>
-                    <div class="col-md-6">
-                        <select class="form-control" id="oldbz" name="oldbz">
-                            <option value="0" selected>管理员</option>
-                            <option value="1">本公司</option>
-                            <option value="2">供应商</option>
-                            <option value="3">货位</option>
-                            <option value="4">合同号</option>
-                            <option value="5">生产企业</option>
-                        </select>
+
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" onclick="SavaModify()">
+                <button class="btn btn-success" v-on:click="savaUser">
                     保存
                 </button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -119,80 +83,37 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
-                <h4 class="modal-title" id="modeltitle">添加用户</h4>
-            </div>
-            <div class="modal-body" id="modelbody">
-                <div class="row" style="margin-top:10px;">
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" id="username" name="username" placeholder="用户名">
-                    </div>
-                    <div class="col-md-6">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="密码">
-                    </div>
-
-                </div>
-                <div class="row" style="margin-top:10px;">
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" placeholder="供货商（支持助记码查询）" id="autocomplete" />
-                        <input type="hidden" name="dwbh" id="dwbh" />
-                    </div>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" id="customername" name="customername" placeholder="姓名">
-                    </div>
-                </div>
-                <div class="row" style="margin-top:10px;">
-                    <div class="col-md-6">
-                        <select class="form-control" id="type" name="type">
-                            <option value="1">管理员</option>
-                            <option value="2">供应商</option>
-                            <option value="3">生产企业</option>
-                            <option value="4" selected>业务员</option>
-                            <option value="5">本企业</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <input type="checkbox" id="qyxz" name="qyxz" style="width:18px;height:18px;" />批发企业选中，连锁企业不先中
-                    </div>
-                </div>
-                <div class="row" style="margin-top:10px;">
-
-                    <div class="col-md-6">
-                        <select class="form-control" id="bz" name="bz">
-                            <option value="0" selected>管理员</option>
-                            <option value="1">本公司</option>
-                            <option value="2">供应商</option>
-                            <option value="3">货位</option>
-                            <option value="4">合同号</option>
-                            <option value="5">生产企业</option>
-                        </select>
-                    </div>
-                </div>
-
-            </div>
-
-
-            <div class="modal-footer">
-                <button class="btn btn-success" onclick="SavaAdd()">
-                    保存
-                </button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 @section scripts {
-
+    <!--tr模版-->
+    <script type="text/x-template" id="user-tr">
+        <tr>
+            <td>{{user.id}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.rolename}}</td>
+            <td>
+                <button class="btn btn-success btn-xs" v-on:click="editClick">编辑</button>
+                <button class="btn btn-danger btn-xs" v-on:click="editClick">删除</button>
+            </td>
+        </tr>
+    </script>
     <script>
+        //用户组件
+        Vue.component("user-row", {
+            props: ["user"],
+            template: '#user-tr',
+            methods: {
+                editClick: function () {
+                    this.$emit('edituser', this.user)
+                }
+            }
+        })
+
         //部门Vue
         var departmentVue = null;
+        var editVue = null;
+        var roleVue = null;
         //加载部门
         function LoadDepartment() {
             $.ajax({
@@ -200,7 +121,7 @@
                 url: 'alldepartment',
                 data: {
                 },
-                success: function (backData) {              
+                success: function (backData) {
                     if (backData.result == 1) {
                         if (departmentVue == null) {
                             departmentVue = new Vue({
@@ -232,10 +153,33 @@
                 }
             })
         }
-
-        function LoadUser(departmentID)
-        {
-            
+        //加载部门
+        function LoadRole() {
+            $.ajax({
+                method: "GET",
+                url: 'roles',
+                data: {
+                },
+                success: function (backData) {
+                    if (backData.result == 1) {
+                        roleVue=new Vue({
+                            el: '#roleselect',
+                            data: {                                
+                                selected: (backData.data.length > 0 ? backData.data[0].id : 0),
+                                items: backData.data
+                            }
+                        })
+                    } else {
+                        alert(backData.message);
+                    }
+                },
+                error: function (error) {
+                    alert(error.statusText)
+                }
+            })
+        }
+        function LoadUser(departmentID) {
+            $("#usertr").html('<tr is="user-row" v-for="user in users" v-on:edituser="edituser" v-bind:user="user"></tr>');
             $.ajax({
                 method: "GET",
                 url: 'userroles',
@@ -243,9 +187,18 @@
                     departmentID: departmentID
                 },
                 success: function (backData) {
-                    console.log(backData)
                     if (backData.result == 1) {
-                   
+                        new Vue({
+                            el: "#usertr",
+                            data: {
+                                users: backData.data
+                            },
+                            methods: {
+                                edituser: function (user) {
+                                    UserEdit(user);
+                                }
+                            }
+                        });
 
                     } else {
                         alert(backData.message);
@@ -257,9 +210,32 @@
             })
 
         }
+        //绑定新工作记录编辑
+        function UserEdit(user) {
+            console.log(user.roleid)
+            
+            if (editVue == null) {
+                editVue = new Vue({
+                    el: "#edituser",
+                    data: {
+                        user: user
+                    },
+                    methods: {
+                        savaUser: function () {
+                            // EditSavaWorkItme(this.user);
+                        }
+                    }
+                });
+            }
+            else {
+                editVue.user = user;
+            }
+            roleVue.selected = user.roleid;
+            $("#ModiyModal").modal('show');
+        }
         $(function () {
             LoadDepartment();
-
+            LoadRole();
         })
 
 

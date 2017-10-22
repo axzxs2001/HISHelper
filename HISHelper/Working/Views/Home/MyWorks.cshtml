@@ -226,13 +226,13 @@
                     year: year,
                     month: month
                 },
-                success: function (dataBack) {
-                    if (dataBack.result == 1) {
-                        console.log(dataBack.message);
+                success: function (backData) {
+                    if (backData.result == 1) {
+                        
                         new Vue({
                             el: "#workitemtr",
                             data: {
-                                workitems: dataBack.data
+                                workitems: backData.data
                             },
                             methods: {
                                 editWorkItem: function (workitem) {

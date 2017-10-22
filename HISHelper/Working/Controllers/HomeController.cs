@@ -308,6 +308,30 @@ namespace Working.Controllers
                 return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
+        [HttpGet("roles")]
+        public IActionResult GetAllRole()
+        {
+            try
+            {
+                var roles = _roleResitory.GetAllRole();
+                return Json(new
+                {
+                    result = 1,
+                    message = "查询成功",
+                    data = roles
+                }, new JsonSerializerSettings()
+                {
+                    DateFormatString = "yyyy年MM月dd日",
+                    ContractResolver = new LowercaseContractResolver(),
+                    NullValueHandling = NullValueHandling.Ignore
+                });
+            }
+            catch (Exception exc)
+            {
+                return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
+            }
+        }
+
         #endregion
 
 
