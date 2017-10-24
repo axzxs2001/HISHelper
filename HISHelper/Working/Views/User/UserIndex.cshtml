@@ -63,7 +63,7 @@
                 </div>
                 <div class="row" style="margin-top:10px;">
                     <div class="col-md-6">
-                        <select id="roleselect" class="form-control" v-cloak >
+                        <select id="roleselect" class="form-control" v-cloak>
                             <option v-for="item in items" v-bind:value="item.id">{{item.rolename}}</option>
                         </select>
                     </div>
@@ -85,14 +85,14 @@
 @section scripts {
     <!--tr模版-->
     <script type="text/x-template" id="user-tr">
-        <tr>
+        <tr v-bind:id="'tr_'+user.id">
             <td>{{user.id}}</td>
             <td>{{user.name}}</td>
-            <td>{{user.username}}</td>    
-            <td>{{user.rolename}}</td>        
+            <td>{{user.username}}</td>
+            <td>{{user.rolename}}</td>
             <td>
                 <button class="btn btn-success btn-xs" v-on:click="editClick">编辑</button>
-                <button class="btn btn-danger btn-xs" v-on:click="editClick">删除</button>
+                <button class="btn btn-danger btn-xs" v-on:click="removeClick">删除</button>
             </td>
         </tr>
     </script>
@@ -104,6 +104,9 @@
             methods: {
                 editClick: function () {
                     this.$emit('edituser', this.user)
+                },
+                removeClick: function () {                   
+                    this.$emit('removeuser', this.user)
                 }
             }
         })
@@ -162,11 +165,11 @@
                     if (backData.result == 1) {
                         roleVue = new Vue({
                             el: '#roleselect',
-                            data: {                         
+                            data: {
                                 items: backData.data
                             }
                         })
-                        $("#roleselect").attr("v-model","roleid")
+                        $("#roleselect").attr("v-model", "roleid")
                     } else {
                         alert(backData.message);
                     }
@@ -177,7 +180,7 @@
             })
         }
         function LoadUser(departmentID) {
-            $("#usertr").html('<tr is="user-row" v-for="user in users" v-on:edituser="edituser" v-bind:user="user"></tr>');
+            $("#usertr").html('<tr is="user-row" v-for="user in users" v-on:edituser="edituser" v-on:removeuser="removeuser" v-bind:user="user"></tr>');
             $.ajax({
                 method: "GET",
                 url: 'userroles',
@@ -193,8 +196,10 @@
                             },
                             methods: {
                                 edituser: function (user) {
-
                                     UserEdit(user);
+                                },
+                                removeuser: function (user) {                               
+                                    UserRemove(user);
                                 }
                             }
                         });
@@ -210,7 +215,7 @@
 
         }
         //绑定新工作记录编辑
-        function UserEdit(user) {    
+        function UserEdit(user) {
             if (editVue == null) {
                 editVue = new Vue({
                     el: "#edituser",
@@ -241,10 +246,10 @@
                             })
                         }
                     },
-                    watch: {                     
+                    watch: {
                         roleid: function (newroleid) {
                             this.user.roleid = newroleid;
-                            this.user.rolename = $("#roleselect").find("option:selected").text();                
+                            this.user.rolename = $("#roleselect").find("option:selected").text();
                         }
                     }
                 });
@@ -256,6 +261,30 @@
             //显示用户默认的角色
             roleVue.selected = user.roleid;
             $("#roleselect").val(user.roleid);
+        }
+
+        //绑定新工作记录删除
+        function UserRemove(user) {
+            if (confirm("确定要删除：" + user.name + "?")) {
+                $.ajax({
+                    method: "DELETE",
+                    url: 'removeuser',
+                    data: {
+                        userID: user.id
+                    },
+                    success: function (backData) {
+                        if (backData.result == 1) {
+                            $("#tr_" + user.id).remove();
+                            alert("删除成功！")
+                        } else {
+                            alert(backData.message);
+                        }
+                    },
+                    error: function (error) {
+                        alert(error.statusText)
+                    }
+                })
+            }
         }
         $(function () {
             LoadRole();

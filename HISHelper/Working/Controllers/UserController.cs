@@ -145,10 +145,41 @@ namespace Working.Controllers
             }
             catch (Exception exc)
             {
-                return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
+                return Json(new { result = 0, message = $"修改失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
-
+        [HttpDelete("removeuser")]
+        public IActionResult RemoveUser(int userID)
+        {
+            try
+            {
+                var result = _userResitory.RemoveUser(userID);
+                if (result)
+                {
+                    return Json(new
+                    {
+                        result = 1,
+                        message = "删除成功",
+                        data = true
+                    }, new JsonSerializerSettings()
+                   );
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        result = 0,
+                        message = "删除失败",
+                        data = false
+                    }, new JsonSerializerSettings()
+              );
+                }
+            }
+            catch (Exception exc)
+            {
+                return Json(new { result = 0, message = $"删除失败:{exc.Message}" }, new JsonSerializerSettings());
+            }
+        }
         #endregion
     }
 }
