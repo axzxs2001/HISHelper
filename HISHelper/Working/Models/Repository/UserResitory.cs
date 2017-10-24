@@ -75,14 +75,12 @@ namespace Working.Model.Repository
         /// <param name="user">用户</param>
         /// <returns></returns>
         public bool ModifyUser(User user)
-        {
+        {  
             var oldUser = _dbContext.Users.SingleOrDefault(s => s.ID == user.ID);
             if (oldUser != null)
             {
-                oldUser.DepartmentID = user.DepartmentID;
                 oldUser.RoleID = user.RoleID;
-                oldUser.Name = user.Name;
-                oldUser.Password = user.Password;
+                oldUser.Name = user.Name;          
                 oldUser.UserName = user.UserName;
                 return _dbContext.SaveChanges() > 0;
             }

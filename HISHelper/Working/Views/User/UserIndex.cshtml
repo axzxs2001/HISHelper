@@ -63,7 +63,7 @@
                 </div>
                 <div class="row" style="margin-top:10px;">
                     <div class="col-md-6">
-                        <select id="roleselect" class="form-control" v-cloak v-model="selected">
+                        <select id="roleselect" class="form-control" v-cloak v-model="selected" v-on:change="ChangeRole">
                             <option v-for="item in items" v-bind:value="item.id">{{item.rolename}}</option>
                         </select>
                     </div>
@@ -153,7 +153,7 @@
         }
         //加载部门
         function LoadRole() {
-         
+
             $.ajax({
                 method: "GET",
                 url: 'roles',
@@ -166,6 +166,14 @@
                             data: {
                                 selected: (backData.data.length > 0 ? backData.data[0].id : 0),
                                 items: backData.data
+                            },
+                            methods: {
+                                ChangeRole: function () {
+                                    console.log(123)
+                                    //console.log($("#roleselect").val())
+                                    //console.log($("#roleselect").text())
+                                    //this.selected = $("#roleselect").val();
+                                }
                             }
                         })
                     } else {
@@ -211,7 +219,7 @@
 
         }
         //绑定新工作记录编辑
-        function UserEdit(user) {         
+        function UserEdit(user) {
             if (editVue == null) {
                 editVue = new Vue({
                     el: "#edituser",
@@ -220,7 +228,25 @@
                     },
                     methods: {
                         savaUser: function () {
-                            // EditSavaWorkItme(this.user);
+                            this.user.roleid = $("#roleselect").val();
+                            $.ajax({
+                                method: "PUT",
+                                url: 'modifyuser',
+                                data: {
+                                    user: this.user
+                                },
+                                success: function (backData) {
+                                    if (backData.result == 1) {
+
+                                    } else {
+                                        alert(backData.message);
+                                    }
+                                    $("#ModiyModal").modal('hide');
+                                },
+                                error: function (error) {
+                                    alert(error.statusText)
+                                }
+                            })
                         }
                     }
                 });
