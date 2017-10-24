@@ -63,7 +63,7 @@
                 </div>
                 <div class="row" style="margin-top:10px;">
                     <div class="col-md-6">
-                        <select id="roleselect" class="form-control" v-cloak v-model="selected" v-on:change="ChangeRole">
+                        <select id="roleselect" class="form-control" v-cloak >
                             <option v-for="item in items" v-bind:value="item.id">{{item.rolename}}</option>
                         </select>
                     </div>
@@ -88,8 +88,8 @@
         <tr>
             <td>{{user.id}}</td>
             <td>{{user.name}}</td>
-            <td>{{user.username}}</td>
-            <td>{{user.rolename}}</td>
+            <td>{{user.username}}</td>    
+            <td>{{user.rolename}}</td>        
             <td>
                 <button class="btn btn-success btn-xs" v-on:click="editClick">编辑</button>
                 <button class="btn btn-danger btn-xs" v-on:click="editClick">删除</button>
@@ -153,7 +153,6 @@
         }
         //加载部门
         function LoadRole() {
-
             $.ajax({
                 method: "GET",
                 url: 'roles',
@@ -163,19 +162,11 @@
                     if (backData.result == 1) {
                         roleVue = new Vue({
                             el: '#roleselect',
-                            data: {
-                                selected: (backData.data.length > 0 ? backData.data[0].id : 0),
+                            data: {                         
                                 items: backData.data
-                            },
-                            methods: {
-                                ChangeRole: function () {
-                                    console.log(123)
-                                    //console.log($("#roleselect").val())
-                                    //console.log($("#roleselect").text())
-                                    //this.selected = $("#roleselect").val();
-                                }
                             }
                         })
+                        $("#roleselect").attr("v-model","roleid")
                     } else {
                         alert(backData.message);
                     }
@@ -219,11 +210,12 @@
 
         }
         //绑定新工作记录编辑
-        function UserEdit(user) {
+        function UserEdit(user) {    
             if (editVue == null) {
                 editVue = new Vue({
                     el: "#edituser",
                     data: {
+                        roleid: user.roleid,
                         user: user
                     },
                     methods: {
@@ -247,6 +239,12 @@
                                     alert(error.statusText)
                                 }
                             })
+                        }
+                    },
+                    watch: {                     
+                        roleid: function (newroleid) {
+                            this.user.roleid = newroleid;
+                            this.user.rolename = $("#roleselect").find("option:selected").text();                
                         }
                     }
                 });
