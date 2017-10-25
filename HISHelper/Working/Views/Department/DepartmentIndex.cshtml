@@ -30,13 +30,12 @@
                         <thead>
                             <tr>
                                 <th style="width:50px;">编号</th>
-                                <th>用户名</th>
-                                <th>姓名</th>
-                                <th>角色</th>
+                                <th>部门名称</th>
+                                <th>上级部门名称</th>                         
                                 <th style="width:90px;"></th>
                             </tr>
                         </thead>
-                        <tbody id="usertr"></tbody>
+                        <tbody id="departmenttr"></tbody>
                     </table>
                 </div>
             </div>
@@ -47,15 +46,15 @@
 
 <div class="modal fade" id="ModiyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content" id="edituser">
+        <div class="modal-content" id="editdepartment">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
-                <h4 class="modal-title" id="modeltitle">修改用户</h4>
+                <h4 class="modal-title" id="modeltitle">修改部门</h4>
             </div>
             <div class="modal-body">
                 <div class="row" style="margin-top:10px;">
                     <div class="col-md-6">
-                        <input type="text" class="form-control" v-model="user.name" placeholder="姓名">
+                        <input type="text" class="form-control" v-model="user.name" placeholder="部门名称">
                     </div>
                     <div class="col-md-6">
                         <input type="text" class="form-control" v-model="user.username" placeholder="用户名">
@@ -84,12 +83,11 @@
 
 @section scripts {
     <!--tr模版-->
-    <script type="text/x-template" id="user-tr">
-        <tr v-bind:id="'tr_'+user.id">
-            <td>{{user.id}}</td>
-            <td>{{user.name}}</td>
-            <td>{{user.username}}</td>
-            <td>{{user.rolename}}</td>
+    <script type="text/x-template" id="department-tr">
+        <tr v-bind:id="'tr_'+department.id">
+            <td>{{department.id}}</td>
+            <td>{{department.departmentname}}</td>
+            <td>{{department.pdepartmentname}}</td>   
             <td>
                 <button class="btn btn-success btn-xs" v-on:click="editClick">编辑</button>
                 <button class="btn btn-danger btn-xs" v-on:click="removeClick">删除</button>
@@ -98,23 +96,22 @@
     </script>
     <script>
         //用户组件
-        Vue.component("user-row", {
-            props: ["user"],
-            template: '#user-tr',
+        Vue.component("department-row", {
+            props: ["department"],
+            template: '#department-tr',
             methods: {
                 editClick: function () {
-                    this.$emit('edituser', this.user)
+                    this.$emit('editdepartment', this.user)
                 },
                 removeClick: function () {                   
-                    this.$emit('removeuser', this.user)
+                    this.$emit('removedepartment', this.user)
                 }
             }
         })
 
         //部门Vue
         var departmentVue = null;
-        var editVue = null;
-        var roleVue = null;
+  
         //加载部门
         function LoadDepartment() {
             $.ajax({
@@ -154,68 +151,10 @@
                 }
             })
         }
-        //加载部门
-        function LoadRole() {
-            $.ajax({
-                method: "GET",
-                url: 'roles',
-                data: {
-                },
-                success: function (backData) {
-                    if (backData.result == 1) {
-                        roleVue = new Vue({
-                            el: '#roleselect',
-                            data: {
-                                items: backData.data
-                            }
-                        })
-                        $("#roleselect").attr("v-model", "roleid")
-                    } else {
-                        alert(backData.message);
-                    }
-                },
-                error: function (error) {
-                    alert(error.statusText)
-                }
-            })
-        }
-        function LoadUser(departmentID) {
-            $("#usertr").html('<tr is="user-row" v-for="user in users" v-on:edituser="edituser" v-on:removeuser="removeuser" v-bind:user="user"></tr>');
-            $.ajax({
-                method: "GET",
-                url: 'userroles',
-                data: {
-                    departmentID: departmentID
-                },
-                success: function (backData) {
-                    if (backData.result == 1) {
-                        new Vue({
-                            el: "#usertr",
-                            data: {
-                                users: backData.data
-                            },
-                            methods: {
-                                edituser: function (user) {
-                                    UserEdit(user);
-                                },
-                                removeuser: function (user) {                               
-                                    UserRemove(user);
-                                }
-                            }
-                        });
-
-                    } else {
-                        alert(backData.message);
-                    }
-                },
-                error: function (error) {
-                    alert(error.statusText)
-                }
-            })
-
-        }
+      
+     
         //绑定新工作记录编辑
-        function UserEdit(user) {
+        function DepartmentEdit(department) {
             if (editVue == null) {
                 editVue = new Vue({
                     el: "#edituser",
@@ -264,7 +203,7 @@
         }
 
         //绑定新工作记录删除
-        function UserRemove(user) {
+        function DepartmentRemove(user) {
             if (confirm("确定要删除：" + user.name + "?")) {
                 $.ajax({
                     method: "DELETE",
@@ -286,8 +225,7 @@
                 })
             }
         }
-        $(function () {
-            LoadRole();
+        $(function () {           
             LoadDepartment();
         })
     </script>
