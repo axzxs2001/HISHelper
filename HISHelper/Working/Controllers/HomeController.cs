@@ -131,36 +131,7 @@ namespace Working.Controllers
         {
             return View();
         }
-
-        /// <summary>
-        /// 查询部门用户
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("getdepartmentusers")]
-        public IActionResult DepartmentUsers()
-        {
-            try
-            {
-                var user = _userResitory.GetUser(UserID);
-                if (user != null)
-                {
-                    var users = _userResitory.GetDepartmentUsers(user.DepartmentID);
-                    return Json(new { result = 1, data = users, message = $"查询成功！" }, new JsonSerializerSettings()
-                    {
-                        DateFormatString = "yyyy年MM月dd日",
-                        ContractResolver = new LowercaseContractResolver()
-                    });
-                }
-                else
-                {
-                    return Json(new { result = 0, message = $"查询失败:按{UserID}查询不到用户" }, new JsonSerializerSettings());
-                }
-            }
-            catch (Exception exc)
-            {
-                return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
-            }
-        }
+  
         /// <summary>
         /// 按年，月，用户查询工作记录
         /// </summary>
@@ -197,65 +168,9 @@ namespace Working.Controllers
             {
                 return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
             }
-        }
-
-        /// <summary>
-        /// 按照部门ID查本部门用户
-        /// </summary>
-        /// <param name="departmentID"></param>
-        /// <returns></returns>
-        [Authorize(Roles = "Manager,Leader")]
-        [HttpGet("departmentusers")]
-        public IActionResult DepartmentUsers(int departmentID)
-        {
-            try
-            {
-                var users = _userResitory.GetDepartmentUsers(departmentID);
-                return Json(new { result = 1, data = users, message = $"查询成功！" }, new JsonSerializerSettings()
-                {
-                    DateFormatString = "yyyy年MM月dd日",
-                    ContractResolver = new LowercaseContractResolver()
-                });
-            }
-            catch (Exception exc)
-            {
-                return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
-            }
-        }
-
-        /// <summary>
-        /// 查询用户部门的所有下属部门
-        /// </summary>
-        /// <returns></returns>
-        [Authorize(Roles = "Manager,Leader")]
-        [HttpGet("mydepartments")]
-        public IActionResult GetMyDepartments()
-        {
-            try
-            {
-                var departments = _departmentResitory.GetDeparments(UserID);
-                return Json(new
-                {
-                    result = 1,
-                    message = "查询成功",
-                    data = departments
-                }, new JsonSerializerSettings()
-                {
-                    DateFormatString = "yyyy年MM月dd日",
-                    ContractResolver = new LowercaseContractResolver()
-                });
-            }
-            catch (Exception exc)
-            {
-                return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
-            }
-        }
-
-
+        }    
         #endregion
-
-
-
+        
 
         #region 登录页
         /// <summary>

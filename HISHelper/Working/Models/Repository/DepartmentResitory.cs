@@ -62,5 +62,47 @@ namespace Working.Model.Repository
             return _dbContext.Departments.ToList();
         }
 
+        /// <summary>
+        /// 添加部门
+        /// </summary>
+        /// <param name="department">部门</param>
+        /// <returns></returns>
+        public bool AddDepartment(Department department)
+        {
+            _dbContext.Departments.Add(department);
+            return _dbContext.SaveChanges() > 0;
+        }
+        /// <summary>
+        /// 修改部门
+        /// </summary>
+        /// <param name="department">部门</param>
+        /// <returns></returns>
+        public bool ModifyDepartment(Department department)
+        {
+            var oldDepartment = _dbContext.Departments.SingleOrDefault(s => s.ID == department.ID);
+            if (oldDepartment != null)
+            {
+                oldDepartment.PID = department.PID;
+                oldDepartment.DepartMentName = department.DepartMentName;           
+                return _dbContext.SaveChanges() > 0;
+            }
+            return false;
+        }
+        /// <summary>
+        /// 删除部门
+        /// </summary>
+        /// <param name="departmentID">部门</param>
+        /// <returns></returns>
+        public bool RemoveDepartment(int departmentID)
+        {
+            var oldDepartment = _dbContext.Departments.SingleOrDefault(s => s.ID == departmentID);
+            if (oldDepartment != null)
+            {
+                _dbContext.Departments.Remove(oldDepartment);
+                return _dbContext.SaveChanges() > 0;
+            }
+            return false;
+        }
+
     }
 }
