@@ -11,12 +11,7 @@ namespace Working.Model.Repository
     /// </summary>
     public interface IDepartmentResitory
     {
-        /// <summary>
-        /// 按用户ID获取此人所在部门的所有下级部门
-        /// </summary>
-        /// <param name="userID">用户ID</param>
-        /// <returns></returns>
-        List<Department> GetDeparments(int userID);
+
 
         /// <summary>
         /// 获取全部部门

@@ -48,7 +48,7 @@ namespace Working.Model.Repository
         /// <returns></returns>
         public dynamic QueryDepartmentUsers(int departmentID)
         {
-            return _dbContext.Users.Where(s => s.DepartmentID == departmentID).Include(user => user.Role).Select(user => new { user.ID, user.Name,user.UserName,user.Role.RoleName, user.RoleID}).OrderBy(o => o.ID).ToList();
+            return _dbContext.Users.Where(s => s.DepartmentID == departmentID).Include(user => user.Role).Select(user => new { user.ID, user.Name, user.UserName, user.Role.RoleName, user.RoleID }).OrderBy(o => o.ID).ToList();
         }
         /// <summary>
         /// 按照ID获取用户
@@ -75,12 +75,12 @@ namespace Working.Model.Repository
         /// <param name="user">用户</param>
         /// <returns></returns>
         public bool ModifyUser(User user)
-        {  
+        {
             var oldUser = _dbContext.Users.SingleOrDefault(s => s.ID == user.ID);
             if (oldUser != null)
             {
                 oldUser.RoleID = user.RoleID;
-                oldUser.Name = user.Name;          
+                oldUser.Name = user.Name;
                 oldUser.UserName = user.UserName;
                 return _dbContext.SaveChanges() > 0;
             }
@@ -101,8 +101,41 @@ namespace Working.Model.Repository
             }
             return false;
         }
-        
+
+        /// <summary>
+        /// 按用户ID获取此人所在部门的所有下级部门
+        /// </summary>
+        /// <param name="userID">用户ID</param>
+        /// <returns></returns>
+        public dynamic GetDeparments(int userID)
+        {
+            var user = _dbContext.Users.SingleOrDefault(s => s.ID == userID);
+            if (user != null)
+            {
+                return GetMyDeparments(user.DepartmentID, _dbContext.Departments.ToList());
+            }
+            else
+            {
+                return new List<Department>();
+            }
+        }
+        /// <summary>
+        /// 递归获取所有部门
+        /// </summary>
+        /// <param name="departmentID"></param>
+        /// <returns></returns>
+        dynamic GetMyDeparments(int departmentID, List<Department> allDeparments)
+        {
+            var departments = new List<dynamic>();
+            foreach (var department in allDeparments.Where(s => s.PDepartmentID == departmentID).Select(s=>new {s.ID,s.DepartmentName }))
+            {
+                departments.Add(department);
+                departments.AddRange(GetMyDeparments(department.ID, allDeparments));
+            }
+            return departments;
+        }
+
     }
 
- 
+
 }

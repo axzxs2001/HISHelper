@@ -66,7 +66,7 @@ namespace Working.Controllers
         {
             try
             {
-                var departments = _departmentResitory.GetDeparments(UserID);
+                var departments = _userResitory.GetDeparments(UserID);
                 return Json(new
                 {
                     result = 1,

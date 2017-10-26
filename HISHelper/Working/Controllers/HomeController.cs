@@ -210,7 +210,7 @@ namespace Working.Controllers
                 //查询角色名称
                 var roleName = _roleResitory.GetRole(user.RoleID).RoleName;
                 //查看是否有下级部门
-                var departments = _departmentResitory.GetDeparments(user.ID);
+                var departments = _userResitory.GetDeparments(user.ID);
                 var claims = new Claim[]
                 {
                     new Claim(ClaimTypes.UserData,user.UserName),
