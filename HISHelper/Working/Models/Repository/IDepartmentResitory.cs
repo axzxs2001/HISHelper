@@ -22,8 +22,12 @@ namespace Working.Model.Repository
         /// 获取全部部门
         /// </summary>
         /// <returns></returns>
-        List<Department> GetAllDeparments();
-
+        dynamic GetAllDeparments();
+        /// <summary>
+        /// 获取全部门，包括公司
+        /// </summary>
+        /// <returns></returns>
+        List<Department> GetAllPDepartment();
         /// <summary>
         /// 添加部门
         /// </summary>

@@ -50,9 +50,9 @@ namespace Working.Model.Repository
         /// <returns></returns>
         bool IsExit(DateTime recordDate, int userID)
         {
-            var beginTime = DateTime.Parse(recordDate.ToString("yyyy-MM-dd 00:00:00")).AddSeconds(-1);
-            var endTime = DateTime.Parse(recordDate.ToString("yyyy-MM-dd 23:59:59")).AddSeconds(1);
-            var workItems = _dbContext.WorkItems.Where(w => w.CreateUserID == userID && w.RecordDate > beginTime && w.RecordDate < endTime).OrderByDescending(o => o.CreateTime).OrderBy(o => o.RecordDate).ToList();
+            var beginTime = DateTime.Parse(recordDate.ToString("yyyy-MM-dd 00:00:00"));
+            var endTime = DateTime.Parse(recordDate.ToString("yyyy-MM-dd 00:00:00")).AddDays(1);
+            var workItems = _dbContext.WorkItems.Where(w => w.CreateUserID == userID && w.RecordDate >= beginTime && w.RecordDate < endTime).ToList();
             return workItems.Count > 0;
         }
 

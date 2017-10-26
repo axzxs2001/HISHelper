@@ -11,12 +11,7 @@
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-3">
-                    <select id="departmentselect" class="form-control" v-cloak v-model="selected" v-on:change="ChangeDepartment">
-                        <option v-for="item in items" v-bind:value="item.id">{{item.departmentname}}</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
+                <div class="col-md-9">
                 </div>
                 <div class="col-md-3" style="text-align:right">
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#AddModal">
@@ -31,11 +26,13 @@
                             <tr>
                                 <th style="width:50px;">编号</th>
                                 <th>部门名称</th>
-                                <th>上级部门名称</th>                         
+                                <th>上级部门名称</th>
                                 <th style="width:90px;"></th>
                             </tr>
                         </thead>
-                        <tbody id="departmenttr"></tbody>
+                        <tbody id="departmenttr">
+                            <tr is="department-row" v-for="department in departments" v-on:editdepartment="editdepartment" v-on:removedepartment="removedepartment" v-bind:department="department"></tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -54,20 +51,12 @@
             <div class="modal-body">
                 <div class="row" style="margin-top:10px;">
                     <div class="col-md-6">
-                        <input type="text" class="form-control" v-model="user.name" placeholder="部门名称">
+                        <input type="text" class="form-control" v-model="department.departmentname" placeholder="部门名称">
                     </div>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" v-model="user.username" placeholder="用户名">
-                    </div>
-                </div>
-                <div class="row" style="margin-top:10px;">
-                    <div class="col-md-6">
-                        <select id="roleselect" class="form-control" v-cloak>
-                            <option v-for="item in items" v-bind:value="item.id">{{item.rolename}}</option>
+                        <select id="pdepartmentselect" class="form-control" v-cloak>
+                            <option v-for="department in departments" v-bind:value="department.id">{{department.departmentname}}</option>
                         </select>
-                    </div>
-                    <div class="col-md-6">
-
                     </div>
                 </div>
             </div>
@@ -87,7 +76,7 @@
         <tr v-bind:id="'tr_'+department.id">
             <td>{{department.id}}</td>
             <td>{{department.departmentname}}</td>
-            <td>{{department.pdepartmentname}}</td>   
+            <td>{{department.pdepartmentname}}</td>
             <td>
                 <button class="btn btn-success btn-xs" v-on:click="editClick">编辑</button>
                 <button class="btn btn-danger btn-xs" v-on:click="removeClick">删除</button>
@@ -101,47 +90,63 @@
             template: '#department-tr',
             methods: {
                 editClick: function () {
-                    this.$emit('editdepartment', this.user)
+                    this.$emit('editdepartment', this.department)
                 },
-                removeClick: function () {                   
-                    this.$emit('removedepartment', this.user)
+                removeClick: function () {     
+                    this.$emit('removedepartment', this.department)
                 }
             }
         })
-
-        //部门Vue
-        var departmentVue = null;
-  
+        var pdepartmentVue;
         //加载部门
-        function LoadDepartment() {
+        function LoadPDepartment() {
             $.ajax({
                 method: "GET",
-                url: 'alldepartment',
+                url: 'allpdepartments',
                 data: {
                 },
                 success: function (backData) {
                     if (backData.result == 1) {
-                        if (departmentVue == null) {
-                            departmentVue = new Vue({
-                                el: '#departmentselect',
-                                data: {
-                                    selected: (backData.data.length > 0 ? backData.data[0].id : 0),
-                                    items: backData.data
-                                },
-                                methods: {
-                                    ChangeDepartment: function () {
-                                        LoadUser(this.selected);
-                                    }
-                                }
-                            })
-                        }
-                        else {
-                            if (backData.data.length > 0) {
-                                departmentVue.selected = backData.data[0].id
+                        pdepartmentVue = new Vue({
+                            el: '#pdepartmentselect',
+                            data: {
+                                departments: backData.data
                             }
-                            departmentVue.items = backData.data;
-                        }
-                        LoadUser(departmentVue.selected);
+                        })
+                        $("#pdepartmentselect").attr("v-model", "pdepartmentid")
+                    }
+                    else {
+                        alert(backData.message);
+                    }
+                },
+                error: function (error) {
+                    alert(error.statusText)
+                }
+            })
+        }
+        //加载部门
+        function LoadDepartment() {
+            $.ajax({
+                method: "GET",
+                url: 'alldepartments',
+                data: {
+                },
+                success: function (backData) {
+                    if (backData.result == 1) {
+                        new Vue({
+                            el: '#departmenttr',
+                            data: {
+                                departments: backData.data
+                            },
+                            methods: {
+                                editdepartment: function (department) {
+                                    DepartmentEdit(department);
+                                },
+                                removedepartment: function (department) {
+                                    DepartmentRemove(department);
+                                }
+                            }
+                        })
                     } else {
                         alert(backData.message);
                     }
@@ -151,25 +156,25 @@
                 }
             })
         }
-      
-     
+
+        var editVue;
         //绑定新工作记录编辑
-        function DepartmentEdit(department) {
+        function DepartmentEdit(department) {    
             if (editVue == null) {
                 editVue = new Vue({
-                    el: "#edituser",
+                    el: "#editdepartment",
                     data: {
-                        roleid: user.roleid,
-                        user: user
+                        pdepartmentid: department.pdepartmentid,
+                        department: department
                     },
                     methods: {
                         savaUser: function () {
-                            this.user.roleid = $("#roleselect").val();
+                            this.department.pdepartmentid = $("#pdepartmentselect").val();
                             $.ajax({
                                 method: "PUT",
-                                url: 'modifyuser',
+                                url: 'modifydepartment',
                                 data: {
-                                    user: this.user
+                                    department: this.department
                                 },
                                 success: function (backData) {
                                     if (backData.result == 1) {
@@ -186,34 +191,35 @@
                         }
                     },
                     watch: {
-                        roleid: function (newroleid) {
-                            this.user.roleid = newroleid;
-                            this.user.rolename = $("#roleselect").find("option:selected").text();
+                        pdepartmentid: function (newpdepartmentid) {
+                        
+                            this.department.pdepartmentid = newpdepartmentid;
+                            this.department.pdepartmentname = $("#pdepartmentselect").find("option:selected").text();                        
                         }
                     }
                 });
             }
             else {
-                editVue.user = user;
+                editVue.department = department;
             }
             $("#ModiyModal").modal('show');
-            //显示用户默认的角色
-            roleVue.selected = user.roleid;
-            $("#roleselect").val(user.roleid);
+            //显示部门默认的名称
+            pdepartmentVue.selected = department.pdepartmentid;
+            $("#pdepartmentselect").val(department.pdepartmentid);
         }
 
         //绑定新工作记录删除
-        function DepartmentRemove(user) {
-            if (confirm("确定要删除：" + user.name + "?")) {
+        function DepartmentRemove(department) {
+            if (confirm("确定要删除：" + department.departmentname + "?")) {
                 $.ajax({
                     method: "DELETE",
-                    url: 'removeuser',
+                    url: 'removedepartment',
                     data: {
-                        userID: user.id
+                        departmentID: department.id
                     },
                     success: function (backData) {
                         if (backData.result == 1) {
-                            $("#tr_" + user.id).remove();
+                            $("#tr_" + department.id).remove();
                             alert("删除成功！")
                         } else {
                             alert(backData.message);
@@ -225,8 +231,9 @@
                 })
             }
         }
-        $(function () {           
+        $(function () {
             LoadDepartment();
+            LoadPDepartment();
         })
     </script>
 }

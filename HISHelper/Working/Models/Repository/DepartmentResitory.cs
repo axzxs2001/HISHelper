@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,7 +47,7 @@ namespace Working.Model.Repository
         List<Department> GetMyDeparments(int departmentID, List<Department> allDeparments)
         {
             var departments = new List<Department>();
-            foreach (var department in allDeparments.Where(s => s.PID == departmentID))
+            foreach (var department in allDeparments.Where(s => s.PDepartmentID == departmentID))
             {
                 departments.Add(department);
                 departments.AddRange(GetMyDeparments(department.ID, allDeparments));
@@ -57,11 +58,18 @@ namespace Working.Model.Repository
         /// 获取全部部门
         /// </summary>
         /// <returns></returns>
-        public List<Department> GetAllDeparments()
+        public dynamic GetAllDeparments()
+        {           
+            return _dbContext.Departments.Include(department => department.PDepartment).Select(department => new { department.ID, department.DepartmentName,pdepartmentid= department.PDepartmentID, PDepartmentName=department.PDepartment.DepartmentName }).OrderBy(o => o.ID).ToList();
+        }
+        /// <summary>
+        /// 获取全部门，包括公司
+        /// </summary>
+        /// <returns></returns>
+        public List<Department> GetAllPDepartment()
         {
             return _dbContext.Departments.ToList();
         }
-
         /// <summary>
         /// 添加部门
         /// </summary>
@@ -82,8 +90,8 @@ namespace Working.Model.Repository
             var oldDepartment = _dbContext.Departments.SingleOrDefault(s => s.ID == department.ID);
             if (oldDepartment != null)
             {
-                oldDepartment.PID = department.PID;
-                oldDepartment.DepartMentName = department.DepartMentName;           
+                oldDepartment.PDepartmentID = department.PDepartmentID;
+                oldDepartment.DepartmentName = department.DepartmentName;           
                 return _dbContext.SaveChanges() > 0;
             }
             return false;

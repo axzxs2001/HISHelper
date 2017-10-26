@@ -44,9 +44,17 @@ namespace Working.Controllers
             _userResitory = userResitory;
             _departmentResitory = departmentResitory;
             _roleResitory = roleResitory;
-        } 
+        }
 
         #region 部门操作 
+
+        [Authorize(Roles = "Manager")]
+        [HttpGet("departments")]
+        public IActionResult DepartmentIndex()
+        {
+            return View();
+        }
+
 
         /// <summary>
         /// 查询用户部门的所有下属部门
@@ -77,8 +85,123 @@ namespace Working.Controllers
         }
 
 
+        /// <summary>
+        /// 查询所有部门
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Manager")]
+        [HttpGet("alldepartments")]
+        public IActionResult GetAllDepartments()
+        {
+            try
+            {
+                var departments = _departmentResitory.GetAllDeparments();
+                return Json(new
+                {
+                    result = 1,
+                    message = "查询成功",
+                    data = departments
+                }, new JsonSerializerSettings()
+                {                   
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
+            }
+        }
+        /// <summary>
+        /// 查询所有父部门
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Manager")]
+        [HttpGet("allpdepartments")]
+        public IActionResult GetAllPDepartments()
+        {
+            try
+            {
+                var departments = _departmentResitory.GetAllPDepartment();
+                return Json(new
+                {
+                    result = 1,
+                    message = "查询成功",
+                    data = departments
+                }, new JsonSerializerSettings()
+                {
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
+            }
+        }
 
-
+        [HttpPut("modifydepartment")]
+        public IActionResult ModifyDepartment(Department department)
+        {
+            try
+            {
+                var result = _departmentResitory.ModifyDepartment(department);
+                if (result)
+                {
+                    return Json(new
+                    {
+                        result = 1,
+                        message = "修改成功",
+                        data = true
+                    }, new JsonSerializerSettings()
+                   );
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        result = 0,
+                        message = "修改失败",
+                        data = false
+                    }, new JsonSerializerSettings()
+              );
+                }
+            }
+            catch (Exception exc)
+            {
+                return Json(new { result = 0, message = $"修改失败:{exc.Message}" }, new JsonSerializerSettings());
+            }
+        }
+        [HttpDelete("removedepartment")]
+        public IActionResult RemoveUser(int departmentID)
+        {
+            try
+            {
+                var result = _departmentResitory.RemoveDepartment(departmentID);
+                if (result)
+                {
+                    return Json(new
+                    {
+                        result = 1,
+                        message = "删除成功",
+                        data = true
+                    }, new JsonSerializerSettings()
+                   );
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        result = 0,
+                        message = "删除失败",
+                        data = false
+                    }, new JsonSerializerSettings()
+              );
+                }
+            }
+            catch (Exception exc)
+            {
+                return Json(new { result = 0, message = $"删除失败:{exc.Message}" }, new JsonSerializerSettings());
+            }
+        }
         #endregion
 
 

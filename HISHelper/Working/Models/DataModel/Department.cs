@@ -22,7 +22,7 @@ namespace Working.Models.DataModel
         /// <summary>
         /// 名称
         /// </summary>
-        public string DepartMentName
+        public string DepartmentName
         { get; set; }      
        
         /// <summary>
@@ -35,8 +35,14 @@ namespace Working.Models.DataModel
         /// <summary>
         /// 父部门ID
         /// </summary>
-        public int PID
+        public int PDepartmentID
         { get; set; }
-        
+
+        /// <summary>
+        /// 父部门
+        /// </summary>
+        public Department PDepartment
+        { get; set; }
+
     }
 }
