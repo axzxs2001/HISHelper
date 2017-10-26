@@ -54,14 +54,43 @@
                         <input type="text" class="form-control" v-model="department.departmentname" placeholder="部门名称">
                     </div>
                     <div class="col-md-6">
-                        <select id="pdepartmentselect" class="form-control" v-cloak>
+                        <select id="editpdepartmentselect" class="form-control" v-cloak>
                             <option v-for="department in departments" v-bind:value="department.id">{{department.departmentname}}</option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" v-on:click="savaUser">
+                <button id="savaEditBtn"  class="btn btn-success" v-on:click="savaUser">
+                    保存
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="adddepartment">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title" id="modeltitle">添加部门</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" v-model="department.departmentname" placeholder="部门名称">
+                    </div>
+                    <div class="col-md-6">
+                        <select id="addpdepartmentselect" class="form-control" v-cloak>
+                            <option v-for="department in departments" v-bind:value="department.id">{{department.departmentname}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success"  v-on:click="savaUser">
                     保存
                 </button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -99,7 +128,7 @@
         })
         var pdepartmentVue;
         //加载部门
-        function LoadPDepartment() {
+        function LoadEditPDepartment() {
             $.ajax({
                 method: "GET",
                 url: 'allpdepartments',
@@ -108,12 +137,37 @@
                 success: function (backData) {
                     if (backData.result == 1) {
                         pdepartmentVue = new Vue({
-                            el: '#pdepartmentselect',
+                            el: '#editpdepartmentselect',
                             data: {
                                 departments: backData.data
                             }
                         })
-                        $("#pdepartmentselect").attr("v-model", "pdepartmentid")
+                        $("#editpdepartmentselect").attr("v-model", "pdepartmentid")
+                    }
+                    else {
+                        alert(backData.message);
+                    }
+                },
+                error: function (error) {
+                    alert(error.statusText)
+                }
+            })
+        }
+        //加载部门
+        function LoadAddPDepartment() {
+            $.ajax({
+                method: "GET",
+                url: 'allpdepartments',
+                data: {
+                },
+                success: function (backData) {
+                    if (backData.result == 1) {
+                        pdepartmentVue = new Vue({
+                            el: '#addpdepartmentselect',
+                            data: {
+                                departments: backData.data
+                            }
+                        })                    
                     }
                     else {
                         alert(backData.message);
@@ -159,7 +213,7 @@
 
         var editVue;
         //绑定新工作记录编辑
-        function DepartmentEdit(department) {    
+        function DepartmentEdit(department) {     
             if (editVue == null) {
                 editVue = new Vue({
                     el: "#editdepartment",
@@ -169,7 +223,7 @@
                     },
                     methods: {
                         savaUser: function () {
-                            this.department.pdepartmentid = $("#pdepartmentselect").val();
+                            this.department.pdepartmentid = $("#editpdepartmentselect").val();
                             $.ajax({
                                 method: "PUT",
                                 url: 'modifydepartment',
@@ -192,9 +246,17 @@
                     },
                     watch: {
                         pdepartmentid: function (newpdepartmentid) {
-                        
-                            this.department.pdepartmentid = newpdepartmentid;
-                            this.department.pdepartmentname = $("#pdepartmentselect").find("option:selected").text();                        
+       
+                            if (this.department.id == newpdepartmentid) {
+                    
+                                $("#savaEditBtn").attr("disabled","disabled");
+                                alert("不能选自己作为父编号！");
+                            }
+                            else {
+                                $("#savaEditBtn").removeAttr("disabled");
+                                this.department.pdepartmentid = newpdepartmentid;
+                                this.department.pdepartmentname = $("#editpdepartmentselect").find("option:selected").text();
+                            }
                         }
                     }
                 });
@@ -205,7 +267,7 @@
             $("#ModiyModal").modal('show');
             //显示部门默认的名称
             pdepartmentVue.selected = department.pdepartmentid;
-            $("#pdepartmentselect").val(department.pdepartmentid);
+            $("#editpdepartmentselect").val(department.pdepartmentid);
         }
 
         //绑定新工作记录删除
@@ -233,7 +295,8 @@
         }
         $(function () {
             LoadDepartment();
-            LoadPDepartment();
+            LoadEditPDepartment();
+            LoadAddPDepartment();
         })
     </script>
 }
