@@ -39,6 +39,8 @@
                     @if ("Manager".Contains(User.Claims.SingleOrDefault(s => s.Type == System.Security.Claims.ClaimTypes.Role).Value))
                     {
                         <li><a asp-area="" asp-controller="home" asp-action="querydepartmentworks">查询部门工作记录</a></li>
+                        <li><a asp-area="" asp-controller="User" asp-action="users">用户管理</a></li>
+                        <li><a asp-area="" asp-controller="Department" asp-action="departments">部门管理</a></li>
                     }
 
                 </ul>

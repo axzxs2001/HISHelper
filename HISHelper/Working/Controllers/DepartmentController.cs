@@ -14,7 +14,7 @@ using Working.Models.DataModel;
 
 namespace Working.Controllers
 {
-    [Authorize(Roles = "Manager, Leader,Employee")]
+    [Authorize(Roles = "Manager")]
     public class DepartmentController : BaseController
     {
         /// <summary>
@@ -47,10 +47,8 @@ namespace Working.Controllers
         }
 
         #region 部门操作 
-
-        [Authorize(Roles = "Manager")]
         [HttpGet("departments")]
-        public IActionResult DepartmentIndex()
+        public IActionResult Departments()
         {
             return View();
         }
@@ -167,6 +165,29 @@ namespace Working.Controllers
             catch (Exception exc)
             {
                 return Json(new { result = 0, message = $"修改失败:{exc.Message}" }, new JsonSerializerSettings());
+            }
+        }
+        [Authorize(Roles = "Manager")]
+        [HttpGet("alldepartment")]
+        public IActionResult GetAllDepartment()
+        {
+            try
+            {
+                var departments = _departmentResitory.GetAllDeparments();
+                return Json(new
+                {
+                    result = 1,
+                    message = "查询成功",
+                    data = departments
+                }, new JsonSerializerSettings()
+                {
+                    DateFormatString = "yyyy年MM月dd日",
+                    ContractResolver = new LowercaseContractResolver()
+                });
+            }
+            catch (Exception exc)
+            {
+                return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
         [HttpPut("modifydepartment")]

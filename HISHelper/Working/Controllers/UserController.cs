@@ -11,7 +11,7 @@ using Working.Models.DataModel;
 
 namespace Working.Controllers
 {
-    [Authorize(Roles = "Manager, Leader,Employee")]
+    [Authorize(Roles = "Manager")]
     public class UserController : BaseController
     {
 
@@ -42,34 +42,11 @@ namespace Working.Controllers
         #region 用户操作
 
         [HttpGet("users")]
-        public IActionResult UserIndex()
+        public IActionResult Users()
         {
             return View();
         }
 
-        [Authorize(Roles = "Manager")]
-        [HttpGet("alldepartment")]
-        public IActionResult GetAllDepartment()
-        {
-            try
-            {
-                var departments = _departmentResitory.GetAllDeparments();
-                return Json(new
-                {
-                    result = 1,
-                    message = "查询成功",
-                    data = departments
-                }, new JsonSerializerSettings()
-                {
-                    DateFormatString = "yyyy年MM月dd日",
-                    ContractResolver = new LowercaseContractResolver()
-                });
-            }
-            catch (Exception exc)
-            {
-                return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
-            }
-        }
         [HttpGet("userroles")]
         public IActionResult GetRoleUserByDepartmentID(int departmentID)
         {
@@ -117,11 +94,12 @@ namespace Working.Controllers
             }
         }
 
-        [HttpPut("adduser")]
+        [HttpPost("adduser")]
         public IActionResult AddUser(User user)
         {
             try
             {
+                user.Password = user.UserName;
                 var result = _userResitory.AddUser(user);
                 if (result)
                 {

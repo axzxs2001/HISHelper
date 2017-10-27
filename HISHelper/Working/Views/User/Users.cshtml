@@ -3,7 +3,13 @@
 @{
     ViewData["Title"] = "用户管理";
 }
-
+@section css{
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+}
 <div class="row">
     <div class="panel panel-default" style="margin-bottom:-10px;">
         <div class="panel-heading">
@@ -82,6 +88,44 @@
     </div>
 </div>
 
+<div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title">修改用户</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="adddepartmentname" disabled="disabled">
+
+                    </div>
+                    <div class="col-md-6">
+                        <select id="addroleselect" class="form-control" v-cloak>
+                            <option v-for="item in items" v-bind:value="item.id">{{item.rolename}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="addname" placeholder="姓名">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="addusername" placeholder="用户名">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" onclick="SavaAdd()">
+                    保存
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section scripts {
     <!--tr模版-->
     <script type="text/x-template" id="user-tr">
@@ -97,6 +141,31 @@
         </tr>
     </script>
     <script>
+
+        function SavaAdd() {
+            $.ajax({
+                method: "POST",
+                url: 'adduser',
+                data: {
+                    name: $("#addname").val(),
+                    username: $("#addusername").val(),
+                    roleid: $("#addroleselect").val(),
+                    departmentid: $("#departmentselect").val()
+                },
+                success: function (backData) {
+                    if (backData.result == 1) {
+                        $("#ModiyModal").modal('hide');
+                        window.location = "/users"
+                    }
+                    else {
+                        alert(backData.message);
+                    }
+                },
+                error: function (error) {
+                    alert(error.statusText)
+                }
+            })
+        }
         //用户组件
         Vue.component("user-row", {
             props: ["user"],
@@ -105,7 +174,7 @@
                 editClick: function () {
                     this.$emit('edituser', this.user)
                 },
-                removeClick: function () {                   
+                removeClick: function () {
                     this.$emit('removeuser', this.user)
                 }
             }
@@ -119,7 +188,7 @@
         function LoadDepartment() {
             $.ajax({
                 method: "GET",
-                url: 'alldepartment',
+                url: 'allpdepartments',
                 data: {
                 },
                 success: function (backData) {
@@ -133,10 +202,12 @@
                                 },
                                 methods: {
                                     ChangeDepartment: function () {
+                                        $("#adddepartmentname").val($("#departmentselect").find("option:selected").text());
                                         LoadUser(this.selected);
                                     }
                                 }
                             })
+                            $("#adddepartmentname").val($("#departmentselect").find("option:selected").text());
                         }
                         else {
                             if (backData.data.length > 0) {
@@ -179,6 +250,30 @@
                 }
             })
         }
+        //加载部门
+        function LoadAddRole() {
+            $.ajax({
+                method: "GET",
+                url: 'roles',
+                data: {
+                },
+                success: function (backData) {
+                    if (backData.result == 1) {
+                        roleVue = new Vue({
+                            el: '#addroleselect',
+                            data: {
+                                items: backData.data
+                            }
+                        })
+                    } else {
+                        alert(backData.message);
+                    }
+                },
+                error: function (error) {
+                    alert(error.statusText)
+                }
+            })
+        }
         function LoadUser(departmentID) {
             $("#usertr").html('<tr is="user-row" v-for="user in users" v-on:edituser="edituser" v-on:removeuser="removeuser" v-bind:user="user"></tr>');
             $.ajax({
@@ -198,7 +293,7 @@
                                 edituser: function (user) {
                                     UserEdit(user);
                                 },
-                                removeuser: function (user) {                               
+                                removeuser: function (user) {
                                     UserRemove(user);
                                 }
                             }
@@ -288,6 +383,7 @@
         }
         $(function () {
             LoadRole();
+            LoadAddRole();
             LoadDepartment();
         })
     </script>

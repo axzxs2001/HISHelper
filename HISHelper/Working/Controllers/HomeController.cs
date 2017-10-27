@@ -48,7 +48,6 @@ namespace Working.Controllers
 
         public IActionResult Index()
         {
-
             return View();
         }
         [AllowAnonymous]
