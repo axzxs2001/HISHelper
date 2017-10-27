@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="savaEditBtn"  class="btn btn-success" v-on:click="savaUser">
+                <button id="savaEditBtn" class="btn btn-success" v-on:click="savaUser">
                     保存
                 </button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -79,18 +79,26 @@
             </div>
             <div class="modal-body">
                 <div class="row" style="margin-top:10px;">
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" v-model="department.departmentname" placeholder="部门名称">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">部门名称</span>
+                            <input id="adddeparmentname" type="text" class="form-control" placeholder="部门名称">
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <select id="addpdepartmentselect" class="form-control" v-cloak>
-                            <option v-for="department in departments" v-bind:value="department.id">{{department.departmentname}}</option>
-                        </select>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">上级部门</span>
+                            <select id="addpdepartmentselect" class="form-control" v-cloak>
+                                <option v-for="department in departments" v-bind:value="department.id">{{department.departmentname}}</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success"  v-on:click="savaUser">
+                <button class="btn btn-success" onclick="SavaAdd()">
                     保存
                 </button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -113,6 +121,29 @@
         </tr>
     </script>
     <script>
+
+        function SavaAdd() {
+            $.ajax({
+                method: "POST",
+                url: 'adddepartment',
+                data: {
+                    departmentname: $("#adddeparmentname").val(),
+                    pdepartmentid: $("#addpdepartmentselect").val()
+                },
+                success: function (backData) {
+                    if (backData.result == 1) {                       
+                        $("#ModiyModal").modal('hide');
+                        window.location="/departments"
+                    }
+                    else {
+                        alert(backData.message);
+                    }
+                },
+                error: function (error) {
+                    alert(error.statusText)
+                }
+            })
+        }
         //用户组件
         Vue.component("department-row", {
             props: ["department"],
@@ -121,7 +152,7 @@
                 editClick: function () {
                     this.$emit('editdepartment', this.department)
                 },
-                removeClick: function () {     
+                removeClick: function () {
                     this.$emit('removedepartment', this.department)
                 }
             }
@@ -162,12 +193,12 @@
                 },
                 success: function (backData) {
                     if (backData.result == 1) {
-                        pdepartmentVue = new Vue({
+                        new Vue({
                             el: '#addpdepartmentselect',
                             data: {
                                 departments: backData.data
                             }
-                        })                    
+                        })
                     }
                     else {
                         alert(backData.message);
@@ -213,7 +244,7 @@
 
         var editVue;
         //绑定新工作记录编辑
-        function DepartmentEdit(department) {     
+        function DepartmentEdit(department) {
             if (editVue == null) {
                 editVue = new Vue({
                     el: "#editdepartment",
@@ -246,10 +277,10 @@
                     },
                     watch: {
                         pdepartmentid: function (newpdepartmentid) {
-       
+
                             if (this.department.id == newpdepartmentid) {
-                    
-                                $("#savaEditBtn").attr("disabled","disabled");
+
+                                $("#savaEditBtn").attr("disabled", "disabled");
                                 alert("不能选自己作为父编号！");
                             }
                             else {

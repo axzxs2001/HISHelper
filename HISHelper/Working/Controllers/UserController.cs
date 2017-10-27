@@ -116,6 +116,39 @@ namespace Working.Controllers
                 return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
+
+        [HttpPut("adduser")]
+        public IActionResult AddUser(User user)
+        {
+            try
+            {
+                var result = _userResitory.AddUser(user);
+                if (result)
+                {
+                    return Json(new
+                    {
+                        result = 1,
+                        message = "添加成功",
+                        data = true
+                    }, new JsonSerializerSettings()
+                   );
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        result = 0,
+                        message = "添加失败",
+                        data = false
+                    }, new JsonSerializerSettings()
+              );
+                }
+            }
+            catch (Exception exc)
+            {
+                return Json(new { result = 0, message = $"添加失败:{exc.Message}" }, new JsonSerializerSettings());
+            }
+        }
         [HttpPut("modifyuser")]
         public IActionResult ModifyUser(User user)
         {

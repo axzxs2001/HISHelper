@@ -137,7 +137,38 @@ namespace Working.Controllers
                 return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
-
+        [HttpPost("adddepartment")]
+        public IActionResult AddDepartment(Department department)
+        {
+            try
+            {
+                var result = _departmentResitory.AddDepartment(department);
+                if (result)
+                {
+                    return Json(new
+                    {
+                        result = 1,
+                        message = "修改成功",
+                        data = true
+                    }, new JsonSerializerSettings()
+                   );
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        result = 0,
+                        message = "修改失败",
+                        data = false
+                    }, new JsonSerializerSettings()
+              );
+                }
+            }
+            catch (Exception exc)
+            {
+                return Json(new { result = 0, message = $"修改失败:{exc.Message}" }, new JsonSerializerSettings());
+            }
+        }
         [HttpPut("modifydepartment")]
         public IActionResult ModifyDepartment(Department department)
         {
