@@ -134,6 +134,25 @@ namespace Working.Model.Repository
             }
             return departments;
         }
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="newPassword">新密码</param>
+        /// <param name="userID">用户ID</param>
+        /// <returns></returns>
+        public bool ModifyPassword(string newPassword,int userID)
+        {
+            var user = _dbContext.Users.SingleOrDefault(s => s.ID == userID);
+            if(user!=null)
+            {
+                user.Password = newPassword;
+                return _dbContext.SaveChanges() > 0;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
     }
 

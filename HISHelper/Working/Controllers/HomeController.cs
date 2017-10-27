@@ -130,7 +130,7 @@ namespace Working.Controllers
         {
             return View();
         }
-  
+
         /// <summary>
         /// 按年，月，用户查询工作记录
         /// </summary>
@@ -167,9 +167,9 @@ namespace Working.Controllers
             {
                 return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
             }
-        }    
+        }
         #endregion
-        
+
 
         #region 登录页
         /// <summary>
@@ -240,6 +240,33 @@ namespace Working.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet("modifypassword")]
+        public IActionResult ModifyPassword()
+        {
+            return View();
+        }
+
+        [HttpPost("modifypassword")]
+        public IActionResult ModifyPassword(string oldPassword, string newPassword)
+        {
+            try
+            {
+                var user = _userResitory.GetUser(UserID);
+                if (user.Password == oldPassword)
+                {
+                    var result = _userResitory.ModifyPassword(newPassword, UserID);
+                    return Json(new { result = 1, message = $"修改密码成功！" }, new JsonSerializerSettings());
+                }
+                else
+                {
+                    return Json(new { result = 0, message = $"修改密码失败:旧密码不正确！" }, new JsonSerializerSettings());
+                }
+            }
+            catch (Exception exc)
+            {
+                return Json(new { result = 0, message = $"修改密码失败！:{exc.Message}" }, new JsonSerializerSettings());
+            }
+        }
         #endregion
     }
 }

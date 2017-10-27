@@ -64,6 +64,12 @@ namespace Working.Model.Repository
         /// <param name="userID">用户ID</param>
         /// <returns></returns>
         dynamic GetDeparments(int userID);
-
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="newPassword">新密码</param>
+        /// <param name="userID">用户ID</param>
+        /// <returns></returns>
+        bool ModifyPassword(string newPassword, int userID);
     }
 }
