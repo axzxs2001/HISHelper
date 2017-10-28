@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Working.Controllers
 {
+    /// <summary>
+    /// 基控制器类，存放公共信息
+    /// </summary>
     public class BaseController : Controller
     {
         /// <summary>

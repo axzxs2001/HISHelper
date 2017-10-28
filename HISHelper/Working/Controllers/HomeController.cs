@@ -33,11 +33,14 @@ namespace Working.Controllers
         /// 角色仓储
         /// </summary>
         IRoleResitory _roleResitory;
+
         /// <summary>
         /// 构造
         /// </summary>
         /// <param name="workItemResitory">工作记录仓储</param>
+        /// <param name="departmentResitory">部门仓储</param>
         /// <param name="userResitory">用户仓储</param>
+        /// <param name="roleResitory">角色仓储</param>
         public HomeController(IWorkItemResitory workItemResitory, IDepartmentResitory departmentResitory, IUserResitory userResitory, IRoleResitory roleResitory)
         {
             _workItemResitory = workItemResitory;
@@ -175,7 +178,7 @@ namespace Working.Controllers
         /// <summary>
         /// 登录页
         /// </summary>
-        /// <param name="returnUrl"></param>
+        /// <param name="returnUrl">跳转Url</param>
         /// <returns></returns> 
         [AllowAnonymous]
         [HttpGet("login")]
@@ -194,9 +197,9 @@ namespace Working.Controllers
         /// <summary>
         /// 实现登录
         /// </summary>
-        /// <param name="fname"></param>
-        /// <param name="password"></param>
-        /// <param name="returnUrl"></param>
+        /// <param name="userName">用户名</param>
+        /// <param name="password">密码</param>
+        /// <param name="returnUrl">跳转Url</param>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("login")]
@@ -239,13 +242,21 @@ namespace Working.Controllers
             await HttpContext.SignOutAsync("loginvalidate");
             return RedirectToAction("Index", "Home");
         }
-
+        /// <summary>
+        /// 修改用户
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("modifypassword")]
         public IActionResult ModifyPassword()
         {
             return View();
         }
-
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="oldPassword">旧密码</param>
+        /// <param name="newPassword">新密码</param>
+        /// <returns></returns>
         [HttpPost("modifypassword")]
         public IActionResult ModifyPassword(string oldPassword, string newPassword)
         {

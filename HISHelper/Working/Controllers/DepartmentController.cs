@@ -17,10 +17,7 @@ namespace Working.Controllers
     [Authorize(Roles = "Manager")]
     public class DepartmentController : BaseController
     {
-        /// <summary>
-        /// 工作记录仓储
-        /// </summary>
-        IWorkItemResitory _workItemResitory;
+  
         /// <summary>
         /// 用户仓储
         /// </summary>
@@ -29,21 +26,18 @@ namespace Working.Controllers
         /// 部门仓储
         /// </summary>
         IDepartmentResitory _departmentResitory;
-        /// <summary>
-        /// 角色仓储
-        /// </summary>
-        IRoleResitory _roleResitory;
+
         /// <summary>
         /// 构造
         /// </summary>
         /// <param name="workItemResitory">工作记录仓储</param>
+        /// <param name="departmentResitory">部门仓储</param>
         /// <param name="userResitory">用户仓储</param>
-        public DepartmentController(IWorkItemResitory workItemResitory, IDepartmentResitory departmentResitory, IUserResitory userResitory, IRoleResitory roleResitory)
-        {
-            _workItemResitory = workItemResitory;
+        /// <param name="roleResitory">角色仓储</param>
+        public DepartmentController(IDepartmentResitory departmentResitory, IUserResitory userResitory, IRoleResitory roleResitory)
+        {        
             _userResitory = userResitory;
-            _departmentResitory = departmentResitory;
-            _roleResitory = roleResitory;
+            _departmentResitory = departmentResitory;     
         }
 
         #region 部门操作 
@@ -52,7 +46,6 @@ namespace Working.Controllers
         {
             return View();
         }
-
 
         /// <summary>
         /// 查询用户部门的所有下属部门
@@ -87,7 +80,6 @@ namespace Working.Controllers
         /// 查询所有部门
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles = "Manager")]
         [HttpGet("alldepartments")]
         public IActionResult GetAllDepartments()
         {
@@ -113,7 +105,6 @@ namespace Working.Controllers
         /// 查询所有父部门
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles = "Manager")]
         [HttpGet("allpdepartments")]
         public IActionResult GetAllPDepartments()
         {
@@ -135,6 +126,11 @@ namespace Working.Controllers
                 return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
+        /// <summary>
+        /// 添加部门
+        /// </summary>
+        /// <param name="department">部门</param>
+        /// <returns></returns>
         [HttpPost("adddepartment")]
         public IActionResult AddDepartment(Department department)
         {
@@ -167,7 +163,10 @@ namespace Working.Controllers
                 return Json(new { result = 0, message = $"修改失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
-        [Authorize(Roles = "Manager")]
+        /// <summary>
+        /// 获取除公司外的所有部门
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("alldepartment")]
         public IActionResult GetAllDepartment()
         {
@@ -190,6 +189,11 @@ namespace Working.Controllers
                 return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
+        /// <summary>
+        /// 修改部门
+        /// </summary>
+        /// <param name="department">部门</param>
+        /// <returns></returns>
         [HttpPut("modifydepartment")]
         public IActionResult ModifyDepartment(Department department)
         {
@@ -222,6 +226,11 @@ namespace Working.Controllers
                 return Json(new { result = 0, message = $"修改失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
+        /// <summary>
+        /// 删除部门
+        /// </summary>
+        /// <param name="departmentID">部门ID</param>
+        /// <returns></returns>
         [HttpDelete("removedepartment")]
         public IActionResult RemoveUser(int departmentID)
         {

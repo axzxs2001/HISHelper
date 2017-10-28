@@ -22,8 +22,6 @@ namespace Working.Model.Repository
             _dbContext = dbContext;
         }
 
-
-
         /// <summary>
         /// 获取全部部门
         /// </summary>
@@ -81,6 +79,5 @@ namespace Working.Model.Repository
             }
             return false;
         }
-
     }
 }

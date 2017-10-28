@@ -153,8 +153,5 @@ namespace Working.Model.Repository
                 return false;
             }
         }
-
     }
-
-
 }

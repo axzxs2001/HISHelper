@@ -18,11 +18,7 @@ namespace Working.Controllers
         /// <summary>
         /// 用户仓储
         /// </summary>
-        IUserResitory _userResitory;
-        /// <summary>
-        /// 部门仓储
-        /// </summary>
-        IDepartmentResitory _departmentResitory;
+        IUserResitory _userResitory; 
         /// <summary>
         /// 角色仓储
         /// </summary>
@@ -30,11 +26,10 @@ namespace Working.Controllers
         /// <summary>
         /// 构造
         /// </summary>
-        /// <param name="workItemResitory">工作记录仓储</param>
+        /// <param name="roleResitory">角色仓储</param>
         /// <param name="userResitory">用户仓储</param>
-        public UserController(IUserResitory userResitory, IDepartmentResitory departmentResitory, IRoleResitory roleResitory)
+        public UserController(IUserResitory userResitory, IRoleResitory roleResitory)
         {
-            _departmentResitory = departmentResitory;
             _userResitory = userResitory;
             _roleResitory = roleResitory;
         }
@@ -46,7 +41,11 @@ namespace Working.Controllers
         {
             return View();
         }
-
+        /// <summary>
+        /// 查询部门下的用户
+        /// </summary>
+        /// <param name="departmentID">部门ID</param>
+        /// <returns></returns>
         [HttpGet("userroles")]
         public IActionResult GetRoleUserByDepartmentID(int departmentID)
         {
@@ -70,6 +69,10 @@ namespace Working.Controllers
                 return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
+        /// <summary>
+        /// 获取全部用户
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("roles")]
         public IActionResult GetAllRole()
         {
@@ -93,7 +96,11 @@ namespace Working.Controllers
                 return Json(new { result = 0, message = $"查询失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
-
+        /// <summary>
+        /// 添加用户
+        /// </summary>
+        /// <param name="user">用户</param>
+        /// <returns></returns>
         [HttpPost("adduser")]
         public IActionResult AddUser(User user)
         {
@@ -127,6 +134,11 @@ namespace Working.Controllers
                 return Json(new { result = 0, message = $"添加失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
+        /// <summary>
+        /// 修改用户
+        /// </summary>
+        /// <param name="user">用户</param>
+        /// <returns></returns>
         [HttpPut("modifyuser")]
         public IActionResult ModifyUser(User user)
         {
@@ -159,6 +171,11 @@ namespace Working.Controllers
                 return Json(new { result = 0, message = $"修改失败:{exc.Message}" }, new JsonSerializerSettings());
             }
         }
+        /// <summary>
+        /// 移除用户
+        /// </summary>
+        /// <param name="userID">用户ID</param>
+        /// <returns></returns>
         [HttpDelete("removeuser")]
         public IActionResult RemoveUser(int userID)
         {
