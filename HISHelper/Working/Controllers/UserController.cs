@@ -11,7 +11,7 @@ using Working.Models.DataModel;
 
 namespace Working.Controllers
 {
-    [Authorize(Roles = "Manager")]
+
     public class UserController : BaseController
     {
 
@@ -35,7 +35,7 @@ namespace Working.Controllers
         }
 
         #region 用户操作
-
+        [Authorize(Roles = "Manager")]
         [HttpGet("users")]
         public IActionResult Users()
         {
@@ -46,6 +46,7 @@ namespace Working.Controllers
         /// </summary>
         /// <param name="departmentID">部门ID</param>
         /// <returns></returns>
+        [Authorize(Roles = "Manager")]
         [HttpGet("userroles")]
         public IActionResult GetRoleUserByDepartmentID(int departmentID)
         {
@@ -73,6 +74,7 @@ namespace Working.Controllers
         /// 获取全部用户
         /// </summary>
         /// <returns></returns>
+        [Authorize(Roles = "Manager")]
         [HttpGet("roles")]
         public IActionResult GetAllRole()
         {
@@ -101,6 +103,7 @@ namespace Working.Controllers
         /// </summary>
         /// <param name="user">用户</param>
         /// <returns></returns>
+        [Authorize(Roles = "Manager")]
         [HttpPost("adduser")]
         public IActionResult AddUser(User user)
         {
@@ -139,6 +142,7 @@ namespace Working.Controllers
         /// </summary>
         /// <param name="user">用户</param>
         /// <returns></returns>
+        [Authorize(Roles = "Manager")]
         [HttpPut("modifyuser")]
         public IActionResult ModifyUser(User user)
         {
@@ -176,6 +180,7 @@ namespace Working.Controllers
         /// </summary>
         /// <param name="userID">用户ID</param>
         /// <returns></returns>
+        [Authorize(Roles = "Manager")]
         [HttpDelete("removeuser")]
         public IActionResult RemoveUser(int userID)
         {
@@ -213,6 +218,7 @@ namespace Working.Controllers
         /// 查询部门用户
         /// </summary>
         /// <returns></returns>
+        [Authorize(Roles = "Manager,Leader")]
         [HttpGet("getdepartmentusers")]
         public IActionResult DepartmentUsers()
         {

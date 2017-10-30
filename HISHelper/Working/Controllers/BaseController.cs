@@ -16,8 +16,10 @@ namespace Working.Controllers
         /// <summary>
         /// 用户ID
         /// </summary>
+
         protected int UserID
         {
+        
             get
             {
                 var id = User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.PrimarySid);
