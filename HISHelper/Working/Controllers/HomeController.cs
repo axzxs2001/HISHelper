@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using Newtonsoft.Json;
 using Working.Models.DataModel;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Working.Controllers
 {
@@ -221,10 +222,18 @@ namespace Working.Controllers
                     new Claim(ClaimTypes.Sid,(departments.Count>0).ToString()),
                     new Claim(ClaimTypes.PrimarySid,user.ID.ToString())
                  };
-                HttpContext.SignOutAsync("loginvalidate");
-                HttpContext.SignInAsync("loginvalidate", new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookie")));
+                HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(new ClaimsIdentity(claims)));
                 HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
-                return new RedirectResult(returnUrl == null ? "/myworks" : returnUrl);
+                //雇员直接导航到我的工作，节省一点点击跳转
+                if (roleName == "Employee")
+                {
+                    return new RedirectResult("myworks");
+                }
+                else
+                {
+                    return new RedirectResult(returnUrl == null ? "/home/index" : returnUrl);
+                }
             }
             else
             {
@@ -239,7 +248,7 @@ namespace Working.Controllers
         [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync("loginvalidate");
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
         /// <summary>

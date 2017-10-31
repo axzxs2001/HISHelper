@@ -12,6 +12,7 @@ using Working.Model.Repository;
 using Microsoft.EntityFrameworkCore.Design;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Working
 {
@@ -40,11 +41,13 @@ namespace Working
             //注入验证 2.0
             services.AddAuthentication(options =>
             {
-                options.DefaultChallengeScheme = "loginvalidate";
-                options.DefaultSignInScheme = "loginvalidate";
-                options.DefaultAuthenticateScheme = "loginvalidate";
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                //options.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                //options.DefaultChallengeScheme =  CookieAuthenticationDefaults.AuthenticationScheme;
+                //options.DefaultSignInScheme =  CookieAuthenticationDefaults.AuthenticationScheme;
+                //options.DefaultAuthenticateScheme =  CookieAuthenticationDefaults.AuthenticationScheme;
             })
-            .AddCookie("loginvalidate", m =>
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, m =>
             {
                 m.LoginPath = new PathString("/login");
                 m.AccessDeniedPath = new PathString("/home/error");
