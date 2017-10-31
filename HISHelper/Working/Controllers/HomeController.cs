@@ -223,8 +223,7 @@ namespace Working.Controllers
                     new Claim(ClaimTypes.PrimarySid,user.ID.ToString())
                  };
                 HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(new ClaimsIdentity(claims)));
-                HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
+                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(new ClaimsIdentity(claims)));      
                 //雇员直接导航到我的工作，节省一点点击跳转
                 if (roleName == "Employee")
                 {

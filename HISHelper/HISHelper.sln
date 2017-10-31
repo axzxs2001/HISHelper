@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductReleaseSystem", "ProductReleaseSystem\ProductReleaseSystem.csproj", "{694972F5-A372-476E-B534-1FBAA18BA944}"
 EndProject
@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProductReleaseSystemDoc", "
 		..\..\..\..\Desktop\产品发布系统脚本.sql = ..\..\..\..\Desktop\产品发布系统脚本.sql
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Working", "Working\Working.csproj", "{9AEF1F6A-4FB3-41CB-B5E3-92FB94E14D3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Working", "Working\Working.csproj", "{9AEF1F6A-4FB3-41CB-B5E3-92FB94E14D3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
