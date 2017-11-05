@@ -86,7 +86,7 @@
                 },
                 methods: {
                     ChangeYear: function () {
-                        QueryWorkItems(this.selected, monthVue.selected)
+                        QueryWorkItems(this.selected, monthVue.selected,userVue.selected)
                     }
                 }
             })
@@ -114,7 +114,7 @@
                 },
                 methods: {
                     ChangeMonth: function () {
-                        QueryWorkItems(yearVue.selected, this.selected)
+                        QueryWorkItems(yearVue.selected, this.selected, userVue.selected)
                     }
                 }
             })
