@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Working", "Working\Working.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Progress", "Progress\Progress.csproj", "{3A707E10-5CA4-4C2D-8E7F-B1542D3199F2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Working.XUnitTest", "Working.XTest\Working.XUnitTest.csproj", "{2B676298-EA38-45AB-8A4D-E9DFC32411D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Working.XUnitTest", "Working.XUnitTest\Working.XUnitTest.csproj", "{136A71D4-1420-4466-8C13-AE45C59200A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +37,10 @@ Global
 		{3A707E10-5CA4-4C2D-8E7F-B1542D3199F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A707E10-5CA4-4C2D-8E7F-B1542D3199F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A707E10-5CA4-4C2D-8E7F-B1542D3199F2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2B676298-EA38-45AB-8A4D-E9DFC32411D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2B676298-EA38-45AB-8A4D-E9DFC32411D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2B676298-EA38-45AB-8A4D-E9DFC32411D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2B676298-EA38-45AB-8A4D-E9DFC32411D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{136A71D4-1420-4466-8C13-AE45C59200A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{136A71D4-1420-4466-8C13-AE45C59200A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{136A71D4-1420-4466-8C13-AE45C59200A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{136A71D4-1420-4466-8C13-AE45C59200A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
