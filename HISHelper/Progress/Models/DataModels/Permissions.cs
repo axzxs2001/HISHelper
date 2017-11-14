@@ -29,6 +29,10 @@ namespace Progress.Models.DataModels
         /// </summary>
         public int? Pid { get; set; }
         /// <summary>
+        /// 元素ID
+        /// </summary>
+        public string ElementID { get; set; }
+        /// <summary>
         /// 备注
         /// </summary>
         public string Memo { get; set; }
