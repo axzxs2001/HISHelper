@@ -13,7 +13,13 @@ namespace Working.XTest
     [Trait("Working项目", "RoleRepository测试")]
     public class RoleRepositoryTest
     {
+        /// <summary>
+        /// 角色仓储
+        /// </summary>
         IRoleRepository _roleRepository;
+        /// <summary>
+        /// DB Mock
+        /// </summary>
         Mock<WorkingDbContext> _dbMock;
         public RoleRepositoryTest()
         {
@@ -33,7 +39,7 @@ namespace Working.XTest
         [InlineData(110)]
         [InlineData(0)]
         public void GetRole_Null_ThrowException(int roleID)
-        { 
+        {
             var exc = Assert.Throws<Exception>(() => { _roleRepository.GetRole(roleID); });
             Assert.Contains($"按照roleid={roleID}查询不到角色", exc.Message);
         }
