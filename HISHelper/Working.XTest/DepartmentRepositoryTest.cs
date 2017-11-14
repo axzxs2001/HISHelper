@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Working.XTest
+namespace Working.XUnitTest
 {
     [Trait("WorkingÏîÄ¿", "DepartmentRepositoryTest²âÊÔ")]
     public class DepartmentRepositoryTest
