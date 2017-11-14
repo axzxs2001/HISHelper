@@ -11,13 +11,13 @@ namespace Working.Model.Repository
     /// <summary>
     /// 用户管理
     /// </summary>
-    public class UserResitory : IUserResitory
+    public class UserRepository : IUserRepository
     {
         /// <summary>
         /// 数据库对象
         /// </summary>
         WorkingDbContext _dbContext;
-        public UserResitory(WorkingDbContext dbContext)
+        public UserRepository(WorkingDbContext dbContext)
         {
             _dbContext = dbContext;
         }

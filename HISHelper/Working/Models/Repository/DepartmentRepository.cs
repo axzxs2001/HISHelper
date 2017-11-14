@@ -11,13 +11,13 @@ namespace Working.Model.Repository
     /// <summary>
     /// 部门管理接口
     /// </summary>
-    public class DepartmentResitory: IDepartmentResitory
+    public class DepartmentRepository: IDepartmentRepository
     {
         /// <summary>
         /// 数据库对象
         /// </summary>
         WorkingDbContext _dbContext;
-        public DepartmentResitory(WorkingDbContext dbContext)
+        public DepartmentRepository(WorkingDbContext dbContext)
         {
             _dbContext = dbContext;
         }

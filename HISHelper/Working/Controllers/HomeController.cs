@@ -21,19 +21,19 @@ namespace Working.Controllers
         /// <summary>
         /// 工作记录仓储
         /// </summary>
-        IWorkItemResitory _workItemResitory;
+        IWorkItemRepository _workItemResitory;
         /// <summary>
         /// 用户仓储
         /// </summary>
-        IUserResitory _userResitory;
+        IUserRepository _userResitory;
         /// <summary>
         /// 部门仓储
         /// </summary>
-        IDepartmentResitory _departmentResitory;
+        IDepartmentRepository _departmentResitory;
         /// <summary>
         /// 角色仓储
         /// </summary>
-        IRoleResitory _roleResitory;
+        IRoleRepository _roleResitory;
 
         /// <summary>
         /// 构造
@@ -42,7 +42,7 @@ namespace Working.Controllers
         /// <param name="departmentResitory">部门仓储</param>
         /// <param name="userResitory">用户仓储</param>
         /// <param name="roleResitory">角色仓储</param>
-        public HomeController(IWorkItemResitory workItemResitory, IDepartmentResitory departmentResitory, IUserResitory userResitory, IRoleResitory roleResitory)
+        public HomeController(IWorkItemRepository workItemResitory, IDepartmentRepository departmentResitory, IUserRepository userResitory, IRoleRepository roleResitory)
         {
             _workItemResitory = workItemResitory;
             _userResitory = userResitory;

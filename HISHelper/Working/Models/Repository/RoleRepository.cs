@@ -10,13 +10,13 @@ namespace Working.Model.Repository
     /// <summary>
     /// 角色管理
     /// </summary>
-    public class RoleResitory : IRoleResitory
+    public class RoleRepository : IRoleRepository
     {
         /// <summary>
         /// 数据库对象
         /// </summary>
         WorkingDbContext _dbContext;
-        public RoleResitory(WorkingDbContext dbContext)
+        public RoleRepository(WorkingDbContext dbContext)
         {
             _dbContext = dbContext;
         }

@@ -9,7 +9,7 @@ namespace Working.Model.Repository
     /// <summary>
     /// 部门管理接口
     /// </summary>
-    public interface IDepartmentResitory
+    public interface IDepartmentRepository
     {
 
 

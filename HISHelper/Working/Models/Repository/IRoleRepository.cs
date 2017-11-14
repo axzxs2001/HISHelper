@@ -10,7 +10,7 @@ namespace Working.Model.Repository
     /// <summary>
     /// 角色管理接口
     /// </summary>
-    public interface IRoleResitory
+    public interface IRoleRepository
     {
         /// <summary>
         /// 查询全部角色

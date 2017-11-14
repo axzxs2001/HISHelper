@@ -33,10 +33,10 @@ namespace Working
             //添加数据实体
             services.AddDbContextPool<WorkingDbContext>(options => options.UseSqlite(connection));
 
-            services.AddScoped<IUserResitory, UserResitory>();
-            services.AddScoped<IWorkItemResitory, WorkItemResitory>();
-            services.AddScoped<IDepartmentResitory, DepartmentResitory>();
-            services.AddScoped<IRoleResitory, RoleResitory>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IWorkItemRepository, WorkItemRepository>();
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
 
             //注入验证 2.0
             services.AddAuthentication(options =>

@@ -6,7 +6,7 @@ namespace Working.Model.Repository
     /// <summary>
     /// 活动管理仓储接口
     /// </summary>
-    public interface IWorkItemResitory
+    public interface IWorkItemRepository
     {
         /// <summary>
         /// 添加实体

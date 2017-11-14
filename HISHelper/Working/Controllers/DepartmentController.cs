@@ -21,11 +21,11 @@ namespace Working.Controllers
         /// <summary>
         /// 用户仓储
         /// </summary>
-        IUserResitory _userResitory;
+        IUserRepository _userResitory;
         /// <summary>
         /// 部门仓储
         /// </summary>
-        IDepartmentResitory _departmentResitory;
+        IDepartmentRepository _departmentResitory;
 
         /// <summary>
         /// 构造
@@ -34,7 +34,7 @@ namespace Working.Controllers
         /// <param name="departmentResitory">部门仓储</param>
         /// <param name="userResitory">用户仓储</param>
         /// <param name="roleResitory">角色仓储</param>
-        public DepartmentController(IDepartmentResitory departmentResitory, IUserResitory userResitory, IRoleResitory roleResitory)
+        public DepartmentController(IDepartmentRepository departmentResitory, IUserRepository userResitory, IRoleRepository roleResitory)
         {        
             _userResitory = userResitory;
             _departmentResitory = departmentResitory;     

@@ -8,7 +8,7 @@ namespace Working.Model.Repository
     /// <summary>
     /// 活动仓储类
     /// </summary>
-    public class WorkItemResitory : IWorkItemResitory
+    public class WorkItemRepository : IWorkItemRepository
     {
         /// <summary>
         /// 数据库对象
@@ -18,7 +18,7 @@ namespace Working.Model.Repository
         /// 权限仓储类构造
         /// </summary>
         /// <param name="dbContext">startup注入的数据库对象</param>
-        public WorkItemResitory(WorkingDbContext dbContext)
+        public WorkItemRepository(WorkingDbContext dbContext)
         {
             _dbContext = dbContext;
         }
