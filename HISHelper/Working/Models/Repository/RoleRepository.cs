@@ -36,8 +36,15 @@ namespace Working.Model.Repository
         /// <returns></returns>
         public Role GetRole(int roleID)
         {
-            return _dbContext.Roles.SingleOrDefault(s => s.ID == roleID);
+            var role = _dbContext.Roles.SingleOrDefault(s => s.ID == roleID);
+            if(role==null)
+            {
+                throw new Exception($"按照roleid={roleID}查询不到角色");
+            }else
+            {
+                return role;
+            }
         }
-       
+
     }
 }
