@@ -18,17 +18,17 @@ namespace Working.Controllers
         /// <summary>
         /// 用户仓储
         /// </summary>
-        IUserResitory _userResitory; 
+        IUserRepository _userResitory; 
         /// <summary>
         /// 角色仓储
         /// </summary>
-        IRoleResitory _roleResitory;
+        IRoleRepository _roleResitory;
         /// <summary>
         /// 构造
         /// </summary>
         /// <param name="roleResitory">角色仓储</param>
         /// <param name="userResitory">用户仓储</param>
-        public UserController(IUserResitory userResitory, IRoleResitory roleResitory)
+        public UserController(IUserRepository userResitory, IRoleRepository roleResitory)
         {
             _userResitory = userResitory;
             _roleResitory = roleResitory;

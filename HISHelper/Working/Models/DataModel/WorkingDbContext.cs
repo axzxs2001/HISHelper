@@ -8,6 +8,8 @@ namespace Working.Models.DataModel
     /// </summary>
     public class WorkingDbContext : DbContext
     {
+        public WorkingDbContext()
+        { }
         public WorkingDbContext(DbContextOptions<WorkingDbContext> options) : base(options)
         { }
         /// <summary>
@@ -26,7 +28,7 @@ namespace Working.Models.DataModel
         /// <summary>
         /// 角色
         /// </summary>
-        public DbSet<Role> Roles { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
    
         protected override void OnModelCreating(ModelBuilder builder)
         {
