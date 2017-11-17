@@ -11,7 +11,7 @@ using Working.Models.DataModel;
 namespace Working.Migrations
 {
     [DbContext(typeof(WorkingDbContext))]
-    [Migration("20171021013248_InitialCreate")]
+    [Migration("20171113010526_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,11 +25,13 @@ namespace Working.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("DepartMentName");
+                    b.Property<string>("DepartmentName");
 
-                    b.Property<int>("PID");
+                    b.Property<int>("PDepartmentID");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("PDepartmentID");
 
                     b.ToTable("Departments");
                 });
@@ -92,6 +94,14 @@ namespace Working.Migrations
                     b.ToTable("WorkItems");
                 });
 
+            modelBuilder.Entity("Working.Models.DataModel.Department", b =>
+                {
+                    b.HasOne("Working.Models.DataModel.Department", "PDepartment")
+                        .WithMany()
+                        .HasForeignKey("PDepartmentID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Working.Models.DataModel.User", b =>
                 {
                     b.HasOne("Working.Models.DataModel.Department", "Department")
@@ -99,7 +109,7 @@ namespace Working.Migrations
                         .HasForeignKey("DepartmentID")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Working.Models.DataModel.Role")
+                    b.HasOne("Working.Models.DataModel.Role", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleID")
                         .OnDelete(DeleteBehavior.Cascade);

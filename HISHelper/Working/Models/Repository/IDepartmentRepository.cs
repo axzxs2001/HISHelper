@@ -11,6 +11,8 @@ namespace Working.Model.Repository
     /// </summary>
     public interface IDepartmentRepository
     {
+
+
         /// <summary>
         /// 获取全部部门
         /// </summary>

@@ -18,6 +18,7 @@ namespace Working.Model.Repository
         /// <param name="password">密码</param>
         /// <returns></returns>
         User Login(string userName, string password);
+
         /// <summary>
         /// 获取本部门用户
         /// </summary>
@@ -36,6 +37,8 @@ namespace Working.Model.Repository
         /// <param name="userID">用户ID</param>
         /// <returns></returns>
         User GetUser(int userID);
+
+
         /// <summary>
         /// 添加用户
         /// </summary>
@@ -54,6 +57,7 @@ namespace Working.Model.Repository
         /// <param name="user">用户</param>
         /// <returns></returns>
         bool RemoveUser(int userID);
+
         /// <summary>
         /// 按用户ID获取此人所在部门的所有下级部门
         /// </summary>

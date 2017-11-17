@@ -14,12 +14,18 @@ namespace Working.Migrations
                 {
                     ID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    DepartMentName = table.Column<string>(type: "TEXT", nullable: true),
-                    PID = table.Column<int>(type: "INTEGER", nullable: false)
+                    DepartmentName = table.Column<string>(type: "TEXT", nullable: true),
+                    PDepartmentID = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Departments", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Departments_Departments_PDepartmentID",
+                        column: x => x.PDepartmentID,
+                        principalTable: "Departments",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,6 +92,11 @@ namespace Working.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Departments_PDepartmentID",
+                table: "Departments",
+                column: "PDepartmentID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_DepartmentID",
