@@ -8,7 +8,8 @@ namespace Working.Models.DataModel
     /// </summary>
     public class WorkingDbContext : DbContext
     {
-     
+        //public WorkingDbContext()
+        //{ }
         public WorkingDbContext(DbContextOptions<WorkingDbContext> options) : base(options)
         { }
         /// <summary>

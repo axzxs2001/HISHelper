@@ -23,7 +23,8 @@ namespace Working.XUnitTest
         Mock<WorkingDbContext> _dbMock;
         public RoleRepositoryTest()
         {
-            _dbMock = new Mock<WorkingDbContext>();
+            var dbContextOptions = new DbContextOptions<WorkingDbContext>();
+            _dbMock = new Mock<WorkingDbContext>(dbContextOptions);
             var list = new List<Role>() { new Role { ID = 1, RoleName = "admin" } };
             var dbSet = new Mock<DbSet<Role>>();
             dbSet.SetupList(list);

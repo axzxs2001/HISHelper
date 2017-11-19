@@ -23,7 +23,8 @@ namespace Working.XUnitTest
         Mock<WorkingDbContext> _dbMock;
         public DepartmentRepositoryTest()
         {
-            _dbMock = new Mock<WorkingDbContext>();
+            var dbContextOptions = new DbContextOptions<WorkingDbContext>();
+            _dbMock = new Mock<WorkingDbContext>(dbContextOptions);
             var list = new List<Department>() {
                 new Department { ID = 1, DepartmentName = "公司",PDepartmentID=0 } ,
                 new Department { ID = 2, DepartmentName = "开发一部",PDepartmentID=1 } ,
