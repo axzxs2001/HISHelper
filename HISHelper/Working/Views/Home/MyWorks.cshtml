@@ -210,9 +210,13 @@
             var today = new Date();
             var year = today.getFullYear();
             var month = today.getMonth() + 1;
+            if (month < 10) {
+                month = '0' + month;
+            }
             //加载年下拉列表
             LoadYear(year);
             //加载月下拉列表
+   
             LoadMonth(month);
             QueryWorkItems(year, month);
         })
